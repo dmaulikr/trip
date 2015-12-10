@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import Parse
 
-class FirstViewController: UIViewController {
+class SuggestedTripViewController: UIViewController {
 
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        title = "Suggested Trips"
     }
 
     override func didReceiveMemoryWarning() {
