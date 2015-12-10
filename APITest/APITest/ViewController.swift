@@ -10,6 +10,11 @@ import UIKit
 
 class ViewController: UITableViewController
 {
+    override func viewDidLoad()
+    {
+        super.viewDidLoad()
+    }
+    
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int
@@ -26,8 +31,8 @@ class ViewController: UITableViewController
         }
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
         var identifier: String!
         switch indexPath.section
         {
@@ -45,7 +50,7 @@ class ViewController: UITableViewController
         switch indexPath.section
         {
         case 0  : return UITableViewAutomaticDimension
-        default : return 50
+        default : return 88
         }
     }
     
@@ -54,7 +59,7 @@ class ViewController: UITableViewController
         switch indexPath.section
         {
         case 0  : return 200
-        default : return 50
+        default : return 88
         }
     }
     
