@@ -16,6 +16,9 @@
 		6389E2241C19036100C71071 /* venice.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6389E2231C19036100C71071 /* venice.jpg */; };
 		638A691F1C18F6660099072D /* QPX_EX_APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A691E1C18F6660099072D /* QPX_EX_APIController.swift */; };
 		638A69221C18F7BE0099072D /* FlightSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 638A69211C18F7BE0099072D /* FlightSearch.swift */; };
+		63D5A5371C19D0CA003A57A0 /* FullFlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D5A5361C19D0CA003A57A0 /* FullFlight.swift */; };
+		63D5A5391C19D695003A57A0 /* IndividualFlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D5A5381C19D695003A57A0 /* IndividualFlight.swift */; };
+		63D5A53B1C1A0BAE003A57A0 /* FlightSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63D5A53A1C1A0BAE003A57A0 /* FlightSearchTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +33,9 @@
 		6389E2231C19036100C71071 /* venice.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = venice.jpg; sourceTree = "<group>"; };
 		638A691E1C18F6660099072D /* QPX_EX_APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QPX_EX_APIController.swift; sourceTree = "<group>"; };
 		638A69211C18F7BE0099072D /* FlightSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlightSearch.swift; sourceTree = "<group>"; };
+		63D5A5361C19D0CA003A57A0 /* FullFlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullFlight.swift; sourceTree = "<group>"; };
+		63D5A5381C19D695003A57A0 /* IndividualFlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndividualFlight.swift; sourceTree = "<group>"; };
+		63D5A53A1C1A0BAE003A57A0 /* FlightSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlightSearchTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,9 +70,12 @@
 			children = (
 				630273601C18AF0600D6FE20 /* Main.storyboard */,
 				6302735E1C18AF0600D6FE20 /* ViewController.swift */,
+				63D5A53A1C1A0BAE003A57A0 /* FlightSearchTableViewController.swift */,
 				638A691E1C18F6660099072D /* QPX_EX_APIController.swift */,
 				6313D4FF1C192C4F00396065 /* CityImageCell.swift */,
 				638A69211C18F7BE0099072D /* FlightSearch.swift */,
+				63D5A5361C19D0CA003A57A0 /* FullFlight.swift */,
+				63D5A5381C19D695003A57A0 /* IndividualFlight.swift */,
 				638A69201C18F6740099072D /* other */,
 			);
 			path = APITest;
@@ -157,9 +166,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				63D5A5391C19D695003A57A0 /* IndividualFlight.swift in Sources */,
 				6302735F1C18AF0600D6FE20 /* ViewController.swift in Sources */,
 				638A69221C18F7BE0099072D /* FlightSearch.swift in Sources */,
+				63D5A53B1C1A0BAE003A57A0 /* FlightSearchTableViewController.swift in Sources */,
 				6302735D1C18AF0600D6FE20 /* AppDelegate.swift in Sources */,
+				63D5A5371C19D0CA003A57A0 /* FullFlight.swift in Sources */,
 				638A691F1C18F6660099072D /* QPX_EX_APIController.swift in Sources */,
 				6313D5001C192C4F00396065 /* CityImageCell.swift in Sources */,
 			);

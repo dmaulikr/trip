@@ -7,28 +7,14 @@
 //
 
 import UIKit
+import MapKit
 
-protocol QPX_EX_APIControllerDelegate
-{
-    func didReceiveQPXResults(results: NSDictionary)
-}
-
-class ViewController: UITableViewController, QPX_EX_APIControllerDelegate
+class ViewController: UITableViewController
 {
     override func viewDidLoad()
     {
         super.viewDidLoad()
         tableView.backgroundColor = UIColor(red:0.011, green:0.694, blue:0.921, alpha:1)
-        
-        let flightSearch = FlightSearch()
-        
-        let QPXAPIController = QPX_EX_APIController(delegate: self)
-        QPXAPIController.search(flightSearch)
-    }
-    
-    func didReceiveQPXResults(results: NSDictionary)
-    {
-        
     }
     
     // MARK: - Table view data source
@@ -50,13 +36,33 @@ class ViewController: UITableViewController, QPX_EX_APIControllerDelegate
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
-        var identifier: String!
         switch indexPath.section
         {
-        case 0  : identifier = "CityImageCell"
-//        case 1  : identifier = "ButtonCell"
-        default : identifier = "CityDataCell"
+        case 0:
+            let identifier = "CityImageCell"
+            let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! CityImageCell
+            let mapView = cell.mapView
+            mapView.mapType = MKMapType.Hybrid
+            
+            let annotation = MKPointAnnotation()
+            annotation.coordinate.latitude = 28.538336
+            annotation.coordinate.longitude = -81.379234
+            let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
+            mapView.addAnnotation(annotation)
+            mapView.setRegion(region, animated: true)
+            
+            return cell
+            
+        default:
+            let identifier = "CityDataCell"
+            let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath)
+            
+            cell.backgroundColor = UIColor.clearColor()
+            cell.contentView.backgroundColor = UIColor.clearColor()
+            
+            return cell
         }
+<<<<<<< HEAD
         
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) 
         
@@ -64,6 +70,8 @@ class ViewController: UITableViewController, QPX_EX_APIControllerDelegate
         cell.contentView.backgroundColor = UIColor.clearColor()
         
         return cell
+=======
+>>>>>>> b7466aa9195ad82278b4649c9dce81e29cc33a9e
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat

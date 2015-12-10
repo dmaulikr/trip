@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import MapKit
 
 class CityImageCell: UITableViewCell
 {
     @IBOutlet weak var bottomSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var topSpaceConstraint: NSLayoutConstraint!
     @IBOutlet weak var containerView: UIView!
+    @IBOutlet weak var mapView: MKMapView!
     
     func scrollViewDidScroll(scrollView: UIScrollView)
     {
