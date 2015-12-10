@@ -72,8 +72,8 @@
         <scene sceneID="rft-bN-Cwz">
             <objects>
                 <tableViewController id="fUm-L7-WRx" customClass="CreateTripTableViewController" customModule="HowMuchTrip" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="xWv-WH-7XC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="xWv-WH-7XC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="1200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budget Remaining: $0000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qTS-Oy-Dlw">
@@ -84,11 +84,11 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TripPropertyCell" id="oyq-MK-k78" customClass="TripPropertyCell" customModule="HowMuchTrip" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TripPropertyCell" rowHeight="578" id="oyq-MK-k78" customClass="TripPropertyCell" customModule="HowMuchTrip" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="136" width="600" height="578"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oyq-MK-k78" id="tpR-tq-npL">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="577"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zJl-A5-knJ">
@@ -115,13 +115,17 @@
                                     <constraints>
                                         <constraint firstItem="zJl-A5-knJ" firstAttribute="centerY" secondItem="tpR-tq-npL" secondAttribute="centerY" id="35t-30-Wid"/>
                                         <constraint firstItem="cAx-8X-Mt9" firstAttribute="centerY" secondItem="tpR-tq-npL" secondAttribute="centerY" id="3lQ-jY-eCd"/>
+                                        <constraint firstItem="zJl-A5-knJ" firstAttribute="top" secondItem="tpR-tq-npL" secondAttribute="top" constant="7" id="3xk-hf-bwU"/>
                                         <constraint firstItem="zJl-A5-knJ" firstAttribute="centerX" secondItem="tpR-tq-npL" secondAttribute="centerX" id="5cT-yw-7qQ"/>
+                                        <constraint firstItem="cAx-8X-Mt9" firstAttribute="top" secondItem="tpR-tq-npL" secondAttribute="top" constant="7" id="DVt-G6-7uj"/>
                                         <constraint firstAttribute="trailing" secondItem="zJl-A5-knJ" secondAttribute="trailing" constant="15" id="Mu6-S9-lTO"/>
                                         <constraint firstItem="zJl-A5-knJ" firstAttribute="leading" secondItem="cAx-8X-Mt9" secondAttribute="trailing" constant="8" id="PCt-Yh-MlU"/>
                                         <constraint firstItem="cAx-8X-Mt9" firstAttribute="leading" secondItem="tpR-tq-npL" secondAttribute="leading" constant="15" id="z4e-QM-Nf0"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
+                                            <exclude reference="3lQ-jY-eCd"/>
+                                            <exclude reference="35t-30-Wid"/>
                                             <exclude reference="5cT-yw-7qQ"/>
                                         </mask>
                                     </variation>
@@ -131,11 +135,11 @@
                                     <outlet property="propertyTextField" destination="zJl-A5-knJ" id="V4y-ne-iGa"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TripGraphCell" id="mOy-yk-be2" customClass="TripGraphCell" customModule="HowMuchTrip" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="180" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TripGraphCell" rowHeight="197" id="mOy-yk-be2" customClass="TripGraphCell" customModule="HowMuchTrip" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="714" width="600" height="197"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mOy-yk-be2" id="d9m-2O-YSG">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="196"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -145,13 +149,18 @@
                             <outlet property="delegate" destination="fUm-L7-WRx" id="taM-Yo-bm2"/>
                         </connections>
                     </tableView>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="600" height="1200"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="HDS-K4-Kay">
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
+                    <connections>
+                        <outlet property="budgetRemainingLabel" destination="xWv-WH-7XC" id="HLZ-hN-GS5"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Nli-7L-m46" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="1773"/>
+            <point key="canvasLocation" x="70" y="2062"/>
         </scene>
         <!--Trip Detail View Controller-->
         <scene sceneID="QrN-vl-6ZF">
