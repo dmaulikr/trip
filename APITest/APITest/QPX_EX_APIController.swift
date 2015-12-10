@@ -8,6 +8,11 @@
 
 import Foundation
 
+protocol QPX_EX_APIControllerDelegate
+{
+    func didReceiveQPXResults(results: NSDictionary?)
+}
+
 class QPX_EX_APIController: NSObject, NSURLSessionDelegate
 {
     var delegate: QPX_EX_APIControllerDelegate?
@@ -39,7 +44,6 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
         do
         {
             let postData = try NSJSONSerialization.dataWithJSONObject(requestJSON, options: [])
-            print(postData)
             request.HTTPBody = postData
         }
         catch let error as NSError
@@ -50,8 +54,10 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
         session.dataTaskWithRequest(request) { (data, _, error) -> Void in
                 if data != nil
                 {
-                    let parsedJSON = self.parseJSON(data!)
-                    print(parsedJSON)
+                    if let parsedJSON = self.parseJSON(data!)
+                    {
+                        self.delegate?.didReceiveQPXResults(parsedJSON)
+                    }
                 }
                 else
                 {
@@ -65,7 +71,6 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
         do
         {
             let dictionary: NSDictionary! = try NSJSONSerialization.JSONObjectWithData(data, options: []) as! NSDictionary
-            print("parsed darksky JSON")
             
             return dictionary
         }
@@ -89,7 +94,7 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
                                 "origin"        : flightSearch.origin,
                                 "destination"   : flightSearch.destination,
                                 "date"          : flightSearch.date,
-                                "maxStops"      : flightSearch.maxStops,
+//                                "maxStops"      : flightSearch.maxStops,
                                 "preferredCabin": flightSearch.preferredCabin
                             ]
                     ],
@@ -103,6 +108,7 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
                     ],
                     "solutions"     : flightSearch.numberOfResults,
                     "maxPrice"      : flightSearch.maxPrice,
+                    "saleCountry"   : flightSearch.saleCountry,
                     "refundable"    : flightSearch.refundable
             ]
         ]

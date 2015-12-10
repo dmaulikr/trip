@@ -10,9 +10,9 @@ import Foundation
 
 struct FlightSearch
 {
-    let origin = "SFO"
-    let destination = "LAX"
-    let date = "2015-12-10"
+    let origin = "BNA"
+    let destination = "MSN"
+    let date = "2016-01-12"
     let maxStops = 0
     let preferredCabin = "COACH"
     
@@ -23,6 +23,7 @@ struct FlightSearch
     let seniorCount = 0
     
     let numberOfResults = 5
-    let maxPrice = "USD200.00"
+    let maxPrice = "USD800.00"
+    let saleCountry = "US"
     let refundable = false
 }
