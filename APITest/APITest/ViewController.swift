@@ -8,100 +8,67 @@
 
 import UIKit
 
-class ViewController: UIViewController, NSURLSessionDelegate
+class ViewController: UITableViewController
 {
-    override func viewDidLoad()
+    // MARK: - Table view data source
+    
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int
     {
-        super.viewDidLoad()
-        
-        let defaultSession = NSURLSessionConfiguration.defaultSessionConfiguration()
-        let session = NSURLSession(configuration: defaultSession, delegate: self, delegateQueue: nil)
-        
-        let apikey = "AIzaSyBybYGqmWbmOSnBnRj_VlQXHCnQLmU9peQ"
-        let baseURL = "https://www.googleapis.com/qpxExpress/v1/trips/search?key=" + apikey
-        let url = NSURL(string: baseURL)
-        let request = NSMutableURLRequest(
-            URL: url!,
-            cachePolicy: .UseProtocolCachePolicy,
-            timeoutInterval: 60.0)
-        
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.HTTPMethod = "POST"
-        
-        let origin = "SFO"
-        let destination = "LAX"
-        let date = "2015-12-10"
-        
-        let adultCount = 1
-        let infantInLapCount = 0
-        let infantInSeatCount = 0
-        let childCount = 0
-        let seniorCount = 0
-        
-        let numberOfResults = 5
-        
-        let requestJSON : NSDictionary =
-        [
-            "request" :
-            [
-                "slice":
-                [
-                    [
-                        "origin": origin,
-                        "destination": destination,
-                        "date": date
-                    ]
-                ],
-                "passengers":
-                [
-                    "adultCount": adultCount,
-                    "infantInLapCount": infantInLapCount,
-                    "infantInSeatCount": infantInSeatCount,
-                    "childCount": childCount,
-                    "seniorCount": seniorCount
-                ],
-                "solutions": numberOfResults
-            ]
-        ]
-        
-        do
-        {
-            let postData = try NSJSONSerialization.dataWithJSONObject(requestJSON, options: [])
-            print(postData)
-            request.HTTPBody = postData
-        }
-        catch let error as NSError
-        {
-            print("data could not be parsed \(error)")
-        }
-        
-        let postDataTask = session.dataTaskWithRequest(request) {
-            data, response, error -> Void in
-            
-            if data != nil
-            {
-                let parsedJSON = self.parseJSON(data!)
-                print(parsedJSON)
-            }
-        }
-        
-        postDataTask.resume()
+        return 2
     }
     
-    func parseJSON(data: NSData) -> NSDictionary?
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        do
+        switch section
         {
-            let dictionary: NSDictionary! = try NSJSONSerialization.JSONObjectWithData(data, options: []) as! NSDictionary
-            print("parsed darksky JSON")
-            
-            return dictionary
+        case 0  : return 1
+        default : return 20
         }
-        catch let error as NSError
+    }
+    
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        
+        var identifier: String!
+        switch indexPath.section
         {
-            print(error)
-            return nil
+        case 0  : identifier = "CityImageCell"
+        default : identifier = "CityDataCell"
+        }
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath)
+        
+        return cell
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        switch indexPath.section
+        {
+        case 0  : return UITableViewAutomaticDimension
+        default : return 50
+        }
+    }
+    
+    override func tableView(tableView: UITableView, estimatedHeightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        switch indexPath.section
+        {
+        case 0  : return 200
+        default : return 50
+        }
+    }
+    
+    // MARK: - Scroll view delegate
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView)
+    {
+        if let cell = tableView
+            .cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0)) as? CityImageCell
+        {
+            cell.scrollViewDidScroll(scrollView)
         }
     }
 }
+
+
 
