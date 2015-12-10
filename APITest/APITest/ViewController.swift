@@ -8,11 +8,27 @@
 
 import UIKit
 
-class ViewController: UITableViewController
+protocol QPX_EX_APIControllerDelegate
+{
+    func didReceiveQPXResults(results: NSDictionary)
+}
+
+class ViewController: UITableViewController, QPX_EX_APIControllerDelegate
 {
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        tableView.backgroundColor = UIColor(red:0.011, green:0.694, blue:0.921, alpha:1)
+        
+        let flightSearch = FlightSearch()
+        
+        let QPXAPIController = QPX_EX_APIController(delegate: self)
+        QPXAPIController.search(flightSearch)
+    }
+    
+    func didReceiveQPXResults(results: NSDictionary)
+    {
+        
     }
     
     // MARK: - Table view data source
@@ -27,7 +43,8 @@ class ViewController: UITableViewController
         switch section
         {
         case 0  : return 1
-        default : return 20
+//        case 1  : return 1
+        default : return 1
         }
     }
     
@@ -37,10 +54,14 @@ class ViewController: UITableViewController
         switch indexPath.section
         {
         case 0  : identifier = "CityImageCell"
+//        case 1  : identifier = "ButtonCell"
         default : identifier = "CityDataCell"
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath)
+        
+        cell.backgroundColor = UIColor.clearColor()
+        cell.contentView.backgroundColor = UIColor.clearColor()
         
         return cell
     }
@@ -50,7 +71,8 @@ class ViewController: UITableViewController
         switch indexPath.section
         {
         case 0  : return UITableViewAutomaticDimension
-        default : return 88
+//        case 1  : return 0
+        default : return self.view.bounds.height
         }
     }
     
@@ -59,7 +81,8 @@ class ViewController: UITableViewController
         switch indexPath.section
         {
         case 0  : return 200
-        default : return 88
+//        case 1  : return 0
+        default : return self.view.bounds.height
         }
     }
     
@@ -72,6 +95,11 @@ class ViewController: UITableViewController
         {
             cell.scrollViewDidScroll(scrollView)
         }
+//        if let cell = tableView
+//            .cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 1)) as? CityImageCell
+//        {
+//            cell.scrollViewDidScroll(scrollView)
+//        }
     }
 }
 

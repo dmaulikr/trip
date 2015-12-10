@@ -64,8 +64,8 @@
 			children = (
 				630273601C18AF0600D6FE20 /* Main.storyboard */,
 				6302735E1C18AF0600D6FE20 /* ViewController.swift */,
-				6313D4FF1C192C4F00396065 /* CityImageCell.swift */,
 				638A691E1C18F6660099072D /* QPX_EX_APIController.swift */,
+				6313D4FF1C192C4F00396065 /* CityImageCell.swift */,
 				638A69211C18F7BE0099072D /* FlightSearch.swift */,
 				638A69201C18F6740099072D /* other */,
 			);

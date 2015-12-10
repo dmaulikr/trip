@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -11,16 +12,16 @@
             <objects>
                 <tableViewController id="bUe-2Z-bBp" customClass="ViewController" customModule="APITest" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8KC-4q-69Q">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityImageCell" rowHeight="300" id="ofe-fs-uZN" customClass="CityImageCell" customModule="APITest" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="22" width="600" height="300"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityImageCell" rowHeight="200" id="ofe-fs-uZN" customClass="CityImageCell" customModule="APITest" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="86" width="400" height="300"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ofe-fs-uZN" id="9L6-kL-4vv">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="299"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="400" height="300"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yiz-zo-1fe" userLabel="Container View">
@@ -61,29 +62,62 @@
                                     <outlet property="topSpaceConstraint" destination="AR0-aF-uEL" id="sdR-RV-iHa"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityDataCell" id="hCn-z2-etr">
-                                <rect key="frame" x="0.0" y="322" width="600" height="44"/>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CityDataCell" rowHeight="315" id="loy-cv-EqA">
+                                <rect key="frame" x="0.0" y="430" width="400" height="88"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hCn-z2-etr" id="FdV-V7-Zwv">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="loy-cv-EqA" id="RPM-JE-Skm">
+                                    <rect key="frame" x="0.0" y="0.0" width="400" height="88"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="City Data" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E9M-1R-85a">
-                                            <rect key="frame" x="137" y="10" width="327" height="22"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Venice" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eNh-RQ-xc4">
+                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
                                             <animations/>
-                                            <fontDescription key="fontDescription" type="system" weight="light" pointSize="18"/>
-                                            <color key="textColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="26"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Italy" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OvH-zQ-Wxk">
+                                            <rect key="frame" x="-42" y="-21" width="42" height="21"/>
+                                            <animations/>
+                                            <fontDescription key="fontDescription" name="Avenir-Medium" family="Avenir" pointSize="22"/>
+                                            <color key="textColor" white="0.90000000000000002" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <animations/>
                                     <constraints>
-                                        <constraint firstAttribute="centerX" secondItem="E9M-1R-85a" secondAttribute="centerX" constant="-0.5" id="30f-Qj-HLU"/>
-                                        <constraint firstAttribute="centerY" secondItem="E9M-1R-85a" secondAttribute="centerY" constant="0.25" id="Ws2-K5-jqv"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="eNh-RQ-xc4" secondAttribute="leading" id="2cb-Aa-vUJ"/>
+                                        <constraint firstItem="OvH-zQ-Wxk" firstAttribute="top" secondItem="eNh-RQ-xc4" secondAttribute="bottom" constant="8" id="NnH-WH-xYx"/>
+                                        <constraint firstAttribute="topMargin" secondItem="eNh-RQ-xc4" secondAttribute="top" id="c36-1u-gku"/>
+                                        <constraint firstItem="OvH-zQ-Wxk" firstAttribute="leading" secondItem="eNh-RQ-xc4" secondAttribute="leading" id="t0X-kU-pm0"/>
                                     </constraints>
+                                    <variation key="default">
+                                        <mask key="subviews">
+                                            <exclude reference="eNh-RQ-xc4"/>
+                                            <exclude reference="OvH-zQ-Wxk"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <exclude reference="2cb-Aa-vUJ"/>
+                                            <exclude reference="c36-1u-gku"/>
+                                            <exclude reference="NnH-WH-xYx"/>
+                                            <exclude reference="t0X-kU-pm0"/>
+                                        </mask>
+                                    </variation>
+                                    <variation key="widthClass=compact">
+                                        <mask key="subviews">
+                                            <include reference="eNh-RQ-xc4"/>
+                                            <include reference="OvH-zQ-Wxk"/>
+                                        </mask>
+                                        <mask key="constraints">
+                                            <include reference="2cb-Aa-vUJ"/>
+                                            <include reference="c36-1u-gku"/>
+                                            <include reference="NnH-WH-xYx"/>
+                                            <include reference="t0X-kU-pm0"/>
+                                        </mask>
+                                    </variation>
                                 </tableViewCellContentView>
                                 <animations/>
-                                <color key="backgroundColor" red="0.010519878007471561" green="0.6944655179977417" blue="0.92156141996383667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.011764705882352941" green="0.69411764705882351" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </tableViewCell>
                         </prototypes>
                         <connections>

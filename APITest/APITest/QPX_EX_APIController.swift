@@ -10,6 +10,13 @@ import Foundation
 
 class QPX_EX_APIController: NSObject, NSURLSessionDelegate
 {
+    var delegate: QPX_EX_APIControllerDelegate?
+    
+    init(delegate: QPX_EX_APIControllerDelegate)
+    {
+        self.delegate = delegate
+    }
+    
     func search(flightSearch: FlightSearch)
     {
         let defaultSession = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -79,20 +86,24 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
                     "slice":
                         [
                             [
-                                "origin": flightSearch.origin,
-                                "destination": flightSearch.destination,
-                                "date": flightSearch.date
+                                "origin"        : flightSearch.origin,
+                                "destination"   : flightSearch.destination,
+                                "date"          : flightSearch.date,
+                                "maxStops"      : flightSearch.maxStops,
+                                "preferredCabin": flightSearch.preferredCabin
                             ]
                     ],
                     "passengers":
                         [
-                            "adultCount": flightSearch.adultCount,
-                            "infantInLapCount": flightSearch.infantInLapCount,
-                            "infantInSeatCount": flightSearch.infantInSeatCount,
-                            "childCount": flightSearch.childCount,
-                            "seniorCount": flightSearch.seniorCount
+                            "adultCount"        : flightSearch.adultCount,
+                            "infantInLapCount"  : flightSearch.infantInLapCount,
+                            "infantInSeatCount" : flightSearch.infantInSeatCount,
+                            "childCount"        : flightSearch.childCount,
+                            "seniorCount"       : flightSearch.seniorCount
                     ],
-                    "solutions": flightSearch.numberOfResults
+                    "solutions"     : flightSearch.numberOfResults,
+                    "maxPrice"      : flightSearch.maxPrice,
+                    "refundable"    : flightSearch.refundable
             ]
         ]
         
