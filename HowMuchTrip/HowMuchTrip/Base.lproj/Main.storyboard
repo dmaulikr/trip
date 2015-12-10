@@ -21,7 +21,7 @@
                     <navigationItem key="navigationItem" id="2ug-Wz-crZ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="YvQ-08-REu">
                             <connections>
-                                <segue destination="ri8-fD-kMq" kind="show" identifier="ShowCreateTripSegueFromSuggested" id="67F-2Z-Doq"/>
+                                <segue destination="fUm-L7-WRx" kind="show" identifier="ShowCreateTripSegueFromSuggested" id="MR0-xI-hZG"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -59,7 +59,7 @@
                     <navigationItem key="navigationItem" id="9a2-vP-Dpy">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4bz-Q0-Ogg">
                             <connections>
-                                <segue destination="ri8-fD-kMq" kind="show" identifier="ShowCreateTripSegueFromList" id="6LN-iw-k8B"/>
+                                <segue destination="fUm-L7-WRx" kind="show" identifier="ShowCreateTripSegueFromList" id="SmU-Fa-k0l"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -68,24 +68,90 @@
             </objects>
             <point key="canvasLocation" x="408" y="944"/>
         </scene>
-        <!--Create Trip View Controller-->
-        <scene sceneID="ayc-IO-cJD">
+        <!--Create Trip Table View Controller-->
+        <scene sceneID="rft-bN-Cwz">
             <objects>
-                <viewController id="ri8-fD-kMq" customClass="CreateTripViewController" customModule="HowMuchTrip" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="Tas-Ny-tkh"/>
-                        <viewControllerLayoutGuide type="bottom" id="fd4-TX-pzY"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Gl5-o6-9q2">
+                <tableViewController id="fUm-L7-WRx" customClass="CreateTripTableViewController" customModule="HowMuchTrip" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="xWv-WH-7XC">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="RBJ-03-TMF"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rAm-eY-N4q" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <label key="tableHeaderView" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budget Remaining: $0000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="qTS-Oy-Dlw">
+                            <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TripPropertyCell" id="oyq-MK-k78" customClass="TripPropertyCell" customModule="HowMuchTrip" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="136" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oyq-MK-k78" id="tpR-tq-npL">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zJl-A5-knJ">
+                                            <rect key="frame" x="485" y="7" width="100" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="FEY-lG-reo"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <textInputTraits key="textInputTraits"/>
+                                            <connections>
+                                                <outlet property="delegate" destination="fUm-L7-WRx" id="Z0z-If-iNo"/>
+                                            </connections>
+                                        </textField>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Property" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cAx-8X-Mt9">
+                                            <rect key="frame" x="15" y="7" width="462" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="p3l-NH-Jx9"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="zJl-A5-knJ" firstAttribute="centerY" secondItem="tpR-tq-npL" secondAttribute="centerY" id="35t-30-Wid"/>
+                                        <constraint firstItem="cAx-8X-Mt9" firstAttribute="centerY" secondItem="tpR-tq-npL" secondAttribute="centerY" id="3lQ-jY-eCd"/>
+                                        <constraint firstItem="zJl-A5-knJ" firstAttribute="centerX" secondItem="tpR-tq-npL" secondAttribute="centerX" id="5cT-yw-7qQ"/>
+                                        <constraint firstAttribute="trailing" secondItem="zJl-A5-knJ" secondAttribute="trailing" constant="15" id="Mu6-S9-lTO"/>
+                                        <constraint firstItem="zJl-A5-knJ" firstAttribute="leading" secondItem="cAx-8X-Mt9" secondAttribute="trailing" constant="8" id="PCt-Yh-MlU"/>
+                                        <constraint firstItem="cAx-8X-Mt9" firstAttribute="leading" secondItem="tpR-tq-npL" secondAttribute="leading" constant="15" id="z4e-QM-Nf0"/>
+                                    </constraints>
+                                    <variation key="default">
+                                        <mask key="constraints">
+                                            <exclude reference="5cT-yw-7qQ"/>
+                                        </mask>
+                                    </variation>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="propertyLabel" destination="cAx-8X-Mt9" id="iP6-Gk-BgB"/>
+                                    <outlet property="propertyTextField" destination="zJl-A5-knJ" id="V4y-ne-iGa"/>
+                                </connections>
+                            </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TripGraphCell" id="mOy-yk-be2" customClass="TripGraphCell" customModule="HowMuchTrip" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="180" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="mOy-yk-be2" id="d9m-2O-YSG">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="fUm-L7-WRx" id="FKZ-kh-Ok6"/>
+                            <outlet property="delegate" destination="fUm-L7-WRx" id="taM-Yo-bm2"/>
+                        </connections>
+                    </tableView>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="HDS-K4-Kay">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nli-7L-m46" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52" y="1802"/>
+            <point key="canvasLocation" x="52" y="1773"/>
         </scene>
         <!--Trip Detail View Controller-->
         <scene sceneID="QrN-vl-6ZF">
@@ -190,6 +256,6 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="6LN-iw-k8B"/>
+        <segue reference="MR0-xI-hZG"/>
     </inferredMetricsTieBreakers>
 </document>
