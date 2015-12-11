@@ -87,8 +87,6 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
             
         }
         
-
-        
     }
     
     // MARK: - UITestField Delegate
@@ -118,19 +116,20 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
     func calculate()
     {
         calculator = Calculator(dictionary: propertyDictionary)
-        resultDictionary = calculator.calculate(propertyDictionary)
+//        resultDictionary = calculator.calculate(propertyDictionary)
+        let aTrip = calculator.calculate(propertyDictionary)
         
-        budgetRemainingLabel.text = resultDictionary["Budget Remaining"]
+        budgetRemainingLabel.text = String(aTrip.budgetRemaining)
         
         // TODO: use below values for donut graph
-        print("Budget: \(resultDictionary["Budget"])")
-        print("Subtotal: \(resultDictionary["Subtotal"])")
-        print("Budget Remaining: \(resultDictionary["Budget Remaining"])")
-        print("Plane Ticket: \(resultDictionary["Plane Ticket Cost"])")
-        print("Daily Lodging: \(resultDictionary["Daily Lodging Cost"])")
-        print("Daily Food: \(resultDictionary["Daily Food Cost"])")
-        print("Daily Other: \(resultDictionary["Daily Other Cost"])")
-        print("One Time: \(resultDictionary["One Time Cost"])")
+        print("Budget: \(String(aTrip.budgetTotal))")
+        print("Subtotal: \(String(aTrip.subtotalOfProperties))")
+        print("Budget Remaining: \(String(aTrip.budgetRemaining))")
+        print("Plane Ticket: \(String(aTrip.planeTicketCost))")
+        print("Daily Lodging: \(String(aTrip.dailyLodgingCost))")
+        print("Daily Food: \(String(aTrip.dailyFoodCost))")
+        print("Daily Other: \(String(aTrip.dailyOtherCost))")
+        print("One Time: \(String(aTrip.oneTimeCost))")
     }
 
 }
