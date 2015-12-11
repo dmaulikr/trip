@@ -10,127 +10,165 @@ import UIKit
 
 class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
 {
-    let allProperties = ["Budget", "Departure Location", "Destination", "Date From", "Date To", "Plane Ticket Cost", "Daily Lodging Cost", "Daily Food Cost", "Daily Other Cost", "One Time Cost"]
+    let allProperties = [
+        "Budget",
+        "Departure Location",
+        "Destination",
+        "Date From",
+        "Date To",
+        "Plane Ticket Cost",
+        "Daily Lodging Cost",
+        "Daily Food Cost",
+        "Daily Other Cost",
+        "One Time Cost"
+    ]
+    
     var propertyDictionary = [String: String]()
-    var resultDictionary = [String: String]()
     var calculator: Calculator!
+    
     @IBOutlet var budgetRemainingLabel: UILabel!
-
+    
+    @IBOutlet weak var budgetTextField: UITextField!
+    @IBOutlet weak var departureLocationTextField: UITextField!
+    @IBOutlet weak var destinatinTextField: UITextField!
+    @IBOutlet weak var dateFromTextField: UITextField!
+    @IBOutlet weak var dateToTextField: UITextField!
+    @IBOutlet weak var planeTicketTextField: UITextField!
+    @IBOutlet weak var dailyLodgingTextField: UITextField!
+    @IBOutlet weak var dailyFoodTextField: UITextField!
+    @IBOutlet weak var dailyOtherTextField: UITextField!
+    @IBOutlet weak var oneTimeCostTextField: UITextField!
+    
+    var textFields = [UITextField]()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         title = "Create Your Trip"
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 2
-    }
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        switch section{
-        case 0:
-            return allProperties.count
-        default:
-            return 1
-        }
+        budgetRemainingLabel.hidden = true
         
         
-    }
-
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        switch indexPath.section
+        textFields = [
+            budgetTextField!,
+            departureLocationTextField!,
+            destinatinTextField!,
+            dateFromTextField!,
+            dateToTextField!,
+            planeTicketTextField!,
+            dailyLodgingTextField!,
+            dailyFoodTextField!,
+            dailyOtherTextField!,
+            oneTimeCostTextField!
+        ]
+        
+        for textField in textFields
         {
-        case 0:
-            let cell = tableView.dequeueReusableCellWithIdentifier("TripPropertyCell", forIndexPath: indexPath) as! TripPropertyCell
-            let unitString = allProperties[indexPath.row]
-            
-            cell.propertyLabel.text = unitString
-            
-            let valueString = resultDictionary[unitString]
-            if valueString == nil
-            {
-                cell.propertyTextField.delegate = self
-            }
-            else
-            {
-                cell.propertyTextField.text = valueString
-            }
-            
-            
-            if cell.propertyTextField.text == "" && indexPath.row == 0
-            {
-                cell.propertyTextField.becomeFirstResponder()
-            }
-            
-            return cell
-            
-        default:
-            let cell = tableView.dequeueReusableCellWithIdentifier("TripGraphCell", forIndexPath: indexPath) as! TripGraphCell
-            
-            // TODO: graph for budget
-            
-            
-            return cell
-            
+            textField.delegate = self
         }
         
-
-        
+        budgetTextField.becomeFirstResponder()
     }
+
+    override func didReceiveMemoryWarning()
+    {
+        super.didReceiveMemoryWarning()
+    }
+
     
-    // MARK: - UITestField Delegate
+    // MARK: - UITextField Delegate
     
     func textFieldShouldReturn(textField: UITextField) -> Bool
     {
         var rc = false
+       
+        var selectedTextField: UITextField!
+        var indexOfTextField: Int!
         
-        let contentView = textField.superview
-        let cell = contentView?.superview as! TripPropertyCell
-        let indexPath = tableView.indexPathForCell(cell)
-        let propertyValueString = allProperties[indexPath!.row]
-        
-        if textField.text != ""
+        for field in textFields
         {
-            rc = true
-            textField.resignFirstResponder()
-            propertyDictionary[propertyValueString] = textField.text
-
+            if textField == field
+            {
+                selectedTextField = field
+                indexOfTextField = textFields.indexOf(field)
+                
+            }
         }
         
+        // TODO: Add validation to the fields - type, format and non-negative
+        // TODO: change date fields from doubles to actual dates, validate
+        
+        if selectedTextField.text != ""
+        {
+            rc = true
+            selectedTextField.resignFirstResponder()
+            
+            
+            // Add to dictionary that will pass to the calculator
+            let propertyKey = allProperties[indexOfTextField]
+            propertyDictionary[propertyKey] = selectedTextField.text
+            
+            if indexOfTextField + 1 < textFields.count
+            {
+                let nextTextField = textFields[indexOfTextField + 1]
+                nextTextField.becomeFirstResponder()
+            }
+            else
+            {
+                calculate()
+            }
+        }
+        
+
         calculate()
         tableView.reloadData()
         return rc
     }
+    
+    // MARK: - Private Functions
 
     func calculate()
     {
         calculator = Calculator(dictionary: propertyDictionary)
-        resultDictionary = calculator.calculate(propertyDictionary)
         
-        budgetRemainingLabel.text = resultDictionary["Budget Remaining"]
+        let aTrip = calculator.calculate(propertyDictionary)
+        budgetRemainingLabel.hidden = false
+        
+        budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", aTrip.budgetRemaining))"
         
         // TODO: use below values for donut graph
-        print("Budget: \(resultDictionary["Budget"])")
-        print("Subtotal: \(resultDictionary["Subtotal"])")
-        print("Budget Remaining: \(resultDictionary["Budget Remaining"])")
-        print("Plane Ticket: \(resultDictionary["Plane Ticket Cost"])")
-        print("Daily Lodging: \(resultDictionary["Daily Lodging Cost"])")
-        print("Daily Food: \(resultDictionary["Daily Food Cost"])")
-        print("Daily Other: \(resultDictionary["Daily Other Cost"])")
-        print("One Time: \(resultDictionary["One Time Cost"])")
+        print("Budget: \(String(aTrip.budgetTotal))")
+        print("Subtotal: \(String(aTrip.subtotalOfProperties))")
+        print("Budget Remaining: \(String(aTrip.budgetRemaining))")
+        print("Plane Ticket: \(String(aTrip.planeTicketCost))")
+        print("Daily Lodging: \(String(aTrip.dailyLodgingCost))")
+        print("Daily Food: \(String(aTrip.dailyFoodCost))")
+        print("Daily Other: \(String(aTrip.dailyOtherCost))")
+        print("Total Daily Other: \(String(aTrip.totalFoodAndOtherCosts))")
+        print("One Time: \(String(aTrip.oneTimeCost))")
+        
+        buildGraph()
+    }
+    
+    // TODO: Obvs, build it up
+    func buildGraph()
+    {
+        
+    }
+    
+    @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
+    {
+        clear()
+    }
+    
+    func clear()
+    {
+        for field in textFields
+        {
+            field.text = ""
+        }
+        budgetRemainingLabel.hidden = true
+        propertyDictionary.removeAll()
+        calculator.clearCalculator()
     }
 
 }

@@ -10,116 +10,89 @@ import Foundation
 
 class Calculator
 {
-    var budgetTotal = 0.0
-    var subtotalOfProperties = 0.0
-    var budgetRemaining = 0.0
-    
-    var departureLocation = ""
-    var destination = ""
-    
-    var dateFrom = 0.0
-    var dateTo = 0.0
-    var numberOfDays = 0.0
-    var numberOfNights = 0.0
-    
-    var planeTicketCost = 0.0
-    var dailyLodgingCost = 0.0
-    var dailyFoodCost = 0.0
-    var dailyOtherCost = 0.0
-    var oneTimeCost = 0.0
-    
-    var resultsDictionary = [String:String]()
-    
+    let aTrip = Trip()
+
     init(dictionary: [String:String])
     {
         
     }
     
-    func calculate(dictionary: [String:String]) -> [String:String]
+    func calculate(dictionary: [String:String]) -> Trip
     {
+        
         for (key, value) in dictionary
         {
             switch key
             {
             case "Budget":
-                budgetTotal = Double(value)!
+                aTrip.budgetTotal = Double(value)!
             case "Departure Location":
-                departureLocation = value
+                aTrip.departureLocation = value
             case "Destination":
-                destination = value
+                aTrip.destination = value
             case "Date From":
-                dateFrom = Double(value)!
+                aTrip.dateFrom = Double(value)!
             case "Date To":
-                dateTo = Double(value)!
+                aTrip.dateTo = Double(value)!
             case "Plane Ticket Cost":
-                planeTicketCost = Double(value)!
+                aTrip.planeTicketCost = Double(value)!
             case "Daily Lodging Cost":
-                dailyLodgingCost = Double(value)!
+                aTrip.dailyLodgingCost = Double(value)!
             case "Daily Food Cost":
-                dailyFoodCost = Double(value)!
+                aTrip.dailyFoodCost = Double(value)!
             case "Daily Other Cost":
-                dailyOtherCost = Double(value)!
+                aTrip.dailyOtherCost = Double(value)!
             case "One Time Cost":
-                oneTimeCost = Double(value)!
+                aTrip.oneTimeCost = Double(value)!
             default:
                 break
             }
         }
-        
 
-        if dateFrom > 1.0 && dateTo > 1.0
+        if aTrip.dateFrom > 1.0 && aTrip.dateTo > 1.0
         {
-            numberOfDays = dateFrom - dateTo
-            numberOfNights = numberOfDays - 1
+            aTrip.numberOfDays = aTrip.dateTo - aTrip.dateFrom
+            aTrip.numberOfNights = aTrip.numberOfDays - 1
         }
         else
         {
-            numberOfDays = 1
-            numberOfNights = 1
+            aTrip.numberOfDays = 1
+            aTrip.numberOfNights = 1
         }
 
+        aTrip.totalLodgingCosts = (aTrip.dailyLodgingCost * aTrip.numberOfNights)
+        aTrip.totalFoodAndOtherCosts = ((aTrip.dailyFoodCost + aTrip.dailyOtherCost) * aTrip.numberOfDays)
         
-        subtotalOfProperties = (planeTicketCost + (dailyLodgingCost * numberOfNights) + ((dailyFoodCost + dailyOtherCost) * numberOfDays) + oneTimeCost)
-        budgetRemaining = budgetTotal - subtotalOfProperties
-
-        resultsDictionary["Budget"] = String(budgetTotal)
-        resultsDictionary["Subtotal"] = String(subtotalOfProperties)
-        resultsDictionary["Budget Remaining"] = String(budgetRemaining)
-        resultsDictionary["Departure Location"] = String(departureLocation)
-        resultsDictionary["Destination"] = String(destination)
-        resultsDictionary["Date From"] = String(dateFrom)
-        resultsDictionary["Date To"] = String(dateTo)
-        resultsDictionary["Number of Days"] = String(numberOfDays)
-        resultsDictionary["Number of Nights"] = String(numberOfNights)
-        resultsDictionary["Plane Ticket Cost"] = String(planeTicketCost)
-        resultsDictionary["Daily Lodging Cost"] = String(dailyLodgingCost)
-        resultsDictionary["Daily Food Cost"] = String(dailyFoodCost)
-        resultsDictionary["Daily Other Cost"] = String(dailyOtherCost)
-        resultsDictionary["One Time Cost"] = String(oneTimeCost)
+        aTrip.subtotalOfProperties = aTrip.planeTicketCost + aTrip.totalLodgingCosts + aTrip.totalFoodAndOtherCosts + aTrip.oneTimeCost
+        aTrip.budgetRemaining = aTrip.budgetTotal - aTrip.subtotalOfProperties
         
-        return resultsDictionary
+         return aTrip
     }
+    
     
     func clearCalculator()
     {
-        budgetTotal = 0.0
-        subtotalOfProperties = 0.0
-        budgetRemaining = 0.0
         
-        departureLocation = ""
-        destination = ""
+        aTrip.budgetTotal = 0.0
+        aTrip.subtotalOfProperties = 0.0
+        aTrip.budgetRemaining = 0.0
         
-        dateFrom = 0.0
-        dateTo = 0.0
-        numberOfDays = 0.0
-        numberOfNights = 0.0
+        aTrip.departureLocation = ""
+        aTrip.destination = ""
         
-        planeTicketCost = 0.0
-        dailyLodgingCost = 0.0
-        dailyFoodCost = 0.0
-        dailyOtherCost = 0.0
-        oneTimeCost = 0.0
+        aTrip.dateFrom = 0.0
+        aTrip.dateTo = 0.0
+        aTrip.numberOfDays = 0.0
+        aTrip.numberOfNights = 0.0
+        
+        aTrip.planeTicketCost = 0.0
+        aTrip.dailyLodgingCost = 0.0
+        aTrip.dailyFoodCost = 0.0
+        aTrip.dailyOtherCost = 0.0
+        aTrip.oneTimeCost = 0.0
        
-        resultsDictionary.removeAll()
+        aTrip.totalLodgingCosts = 0.0
+        aTrip.totalFoodAndOtherCosts = 0.0
+
     }
 }
