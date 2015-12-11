@@ -10,6 +10,8 @@ import Foundation
 
 class Calculator
 {
+    let aTrip = Trip()
+
     init(dictionary: [String:String])
     {
         
@@ -17,7 +19,6 @@ class Calculator
     
     func calculate(dictionary: [String:String]) -> Trip
     {
-        let aTrip = Trip()
         
         for (key, value) in dictionary
         {
@@ -50,7 +51,7 @@ class Calculator
 
         if aTrip.dateFrom > 1.0 && aTrip.dateTo > 1.0
         {
-            aTrip.numberOfDays = aTrip.dateFrom - aTrip.dateTo
+            aTrip.numberOfDays = aTrip.dateTo - aTrip.dateFrom
             aTrip.numberOfNights = aTrip.numberOfDays - 1
         }
         else
@@ -68,27 +69,30 @@ class Calculator
          return aTrip
     }
     
+    
     func clearCalculator()
     {
         
-//        budgetTotal = 0.0
-//        subtotalOfProperties = 0.0
-//        budgetRemaining = 0.0
-//        
-//        departureLocation = ""
-//        destination = ""
-//        
-//        dateFrom = 0.0
-//        dateTo = 0.0
-//        numberOfDays = 0.0
-//        numberOfNights = 0.0
-//        
-//        planeTicketCost = 0.0
-//        dailyLodgingCost = 0.0
-//        dailyFoodCost = 0.0
-//        dailyOtherCost = 0.0
-//        oneTimeCost = 0.0
-//       
-//        resultsDictionary.removeAll()
+        aTrip.budgetTotal = 0.0
+        aTrip.subtotalOfProperties = 0.0
+        aTrip.budgetRemaining = 0.0
+        
+        aTrip.departureLocation = ""
+        aTrip.destination = ""
+        
+        aTrip.dateFrom = 0.0
+        aTrip.dateTo = 0.0
+        aTrip.numberOfDays = 0.0
+        aTrip.numberOfNights = 0.0
+        
+        aTrip.planeTicketCost = 0.0
+        aTrip.dailyLodgingCost = 0.0
+        aTrip.dailyFoodCost = 0.0
+        aTrip.dailyOtherCost = 0.0
+        aTrip.oneTimeCost = 0.0
+       
+        aTrip.totalLodgingCosts = 0.0
+        aTrip.totalFoodAndOtherCosts = 0.0
+
     }
 }

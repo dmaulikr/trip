@@ -461,7 +461,14 @@
                             <outlet property="delegate" destination="Y9u-49-QCE" id="FOZ-9c-0EV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="L2P-aD-yFU"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="L2P-aD-yFU">
+                        <barButtonItem key="rightBarButtonItem" title="Clear" id="DGi-Yg-jfh">
+                            <connections>
+                                <action selector="clearButtonPressed:" destination="Y9u-49-QCE" id="610-13-KHI"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="900"/>
                     <connections>
