@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Created by https://www.gitignore.io/api/xcode
 
 ### Xcode ###
@@ -26,3 +27,11 @@ xcuserdata
 *.xcuserstate
 UserInterfaceState.xcuserstate
 Breakpoints_v2.xcbkptlist
+=======
+UserInterfaceState.xcuserstate
+xcschememanagement.plist
+jenhamilton.xcuserdatad
+>>>>>>> 08eb3b4a80a022fff191001df1a7d21dd8416de2
+contents.xcworkspacedata
+CreateTrip.xcscheme
+project.pbxproj
