@@ -10,12 +10,25 @@ import UIKit
 
 class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
 {
-    let allProperties = ["Budget", "Departure Location", "Destination", "Date From", "Date To", "Plane Ticket Cost", "Daily Lodging Cost", "Daily Food Cost", "Daily Other Cost", "One Time Cost"]
+//    let allProperties = ["Budget", "Departure Location", "Destination", "Date From", "Date To", "Plane Ticket Cost", "Daily Lodging Cost", "Daily Food Cost", "Daily Other Cost", "One Time Cost"]
     var propertyDictionary = [String: String]()
-    var resultDictionary = [String: String]()
+//    var resultDictionary = [String: String]()
     var calculator: Calculator!
     @IBOutlet var budgetRemainingLabel: UILabel!
-
+    
+    @IBOutlet weak var budgetTextField: UITextField!
+    @IBOutlet weak var departureLocationTextField: UITextField!
+    @IBOutlet weak var destinatinTextField: UITextField!
+    @IBOutlet weak var dateFromTextField: UITextField!
+    @IBOutlet weak var dateToTextField: UITextField!
+    @IBOutlet weak var planeTicketTextField: UITextField!
+    @IBOutlet weak var dailyLodgingTextField: UITextField!
+    @IBOutlet weak var dailyFoodTextField: UITextField!
+    @IBOutlet weak var dailyOtherTextField: UITextField!
+    @IBOutlet weak var oneTimeCostTextField: UITextField!
+    
+    
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -41,7 +54,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         // #warning Incomplete implementation, return the number of rows
         switch section{
         case 0:
-            return allProperties.count
+            return 1
         default:
             return 1
         }
