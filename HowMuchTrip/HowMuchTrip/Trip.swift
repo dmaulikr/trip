@@ -7,34 +7,44 @@
 //
 
 import Foundation
+import Parse
 
-class Trip
+class Trip: PFObject, PFSubclassing
 {
-//    Properties: budget, destination, to/from dates, numberOfDays, numberOfNights, plane ticket cost, daily lodging costs, daily food costs, daily other expenses, one time costs
+    @NSManaged var budgetTotal: Double
+    @NSManaged var subtotalOfProperties: Double
+    @NSManaged var budgetRemaining: Double
     
-    var budgetTotal = 0.0
-    var subtotalOfProperties = 0.0
-    var budgetRemaining = 0.0
+    @NSManaged var departureLocation: String
+    @NSManaged var destination: String
     
-    var departureLocation = ""
-    var destination = ""
+    @NSManaged var dateFrom: Double
+    @NSManaged var dateTo: Double
+    @NSManaged var numberOfDays: Double
+    @NSManaged var numberOfNights: Double
     
-    var dateFrom = 0.0
-    var dateTo = 0.0
-    var numberOfDays = 0.0
-    var numberOfNights = 0.0
+    @NSManaged var planeTicketCost: Double
+    @NSManaged var dailyLodgingCost: Double
+    @NSManaged var dailyFoodCost: Double
+    @NSManaged var dailyOtherCost: Double
+    @NSManaged var oneTimeCost: Double
     
-    var planeTicketCost = 0.0
-    var dailyLodgingCost = 0.0
-    var dailyFoodCost = 0.0
-    var dailyOtherCost = 0.0
-    var oneTimeCost = 0.0
-
-    var totalLodgingCosts = 0.0
-    var totalFoodAndOtherCosts = 0.0
+    @NSManaged var totalLodgingCosts: Double
+    @NSManaged var totalFoodAndOtherCosts: Double
     
-    init()
-    {
-        
+    override class func initialize() {
+        struct Static {
+            static var onceToken : dispatch_once_t = 0;
+        }
+        dispatch_once(&Static.onceToken) {
+            self.registerSubclass()
+        }
     }
+    
+    static func parseClassName() -> String {
+        return "Trip"
+    }
+
+
 }
+

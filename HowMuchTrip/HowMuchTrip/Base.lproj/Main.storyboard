@@ -462,13 +462,14 @@
                                                     </constraints>
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v2N-JU-EGv">
-                                                    <rect key="frame" x="264" y="4" width="73" height="30"/>
+                                                    <rect key="frame" x="260" y="-3" width="80" height="37"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="73" id="1CC-7u-dHA"/>
+                                                        <constraint firstAttribute="width" constant="80" id="1CC-7u-dHA"/>
                                                     </constraints>
-                                                    <state key="normal" title="Calculate"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="18"/>
+                                                    <state key="normal" title="Save Trip"/>
                                                     <connections>
-                                                        <action selector="calculateButtonPressed:" destination="Y9u-49-QCE" eventType="touchUpInside" id="DRd-7u-4y4"/>
+                                                        <action selector="saveButtonPressed:" destination="Y9u-49-QCE" eventType="touchUpInside" id="qFC-pq-QjN"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

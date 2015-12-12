@@ -26,6 +26,8 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
     
     var propertyDictionary = [String: String]()
     var calculator: Calculator!
+    var aTrip = Trip()
+    var trips = [Trip]()
     
     @IBOutlet var budgetRemainingLabel: UILabel!
     
@@ -150,9 +152,9 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         }
     }
     
-    @IBAction func calculateButtonPressed(sender: UIButton!)
+    @IBAction func saveButtonPressed(sender: UIButton!)
     {
-        calculate()
+            saveTrip(aTrip)
     }
     
     
@@ -162,7 +164,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
     {
         calculator = Calculator(dictionary: propertyDictionary)
         
-        let aTrip = calculator.calculate(propertyDictionary)
+        aTrip = calculator.calculate(propertyDictionary)
         
         budgetRemainingLabel.hidden = false
         budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", aTrip.budgetRemaining))"
@@ -182,6 +184,24 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         }
         buildGraph(graphProperties, values: values)
         
+    }
+    
+    func saveTrip(aTrip: Trip)
+    {
+        trips.insert(aTrip, atIndex: 0)
+        aTrip.saveInBackgroundWithBlock
+        {
+            (succeeded: Bool, error: NSError?) -> Void in
+            if succeeded
+            {
+                // object was saved to Parse
+            }
+            else
+            {
+                print(error?.localizedDescription)
+            }
+        }
+
     }
     
     // MARK: - Graph Functions
