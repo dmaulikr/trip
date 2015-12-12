@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Charts
 
 class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
 {
@@ -39,14 +40,18 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
     @IBOutlet weak var dailyOtherTextField: UITextField!
     @IBOutlet weak var oneTimeCostTextField: UITextField!
     
+    @IBOutlet weak var pieChartView: PieChartView!
+    
     var textFields = [UITextField]()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         title = "Create Your Trip"
-        budgetRemainingLabel.hidden = true
         
+        pieChartView.noDataText = "You need to provide data for the chart."
+        
+        budgetRemainingLabel.hidden = true
         
         textFields = [
             budgetTextField!,
@@ -73,7 +78,6 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
     {
         super.didReceiveMemoryWarning()
     }
-
     
     // MARK: - UITextField Delegate
     
@@ -146,13 +150,96 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         print("Total Daily Other: \(String(aTrip.totalFoodAndOtherCosts))")
         print("One Time: \(String(aTrip.oneTimeCost))")
         
-        buildGraph()
+//        let values = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0, 6.0, 3.0, 12.0, 16.0]
+        let values = getValues(aTrip)
+        buildGraph(allProperties, values: values)
+        
+    }
+    
+    func getValues(trip: Trip) -> [Double]
+    {
+        var values = [Double]()
+        
+//        var budgetTotal = 0.0
+//        var subtotalOfProperties = 0.0
+//        var budgetRemaining = 0.0
+//        
+//        var departureLocation = ""
+//        var destination = ""
+//        
+//        var dateFrom = 0.0
+//        var dateTo = 0.0
+//        var numberOfDays = 0.0
+//        var numberOfNights = 0.0
+//        
+//        var planeTicketCost = 0.0
+//        var dailyLodgingCost = 0.0
+//        var dailyFoodCost = 0.0
+//        var dailyOtherCost = 0.0
+//        var oneTimeCost = 0.0
+//        
+//        var totalLodgingCosts = 0.0
+//        var totalFoodAndOtherCosts = 0.0
+        
+//        let mirroredTrip = Mirror(reflecting: trip)
+//        
+//        for item in 0..<mirroredTrip.children.count
+//        {
+//            if let value = item.value as? Double
+//            {
+//                print(<#T##items: Any...##Any#>)
+//            }
+//        }
+        
+        let mirrored_object = Mirror(reflecting: trip)
+        
+        for (_, attr) in mirrored_object.children.enumerate()
+        {
+            if let value = attr.value as? Double
+            {
+                values.append(value)
+            }
+        }
+        
+        return values
     }
     
     // TODO: Obvs, build it up
-    func buildGraph()
+    func buildGraph(dataPoints: [String], values: [Double])
     {
+        var dataEntries: [ChartDataEntry] = []
         
+        for i in 0..<dataPoints.count
+        {
+            let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
+            dataEntries.append(dataEntry)
+        }
+        
+        var points = [String]()
+        for _ in dataPoints
+        {
+            points.append(" ")
+        }
+        
+        let pieChartDataSet = PieChartDataSet(yVals: dataEntries, label: "Budget")
+        let pieChartData = PieChartData(xVals: [""], dataSet: pieChartDataSet)
+        pieChartView.data = pieChartData
+        
+        var colors: [UIColor] = []
+        
+
+        
+        for _ in 0..<dataPoints.count
+        {
+            let red = Double(arc4random_uniform(256))
+            let green = Double(arc4random_uniform(256))
+            let blue = Double(arc4random_uniform(256))
+            
+            let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
+            colors.append(color)
+        }
+        
+        pieChartDataSet.colors = colors
     }
     
     @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
@@ -168,7 +255,11 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         }
         budgetRemainingLabel.hidden = true
         propertyDictionary.removeAll()
-        calculator.clearCalculator()
+        
+        if calculator != nil
+        {
+            calculator.clearCalculator()
+        }
     }
 
 }
