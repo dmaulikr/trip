@@ -123,7 +123,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         }
         
 
-//        calculate()
+        calculate()
         tableView.reloadData()
         return rc
     }
@@ -163,25 +163,23 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         calculator = Calculator(dictionary: propertyDictionary)
         
         let aTrip = calculator.calculate(propertyDictionary)
-        budgetRemainingLabel.hidden = false
         
+        budgetRemainingLabel.hidden = false
         budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", aTrip.budgetRemaining))"
         
-        // TODO: use below values for donut graph
-        print("Budget: \(String(aTrip.budgetTotal))")
-        print("Subtotal: \(String(aTrip.subtotalOfProperties))")
-        print("Budget Remaining: \(String(aTrip.budgetRemaining))")
-        print("Plane Ticket: \(String(aTrip.planeTicketCost))")
-        print("Daily Lodging: \(String(aTrip.dailyLodgingCost))")
-        print("Daily Food: \(String(aTrip.dailyFoodCost))")
-        print("Daily Other: \(String(aTrip.dailyOtherCost))")
-        print("Total Daily Other: \(String(aTrip.totalFoodAndOtherCosts))")
-        print("One Time: \(String(aTrip.oneTimeCost))")
+        var values = [aTrip.budgetRemaining, aTrip.planeTicketCost, aTrip.totalLodgingCosts, aTrip.totalFoodAndOtherCosts, aTrip.oneTimeCost]
+        var graphProperties = ["Budget Remaining","Plane Ticket","Total Lodging","Total Daily Food & Other","Total One Time Costs"]
         
-//        let values = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0, 6.0, 3.0, 12.0, 16.0]
-//        let values = getValues(aTrip)
-        let values = [aTrip.budgetRemaining, aTrip.planeTicketCost, aTrip.totalLodgingCosts, aTrip.totalFoodAndOtherCosts, aTrip.oneTimeCost]
-        let graphProperties = ["Budget Remaining","Plane Ticket","Total Lodging","Total Daily Food & Other","Total One Time Costs"]
+        // Remove '0' value entries for graphing
+        for x in values
+        {
+            if x == 0
+            {
+                let index = values.indexOf(x)
+                values.removeAtIndex(index!)
+                graphProperties.removeAtIndex(index!)
+            }
+        }
         buildGraph(graphProperties, values: values)
         
     }
@@ -191,37 +189,6 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
     func getValues(trip: Trip) -> [Double]
     {
         var values = [Double]()
-        
-//        var budgetTotal = 0.0
-//        var subtotalOfProperties = 0.0
-//        var budgetRemaining = 0.0
-//        
-//        var departureLocation = ""
-//        var destination = ""
-//        
-//        var dateFrom = 0.0
-//        var dateTo = 0.0
-//        var numberOfDays = 0.0
-//        var numberOfNights = 0.0
-//        
-//        var planeTicketCost = 0.0
-//        var dailyLodgingCost = 0.0
-//        var dailyFoodCost = 0.0
-//        var dailyOtherCost = 0.0
-//        var oneTimeCost = 0.0
-//        
-//        var totalLodgingCosts = 0.0
-//        var totalFoodAndOtherCosts = 0.0
-        
-//        let mirroredTrip = Mirror(reflecting: trip)
-//        
-//        for item in 0..<mirroredTrip.children.count
-//        {
-//            if let value = item.value as? Double
-//            {
-//                print(<#T##items: Any...##Any#>)
-//            }
-//        }
         
         let mirrored_object = Mirror(reflecting: trip)
         
@@ -256,9 +223,13 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         let pieChartData = PieChartData(xVals: [""], dataSet: pieChartDataSet)
         pieChartView.data = pieChartData
         
+        setGraphColors(dataPoints, pieChartDataSet: pieChartDataSet)
+ 
+    }
+    
+    func setGraphColors(dataPoints: [String], pieChartDataSet: PieChartDataSet)
+    {
         var colors: [UIColor] = []
-        
-
         
         for _ in 0..<dataPoints.count
         {
