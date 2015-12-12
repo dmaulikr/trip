@@ -118,15 +118,43 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
             }
             else
             {
-                calculate()
+//                calculate()
             }
         }
         
 
-        calculate()
+//        calculate()
         tableView.reloadData()
         return rc
     }
+    
+    // MARK: - Action Handlers
+    
+    @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
+    {
+        clear()
+    }
+    
+    func clear()
+    {
+        for field in textFields
+        {
+            field.text = ""
+        }
+        budgetRemainingLabel.hidden = true
+        propertyDictionary.removeAll()
+        
+        if calculator != nil
+        {
+            calculator.clearCalculator()
+        }
+    }
+    
+    @IBAction func calculateButtonPressed(sender: UIButton!)
+    {
+        calculate()
+    }
+    
     
     // MARK: - Private Functions
 
@@ -151,10 +179,14 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         print("One Time: \(String(aTrip.oneTimeCost))")
         
 //        let values = [20.0, 4.0, 6.0, 3.0, 12.0, 16.0, 6.0, 3.0, 12.0, 16.0]
-        let values = getValues(aTrip)
-        buildGraph(allProperties, values: values)
+//        let values = getValues(aTrip)
+        let values = [aTrip.budgetRemaining, aTrip.planeTicketCost, aTrip.totalLodgingCosts, aTrip.totalFoodAndOtherCosts, aTrip.oneTimeCost]
+        let graphProperties = ["Budget Remaining","Plane Ticket","Total Lodging","Total Daily Food & Other","Total One Time Costs"]
+        buildGraph(graphProperties, values: values)
         
     }
+    
+    // MARK: - Graph Functions
     
     func getValues(trip: Trip) -> [Double]
     {
@@ -204,7 +236,6 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         return values
     }
     
-    // TODO: Obvs, build it up
     func buildGraph(dataPoints: [String], values: [Double])
     {
         var dataEntries: [ChartDataEntry] = []
@@ -241,25 +272,6 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         
         pieChartDataSet.colors = colors
     }
-    
-    @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
-    {
-        clear()
-    }
-    
-    func clear()
-    {
-        for field in textFields
-        {
-            field.text = ""
-        }
-        budgetRemainingLabel.hidden = true
-        propertyDictionary.removeAll()
-        
-        if calculator != nil
-        {
-            calculator.clearCalculator()
-        }
-    }
+
 
 }
