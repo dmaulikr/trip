@@ -240,8 +240,10 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         }
         
         let pieChartDataSet = PieChartDataSet(yVals: dataEntries, label: "Budget")
-        let pieChartData = PieChartData(xVals: [""], dataSet: pieChartDataSet)
+        // TODO: format xVals to display nicely, or add a legend to make readable
+        let pieChartData = PieChartData(xVals: dataPoints, dataSet: pieChartDataSet)
         pieChartView.data = pieChartData
+        
         
         setGraphColors(dataPoints, pieChartDataSet: pieChartDataSet)
  
