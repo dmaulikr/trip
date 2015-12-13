@@ -18,7 +18,7 @@ class TripListTableViewController: UITableViewController
         super.viewDidLoad()
         title = "My Trips"
         
-        refreshList()
+//        refreshList()
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
          self.navigationItem.leftBarButtonItem = self.editButtonItem()
@@ -78,7 +78,9 @@ class TripListTableViewController: UITableViewController
         {
             let aTrip = trips[indexPath.row]
             trips.removeAtIndex(indexPath.row)
-            aTrip.deleteInBackground()
+            // TODO: test unpin
+            aTrip.unpinInBackground()
+            aTrip.deleteEventually()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             tableView.reloadData()
         }
@@ -124,24 +126,24 @@ class TripListTableViewController: UITableViewController
         
 //        if PFUser.currentUser() != nil
 //        {
-        
-            let query = Trip.query()
-            query!.orderByAscending("destination")
-            query!.addAscendingOrder("budgetTotal")
-            query!.findObjectsInBackgroundWithBlock {
-                (objects: [PFObject]?, error: NSError?) -> Void in
-                    if error == nil
-                    {
-                        self.trips = (objects as? [Trip])!
-                        self.tableView.reloadData()
-                    }
-                    else
-                    {
-                        print(error?.localizedDescription)
-                    }
+
+        let query = Trip.query()
+        query!.orderByAscending("destination")
+        query!.addAscendingOrder("budgetTotal")
+        query!.fromLocalDatastore()
+        query!.findObjectsInBackgroundWithBlock {
+            (objects: [PFObject]?, error: NSError?) -> Void in
+            if error == nil
+            {
+                self.trips = (objects as? [Trip])!
+                self.tableView.reloadData()
             }
-//        }
-        
+            else
+            {
+                print(error?.localizedDescription)
+            }
+        }
+      
     }
 
 }

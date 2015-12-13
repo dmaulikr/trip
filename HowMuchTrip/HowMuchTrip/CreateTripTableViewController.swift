@@ -188,19 +188,20 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
     
     func saveTrip(aTrip: Trip)
     {
-        trips.insert(aTrip, atIndex: 0)
-        aTrip.saveInBackgroundWithBlock
-        {
-            (succeeded: Bool, error: NSError?) -> Void in
-            if succeeded
-            {
-                // object was saved to Parse
-            }
-            else
-            {
-                print(error?.localizedDescription)
-            }
-        }
+        trips.append(aTrip)
+        aTrip.pinInBackground()
+        aTrip.saveEventually()
+//        {
+//            (succeeded: Bool, error: NSError?) -> Void in
+//            if succeeded
+//            {
+//                // object was saved to Parse
+//            }
+//            else
+//            {
+//                print(error?.localizedDescription)
+//            }
+//        }
 
     }
     
