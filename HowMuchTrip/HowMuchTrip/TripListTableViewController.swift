@@ -19,9 +19,6 @@ class TripListTableViewController: UITableViewController
         title = "My Trips"
         
         refreshList()
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
          self.navigationItem.leftBarButtonItem = self.editButtonItem()
@@ -71,7 +68,6 @@ class TripListTableViewController: UITableViewController
     
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
         return true
     }
 
@@ -80,13 +76,10 @@ class TripListTableViewController: UITableViewController
     {
         if editingStyle == .Delete
         {
-            // Delete the row from the data source
-            
             let aTrip = trips[indexPath.row]
             trips.removeAtIndex(indexPath.row)
             aTrip.deleteInBackground()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-//            refreshList()
             tableView.reloadData()
         }
     }
@@ -115,6 +108,14 @@ class TripListTableViewController: UITableViewController
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let selectedTrip = trips[indexPath.row]
+        let tripDetailVC = storyboard?.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
+        tripDetailVC.aTrip = selectedTrip
+        navigationController?.pushViewController(tripDetailVC, animated: true)
+    }
     
     // MARK: - Parse Queries
     

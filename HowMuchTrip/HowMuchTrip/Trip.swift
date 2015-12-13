@@ -30,7 +30,8 @@ class Trip: PFObject, PFSubclassing
     @NSManaged var oneTimeCost: Double
     
     @NSManaged var totalLodgingCosts: Double
-    @NSManaged var totalFoodAndOtherCosts: Double
+    @NSManaged var totalFoodCosts: Double
+    @NSManaged var totalOtherDailyCosts: Double
     
     override class func initialize() {
         struct Static {

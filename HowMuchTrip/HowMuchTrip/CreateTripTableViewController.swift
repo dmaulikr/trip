@@ -169,8 +169,8 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         budgetRemainingLabel.hidden = false
         budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", aTrip.budgetRemaining))"
         
-        var values = [aTrip.budgetRemaining, aTrip.planeTicketCost, aTrip.totalLodgingCosts, aTrip.totalFoodAndOtherCosts, aTrip.oneTimeCost]
-        var graphProperties = ["Budget Remaining","Plane Ticket","Total Lodging","Total Daily Food & Other","Total One Time Costs"]
+        var values = [aTrip.budgetRemaining, aTrip.planeTicketCost, aTrip.totalLodgingCosts, aTrip.totalFoodCosts, aTrip.totalOtherDailyCosts, aTrip.oneTimeCost]
+        var graphProperties = ["Budget Remaining","Plane Ticket","Total Lodging","Total Daily Food Cost", "Total Daily Other Cost", "Total One Time Costs"]
         
         // Remove '0' value entries for graphing
         for x in values

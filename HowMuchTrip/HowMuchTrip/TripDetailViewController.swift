@@ -8,29 +8,37 @@
 
 import UIKit
 
-class TripDetailViewController: UIViewController {
+class TripDetailViewController: UIViewController
+{
+    var aTrip = Trip()
+    
+    @IBOutlet weak var destinationLabel: UILabel!
+    @IBOutlet weak var budgetLabel: UILabel!
+    @IBOutlet weak var planeTicketLabel: UILabel!
+    @IBOutlet weak var totalLodgingLabel: UILabel!
+    @IBOutlet weak var totalFoodLabel: UILabel!
+    @IBOutlet weak var totalOtherLabel: UILabel!
+    @IBOutlet weak var oneTimeCostLabel: UILabel!
+    
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
         title = "Trip Detail"
-        // Do any additional setup after loading the view.
+        destinationLabel.text = aTrip.destination
+        budgetLabel.text = String(aTrip.budgetTotal)
+        planeTicketLabel.text = String(aTrip.planeTicketCost)
+        totalLodgingLabel.text = String(aTrip.totalLodgingCosts)
+        totalFoodLabel.text = String(aTrip.totalFoodCosts)
+        totalOtherLabel.text = String(aTrip.totalOtherDailyCosts)
+        oneTimeCostLabel.text = String(aTrip.oneTimeCost)
+        
     }
 
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
-    
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
