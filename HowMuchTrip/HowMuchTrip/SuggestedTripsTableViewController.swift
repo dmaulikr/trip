@@ -16,32 +16,50 @@ class SuggestedTripsTableViewController: UITableViewController
     {
         super.viewDidLoad()
         title = "Suggested"
+//        
+//        let fakeTrip = Trip()
+//        
+//        fakeTrip.budgetTotal = 1000.0
+//        fakeTrip.subtotalOfProperties = 0.0
+//        fakeTrip.budgetRemaining = 540.0
+//        
+//        fakeTrip.departureLocation = ""
+//        fakeTrip.destination = "Fakesville, ND"
+//        
+//        fakeTrip.dateFrom = 0.0
+//        fakeTrip.dateTo = 0.0
+//        fakeTrip.numberOfDays = 1.0
+//        fakeTrip.numberOfNights = 1.0
+//        
+//        fakeTrip.planeTicketCost = 250.0
+//        fakeTrip.dailyLodgingCost = 100.0
+//        fakeTrip.dailyFoodCost = 50.0
+//        fakeTrip.dailyOtherCost = 0.0
+//        fakeTrip.oneTimeCost = 60.0
+//        
+//        fakeTrip.totalLodgingCosts = 100.0
+//        fakeTrip.totalFoodCosts = 50.0
+//        fakeTrip.totalOtherDailyCosts = 0.0
+//        
+//        trips.append(fakeTrip)
+
+        loadTrips()
         
-        let fakeTrip = Trip()
-        
-        fakeTrip.budgetTotal = 1000.0
-        fakeTrip.subtotalOfProperties = 0.0
-        fakeTrip.budgetRemaining = 540.0
-        
-        fakeTrip.departureLocation = ""
-        fakeTrip.destination = "Fakesville, ND"
-        
-        fakeTrip.dateFrom = 0.0
-        fakeTrip.dateTo = 0.0
-        fakeTrip.numberOfDays = 1.0
-        fakeTrip.numberOfNights = 1.0
-        
-        fakeTrip.planeTicketCost = 250.0
-        fakeTrip.dailyLodgingCost = 100.0
-        fakeTrip.dailyFoodCost = 50.0
-        fakeTrip.dailyOtherCost = 0.0
-        fakeTrip.oneTimeCost = 60.0
-        
-        fakeTrip.totalLodgingCosts = 100.0
-        fakeTrip.totalFoodCosts = 50.0
-        fakeTrip.totalOtherDailyCosts = 0.0
-        
-        trips.append(fakeTrip)
+    }
+    
+    func loadTrips()
+    {
+        if let path = NSBundle.mainBundle().pathForResource("suggestedTrips", ofType: "json"), let data = NSData(contentsOfFile: path) {
+            do {
+                let tripsJSON = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as! [Trip]
+                for trip in tripsJSON {
+                    let aTrip = trip 
+                    trips.append(aTrip)
+                }
+            } catch {
+                print(error)
+            }
+        }
 
     }
 

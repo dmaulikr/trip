@@ -11,6 +11,7 @@
 		9A8518C31C1DEF98001046EA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C21C1DEF98001046EA /* Reachability.swift */; };
 		9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */; };
 		9A8518C71C1DFCFE001046EA /* SuggestedTripsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */; };
+		9A8518CA1C1E0632001046EA /* suggestedTrips.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A8518C91C1E0632001046EA /* suggestedTrips.json */; };
 		9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */; };
 		9ADAAAC11C19C26100D26F79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAAABF1C19C26100D26F79 /* Main.storyboard */; };
 		9ADAAAC31C19C26100D26F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAAAC21C19C26100D26F79 /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 		9A8518C21C1DEF98001046EA /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedTripCell.swift; sourceTree = "<group>"; };
 		9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedTripsTableViewController.swift; sourceTree = "<group>"; };
+		9A8518C91C1E0632001046EA /* suggestedTrips.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = suggestedTrips.json; sourceTree = "<group>"; };
 		9ADAAAB61C19C26100D26F79 /* HowMuchTrip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HowMuchTrip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9ADAAAC01C19C26100D26F79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -102,6 +104,20 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		9A8518C81C1E057A001046EA /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				9A8518C91C1E0632001046EA /* suggestedTrips.json */,
+				9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */,
+				9A8518C21C1DEF98001046EA /* Reachability.swift */,
+				9ADAAAC21C19C26100D26F79 /* Assets.xcassets */,
+				9ADAAAC41C19C26100D26F79 /* LaunchScreen.storyboard */,
+				9ADAAAC71C19C26100D26F79 /* Info.plist */,
+				9ADAAADB1C19C3B600D26F79 /* HowMuchTrip-Bridging-Header.h */,
+			);
+			name = Misc;
+			sourceTree = "<group>";
+		};
 		9ADAAAAD1C19C26100D26F79 = {
 			isa = PBXGroup;
 			children = (
@@ -129,12 +145,7 @@
 				9ADAAAF01C19D88000D26F79 /* View Controllers */,
 				9ADAAAF11C19D88E00D26F79 /* Models */,
 				9ADAAAF61C19E4C300D26F79 /* Table Cells */,
-				9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */,
-				9A8518C21C1DEF98001046EA /* Reachability.swift */,
-				9ADAAAC21C19C26100D26F79 /* Assets.xcassets */,
-				9ADAAAC41C19C26100D26F79 /* LaunchScreen.storyboard */,
-				9ADAAAC71C19C26100D26F79 /* Info.plist */,
-				9ADAAADB1C19C3B600D26F79 /* HowMuchTrip-Bridging-Header.h */,
+				9A8518C81C1E057A001046EA /* Misc */,
 			);
 			path = HowMuchTrip;
 			sourceTree = "<group>";
@@ -277,6 +288,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9A8518CA1C1E0632001046EA /* suggestedTrips.json in Resources */,
 				9ADAAAC61C19C26100D26F79 /* LaunchScreen.storyboard in Resources */,
 				9ADAAAC31C19C26100D26F79 /* Assets.xcassets in Resources */,
 				9ADAAAC11C19C26100D26F79 /* Main.storyboard in Resources */,
