@@ -9,8 +9,9 @@
 /* Begin PBXBuildFile section */
 		86C4D9728457428FD35D8DBB /* Pods_HowMuchTrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */; };
 		9A8518C31C1DEF98001046EA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C21C1DEF98001046EA /* Reachability.swift */; };
+		9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */; };
+		9A8518C71C1DFCFE001046EA /* SuggestedTripsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */; };
 		9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */; };
-		9ADAAABC1C19C26100D26F79 /* SuggestedTripsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAABB1C19C26100D26F79 /* SuggestedTripsViewController.swift */; };
 		9ADAAAC11C19C26100D26F79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAAABF1C19C26100D26F79 /* Main.storyboard */; };
 		9ADAAAC31C19C26100D26F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAAAC21C19C26100D26F79 /* Assets.xcassets */; };
 		9ADAAAC61C19C26100D26F79 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAAAC41C19C26100D26F79 /* LaunchScreen.storyboard */; };
@@ -42,9 +43,10 @@
 		384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HowMuchTrip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79B012481EE474F4FCFC105E /* Pods-HowMuchTrip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTrip.release.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTrip/Pods-HowMuchTrip.release.xcconfig"; sourceTree = "<group>"; };
 		9A8518C21C1DEF98001046EA /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedTripCell.swift; sourceTree = "<group>"; };
+		9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedTripsTableViewController.swift; sourceTree = "<group>"; };
 		9ADAAAB61C19C26100D26F79 /* HowMuchTrip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HowMuchTrip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		9ADAAABB1C19C26100D26F79 /* SuggestedTripsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuggestedTripsViewController.swift; sourceTree = "<group>"; };
 		9ADAAAC01C19C26100D26F79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9ADAAAC21C19C26100D26F79 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9ADAAAC51C19C26100D26F79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -149,7 +151,7 @@
 		9ADAAAF01C19D88000D26F79 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9ADAAABB1C19C26100D26F79 /* SuggestedTripsViewController.swift */,
+				9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */,
 				9ADAAAF71C19E51F00D26F79 /* CreateTripTableViewController.swift */,
 				9ADAAAEA1C19D72C00D26F79 /* TripListTableViewController.swift */,
 				9ADAAAEC1C19D7ED00D26F79 /* TripDetailViewController.swift */,
@@ -174,6 +176,7 @@
 				9ADAAAF41C19E4AE00D26F79 /* TripGraphCell.swift */,
 				9ADAAAF21C19E4A000D26F79 /* TripPropertyCell.swift */,
 				9ADAAAEE1C19D82200D26F79 /* TripCell.swift */,
+				9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */,
 			);
 			name = "Table Cells";
 			sourceTree = "<group>";
@@ -389,12 +392,13 @@
 			files = (
 				9ADAAAE11C19CDD200D26F79 /* Trip.swift in Sources */,
 				9ADAAAE51C19CE0000D26F79 /* FlightSearch.swift in Sources */,
+				9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */,
 				9ADAAAEB1C19D72C00D26F79 /* TripListTableViewController.swift in Sources */,
 				9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */,
 				9ADAAAEF1C19D82200D26F79 /* TripCell.swift in Sources */,
-				9ADAAABC1C19C26100D26F79 /* SuggestedTripsViewController.swift in Sources */,
 				9ADAAAED1C19D7ED00D26F79 /* TripDetailViewController.swift in Sources */,
 				9ADAAAE31C19CDE300D26F79 /* Calculator.swift in Sources */,
+				9A8518C71C1DFCFE001046EA /* SuggestedTripsTableViewController.swift in Sources */,
 				9ADAAAE91C19D65500D26F79 /* SettingsViewController.swift in Sources */,
 				9ADAAAF31C19E4A000D26F79 /* TripPropertyCell.swift in Sources */,
 				9ADAAAF51C19E4AE00D26F79 /* TripGraphCell.swift in Sources */,

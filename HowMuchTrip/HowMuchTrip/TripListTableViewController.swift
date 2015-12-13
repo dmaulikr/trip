@@ -18,7 +18,7 @@ class TripListTableViewController: UITableViewController
         super.viewDidLoad()
         title = "My Trips"
         
-//        refreshList()
+        refreshList()
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
          self.navigationItem.leftBarButtonItem = self.editButtonItem()
@@ -100,6 +100,15 @@ class TripListTableViewController: UITableViewController
         return true
     }
     */
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let selectedTrip = trips[indexPath.row]
+        let tripDetailVC = storyboard?.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
+        tripDetailVC.aTrip = selectedTrip
+        navigationController?.pushViewController(tripDetailVC, animated: true)
+    }
+
 
     /*
     // MARK: - Navigation
@@ -111,13 +120,6 @@ class TripListTableViewController: UITableViewController
     }
     */
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
-    {
-        let selectedTrip = trips[indexPath.row]
-        let tripDetailVC = storyboard?.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
-        tripDetailVC.aTrip = selectedTrip
-        navigationController?.pushViewController(tripDetailVC, animated: true)
-    }
     
     // MARK: - Parse Queries
     
