@@ -54,7 +54,7 @@ class SuggestedTripsTableViewController: UITableViewController
                 {
                     let aTrip = suggestedTripFromJSON(tripDict)
                     trips.append(aTrip)
-                    trips.shuffleInPlace()
+//                    trips.shuffleInPlace()
                 }
             }
             catch

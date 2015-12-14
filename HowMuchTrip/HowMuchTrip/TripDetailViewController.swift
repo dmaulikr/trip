@@ -25,6 +25,7 @@ class TripDetailViewController: UIViewController
     {
         super.viewDidLoad()
         title = "Trip Detail"
+        setLabels()
     }
     
     func setLabels()

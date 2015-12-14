@@ -11,6 +11,7 @@
 		630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */; };
 		63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AE246C1C1E651B001ECCE9 /* Extensions.swift */; };
 		86C4D9728457428FD35D8DBB /* Pods_HowMuchTrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */; };
+		9A75AC5E1C1F54B700258473 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A75AC5D1C1F54B700258473 /* Validator.swift */; };
 		9A8518C31C1DEF98001046EA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C21C1DEF98001046EA /* Reachability.swift */; };
 		9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */; };
 		9A8518C71C1DFCFE001046EA /* SuggestedTripsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */; };
@@ -53,6 +54,7 @@
 		630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPopoverViewController.swift; sourceTree = "<group>"; };
 		63AE246C1C1E651B001ECCE9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		79B012481EE474F4FCFC105E /* Pods-HowMuchTrip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTrip.release.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTrip/Pods-HowMuchTrip.release.xcconfig"; sourceTree = "<group>"; };
+		9A75AC5D1C1F54B700258473 /* Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		9A8518C21C1DEF98001046EA /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedTripCell.swift; sourceTree = "<group>"; };
 		9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedTripsTableViewController.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 		9A8518C81C1E057A001046EA /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				9A75AC5D1C1F54B700258473 /* Validator.swift */,
 				630B3B4C1C1F283C006F12D2 /* disclosure.png */,
 				9A8518C91C1E0632001046EA /* suggestedTrips.json */,
 				9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */,
@@ -445,6 +448,7 @@
 				9ADAAAE31C19CDE300D26F79 /* Calculator.swift in Sources */,
 				FE7F79301C1F2632001C6C14 /* ResetPasswordViewController.swift in Sources */,
 				9A8518C71C1DFCFE001046EA /* SuggestedTripsTableViewController.swift in Sources */,
+				9A75AC5E1C1F54B700258473 /* Validator.swift in Sources */,
 				9ADAAAE91C19D65500D26F79 /* SettingsViewController.swift in Sources */,
 				63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */,
 				9ADAAAF31C19E4A000D26F79 /* TripPropertyCell.swift in Sources */,
