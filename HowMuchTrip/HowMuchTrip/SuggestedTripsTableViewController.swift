@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Parse
 
 var userLocale = "en_US"
 
@@ -27,6 +28,18 @@ class SuggestedTripsTableViewController: UITableViewController
         super.viewWillAppear(true)
         loadTrips()
         
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        if PFUser.currentUser()?.username == nil
+        {
+            
+            let loginViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+            self.presentViewController(loginViewController, animated: true, completion: nil)
+            
+        }
+
     }
     
     func loadTrips()
@@ -92,10 +105,6 @@ class SuggestedTripsTableViewController: UITableViewController
 
         return trip
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 6646ccf7f1772eb0a2607d03b53408900554711e
 
     // MARK: - Table view data source
 
