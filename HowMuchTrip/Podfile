@@ -7,10 +7,12 @@ target 'HowMuchTrip' do
 pod 'Charts'
 pod "Parse"
 pod 'CalendarView'
+pod 'ParseTwitterUtils'
 end
 
 target 'HowMuchTripTests' do
 pod 'Charts'
 pod "Parse"
 pod 'CalendarView'
+pod 'ParseTwitterUtils'
 end

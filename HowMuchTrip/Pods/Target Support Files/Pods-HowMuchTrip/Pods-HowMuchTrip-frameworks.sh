@@ -88,6 +88,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-HowMuchTrip/CalendarView.framework"
   install_framework "Pods-HowMuchTrip/Charts.framework"
   install_framework "Pods-HowMuchTrip/Parse.framework"
+  install_framework "Pods-HowMuchTrip/ParseTwitterUtils.framework"
   install_framework "Pods-HowMuchTrip/SwiftMoment.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
@@ -95,5 +96,6 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-HowMuchTrip/CalendarView.framework"
   install_framework "Pods-HowMuchTrip/Charts.framework"
   install_framework "Pods-HowMuchTrip/Parse.framework"
+  install_framework "Pods-HowMuchTrip/ParseTwitterUtils.framework"
   install_framework "Pods-HowMuchTrip/SwiftMoment.framework"
 fi

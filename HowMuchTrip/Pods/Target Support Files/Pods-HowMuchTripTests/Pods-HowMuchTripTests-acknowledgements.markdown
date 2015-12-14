@@ -267,6 +267,10 @@ Apache License
 
 See https://www.parse.com/about/terms
 
+## ParseTwitterUtils
+
+See https://www.parse.com/about/terms
+
 ## SwiftMoment
 
 Copyright (c) 2015, Adrian Kosmaczewski
