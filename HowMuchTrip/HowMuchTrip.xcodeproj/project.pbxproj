@@ -29,6 +29,7 @@
 		9ADAAAF51C19E4AE00D26F79 /* TripGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAF41C19E4AE00D26F79 /* TripGraphCell.swift */; };
 		9ADAAAF81C19E51F00D26F79 /* CreateTripTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAF71C19E51F00D26F79 /* CreateTripTableViewController.swift */; };
 		A25911BFA04E0101EFD7585F /* Pods_HowMuchTripTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA45F8748A842AA7E20B75E6 /* Pods_HowMuchTripTests.framework */; };
+		FE7F79291C1F2521001C6C14 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE7F79281C1F2521001C6C14 /* Login.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +74,7 @@
 		CFB55FE67B2C93C42C52D96D /* Pods-HowMuchTrip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTrip.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTrip/Pods-HowMuchTrip.debug.xcconfig"; sourceTree = "<group>"; };
 		E54D7BB0F9D8CBD9584E111F /* Pods-HowMuchTripTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTripTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTripTests/Pods-HowMuchTripTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FA45F8748A842AA7E20B75E6 /* Pods_HowMuchTripTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HowMuchTripTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE7F79281C1F2521001C6C14 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 		9ADAAAB81C19C26100D26F79 /* HowMuchTrip */ = {
 			isa = PBXGroup;
 			children = (
+				FE7F79281C1F2521001C6C14 /* Login.storyboard */,
 				9ADAAABF1C19C26100D26F79 /* Main.storyboard */,
 				9ADAAAF01C19D88000D26F79 /* View Controllers */,
 				9ADAAAF11C19D88E00D26F79 /* Models */,
@@ -294,6 +297,7 @@
 				9A8518CA1C1E0632001046EA /* suggestedTrips.json in Resources */,
 				9ADAAAC61C19C26100D26F79 /* LaunchScreen.storyboard in Resources */,
 				9ADAAAC31C19C26100D26F79 /* Assets.xcassets in Resources */,
+				FE7F79291C1F2521001C6C14 /* Login.storyboard in Resources */,
 				9ADAAAC11C19C26100D26F79 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -551,6 +555,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = HowMuchTrip/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -566,6 +571,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = HowMuchTrip/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -579,6 +585,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = HowMuchTripTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTripTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -592,6 +599,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				INFOPLIST_FILE = HowMuchTripTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTripTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
