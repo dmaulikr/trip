@@ -29,6 +29,10 @@
 		9ADAAAF51C19E4AE00D26F79 /* TripGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAF41C19E4AE00D26F79 /* TripGraphCell.swift */; };
 		9ADAAAF81C19E51F00D26F79 /* CreateTripTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAF71C19E51F00D26F79 /* CreateTripTableViewController.swift */; };
 		A25911BFA04E0101EFD7585F /* Pods_HowMuchTripTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA45F8748A842AA7E20B75E6 /* Pods_HowMuchTripTests.framework */; };
+		FE9C3B291C1F1AD2006C694C /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE9C3B281C1F1AD2006C694C /* Login.storyboard */; };
+		FE9C3B2B1C1F1AE1006C694C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9C3B2A1C1F1AE1006C694C /* LoginViewController.swift */; };
+		FE9C3B2D1C1F1AE9006C694C /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9C3B2C1C1F1AE9006C694C /* ResetPasswordViewController.swift */; };
+		FE9C3B2F1C1F1AF2006C694C /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE9C3B2E1C1F1AF2006C694C /* SignUpViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +77,10 @@
 		CFB55FE67B2C93C42C52D96D /* Pods-HowMuchTrip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTrip.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTrip/Pods-HowMuchTrip.debug.xcconfig"; sourceTree = "<group>"; };
 		E54D7BB0F9D8CBD9584E111F /* Pods-HowMuchTripTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTripTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTripTests/Pods-HowMuchTripTests.debug.xcconfig"; sourceTree = "<group>"; };
 		FA45F8748A842AA7E20B75E6 /* Pods_HowMuchTripTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HowMuchTripTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE9C3B281C1F1AD2006C694C /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
+		FE9C3B2A1C1F1AE1006C694C /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		FE9C3B2C1C1F1AE9006C694C /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
+		FE9C3B2E1C1F1AF2006C694C /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +152,9 @@
 		9ADAAAB81C19C26100D26F79 /* HowMuchTrip */ = {
 			isa = PBXGroup;
 			children = (
+				FE9C3B271C1F1AB8006C694C /* Login ViewControllers */,
 				9ADAAABF1C19C26100D26F79 /* Main.storyboard */,
+				FE9C3B281C1F1AD2006C694C /* Login.storyboard */,
 				9ADAAAF01C19D88000D26F79 /* View Controllers */,
 				9ADAAAF11C19D88E00D26F79 /* Models */,
 				9ADAAAF61C19E4C300D26F79 /* Table Cells */,
@@ -202,6 +212,16 @@
 				FA45F8748A842AA7E20B75E6 /* Pods_HowMuchTripTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FE9C3B271C1F1AB8006C694C /* Login ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FE9C3B2C1C1F1AE9006C694C /* ResetPasswordViewController.swift */,
+				FE9C3B2A1C1F1AE1006C694C /* LoginViewController.swift */,
+				FE9C3B2E1C1F1AF2006C694C /* SignUpViewController.swift */,
+			);
+			name = "Login ViewControllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,6 +314,7 @@
 				9A8518CA1C1E0632001046EA /* suggestedTrips.json in Resources */,
 				9ADAAAC61C19C26100D26F79 /* LaunchScreen.storyboard in Resources */,
 				9ADAAAC31C19C26100D26F79 /* Assets.xcassets in Resources */,
+				FE9C3B291C1F1AD2006C694C /* Login.storyboard in Resources */,
 				9ADAAAC11C19C26100D26F79 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -407,9 +428,11 @@
 			files = (
 				9ADAAAE11C19CDD200D26F79 /* Trip.swift in Sources */,
 				9ADAAAE51C19CE0000D26F79 /* FlightSearch.swift in Sources */,
+				FE9C3B2D1C1F1AE9006C694C /* ResetPasswordViewController.swift in Sources */,
 				9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */,
 				9ADAAAEB1C19D72C00D26F79 /* TripListTableViewController.swift in Sources */,
 				9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */,
+				FE9C3B2F1C1F1AF2006C694C /* SignUpViewController.swift in Sources */,
 				9ADAAAEF1C19D82200D26F79 /* TripCell.swift in Sources */,
 				9ADAAAED1C19D7ED00D26F79 /* TripDetailViewController.swift in Sources */,
 				9ADAAAE31C19CDE300D26F79 /* Calculator.swift in Sources */,
@@ -417,6 +440,7 @@
 				9ADAAAE91C19D65500D26F79 /* SettingsViewController.swift in Sources */,
 				63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */,
 				9ADAAAF31C19E4A000D26F79 /* TripPropertyCell.swift in Sources */,
+				FE9C3B2B1C1F1AE1006C694C /* LoginViewController.swift in Sources */,
 				9ADAAAF51C19E4AE00D26F79 /* TripGraphCell.swift in Sources */,
 				9ADAAAF81C19E51F00D26F79 /* CreateTripTableViewController.swift in Sources */,
 				9A8518C31C1DEF98001046EA /* Reachability.swift in Sources */,
