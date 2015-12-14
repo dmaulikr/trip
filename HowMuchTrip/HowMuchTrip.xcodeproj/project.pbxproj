@@ -31,13 +31,14 @@
 		9ADAAAF31C19E4A000D26F79 /* TripPropertyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAF21C19E4A000D26F79 /* TripPropertyCell.swift */; };
 		9ADAAAF51C19E4AE00D26F79 /* TripGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAF41C19E4AE00D26F79 /* TripGraphCell.swift */; };
 		9ADAAAF81C19E51F00D26F79 /* CreateTripTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAF71C19E51F00D26F79 /* CreateTripTableViewController.swift */; };
-		A25911BFA04E0101EFD7585F /* Pods_HowMuchTripTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA45F8748A842AA7E20B75E6 /* Pods_HowMuchTripTests.framework */; };
 		FE7F79291C1F2521001C6C14 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE7F79281C1F2521001C6C14 /* Login.storyboard */; };
 		FE7F792C1C1F260C001C6C14 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7F792B1C1F260C001C6C14 /* LoginViewController.swift */; };
 		FE7F792E1C1F2620001C6C14 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7F792D1C1F2620001C6C14 /* SignUpViewController.swift */; };
 		FE7F79301C1F2632001C6C14 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7F792F1C1F2632001C6C14 /* ResetPasswordViewController.swift */; };
 		FE7F79341C1F62A1001C6C14 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7F79331C1F62A1001C6C14 /* Accounts.framework */; };
 		FE7F79361C1F62AC001C6C14 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7F79351C1F62AC001C6C14 /* Social.framework */; };
+		FE7F793A1C1F84AC001C6C14 /* ParseFacebookUtils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7F79391C1F84AC001C6C14 /* ParseFacebookUtils.framework */; };
+		FE7F793C1C1F84E0001C6C14 /* ParseFacebookUtilsV4.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7F793B1C1F84E0001C6C14 /* ParseFacebookUtilsV4.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,13 +85,14 @@
 		B5FF73B3F3FD7F09D27ECE4C /* Pods-HowMuchTripTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTripTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTripTests/Pods-HowMuchTripTests.release.xcconfig"; sourceTree = "<group>"; };
 		CFB55FE67B2C93C42C52D96D /* Pods-HowMuchTrip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTrip.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTrip/Pods-HowMuchTrip.debug.xcconfig"; sourceTree = "<group>"; };
 		E54D7BB0F9D8CBD9584E111F /* Pods-HowMuchTripTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTripTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTripTests/Pods-HowMuchTripTests.debug.xcconfig"; sourceTree = "<group>"; };
-		FA45F8748A842AA7E20B75E6 /* Pods_HowMuchTripTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HowMuchTripTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE7F79281C1F2521001C6C14 /* Login.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Login.storyboard; sourceTree = "<group>"; };
 		FE7F792B1C1F260C001C6C14 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FE7F792D1C1F2620001C6C14 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		FE7F792F1C1F2632001C6C14 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		FE7F79331C1F62A1001C6C14 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		FE7F79351C1F62AC001C6C14 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		FE7F79391C1F84AC001C6C14 /* ParseFacebookUtils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtils.framework; sourceTree = "<group>"; };
+		FE7F793B1C1F84E0001C6C14 /* ParseFacebookUtilsV4.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseFacebookUtilsV4.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,7 +102,9 @@
 			files = (
 				FE7F79361C1F62AC001C6C14 /* Social.framework in Frameworks */,
 				FE7F79341C1F62A1001C6C14 /* Accounts.framework in Frameworks */,
+				FE7F793A1C1F84AC001C6C14 /* ParseFacebookUtils.framework in Frameworks */,
 				86C4D9728457428FD35D8DBB /* Pods_HowMuchTrip.framework in Frameworks */,
+				FE7F793C1C1F84E0001C6C14 /* ParseFacebookUtilsV4.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +112,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A25911BFA04E0101EFD7585F /* Pods_HowMuchTripTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,10 +226,11 @@
 		CD24ECBA41B1F675B2F99661 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FE7F793B1C1F84E0001C6C14 /* ParseFacebookUtilsV4.framework */,
+				FE7F79391C1F84AC001C6C14 /* ParseFacebookUtils.framework */,
 				FE7F79351C1F62AC001C6C14 /* Social.framework */,
 				FE7F79331C1F62A1001C6C14 /* Accounts.framework */,
 				384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */,
-				FA45F8748A842AA7E20B75E6 /* Pods_HowMuchTripTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -594,6 +598,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = HowMuchTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -610,6 +619,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/build/Debug-iphoneos",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = HowMuchTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
