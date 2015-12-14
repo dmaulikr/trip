@@ -19,7 +19,6 @@ class Calculator
     
     func calculate(dictionary: [String:String]) -> Trip
     {
-        
         for (key, value) in dictionary
         {
             switch key

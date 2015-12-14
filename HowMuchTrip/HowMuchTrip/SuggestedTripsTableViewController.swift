@@ -92,7 +92,10 @@ class SuggestedTripsTableViewController: UITableViewController
 
         return trip
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6646ccf7f1772eb0a2607d03b53408900554711e
 
     // MARK: - Table view data source
 

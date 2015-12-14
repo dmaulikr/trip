@@ -10,7 +10,7 @@ import UIKit
 
 class TripDetailViewController: UIViewController
 {
-    var aTrip = Trip()
+    var aTrip: Trip!
     
     @IBOutlet weak var destinationLabel: UILabel!
     @IBOutlet weak var budgetLabel: UILabel!
@@ -25,20 +25,19 @@ class TripDetailViewController: UIViewController
     {
         super.viewDidLoad()
         title = "Trip Detail"
-        destinationLabel.text = aTrip.destination
-        budgetLabel.text = String(aTrip.budgetTotal)
-        planeTicketLabel.text = String(aTrip.planeTicketCost)
-        totalLodgingLabel.text = String(aTrip.totalLodgingCosts)
-        totalFoodLabel.text = String(aTrip.totalFoodCosts)
-        totalOtherLabel.text = String(aTrip.totalOtherDailyCosts)
-        oneTimeCostLabel.text = String(aTrip.oneTimeCost)
-        
     }
-
-    override func didReceiveMemoryWarning()
+    
+    func setLabels()
     {
-        super.didReceiveMemoryWarning()
+        if aTrip != nil
+        {
+            destinationLabel.text = aTrip.destination
+            budgetLabel.text = String(aTrip.budgetTotal)
+            planeTicketLabel.text = String(aTrip.planeTicketCost)
+            totalLodgingLabel.text = String(aTrip.totalLodgingCosts)
+            totalFoodLabel.text = String(aTrip.totalFoodCosts)
+            totalOtherLabel.text = String(aTrip.totalOtherDailyCosts)
+            oneTimeCostLabel.text = String(aTrip.oneTimeCost)
+        }
     }
-
-
 }
