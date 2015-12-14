@@ -166,11 +166,6 @@ class SuggestedTripsTableViewController: UITableViewController
         */
         return trip
     }
-    
-//    func makeTrip(fromDictionary: Dictionary) -> Trip?
-//    {
-//        
-//    }
 
     // MARK: - Table view data source
 

@@ -20,6 +20,14 @@ extension NSDate
     }
 }
 
+extension String
+{
+    func stringAsNSDate() -> NSDate
+    {
+        return NSDate()
+    }
+}
+
 extension UIImageView
 {
     func downloadImgFrom(imageURL: String, contentMode: UIViewContentMode)
