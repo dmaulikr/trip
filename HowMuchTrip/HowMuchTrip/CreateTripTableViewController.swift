@@ -8,8 +8,9 @@
 
 import UIKit
 import Charts
+import SwiftMoment
 
-class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
+class CreateTripTableViewController: UITableViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DateWasChosenFromCalendarProtocol
 {
     let allProperties = [
         "Budget",
@@ -116,7 +117,10 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
             if indexOfTextField + 1 < textFields.count
             {
                 let nextTextField = textFields[indexOfTextField + 1]
-                nextTextField.becomeFirstResponder()
+//                if nextTextField != dateFromTextField || dateToTextField
+//                {
+                    nextTextField.becomeFirstResponder()
+//                }
             }
             else
             {
@@ -267,5 +271,43 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate
         pieChartDataSet.colors = colors
     }
 
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if let calendarPopover = segue.destinationViewController as? CalendarPopoverViewController
+        {
+            calendarPopover.textFieldTag = sender?.tag
+            calendarPopover.popoverPresentationController?.delegate = self
+            calendarPopover.delegate = self
+//            let width = self.view.frame.width
+//            calendarPopover.preferredContentSize = CGSizeMake(width, width)
+        }
+    }
+    
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .None
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField)
+    {
+        if textField.tag == 80 || textField.tag == 81
+        {
+            textField.userInteractionEnabled = false
+            performSegueWithIdentifier("calendarPopover", sender: textField)
+        }
+    }
+    
+    func dateWasChosen(date: Moment, textFieldTag: Int)
+    {
+        let dateStr = date.format("MM/d/yy")
+        
+        switch textFieldTag
+        {
+        case 80: dateFromTextField.text = dateStr
+                 dateFromTextField.userInteractionEnabled = true
+        case 81: dateToTextField.text   = dateStr
+                 dateToTextField.userInteractionEnabled = true
+        default: print(textFieldTag)
+        }
+    }
 
 }
