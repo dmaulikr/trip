@@ -74,6 +74,42 @@ class SuggestedTripsTableViewController: UITableViewController
     
     func suggestedTripFromJSON(suggestedTrip: NSDictionary) -> Trip
     {
+        let budgetTotal             = suggestedTrip["budgetTotal"]          as? Double ?? 0.0
+        let subtotalOfProperties    = suggestedTrip["subtotalOfProperties"] as? Double ?? 0.0
+        let budgetRemaining         = suggestedTrip["budgetRemaining"]      as? Double ?? 0.0
+        let destination             = suggestedTrip["destination"]          as? String ?? ""
+        let numberOfDays            = suggestedTrip["numberOfDays"]         as? Double ?? 0.0
+        let numberOfNights          = suggestedTrip["numberOfNights"]       as? Double ?? 0.0
+        let planeTicketCost         = suggestedTrip["planeTicketCost"]      as? Double ?? 0.0
+        let dailyLodgingCost        = suggestedTrip["dailyLodgingCost"]     as? Double ?? 0.0
+        let dailyFoodCost           = suggestedTrip["dailyFoodCost"]        as? Double ?? 0.0
+        let dailyOtherCost          = suggestedTrip["dailyOtherCost"]       as? Double ?? 0.0
+        let oneTimeCost             = suggestedTrip["oneTimeCost"]          as? Double ?? 0.0
+        let totalLodgingCosts       = suggestedTrip["totalLodgingCosts"]    as? Double ?? 0.0
+        let totalFoodCosts          = suggestedTrip["totalFoodCosts"]       as? Double ?? 0.0
+        let totalOtherDailyCosts    = suggestedTrip["totalOtherDailyCosts"] as? Double ?? 0.0
+        
+        var trip: Trip {
+    
+        let trip = Trip()
+        trip.budgetTotal            = budgetTotal
+        trip.subtotalOfProperties   = subtotalOfProperties
+        trip.budgetRemaining        = budgetRemaining
+        trip.destination            = destination
+        trip.numberOfDays           = numberOfDays
+        trip.numberOfNights         = numberOfNights
+        trip.planeTicketCost        = planeTicketCost
+        trip.dailyLodgingCost       = dailyLodgingCost
+        trip.dailyFoodCost          = dailyFoodCost
+        trip.dailyOtherCost         = dailyOtherCost
+        trip.oneTimeCost            = oneTimeCost
+        trip.totalLodgingCosts      = totalLodgingCosts
+        trip.totalFoodCosts         = totalFoodCosts
+        trip.totalOtherDailyCosts   = totalOtherDailyCosts
+        return trip
+            
+        }
+        
         //we can put this in the trip object swift
         /*
         let budgetTotal             = suggestedTrip["budgetTotal"]          as? Double ?? 0.0
@@ -128,6 +164,7 @@ class SuggestedTripsTableViewController: UITableViewController
         
         return aTrip
         */
+        return trip
     }
     
 //    func makeTrip(fromDictionary: Dictionary) -> Trip?
