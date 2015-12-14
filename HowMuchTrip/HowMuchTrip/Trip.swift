@@ -18,8 +18,8 @@ class Trip: PFObject, PFSubclassing
     @NSManaged var departureLocation: String
     @NSManaged var destination: String
     
-    @NSManaged var dateFrom: Double
-    @NSManaged var dateTo: Double
+    @NSManaged var dateFrom: String
+    @NSManaged var dateTo: String
     @NSManaged var numberOfDays: Double
     @NSManaged var numberOfNights: Double
     

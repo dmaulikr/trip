@@ -75,6 +75,8 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         }
         
         budgetTextField.becomeFirstResponder()
+        dateFromTextField.tag = 80
+        dateToTextField.tag = 81
     }
 
     override func didReceiveMemoryWarning()
@@ -97,7 +99,6 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
             {
                 selectedTextField = field
                 indexOfTextField = textFields.indexOf(field)
-                
             }
         }
         
@@ -278,8 +279,6 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
             calendarPopover.textFieldTag = sender?.tag
             calendarPopover.popoverPresentationController?.delegate = self
             calendarPopover.delegate = self
-//            let width = self.view.frame.width
-//            calendarPopover.preferredContentSize = CGSizeMake(width, width)
         }
     }
     
@@ -289,23 +288,23 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
     
     func textFieldDidBeginEditing(textField: UITextField)
     {
-        if textField.tag == 80 || textField.tag == 81
+        if textField.isFirstResponder() && textField.tag == 80 || textField.tag == 81
         {
-            textField.userInteractionEnabled = false
+            textField.resignFirstResponder()
             performSegueWithIdentifier("calendarPopover", sender: textField)
         }
     }
     
     func dateWasChosen(date: Moment, textFieldTag: Int)
     {
-        let dateStr = date.format("MM/d/yy")
+        let dateStr = date.format("MM/dd/yy")
         
         switch textFieldTag
         {
         case 80: dateFromTextField.text = dateStr
-                 dateFromTextField.userInteractionEnabled = true
+                 textFieldShouldReturn(dateFromTextField)
         case 81: dateToTextField.text   = dateStr
-                 dateToTextField.userInteractionEnabled = true
+                 textFieldShouldReturn(dateToTextField)
         default: print(textFieldTag)
         }
     }

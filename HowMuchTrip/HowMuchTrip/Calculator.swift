@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftMoment
 
 class Calculator
 {
@@ -30,9 +31,9 @@ class Calculator
             case "Destination":
                 aTrip.destination = value
             case "Date From":
-                aTrip.dateFrom = Double(value)!
+                aTrip.dateFrom = value
             case "Date To":
-                aTrip.dateTo = Double(value)!
+                aTrip.dateTo = value
             case "Plane Ticket Cost":
                 aTrip.planeTicketCost = Double(value)!
             case "Daily Lodging Cost":
@@ -48,10 +49,16 @@ class Calculator
             }
         }
 
-        if aTrip.dateFrom > 1.0 && aTrip.dateTo > 1.0
+        let dateFrom = moment(aTrip.dateFrom, dateFormat: "MM/d/yy")
+        let dateTo   = moment(aTrip.dateTo, dateFormat: "MM/d/yy")
+        
+        if dateFrom != nil && dateTo != nil
         {
-            aTrip.numberOfDays = aTrip.dateTo - aTrip.dateFrom
+            let interval = dateTo?.intervalSince(dateFrom!)
+            aTrip.numberOfDays = interval!.days
             aTrip.numberOfNights = aTrip.numberOfDays - 1
+            
+            print(aTrip.numberOfDays)
         }
         else
         {
@@ -88,8 +95,8 @@ class Calculator
         aTrip.departureLocation = ""
         aTrip.destination = ""
         
-        aTrip.dateFrom = 0.0
-        aTrip.dateTo = 0.0
+        aTrip.dateFrom = ""
+        aTrip.dateTo = ""
         aTrip.numberOfDays = 0.0
         aTrip.numberOfNights = 0.0
         
