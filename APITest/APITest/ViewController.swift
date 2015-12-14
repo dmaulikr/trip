@@ -62,16 +62,6 @@ class ViewController: UITableViewController
             
             return cell
         }
-<<<<<<< HEAD
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) 
-        
-        cell.backgroundColor = UIColor.clearColor()
-        cell.contentView.backgroundColor = UIColor.clearColor()
-        
-        return cell
-=======
->>>>>>> b7466aa9195ad82278b4649c9dce81e29cc33a9e
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat

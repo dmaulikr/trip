@@ -369,7 +369,7 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9D0-JF-Aot">
+                                                        <textField opaque="NO" clipsSubviews="YES" tag="80" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="9D0-JF-Aot">
                                                             <rect key="frame" x="492" y="7" width="100" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="100" id="blo-Qi-ChS"/>
@@ -386,7 +386,7 @@
                                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TZp-Wa-bWR">
+                                                        <textField opaque="NO" clipsSubviews="YES" tag="81" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TZp-Wa-bWR">
                                                             <rect key="frame" x="492" y="44" width="100" height="30"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="100" id="Gmo-6q-GU7"/>
@@ -680,6 +680,12 @@
                         <outlet property="oneTimeCostTextField" destination="g0G-46-yk7" id="9kv-ne-4ok"/>
                         <outlet property="pieChartView" destination="Byl-rI-L6a" id="i2q-sm-PBK"/>
                         <outlet property="planeTicketTextField" destination="KG7-62-8Nl" id="ZYe-PV-xbb"/>
+                        <segue destination="K8i-hh-mrI" kind="popoverPresentation" identifier="calendarPopover" popoverAnchorView="9D0-JF-Aot" id="yDd-nh-YpO">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
+                        <segue destination="K8i-hh-mrI" kind="popoverPresentation" identifier="calendarPopover" popoverAnchorView="TZp-Wa-bWR" id="cdU-qC-Hkw">
+                            <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                        </segue>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cVk-vA-inS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -705,12 +711,90 @@
             </objects>
             <point key="canvasLocation" x="-378" y="184"/>
         </scene>
+        <!--Calendar Popover View Controller-->
+        <scene sceneID="rKw-Pa-sKm">
+            <objects>
+                <viewController id="K8i-hh-mrI" customClass="CalendarPopoverViewController" customModule="HowMuchTrip" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="xfj-v2-97v"/>
+                        <viewControllerLayoutGuide type="bottom" id="lU9-Z3-Vfb"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="BUK-9r-ZeK">
+                        <rect key="frame" x="0.0" y="0.0" width="380" height="380"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z4P-2g-Mn0" customClass="CalendarView" customModule="CalendarView">
+                                <rect key="frame" x="0.0" y="39" width="380" height="340"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R3C-Hm-VEd">
+                                <rect key="frame" x="168" y="8" width="43" height="23.5"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="disclosure.png" translatesAutoresizingMaskIntoConstraints="NO" id="v9M-2L-Io2">
+                                <rect key="frame" x="354" y="11" width="20" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="UUZ-NV-OQY"/>
+                                    <constraint firstAttribute="width" secondItem="v9M-2L-Io2" secondAttribute="height" multiplier="20:17" id="hw0-Qn-UiH"/>
+                                </constraints>
+                                <variation key="widthClass=compact" misplaced="YES">
+                                    <rect key="frame" x="340" y="8" width="20" height="17"/>
+                                </variation>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" alpha="0.5" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="disclosure.png" translatesAutoresizingMaskIntoConstraints="NO" id="QIW-nr-yZg">
+                                <rect key="frame" x="6" y="11" width="20" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="QIW-nr-yZg" secondAttribute="height" multiplier="20:17" id="Ie7-No-Fse"/>
+                                    <constraint firstAttribute="width" constant="20" id="Q1R-Q7-yHS"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.69013220071792603" blue="0.93122190237045288" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Z4P-2g-Mn0" secondAttribute="trailing" id="0S5-np-BVH"/>
+                            <constraint firstItem="Z4P-2g-Mn0" firstAttribute="top" secondItem="R3C-Hm-VEd" secondAttribute="bottom" constant="8" id="HtL-p0-Xdq"/>
+                            <constraint firstItem="R3C-Hm-VEd" firstAttribute="top" secondItem="xfj-v2-97v" secondAttribute="bottom" constant="8" id="Urm-zG-yLG"/>
+                            <constraint firstItem="lU9-Z3-Vfb" firstAttribute="top" secondItem="Z4P-2g-Mn0" secondAttribute="bottom" id="bvx-r3-fOO"/>
+                            <constraint firstItem="v9M-2L-Io2" firstAttribute="centerY" secondItem="R3C-Hm-VEd" secondAttribute="centerY" id="fJV-Pc-XYy"/>
+                            <constraint firstItem="QIW-nr-yZg" firstAttribute="leading" secondItem="BUK-9r-ZeK" secondAttribute="leadingMargin" constant="-10" id="gk2-LZ-bPl"/>
+                            <constraint firstItem="Z4P-2g-Mn0" firstAttribute="leading" secondItem="BUK-9r-ZeK" secondAttribute="leading" id="guT-A7-A7g"/>
+                            <constraint firstItem="R3C-Hm-VEd" firstAttribute="centerX" secondItem="BUK-9r-ZeK" secondAttribute="centerX" id="nfJ-YW-1V9"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="v9M-2L-Io2" secondAttribute="trailing" constant="-10" id="qD8-nW-SPj"/>
+                            <constraint firstItem="QIW-nr-yZg" firstAttribute="centerY" secondItem="R3C-Hm-VEd" secondAttribute="centerY" id="rS0-uW-cKN"/>
+                        </constraints>
+                        <variation key="widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="Z4P-2g-Mn0"/>
+                                <include reference="R3C-Hm-VEd"/>
+                                <include reference="v9M-2L-Io2"/>
+                                <include reference="QIW-nr-yZg"/>
+                            </mask>
+                        </variation>
+                    </view>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="380" height="380"/>
+                    <connections>
+                        <outlet property="calendar" destination="Z4P-2g-Mn0" id="Bdg-fe-sbU"/>
+                        <outlet property="leftArrow" destination="QIW-nr-yZg" id="d4Z-UX-qIt"/>
+                        <outlet property="monthLabel" destination="R3C-Hm-VEd" id="ZP2-YL-TIW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hOm-Qp-axf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="984" y="1804"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="disclosure.png" width="64" height="64"/>
         <image name="first" width="30" height="30"/>
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="EIs-53-FTq"/>
+        <segue reference="cdU-qC-Hkw"/>
     </inferredMetricsTieBreakers>
 </document>
