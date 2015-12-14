@@ -36,6 +36,8 @@
 		FE7F792C1C1F260C001C6C14 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7F792B1C1F260C001C6C14 /* LoginViewController.swift */; };
 		FE7F792E1C1F2620001C6C14 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7F792D1C1F2620001C6C14 /* SignUpViewController.swift */; };
 		FE7F79301C1F2632001C6C14 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7F792F1C1F2632001C6C14 /* ResetPasswordViewController.swift */; };
+		FE7F79341C1F62A1001C6C14 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7F79331C1F62A1001C6C14 /* Accounts.framework */; };
+		FE7F79361C1F62AC001C6C14 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7F79351C1F62AC001C6C14 /* Social.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +89,8 @@
 		FE7F792B1C1F260C001C6C14 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		FE7F792D1C1F2620001C6C14 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		FE7F792F1C1F2632001C6C14 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
+		FE7F79331C1F62A1001C6C14 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		FE7F79351C1F62AC001C6C14 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +98,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE7F79361C1F62AC001C6C14 /* Social.framework in Frameworks */,
+				FE7F79341C1F62A1001C6C14 /* Accounts.framework in Frameworks */,
 				86C4D9728457428FD35D8DBB /* Pods_HowMuchTrip.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,6 +223,8 @@
 		CD24ECBA41B1F675B2F99661 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FE7F79351C1F62AC001C6C14 /* Social.framework */,
+				FE7F79331C1F62A1001C6C14 /* Accounts.framework */,
 				384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */,
 				FA45F8748A842AA7E20B75E6 /* Pods_HowMuchTripTests.framework */,
 			);

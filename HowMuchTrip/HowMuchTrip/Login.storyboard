@@ -55,6 +55,14 @@
                                     <segue destination="Ynf-B4-O0S" kind="presentation" id="VJ2-QH-hnY"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLS-VZ-Ng5">
+                                <rect key="frame" x="276" y="315" width="48" height="30"/>
+                                <animations/>
+                                <state key="normal" title="Twitter"/>
+                                <connections>
+                                    <action selector="loginWithTwitterTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wFZ-oB-ZSk"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -62,12 +70,14 @@
                             <constraint firstItem="Qjw-h3-WaI" firstAttribute="centerX" secondItem="KwU-YM-WQ0" secondAttribute="centerX" id="4z9-Nt-DbN"/>
                             <constraint firstItem="69l-np-XLN" firstAttribute="top" secondItem="Qjw-h3-WaI" secondAttribute="bottom" constant="8" id="5Ed-lq-0wx"/>
                             <constraint firstItem="X76-MJ-uMy" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.7" id="9M1-zz-pd4"/>
+                            <constraint firstItem="BLS-VZ-Ng5" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JZ9-H7-fem"/>
                             <constraint firstItem="KwU-YM-WQ0" firstAttribute="centerX" secondItem="X76-MJ-uMy" secondAttribute="centerX" id="Nal-pc-hdL"/>
                             <constraint firstItem="X76-MJ-uMy" firstAttribute="centerX" secondItem="oB1-hm-Cn4" secondAttribute="centerX" id="OoS-jy-fKx"/>
                             <constraint firstItem="Qjw-h3-WaI" firstAttribute="top" secondItem="KwU-YM-WQ0" secondAttribute="bottom" constant="8" id="P4S-0v-Qum"/>
                             <constraint firstItem="oB1-hm-Cn4" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.7" id="T6n-Vz-IIZ"/>
                             <constraint firstItem="KwU-YM-WQ0" firstAttribute="top" secondItem="X76-MJ-uMy" secondAttribute="bottom" constant="20" id="WRu-0C-1hi"/>
                             <constraint firstItem="oB1-hm-Cn4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ejL-ix-G4Q"/>
+                            <constraint firstItem="BLS-VZ-Ng5" firstAttribute="top" secondItem="69l-np-XLN" secondAttribute="bottom" constant="14" id="ern-yz-14Y"/>
                             <constraint firstItem="69l-np-XLN" firstAttribute="centerX" secondItem="Qjw-h3-WaI" secondAttribute="centerX" id="fcf-0T-cXq"/>
                             <constraint firstItem="X76-MJ-uMy" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="mW9-IW-FFG"/>
                             <constraint firstItem="oB1-hm-Cn4" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="uOK-3q-Aam"/>

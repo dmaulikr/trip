@@ -9,12 +9,17 @@
 import UIKit
 import Parse
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate
+{
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        usernameField.becomeFirstResponder()
+        
+        
+        
         // Do any additional setup after loading the view.
     }
     
@@ -27,6 +32,20 @@ class LoginViewController: UIViewController {
     @IBAction func unwindToLogInScreen(segue:UIStoryboardSegue) {
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool
+    {
+        print(textField)
+        if textField == usernameField
+        { // Switch focus to other text field
+            passwordField.becomeFirstResponder()
+        }
+        if textField == passwordField
+        {
+            resignFirstResponder()
+        }
+        return true
+    }
+        
     @IBAction func loginAction(sender: AnyObject) {
         let username = self.usernameField.text
         let password = self.passwordField.text
@@ -59,21 +78,16 @@ class LoginViewController: UIViewController {
                 // Stop the spinner
                 spinner.stopAnimating()
                 
-                if ((user) != nil) {
-                    
+                if ((user) != nil)
+                {
                     let alert = UIAlertController(title: "Success", message: "Logged In", preferredStyle: .Alert)
                     let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
                         
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("SuggestedTrips") as! SuggestedTripsTableViewController
-                            //self.presentViewController(storyboard, animated: true, completion: nil)
-                        })
-
-                    }
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                }
                     alert.addAction(confirmAction)
                     self.presentViewController(alert, animated: true, completion: nil)
-                    
-                    
+                
                 }
                 else
                 {
@@ -86,5 +100,25 @@ class LoginViewController: UIViewController {
             })
         }
     }
+    
+    @IBAction func loginWithTwitterTapped(sender: UIButton)
+    {
+        PFTwitterUtils.logInWithBlock {
+            (user: PFUser?, error: NSError?) -> Void in
+            if let user = user {
+                if user.isNew {
+                    print("User signed up and logged in with Twitter!")
+                } else {
+                    print("User logged in with Twitter!")
+                }
+            } else {
+                print("Uh oh. The user cancelled the Twitter login.")
+            }
+        }
+        
+        
+
+    }
+    
     
 }
