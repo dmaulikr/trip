@@ -87,19 +87,13 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-HowMuchTripTests/Bolts.framework"
   install_framework "Pods-HowMuchTripTests/CalendarView.framework"
   install_framework "Pods-HowMuchTripTests/Charts.framework"
-  install_framework "Pods-HowMuchTripTests/FacebookSDK.framework"
   install_framework "Pods-HowMuchTripTests/Parse.framework"
-  install_framework "Pods-HowMuchTripTests/ParseFacebookUtils.framework"
-  install_framework "Pods-HowMuchTripTests/ParseTwitterUtils.framework"
   install_framework "Pods-HowMuchTripTests/SwiftMoment.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-HowMuchTripTests/Bolts.framework"
   install_framework "Pods-HowMuchTripTests/CalendarView.framework"
   install_framework "Pods-HowMuchTripTests/Charts.framework"
-  install_framework "Pods-HowMuchTripTests/FacebookSDK.framework"
   install_framework "Pods-HowMuchTripTests/Parse.framework"
-  install_framework "Pods-HowMuchTripTests/ParseFacebookUtils.framework"
-  install_framework "Pods-HowMuchTripTests/ParseTwitterUtils.framework"
   install_framework "Pods-HowMuchTripTests/SwiftMoment.framework"
 fi
