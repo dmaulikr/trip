@@ -7,29 +7,50 @@
 //
 
 import UIKit
+import Parse
 
-class SettingsViewController: UIViewController {
+class SettingsViewController: UIViewController
+{
+//    @IBOutlet weak var userNameLabel: UILabel!
 
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
         title = "Settings"
+//        if let pUserName = PFUser.currentUser()?["username"] as? String
+//        {
+//            self.userNameLabel.text = "@" + pUserName
+//        }
+
     }
 
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(animated: Bool) {
+        if (PFUser.currentUser() == nil) {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+                self.presentViewController(viewController, animated: true, completion: nil)
+            })
+            
+            //Above will redirect the user to the login screen if a user is not currently logged in.
+        }
     }
-    */
-
+    
+    @IBAction func logOutAction(sender: UIButton)
+    {
+        // Send a request to log out a user
+        PFUser.logOut()
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+            self.presentViewController(viewController, animated: true, completion: nil)
+        })
+    }
 }
