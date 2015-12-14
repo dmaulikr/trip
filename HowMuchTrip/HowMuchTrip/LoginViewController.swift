@@ -9,7 +9,6 @@
 import UIKit
 import Parse
 
-
 class LoginViewController: UIViewController, UITextFieldDelegate
 {
     @IBOutlet weak var usernameField: UITextField!
@@ -17,6 +16,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        usernameField.becomeFirstResponder()
+        
         
         
         // Do any additional setup after loading the view.
@@ -31,6 +32,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     @IBAction func unwindToLogInScreen(segue:UIStoryboardSegue) {
     }
     
+    func textFieldShouldReturn(textField: UITextField) -> Bool
+    {
+        print(textField)
+        if textField == usernameField
+        { // Switch focus to other text field
+            passwordField.becomeFirstResponder()
+        }
+        if textField == passwordField
+        {
+            resignFirstResponder()
+        }
+        return true
+    }
+        
     @IBAction func loginAction(sender: AnyObject) {
         let username = self.usernameField.text
         let password = self.passwordField.text
@@ -85,5 +100,25 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             })
         }
     }
+    
+    @IBAction func loginWithTwitterTapped(sender: UIButton)
+    {
+        PFTwitterUtils.logInWithBlock {
+            (user: PFUser?, error: NSError?) -> Void in
+            if let user = user {
+                if user.isNew {
+                    print("User signed up and logged in with Twitter!")
+                } else {
+                    print("User logged in with Twitter!")
+                }
+            } else {
+                print("Uh oh. The user cancelled the Twitter login.")
+            }
+        }
+        
+        
+
+    }
+    
     
 }
