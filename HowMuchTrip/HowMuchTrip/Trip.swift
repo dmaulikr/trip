@@ -45,7 +45,5 @@ class Trip: PFObject, PFSubclassing
     static func parseClassName() -> String {
         return "Trip"
     }
-
-
 }
 

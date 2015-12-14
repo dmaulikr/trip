@@ -64,8 +64,16 @@ class Calculator
         aTrip.totalFoodCosts = (aTrip.dailyFoodCost * aTrip.numberOfDays)
         aTrip.totalOtherDailyCosts = (aTrip.dailyOtherCost * aTrip.numberOfDays)
         
-        aTrip.subtotalOfProperties = aTrip.planeTicketCost + aTrip.totalLodgingCosts + aTrip.totalFoodCosts + aTrip.totalOtherDailyCosts + aTrip.oneTimeCost
-        aTrip.budgetRemaining = aTrip.budgetTotal - aTrip.subtotalOfProperties
+        aTrip.subtotalOfProperties =
+            aTrip.planeTicketCost +
+            aTrip.totalLodgingCosts +
+            aTrip.totalFoodCosts +
+            aTrip.totalOtherDailyCosts +
+            aTrip.oneTimeCost
+        
+        aTrip.budgetRemaining =
+            aTrip.budgetTotal -
+            aTrip.subtotalOfProperties
         
          return aTrip
     }

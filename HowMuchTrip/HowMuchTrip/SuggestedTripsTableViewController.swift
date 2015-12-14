@@ -8,9 +8,12 @@
 
 import UIKit
 
+var userLocale = "en_US"
+
 class SuggestedTripsTableViewController: UITableViewController
 {
     var trips = [Trip]()
+    var userDefinedBudget = 1000.0
 
     override func viewDidLoad()
     {
@@ -50,30 +53,89 @@ class SuggestedTripsTableViewController: UITableViewController
     func loadTrips()
     {
         if let path = NSBundle.mainBundle().pathForResource("suggestedTrips", ofType: "json"), let data = NSData(contentsOfFile: path) {
-            do {
-                let tripsJSON = try NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as! [Trip]
-                for trip in tripsJSON {
-                    let aTrip = trip 
+            do
+            {
+                let tripsJSON = try NSJSONSerialization
+                    .JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as! [NSDictionary]
+                print(tripsJSON)
+                for tripDict in tripsJSON
+                {
+                    let aTrip = suggestedTripFromJSON(tripDict)
                     trips.append(aTrip)
                 }
-            } catch {
+            }
+            catch
+            {
                 print(error)
             }
         }
 
     }
-
-    override func didReceiveMemoryWarning()
+    
+    func suggestedTripFromJSON(suggestedTrip: NSDictionary) -> Trip
     {
-        super.didReceiveMemoryWarning()
+        //we can put this in the trip object swift
+        /*
+        let budgetTotal             = suggestedTrip["budgetTotal"]          as? Double ?? 0.0
+        var budgetRemaining         = budgetTotal
+        
+        let destination             = suggestedTrip["destination"]          as? String ?? ""
+        let departureLocation       = suggestedTrip["departureLocation"]    as? String ?? "Orlando, FL"
+        
+        var days: Double {
+            let numberOfSecondsInDay = (86400.0)
+            let maxNumOfDays: UInt32 = 20
+            return (Double(arc4random() % maxNumOfDays) * (numberOfSecondsInDay))
+        }
+        
+        let dateFrom                = NSDate(timeInterval: days, sinceDate: NSDate())
+        let dateTo                  = NSDate(timeInterval: days, sinceDate: dateFrom)
+        print(dateTo)
+        
+        let numberOfDays            = days / 86400.0
+        let numberOfNights          = numberOfDays
+        
+        var random1to10: Double {
+            return Double(arc4random() % 10)
+        }
+    
+        let planeTicketCost         = String(random1to10 * 50.0)
+        
+        let dailyLodgingCost        = String(random1to10 * 10.0)
+        
+        let dailyFoodCost           = String(random1to10 * 5.0)
+        let dailyOtherCost          = String(random1to10 * 2.0)
+        
+        let oneTimeCost             = String(0.0)
+//        let totalLodgingCosts  
+        
+        var allProperties = [String : String]()
+        
+        allProperties = [
+            "Budget"                : String(budgetTotal),
+            "Departure Location"    : departureLocation,
+            "Destination"           : destination,
+            "Date From"             : String(0.0),
+            "Date To"               : String(0.0),
+            "Plane Ticket Cost"     : String(planeTicketCost),
+            "Daily Lodging Cost"    : String(dailyLodgingCost),
+            "Daily Food Cost"       : String(dailyFoodCost),
+            "Daily Other Cost"      : String(dailyOtherCost),
+            "One Time Cost"         : String(oneTimeCost)
+        ]
+        
+        let aTrip = Calculator(dictionary: allProperties)
+        
+        return aTrip
+        */
     }
+    
+//    func makeTrip(fromDictionary: Dictionary) -> Trip?
+//    {
+//        
+//    }
 
     // MARK: - Table view data source
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int
-    {
-        return 1
-    }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
@@ -86,16 +148,26 @@ class SuggestedTripsTableViewController: UITableViewController
 
         let aTrip = trips[indexPath.row]
         
+        cell.destinationLabel.text = aTrip.destination
+        cell.budgetLabel.text = formatCost(aTrip.budgetTotal)
+
+        return cell
+    }
+    
+    func formatCost(numberToFormat: Double) -> String
+    {
         // Format budgetTotal into US currency style
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        formatter.locale = NSLocale(localeIdentifier: "en_US")
-        let budgetTotalString = formatter.stringFromNumber(aTrip.budgetTotal)
-        
-        cell.destinationLabel.text = aTrip.destination
-        cell.budgetLabel.text = budgetTotalString
-
-        return cell
+        formatter.locale = NSLocale(localeIdentifier: userLocale)
+        if let budgetTotalString = formatter.stringFromNumber(numberToFormat)
+        {
+            return budgetTotalString
+        }
+        else
+        {
+            return ""
+        }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
@@ -106,7 +178,6 @@ class SuggestedTripsTableViewController: UITableViewController
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
 
-
     /*
     // MARK: - Navigation
 
@@ -116,7 +187,4 @@ class SuggestedTripsTableViewController: UITableViewController
         // Pass the selected object to the new view controller.
     }
     */
-    
-    
-
 }
