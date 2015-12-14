@@ -22,7 +22,6 @@ class SuggestedTripsTableViewController: UITableViewController
         title = "Suggested"
 
         
-        
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)

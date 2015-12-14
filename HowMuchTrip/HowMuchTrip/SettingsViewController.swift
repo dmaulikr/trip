@@ -35,7 +35,7 @@ class SettingsViewController: UIViewController
         if (PFUser.currentUser() == nil) {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
-                let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+                let viewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 self.presentViewController(viewController, animated: true, completion: nil)
             })
             
@@ -50,7 +50,9 @@ class SettingsViewController: UIViewController
         
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
-            self.presentViewController(viewController, animated: true, completion: nil)
+            self.presentViewController(viewController, animated: true, completion: { () -> Void in
+                self.tabBarController?.selectedIndex = 0
+            })
         })
     }
 }
