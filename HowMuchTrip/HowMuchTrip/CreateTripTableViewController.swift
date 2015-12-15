@@ -53,6 +53,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         title = "Create Your Trip"
         
         pieChartView.noDataText = "You need to provide data for the chart."
+        pieChartView.backgroundColor = UIColor.clearColor()
         
         budgetRemainingLabel.alpha = 0
         
@@ -182,6 +183,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
             }
         }
         buildGraph(graphProperties, values: values)
+        updateGraphLegend(graphProperties, values: values)
         
     }
     
@@ -190,6 +192,17 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         trips.append(aTrip)
         aTrip.pinInBackground()
         aTrip.saveEventually()
+//        {
+//            (succeeded: Bool, error: NSError?) -> Void in
+//            if succeeded
+//            {
+//                // object was saved to Parse
+//            }
+//            else
+//            {
+//                print(error?.localizedDescription)
+//            }
+//        }
 
     }
     
@@ -264,12 +277,8 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
             UIColor(red:0.77, green:0.77, blue:0.77, alpha:1.0)
         ]
         
-//        colors.shuffleInPlace()
-        
         pieChartDataSet.colors = colors
     }
-    
-    // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
@@ -321,22 +330,16 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         return rc
     }
     
-    //MARK: - Pie Chart Legend
+    //MARK: - Pie Graph Legend
     
-    @IBOutlet weak var legendTableView: UITableView!
-}
-
-class legendTableViewDataSource: UITableViewDataSource, UITableViewDelegate
-{
-    weak var tableView: UITableView!
-    
-    
-    
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("GraphLegendCell") as! GraphLegendCell
-        
-        
-        
-        return cell
+    func updateGraphLegend(dataPoints: [String], values: [Double])
+    {
+        if let legendTableVC = self.childViewControllers[0] as? GraphLegendTableViewController
+        {
+            legendTableVC.dataPoints = dataPoints
+            legendTableVC.values     = values
+            legendTableVC.tableView.reloadData()
+        }
     }
 }
+

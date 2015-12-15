@@ -10,6 +10,7 @@
 		1F6E07523962B9CB266839BF /* Pods_HowMuchTripTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7DAEF72538D7A4153A6670 /* Pods_HowMuchTripTests.framework */; };
 		630B3B4D1C1F283C006F12D2 /* disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B3B4C1C1F283C006F12D2 /* disclosure.png */; };
 		630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */; };
+		63400F981C20917000D5F29C /* GraphLegendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */; };
 		639028B71C2085F600067A09 /* TripDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 639028B61C2085F600067A09 /* TripDetail.storyboard */; };
 		639FA4821C208C0000FBA7E6 /* GraphLegendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */; };
 		63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AE246C1C1E651B001ECCE9 /* Extensions.swift */; };
@@ -56,6 +57,7 @@
 		384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HowMuchTrip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		630B3B4C1C1F283C006F12D2 /* disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disclosure.png; sourceTree = "<group>"; };
 		630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPopoverViewController.swift; sourceTree = "<group>"; };
+		63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLegendTableViewController.swift; sourceTree = "<group>"; };
 		639028B61C2085F600067A09 /* TripDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TripDetail.storyboard; sourceTree = "<group>"; };
 		639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLegendCell.swift; sourceTree = "<group>"; };
 		63AE246C1C1E651B001ECCE9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 				9ADAAAEC1C19D7ED00D26F79 /* TripDetailViewController.swift */,
 				9ADAAAE81C19D65500D26F79 /* SettingsViewController.swift */,
 				630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */,
+				63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9ADAAAE11C19CDD200D26F79 /* Trip.swift in Sources */,
+				63400F981C20917000D5F29C /* GraphLegendTableViewController.swift in Sources */,
 				9ADAAAE51C19CE0000D26F79 /* FlightSearch.swift in Sources */,
 				630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */,
 				9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */,
