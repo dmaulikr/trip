@@ -8,8 +8,10 @@
 
 import UIKit
 import Parse
-//import ParseTwitterUtils
-//import ParseFacebookUtilsV4
+import ParseTwitterUtils
+import ParseFacebookUtilsV4
+import FBSDKCoreKit
+
 
 
 class LoginViewController: UIViewController, UITextFieldDelegate
@@ -31,7 +33,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         // Dispose of any resources that can be recreated.
     }
     
-        
+    
     @IBAction func unwindToLogInScreen(segue:UIStoryboardSegue) {
     }
     
@@ -48,7 +50,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         }
         return true
     }
-        
+    
     @IBAction func loginAction(sender: AnyObject) {
         let username = self.usernameField.text
         let password = self.passwordField.text
@@ -86,11 +88,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                     let alert = UIAlertController(title: "Success", message: "Logged In", preferredStyle: .Alert)
                     let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
                         
-                    self.dismissViewControllerAnimated(true, completion: nil)
-                }
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                    }
                     alert.addAction(confirmAction)
                     self.presentViewController(alert, animated: true, completion: nil)
-                
+                    
                 }
                 else
                 {
@@ -98,7 +100,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                     let alert = UIAlertController(title: "Error", message: "\(error)", preferredStyle: .Alert)
                     let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
                     alert.addAction(confirmAction)
-                   self.presentViewController(alert, animated: true, completion: nil)
+                    self.presentViewController(alert, animated: true, completion: nil)
                 }
             })
         }
@@ -106,21 +108,81 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     
     @IBAction func loginWithTwitterTapped(sender: UIButton)
     {
-//        PFTwitterUtils.logInWithBlock {
-//            (user: PFUser?, error: NSError?) -> Void in
-//            if let user = user {
-//                if user.isNew {
-//                    print("User signed up and logged in with Twitter!")
-//                } else {
-//                    print("User logged in with Twitter!")
-//                }
-//            } else {
-//                print("Uh oh. The user cancelled the Twitter login.")
-//            }
-//        }
+        PFTwitterUtils.logInWithBlock {
+            (user: PFUser?, error: NSError?) -> Void in
+            if let user = user {
+                if user.isNew
+                {
+                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
+                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                        
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                        print("User signed up and logged in with Twitter!")
+                    }
+                    alert.addAction(confirmAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+                    
+                }
+                else
+                {
+                    let alert = UIAlertController(title: "Success", message: "Logged In", preferredStyle: .Alert)
+                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                        
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                        print("User logged in with Twitter!")
+                    }
+                    alert.addAction(confirmAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+                    
+                }
+            }
+            else
+            {
+                print("Uh oh. The user cancelled the Twitter login.")
+            }
+        }
         
+    }
+    
+    @IBAction func loginWithFacebook(sender: UIButton)
+    {
+        PFFacebookUtils.logInInBackgroundWithReadPermissions(["public_profile", "email"]) {
+            (user: PFUser?, error: NSError?) -> Void in
+            if let user = user {
+                if user.isNew
+                {
+                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
+                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                        
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                        print("User signed up and logged in through Facebook!")
+                    }
+                    alert.addAction(confirmAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+                }
+                else
+                {
+                    let alert = UIAlertController(title: "Success", message: "Logged In", preferredStyle: .Alert)
+                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                        
+                        self.dismissViewControllerAnimated(true, completion: nil)
+                        print("User logged in with Facebook!")
+                    }
+                    alert.addAction(confirmAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
+                    
+                }
+            }
+            else
+            {
+                
+                print("Uh oh. The user cancelled the Facebook login.")
+            }
+        }
         
-
     }
     
     

@@ -57,18 +57,27 @@
                                     <action selector="loginWithTwitterTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wFZ-oB-ZSk"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SI2-eu-qjX">
+                                <rect key="frame" x="267" y="353" width="67" height="30"/>
+                                <state key="normal" title="Facebook"/>
+                                <connections>
+                                    <action selector="loginWithFacebook:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LhI-Ef-0l1"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="Qjw-h3-WaI" firstAttribute="centerX" secondItem="KwU-YM-WQ0" secondAttribute="centerX" id="4z9-Nt-DbN"/>
                             <constraint firstItem="69l-np-XLN" firstAttribute="top" secondItem="Qjw-h3-WaI" secondAttribute="bottom" constant="8" id="5Ed-lq-0wx"/>
                             <constraint firstItem="X76-MJ-uMy" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.7" id="9M1-zz-pd4"/>
+                            <constraint firstItem="SI2-eu-qjX" firstAttribute="top" secondItem="BLS-VZ-Ng5" secondAttribute="bottom" constant="8" symbolic="YES" id="HYC-Ea-1Pm"/>
                             <constraint firstItem="BLS-VZ-Ng5" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="JZ9-H7-fem"/>
                             <constraint firstItem="KwU-YM-WQ0" firstAttribute="centerX" secondItem="X76-MJ-uMy" secondAttribute="centerX" id="Nal-pc-hdL"/>
                             <constraint firstItem="X76-MJ-uMy" firstAttribute="centerX" secondItem="oB1-hm-Cn4" secondAttribute="centerX" id="OoS-jy-fKx"/>
                             <constraint firstItem="Qjw-h3-WaI" firstAttribute="top" secondItem="KwU-YM-WQ0" secondAttribute="bottom" constant="8" id="P4S-0v-Qum"/>
                             <constraint firstItem="oB1-hm-Cn4" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.7" id="T6n-Vz-IIZ"/>
                             <constraint firstItem="KwU-YM-WQ0" firstAttribute="top" secondItem="X76-MJ-uMy" secondAttribute="bottom" constant="20" id="WRu-0C-1hi"/>
+                            <constraint firstItem="SI2-eu-qjX" firstAttribute="centerX" secondItem="BLS-VZ-Ng5" secondAttribute="centerX" id="XDf-OM-jrl"/>
                             <constraint firstItem="oB1-hm-Cn4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ejL-ix-G4Q"/>
                             <constraint firstItem="BLS-VZ-Ng5" firstAttribute="top" secondItem="69l-np-XLN" secondAttribute="bottom" constant="14" id="ern-yz-14Y"/>
                             <constraint firstItem="69l-np-XLN" firstAttribute="centerX" secondItem="Qjw-h3-WaI" secondAttribute="centerX" id="fcf-0T-cXq"/>

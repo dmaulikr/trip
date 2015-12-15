@@ -309,14 +309,22 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
         var rc = true
-        let invalidCharacters = NSCharacterSet(charactersInString: "0123456789.").invertedSet //only includes 0-9
-        if let _ = string
-            .rangeOfCharacterFromSet(invalidCharacters, options: [],
-                range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
+        if textField == destinatinTextField || textField == departureLocationTextField
         {
-            rc = false
+            
         }
-        return rc
+        else
+        {
+            let invalidCharacters = NSCharacterSet(charactersInString: "0123456789.").invertedSet //only includes 0-9
+            if let _ = string
+                .rangeOfCharacterFromSet(invalidCharacters, options: [],
+                    range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
+            {
+                rc = false
+            }
+
+        }
+                return rc
     }
     
     //MARK: - Pie Graph Legend
