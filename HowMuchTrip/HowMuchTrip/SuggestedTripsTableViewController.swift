@@ -26,6 +26,7 @@ class SuggestedTripsTableViewController: UITableViewController
     {
         super.viewWillAppear(true)
         loadTrips()
+        trips.shuffleInPlace()
         
     }
     
