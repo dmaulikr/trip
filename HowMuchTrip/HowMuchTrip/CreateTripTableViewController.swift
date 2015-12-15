@@ -316,5 +316,23 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         }
         return rc
     }
+    
+    //MARK: - Pie Chart Legend
+    
+    @IBOutlet weak var legendTableView: UITableView!
+}
 
+class legendTableViewDataSource: UITableViewDataSource, UITableViewDelegate
+{
+    weak var tableView: UITableView!
+    
+    
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("GraphLegendCell") as! GraphLegendCell
+        
+        
+        
+        return cell
+    }
 }
