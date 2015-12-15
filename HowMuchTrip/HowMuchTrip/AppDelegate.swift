@@ -7,10 +7,11 @@
 //
 
 import UIKit
+import Bolts
 import Parse
-//import ParseTwitterUtils
-//import FBSDKCoreKit
-//import ParseFacebookUtilsV4
+import ParseTwitterUtils
+import FBSDKCoreKit
+import ParseFacebookUtilsV4
 
 
 
@@ -34,7 +35,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         // [Optional] Track statistics around application opens.
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
         
-//        PFTwitterUtils.initializeWithConsumerKey("kk94RLfsKXk48oJVYS8Cu9oMU",  consumerSecret:"yrPyx1iVNWq1jIDaMSQrRGVKofg8eoRuJhqEvQPbERTXkDUBvG")
+        PFTwitterUtils.initializeWithConsumerKey("kk94RLfsKXk48oJVYS8Cu9oMU",  consumerSecret:"yrPyx1iVNWq1jIDaMSQrRGVKofg8eoRuJhqEvQPbERTXkDUBvG")
+        
+        PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
         
         return true
     }
