@@ -8,7 +8,7 @@
 
 import UIKit
 import Parse
-import ParseTwitterUtils
+//import ParseTwitterUtils
 //import ParseFacebookUtilsV4
 
 
@@ -106,18 +106,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     
     @IBAction func loginWithTwitterTapped(sender: UIButton)
     {
-        PFTwitterUtils.logInWithBlock {
-            (user: PFUser?, error: NSError?) -> Void in
-            if let user = user {
-                if user.isNew {
-                    print("User signed up and logged in with Twitter!")
-                } else {
-                    print("User logged in with Twitter!")
-                }
-            } else {
-                print("Uh oh. The user cancelled the Twitter login.")
-            }
-        }
+//        PFTwitterUtils.logInWithBlock {
+//            (user: PFUser?, error: NSError?) -> Void in
+//            if let user = user {
+//                if user.isNew {
+//                    print("User signed up and logged in with Twitter!")
+//                } else {
+//                    print("User logged in with Twitter!")
+//                }
+//            } else {
+//                print("Uh oh. The user cancelled the Twitter login.")
+//            }
+//        }
         
         
 

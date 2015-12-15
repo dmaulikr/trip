@@ -77,6 +77,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         budgetTextField.becomeFirstResponder()
         dateFromTextField.tag = 80
         dateToTextField.tag = 81
+        pieChartView.alpha = 0
     }
 
     override func didReceiveMemoryWarning()
@@ -155,11 +156,13 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         {
             calculator.clearCalculator()
         }
+        
+        pieChartView.hideWithFade(0.25)
     }
     
     @IBAction func saveButtonPressed(sender: UIButton!)
     {
-            saveTrip(aTrip)
+        saveTrip(aTrip)
     }
     
     
@@ -250,9 +253,10 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         let pieChartData = PieChartData(xVals: dataPoints, dataSet: pieChartDataSet)
         pieChartView.data = pieChartData
         
-        
         setGraphColors(dataPoints, pieChartDataSet: pieChartDataSet)
  
+        pieChartView.appearWithFade(0.25)
+        pieChartView.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height)
     }
     
     func setGraphColors(dataPoints: [String], pieChartDataSet: PieChartDataSet)
@@ -307,6 +311,18 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
                  textFieldShouldReturn(dateToTextField)
         default: print(textFieldTag)
         }
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
+    {
+        var rc = true
+        let invalidCharacters = NSCharacterSet(charactersInString: "0123456789").invertedSet //only includes 0-9
+        if let _ = string
+            .rangeOfCharacterFromSet(invalidCharacters, options: [], range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
+        {
+            rc = false
+        }
+        return rc
     }
 
 }

@@ -67,7 +67,7 @@ extension UIView
         }
     }
     
-    func slideHorizontally(duration: Double, fromPointX: CGFloat)
+    func slideHorizontallyToOrigin(duration: Double, fromPointX: CGFloat)
     {
         let originalX = self.frame.origin.x
         self.frame.origin.x += fromPointX
@@ -76,7 +76,7 @@ extension UIView
         }
     }
     
-    func slideVertically(duration: Double, fromPointY: CGFloat)
+    func slideVerticallyToOrigin(duration: Double, fromPointY: CGFloat)
     {
         let originalY = self.frame.origin.y
         self.frame.origin.y += fromPointY
