@@ -20,10 +20,10 @@ class SuggestedTripsTableViewController: UITableViewController
     {
         super.viewDidLoad()
         title = "Suggested"
-
-        
     }
-    override func viewWillAppear(animated: Bool) {
+    
+    override func viewWillAppear(animated: Bool)
+    {
         super.viewWillAppear(true)
         loadTrips()
         
@@ -33,12 +33,9 @@ class SuggestedTripsTableViewController: UITableViewController
     {
         if PFUser.currentUser()?.username == nil
         {
-            
             let loginViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
             self.presentViewController(loginViewController, animated: true, completion: nil)
-            
         }
-
     }
     
     func loadTrips()
@@ -143,7 +140,10 @@ class SuggestedTripsTableViewController: UITableViewController
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let selectedTrip = trips[indexPath.row]
-        let tripDetailVC = storyboard?.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
+        
+        let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
+        
+        let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
         tripDetailVC.aTrip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }

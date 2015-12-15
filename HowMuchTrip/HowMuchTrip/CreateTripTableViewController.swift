@@ -54,7 +54,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         
         pieChartView.noDataText = "You need to provide data for the chart."
         
-        budgetRemainingLabel.hidden = true
+        budgetRemainingLabel.alpha = 0
         
         textFields = [
             budgetTextField!,
@@ -103,14 +103,10 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
             }
         }
         
-        // TODO: Add validation to the fields - type, format and non-negative
-        // TODO: change date fields from doubles to actual dates, validate
-        
         if selectedTextField.text != ""
         {
             rc = true
             selectedTextField.resignFirstResponder()
-            
             
             // Add to dictionary that will pass to the calculator
             let propertyKey = allProperties[indexOfTextField]
@@ -119,14 +115,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
             if indexOfTextField + 1 < textFields.count
             {
                 let nextTextField = textFields[indexOfTextField + 1]
-//                if nextTextField != dateFromTextField || dateToTextField
-//                {
-                    nextTextField.becomeFirstResponder()
-//                }
-            }
-            else
-            {
-//                calculate()
+                nextTextField.becomeFirstResponder()
             }
         }
         
@@ -149,7 +138,8 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         {
             field.text = ""
         }
-        budgetRemainingLabel.hidden = true
+        
+        budgetRemainingLabel.hideWithFade(0.25)
         propertyDictionary.removeAll()
         
         if calculator != nil
@@ -174,8 +164,9 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         
         aTrip = calculator.calculate(propertyDictionary)
         
-        budgetRemainingLabel.hidden = false
         budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", aTrip.budgetRemaining))"
+        budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
+        budgetRemainingLabel.appearWithFade(0.25)
         
         var values = [aTrip.budgetRemaining, aTrip.planeTicketCost, aTrip.totalLodgingCosts, aTrip.totalFoodCosts, aTrip.totalOtherDailyCosts, aTrip.oneTimeCost]
         var graphProperties = ["Budget Remaining","Plane Ticket","Total Lodging","Total Daily Food Cost", "Total Daily Other Cost", "Total One Time Costs"]
@@ -316,9 +307,10 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
         var rc = true
-        let invalidCharacters = NSCharacterSet(charactersInString: "0123456789").invertedSet //only includes 0-9
+        let invalidCharacters = NSCharacterSet(charactersInString: "0123456789.").invertedSet //only includes 0-9
         if let _ = string
-            .rangeOfCharacterFromSet(invalidCharacters, options: [], range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
+            .rangeOfCharacterFromSet(invalidCharacters, options: [],
+                range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
         {
             rc = false
         }

@@ -14,7 +14,7 @@ class ViewController: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        tableView.backgroundColor = UIColor(red:0.011, green:0.694, blue:0.921, alpha:1)
+
     }
     
     // MARK: - Table view data source

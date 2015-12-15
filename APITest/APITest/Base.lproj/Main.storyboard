@@ -218,6 +218,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ADG-fx-4Au"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="O6G-Cx-1yu">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="knk-a3-gET">
@@ -272,7 +273,7 @@
                         <viewControllerLayoutGuide type="bottom" id="JCh-2B-YTb"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="wk6-L3-8Yb">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="380" height="380"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QWK-K8-Ofl" customClass="CalendarView" customModule="CalendarView">
@@ -316,8 +317,7 @@
                                         <exclude reference="nxh-eF-MPz"/>
                                     </mask>
                                 </variation>
-                                <variation key="widthClass=compact" misplaced="YES">
-                                    <rect key="frame" x="340" y="8" width="20" height="17"/>
+                                <variation key="widthClass=compact">
                                     <mask key="constraints">
                                         <include reference="ewT-lh-H9n"/>
                                         <include reference="nxh-eF-MPz"/>
@@ -334,14 +334,14 @@
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
-                                        <exclude reference="kgn-LD-YiA"/>
                                         <exclude reference="jWS-YV-CTX"/>
+                                        <exclude reference="kgn-LD-YiA"/>
                                     </mask>
                                 </variation>
                                 <variation key="widthClass=compact">
                                     <mask key="constraints">
-                                        <include reference="kgn-LD-YiA"/>
                                         <include reference="jWS-YV-CTX"/>
+                                        <include reference="kgn-LD-YiA"/>
                                     </mask>
                                 </variation>
                             </imageView>
@@ -375,9 +375,12 @@
                                 <exclude reference="rPW-4S-KbG"/>
                             </mask>
                             <mask key="constraints">
-                                <exclude reference="dah-pd-5n2"/>
-                                <exclude reference="mlq-Ep-1tj"/>
-                                <exclude reference="xU7-05-tfI"/>
+                                <exclude reference="khQ-CC-5YW"/>
+                                <exclude reference="8N8-gs-2gh"/>
+                                <exclude reference="h9d-EK-rUQ"/>
+                                <exclude reference="4bP-Lz-gni"/>
+                                <exclude reference="E6d-QU-vU2"/>
+                                <exclude reference="nwg-e3-en9"/>
                                 <exclude reference="1ty-RO-NKu"/>
                                 <exclude reference="4t9-Lw-XpP"/>
                                 <exclude reference="C73-XL-4wo"/>
@@ -385,12 +388,9 @@
                                 <exclude reference="WCZ-IP-Gjm"/>
                                 <exclude reference="buo-tR-a7B"/>
                                 <exclude reference="nfC-rm-xk5"/>
-                                <exclude reference="8N8-gs-2gh"/>
-                                <exclude reference="h9d-EK-rUQ"/>
-                                <exclude reference="4bP-Lz-gni"/>
-                                <exclude reference="E6d-QU-vU2"/>
-                                <exclude reference="nwg-e3-en9"/>
-                                <exclude reference="khQ-CC-5YW"/>
+                                <exclude reference="dah-pd-5n2"/>
+                                <exclude reference="mlq-Ep-1tj"/>
+                                <exclude reference="xU7-05-tfI"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -401,9 +401,12 @@
                                 <include reference="rPW-4S-KbG"/>
                             </mask>
                             <mask key="constraints">
-                                <include reference="dah-pd-5n2"/>
-                                <include reference="mlq-Ep-1tj"/>
-                                <include reference="xU7-05-tfI"/>
+                                <include reference="khQ-CC-5YW"/>
+                                <include reference="8N8-gs-2gh"/>
+                                <include reference="h9d-EK-rUQ"/>
+                                <include reference="4bP-Lz-gni"/>
+                                <include reference="E6d-QU-vU2"/>
+                                <exclude reference="nwg-e3-en9"/>
                                 <exclude reference="1ty-RO-NKu"/>
                                 <include reference="4t9-Lw-XpP"/>
                                 <include reference="C73-XL-4wo"/>
@@ -411,12 +414,9 @@
                                 <include reference="WCZ-IP-Gjm"/>
                                 <exclude reference="buo-tR-a7B"/>
                                 <exclude reference="nfC-rm-xk5"/>
-                                <include reference="8N8-gs-2gh"/>
-                                <include reference="h9d-EK-rUQ"/>
-                                <include reference="4bP-Lz-gni"/>
-                                <include reference="E6d-QU-vU2"/>
-                                <exclude reference="nwg-e3-en9"/>
-                                <include reference="khQ-CC-5YW"/>
+                                <include reference="dah-pd-5n2"/>
+                                <include reference="mlq-Ep-1tj"/>
+                                <include reference="xU7-05-tfI"/>
                             </mask>
                         </variation>
                     </view>

@@ -10,6 +10,7 @@
 		1F6E07523962B9CB266839BF /* Pods_HowMuchTripTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7DAEF72538D7A4153A6670 /* Pods_HowMuchTripTests.framework */; };
 		630B3B4D1C1F283C006F12D2 /* disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B3B4C1C1F283C006F12D2 /* disclosure.png */; };
 		630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */; };
+		639028B71C2085F600067A09 /* TripDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 639028B61C2085F600067A09 /* TripDetail.storyboard */; };
 		63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AE246C1C1E651B001ECCE9 /* Extensions.swift */; };
 		86C4D9728457428FD35D8DBB /* Pods_HowMuchTrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */; };
 		9A75AC5E1C1F54B700258473 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A75AC5D1C1F54B700258473 /* Validator.swift */; };
@@ -54,6 +55,7 @@
 		384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HowMuchTrip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		630B3B4C1C1F283C006F12D2 /* disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disclosure.png; sourceTree = "<group>"; };
 		630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPopoverViewController.swift; sourceTree = "<group>"; };
+		639028B61C2085F600067A09 /* TripDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TripDetail.storyboard; sourceTree = "<group>"; };
 		63AE246C1C1E651B001ECCE9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		79B012481EE474F4FCFC105E /* Pods-HowMuchTrip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTrip.release.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTrip/Pods-HowMuchTrip.release.xcconfig"; sourceTree = "<group>"; };
 		9A75AC5D1C1F54B700258473 /* Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			children = (
 				FE7F79281C1F2521001C6C14 /* Login.storyboard */,
 				9ADAAABF1C19C26100D26F79 /* Main.storyboard */,
+				639028B61C2085F600067A09 /* TripDetail.storyboard */,
 				FE7F792A1C1F25E4001C6C14 /* Login ViewControllers */,
 				9ADAAAF01C19D88000D26F79 /* View Controllers */,
 				9ADAAAF11C19D88E00D26F79 /* Models */,
@@ -329,6 +332,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				630B3B4D1C1F283C006F12D2 /* disclosure.png in Resources */,
+				639028B71C2085F600067A09 /* TripDetail.storyboard in Resources */,
 				9A8518CA1C1E0632001046EA /* suggestedTrips.json in Resources */,
 				9ADAAAC61C19C26100D26F79 /* LaunchScreen.storyboard in Resources */,
 				9ADAAAC31C19C26100D26F79 /* Assets.xcassets in Resources */,
