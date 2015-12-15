@@ -20,12 +20,13 @@ class SuggestedTripsTableViewController: UITableViewController
     {
         super.viewDidLoad()
         title = "Suggested"
+        loadTrips()
     }
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(true)
-        loadTrips()
+        
         
     }
     
@@ -50,7 +51,6 @@ class SuggestedTripsTableViewController: UITableViewController
                 {
                     let aTrip = suggestedTripFromJSON(tripDict)
                     trips.append(aTrip)
-//                    trips.shuffleInPlace()
                 }
             }
             catch
@@ -58,6 +58,8 @@ class SuggestedTripsTableViewController: UITableViewController
                 print(error)
             }
         }
+
+        trips.shuffleInPlace()
 
     }
     

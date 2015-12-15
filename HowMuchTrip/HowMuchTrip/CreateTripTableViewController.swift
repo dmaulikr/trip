@@ -190,17 +190,6 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         trips.append(aTrip)
         aTrip.pinInBackground()
         aTrip.saveEventually()
-//        {
-//            (succeeded: Bool, error: NSError?) -> Void in
-//            if succeeded
-//            {
-//                // object was saved to Parse
-//            }
-//            else
-//            {
-//                print(error?.localizedDescription)
-//            }
-//        }
 
     }
     
@@ -254,18 +243,33 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
     {
         var colors: [UIColor] = []
         
-        for _ in 0..<dataPoints.count
-        {
-            let red = Double(arc4random_uniform(256))
-            let green = Double(arc4random_uniform(256))
-            let blue = Double(arc4random_uniform(256))
-            
-            let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
-            colors.append(color)
-        }
+//        for _ in 0..<dataPoints.count
+//        {
+//            let red = Double(arc4random_uniform(256))
+//            let green = Double(arc4random_uniform(256))
+//            let blue = Double(arc4random_uniform(256))
+//            
+//            let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
+//            colors.append(color)
+//        }
+        
+        colors = [
+            UIColor(red:0.51, green:0.65, blue:0.65, alpha:1.0),
+            UIColor(red:0.00, green:0.20, blue:0.35, alpha:1.0),
+            UIColor(red:0.53, green:0.59, blue:0.70, alpha:1.0),
+            UIColor(red:0.04, green:0.32, blue:0.34, alpha:1.0),
+            UIColor(red:0.32, green:0.54, blue:0.79, alpha:1.0),
+            UIColor(red:0.92, green:0.82, blue:0.67, alpha:1.0),
+            UIColor(red:0.36, green:0.33, blue:0.42, alpha:1.0),
+            UIColor(red:0.77, green:0.77, blue:0.77, alpha:1.0)
+        ]
+        
+//        colors.shuffleInPlace()
         
         pieChartDataSet.colors = colors
     }
+    
+    // MARK: - Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
