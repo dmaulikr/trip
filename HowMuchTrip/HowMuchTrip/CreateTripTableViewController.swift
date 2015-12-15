@@ -241,32 +241,21 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
             points.append(" ")
         }
         
-        let pieChartDataSet = PieChartDataSet(yVals: dataEntries, label: "Budget")
+        let pieChartDataSet = PieChartDataSet(yVals: dataEntries, label: "")
+        pieChartDataSet.colors = getGraphColors()
         // TODO: format xVals to display nicely, or add a legend to make readable
-        let pieChartData = PieChartData(xVals: dataPoints, dataSet: pieChartDataSet)
+        let pieChartData = PieChartData(xVals: [""], dataSet: pieChartDataSet)
         pieChartView.data = pieChartData
         
-        setGraphColors(dataPoints, pieChartDataSet: pieChartDataSet)
+//        setGraphColors(dataPoints, pieChartDataSet: pieChartDataSet)
  
         pieChartView.appearWithFade(0.25)
         pieChartView.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height)
     }
     
-    func setGraphColors(dataPoints: [String], pieChartDataSet: PieChartDataSet)
+    func getGraphColors() -> [UIColor]
     {
-        var colors: [UIColor] = []
-        
-//        for _ in 0..<dataPoints.count
-//        {
-//            let red = Double(arc4random_uniform(256))
-//            let green = Double(arc4random_uniform(256))
-//            let blue = Double(arc4random_uniform(256))
-//            
-//            let color = UIColor(red: CGFloat(red/255), green: CGFloat(green/255), blue: CGFloat(blue/255), alpha: 1)
-//            colors.append(color)
-//        }
-        
-        colors = [
+        let colors = [
             UIColor(red:0.51, green:0.65, blue:0.65, alpha:1.0),
             UIColor(red:0.00, green:0.20, blue:0.35, alpha:1.0),
             UIColor(red:0.53, green:0.59, blue:0.70, alpha:1.0),
@@ -277,7 +266,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
             UIColor(red:0.77, green:0.77, blue:0.77, alpha:1.0)
         ]
         
-        pieChartDataSet.colors = colors
+        return colors
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
@@ -338,6 +327,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         {
             legendTableVC.dataPoints = dataPoints
             legendTableVC.values     = values
+            legendTableVC.colors     = getGraphColors()
             legendTableVC.tableView.reloadData()
         }
     }

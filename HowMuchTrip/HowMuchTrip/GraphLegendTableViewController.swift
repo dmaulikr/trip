@@ -12,6 +12,7 @@ class GraphLegendTableViewController: UITableViewController
 {
     var dataPoints = [String]()
     var values     = [Double]()
+    var colors     = [UIColor]()
     
     override func viewDidLoad()
     {
@@ -32,9 +33,11 @@ class GraphLegendTableViewController: UITableViewController
         
         let dataPoint = dataPoints[indexPath.row]
         let value     = values[indexPath.row]
+        let color     = colors[indexPath.row]
         
         cell.propertyLabel.text = dataPoint
         cell.propertyCost.text = String(value)
+        cell.propertyColorView.backgroundColor = color
         
         return cell
     }
