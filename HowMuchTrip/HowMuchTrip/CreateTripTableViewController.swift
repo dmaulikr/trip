@@ -10,7 +10,11 @@ import UIKit
 import Charts
 import SwiftMoment
 
-class CreateTripTableViewController: UITableViewController, UITextFieldDelegate, UIPopoverPresentationControllerDelegate, DateWasChosenFromCalendarProtocol
+class CreateTripTableViewController:
+    UITableViewController,
+    UITextFieldDelegate,
+    UIPopoverPresentationControllerDelegate,
+    DateWasChosenFromCalendarProtocol
 {
     let allProperties = [
         "Budget",
@@ -34,7 +38,7 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
     
     @IBOutlet weak var budgetTextField: UITextField!
     @IBOutlet weak var departureLocationTextField: UITextField!
-    @IBOutlet weak var destinatinTextField: UITextField!
+    @IBOutlet weak var destinationTextField: UITextField!
     @IBOutlet weak var dateFromTextField: UITextField!
     @IBOutlet weak var dateToTextField: UITextField!
     @IBOutlet weak var planeTicketTextField: UITextField!
@@ -43,7 +47,11 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
     @IBOutlet weak var dailyOtherTextField: UITextField!
     @IBOutlet weak var oneTimeCostTextField: UITextField!
     
+    @IBOutlet weak var graphCell: UITableViewCell!
     @IBOutlet weak var pieChartView: PieChartView!
+    @IBOutlet weak var legendContainerView: UIView!
+    
+    var calculateFinished = false
     
     var textFields = [UITextField]()
     
@@ -52,15 +60,12 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         super.viewDidLoad()
         title = "Create Your Trip"
         
-        pieChartView.noDataText = "You need to provide data for the chart."
-        pieChartView.backgroundColor = UIColor.clearColor()
-        
         budgetRemainingLabel.alpha = 0
         
         textFields = [
             budgetTextField!,
             departureLocationTextField!,
-            destinatinTextField!,
+            destinationTextField!,
             dateFromTextField!,
             dateToTextField!,
             planeTicketTextField!,
@@ -79,11 +84,6 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         dateFromTextField.tag = 80
         dateToTextField.tag = 81
         pieChartView.alpha = 0
-    }
-
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
     }
     
     // MARK: - UITextField Delegate
@@ -140,22 +140,30 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
             field.text = ""
         }
         
-        budgetRemainingLabel.hideWithFade(0.25)
-        propertyDictionary.removeAll()
-        
         if calculator != nil
         {
             calculator.clearCalculator()
         }
         
+        propertyDictionary.removeAll()
         pieChartView.hideWithFade(0.25)
+        legendContainerView.hideWithFade(0.25)
+        
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.budgetRemainingLabel.alpha = 0
+            }) { (_) -> Void in
+                self.budgetRemainingLabel.text = ""
+        }
+        
+        calculateFinished = false
+        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
     @IBAction func saveButtonPressed(sender: UIButton!)
     {
         saveTrip(aTrip)
     }
-    
     
     // MARK: - Private Functions
 
@@ -169,8 +177,23 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
         budgetRemainingLabel.appearWithFade(0.25)
         
-        var values = [aTrip.budgetRemaining, aTrip.planeTicketCost, aTrip.totalLodgingCosts, aTrip.totalFoodCosts, aTrip.totalOtherDailyCosts, aTrip.oneTimeCost]
-        var graphProperties = ["Budget Remaining","Plane Ticket","Total Lodging","Total Daily Food Cost", "Total Daily Other Cost", "Total One Time Costs"]
+        var values = [
+            aTrip.budgetRemaining,
+            aTrip.planeTicketCost,
+            aTrip.totalLodgingCosts,
+            aTrip.totalFoodCosts,
+            aTrip.totalOtherDailyCosts,
+            aTrip.oneTimeCost
+        ]
+        
+        var graphProperties = [
+            "Budget Remaining",
+            "Plane Ticket",
+            "Total Lodging",
+            "Total Daily Food Cost",
+            "Total Daily Other Cost",
+            "Total One Time Costs"
+        ]
         
         // Remove '0' value entries for graphing
         for x in values
@@ -182,9 +205,11 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
                 graphProperties.removeAtIndex(index!)
             }
         }
+        
+        graphCell.hidden = false
+        
         buildGraph(graphProperties, values: values)
         updateGraphLegend(graphProperties, values: values)
-        
     }
     
     func saveTrip(aTrip: Trip)
@@ -192,18 +217,6 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         trips.append(aTrip)
         aTrip.pinInBackground()
         aTrip.saveEventually()
-//        {
-//            (succeeded: Bool, error: NSError?) -> Void in
-//            if succeeded
-//            {
-//                // object was saved to Parse
-//            }
-//            else
-//            {
-//                print(error?.localizedDescription)
-//            }
-//        }
-
     }
     
     // MARK: - Graph Functions
@@ -244,13 +257,19 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         let pieChartDataSet = PieChartDataSet(yVals: dataEntries, label: "")
         pieChartDataSet.colors = getGraphColors()
         // TODO: format xVals to display nicely, or add a legend to make readable
-        let pieChartData = PieChartData(xVals: [""], dataSet: pieChartDataSet)
+        let pieChartData = PieChartData(xVals: dataPoints, dataSet: pieChartDataSet)
         pieChartView.data = pieChartData
         
-//        setGraphColors(dataPoints, pieChartDataSet: pieChartDataSet)
- 
-        pieChartView.appearWithFade(0.25)
-        pieChartView.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height)
+        if !calculateFinished
+        {
+            pieChartView.appearWithFade(0.25)
+            pieChartView.slideHorizontallyToOrigin(0.25, fromPointX: -pieChartView.frame.width)
+            
+            legendContainerView.appearWithFade(0.25)
+            legendContainerView.slideHorizontallyToOrigin(0.25, fromPointX: legendContainerView.frame.width)
+        }
+        
+        calculateFinished = true
     }
     
     func getGraphColors() -> [UIColor]
@@ -279,7 +298,8 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
         }
     }
     
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle {
+    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle
+    {
         return .None
     }
     
@@ -308,26 +328,41 @@ class CreateTripTableViewController: UITableViewController, UITextFieldDelegate,
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
-        var rc = true
-        if textField == destinatinTextField || textField == departureLocationTextField
-        {
-            
-        }
-        else
+        if textField != destinationTextField || textField != departureLocationTextField
         {
             let invalidCharacters = NSCharacterSet(charactersInString: "0123456789.").invertedSet //only includes 0-9
             if let _ = string
                 .rangeOfCharacterFromSet(invalidCharacters, options: [],
                     range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
             {
-                rc = false
+                return false
             }
-
         }
-                return rc
+        return true
     }
     
     //MARK: - Pie Graph Legend
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        if indexPath.row == 1 && calculateFinished == false
+        {
+            return 0
+        }
+        else if indexPath.row == 1
+        {
+            return 440
+        }
+        else
+        {
+            return 400
+        }
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return 2
+    }
     
     func updateGraphLegend(dataPoints: [String], values: [Double])
     {
