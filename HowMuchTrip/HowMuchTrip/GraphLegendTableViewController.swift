@@ -17,6 +17,8 @@ class GraphLegendTableViewController: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        tableView.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clearColor()
     }
     
     // MARK: - Table view data source
@@ -38,6 +40,9 @@ class GraphLegendTableViewController: UITableViewController
         cell.propertyLabel.text = dataPoint
         cell.propertyCost.text = String(value)
         cell.propertyColorView.backgroundColor = color
+        
+        cell.backgroundColor = UIColor.clearColor()
+        cell.contentView.backgroundColor = UIColor.clearColor()
         
         return cell
     }

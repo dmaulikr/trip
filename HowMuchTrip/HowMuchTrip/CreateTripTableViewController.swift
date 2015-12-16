@@ -16,25 +16,15 @@ class CreateTripTableViewController:
     UIPopoverPresentationControllerDelegate,
     DateWasChosenFromCalendarProtocol
 {
-    let allProperties = [
-        "Budget",
-        "Departure Location",
-        "Destination",
-        "Date From",
-        "Date To",
-        "Plane Ticket Cost",
-        "Daily Lodging Cost",
-        "Daily Food Cost",
-        "Daily Other Cost",
-        "One Time Cost"
-    ]
+    var allProperties = [String]()
     
     var propertyDictionary = [String: String]()
     var calculator: Calculator!
     var aTrip = Trip()
     var trips = [Trip]()
     
-    @IBOutlet var budgetRemainingLabel: UILabel!
+    @IBOutlet weak var budgetRemainingLabel: UILabel!
+    @IBOutlet weak var promptLabel: UILabel!
     
     @IBOutlet weak var budgetTextField: UITextField!
     @IBOutlet weak var departureLocationTextField: UITextField!
@@ -51,6 +41,8 @@ class CreateTripTableViewController:
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var legendContainerView: UIView!
     
+    var shownTextField: UITextField!
+    
     var calculateFinished = false
     
     var textFields = [UITextField]()
@@ -58,14 +50,27 @@ class CreateTripTableViewController:
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        title = "Create Your Trip"
         
         budgetRemainingLabel.alpha = 0
+        shownTextField = budgetTextField
+        
+        allProperties = [
+            "Budget",
+            "Destination",
+            "Departure Location",
+            "Date From",
+            "Date To",
+            "Plane Ticket Cost",
+            "Daily Lodging Cost",
+            "Daily Food Cost",
+            "Daily Other Cost",
+            "One Time Cost"
+        ]
         
         textFields = [
             budgetTextField!,
-            departureLocationTextField!,
             destinationTextField!,
+            departureLocationTextField!,
             dateFromTextField!,
             dateToTextField!,
             planeTicketTextField!,
@@ -78,12 +83,27 @@ class CreateTripTableViewController:
         for textField in textFields
         {
             textField.delegate = self
+            textField.hidden = true
+            textField.alpha = 0
         }
         
-        budgetTextField.becomeFirstResponder()
+        cycleToNextField(-1)
+        
+//        budgetTextField.hidden = false
+//        
+//        UIView.animateWithDuration(0.25, animations: { () -> Void in
+//            self.budgetTextField.alpha = 1
+//            }) { (_) -> Void in
+//                self.budgetTextField.becomeFirstResponder()
+//        }
+        
         dateFromTextField.tag = 80
         dateToTextField.tag = 81
         pieChartView.alpha = 0
+        pieChartView.backgroundColor = UIColor.clearColor()
+//        pieChartView.holeTransparent = true
+//        pieChartView.holeColor = UIColor.clearColor()
+//        pieChartView.holeAlpha = 0.0
     }
     
     // MARK: - UITextField Delegate
@@ -109,24 +129,145 @@ class CreateTripTableViewController:
             rc = true
             selectedTextField.resignFirstResponder()
             
-            // Add to dictionary that will pass to the calculator
             let propertyKey = allProperties[indexOfTextField]
             propertyDictionary[propertyKey] = selectedTextField.text
             
-            if indexOfTextField + 1 < textFields.count
-            {
-                let nextTextField = textFields[indexOfTextField + 1]
-                nextTextField.becomeFirstResponder()
-            }
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                selectedTextField.alpha = 0
+                selectedTextField.hidden = true
+                
+                }, completion: { (_) -> Void in
+                    
+                    self.cycleToNextField(indexOfTextField)
+            })
         }
-        
 
         calculate()
         tableView.reloadData()
         return rc
     }
     
+    func cycleToNextField(indexOfTextField: Int)
+    {
+        // Add to dictionary that will pass to the calculator
+
+        if indexOfTextField + 1 < textFields.count
+        {
+            let nextTextField = textFields[indexOfTextField + 1]
+            shownTextField = nextTextField
+            shownTextField.hidden = false
+            
+            let y = shownTextField.frame.origin.y
+            shownTextField.frame.origin.y = 100
+            
+            var prefixes = [
+                "Okay. ",
+                "Alrighty. ",
+                "Sounds good. ",
+                "Cool cool cool. "
+            ]
+            var suffix  : String!
+            
+            print(indexOfTextField)
+            
+            switch indexOfTextField + 1
+            {
+            case 0:
+                prefixes = [
+                    "First of all, ",
+                    "Let's get started: ",
+                    "To begin with, ",
+                    "Let's start. "
+                ]
+                suffix = "what's your budget for this trip?"
+            case 1:
+                if aTrip.budgetTotal > 2000
+                {
+                    prefixes = [
+                        "Pulling out all the stops, I see! :) ",
+                        "Been saving for this one for a while? :) ",
+                        "Holiday bonus come early? :) "
+                    ]
+                }
+                
+                suffix = "Where are you planning on going?"
+            case 2:
+                prefixes = [
+                    "Sounds nice. ",
+                    "Never been there. ",
+                    "Cool. ",
+                    "Always wanted to go there. "
+                ]
+                suffix = "Where are you leaving from?"
+            case 3:
+                prefixes += [
+                    "Oh, I have an aunt there! ",
+                    "Ah, \(aTrip.departureLocation). "
+                ]
+                suffix = "When are you planning on leaving?"
+            case 4:
+                suffix = "When are you planning on going back home?"
+            case 5:
+                suffix = "How about the price for the plane ticket?"
+                //TODO:
+                //subtitleLabel.text = "Press the PLANE button if you want to look up some prices.
+            case 6:
+                switch aTrip.planeTicketCost
+                {
+                case 0.0           : prefixes = ["Alright. "]
+                case 0.1 ... 300.0 : prefixes = ["Pretty cheap! "]
+                case 300.0...600.0 : prefixes = ["Not bad. "]
+                default            : prefixes = ["Ticket prices, am I right? "]
+                }
+                suffix = "How much is lodging going to cost?"
+                //TODO:
+                //subtitleLabel.text = "Press the HOTEL button if you want to look up some prices.
+            case 7:
+                if aTrip.dailyLodgingCost == 0.0
+                {
+                    suffix = "Crashing on a couch or camping? "
+                }
+                suffix = "How about your daily food costs?"
+            case 8:
+                if aTrip.dailyFoodCost > 100
+                {
+                    prefixes = ["Planning on some gooood eats! "]
+                }
+                suffix = "Any other daily costs we should put in the books?"
+            case 9:
+                suffix = "Any one-time costs we should put down? (Show tickets, tour, etc)"
+            default:
+                createTripComplete()
+            }
+            
+            promptLabel.alpha = 0
+            let index_rand = Int(arc4random() % UInt32(prefixes.count))
+            promptLabel.text = "\(prefixes[index_rand])\(suffix)"
+            
+            UIView.animateWithDuration(0.45, animations: { () -> Void in
+                self.shownTextField.frame.origin.y = y
+                self.shownTextField.alpha = 1
+                self.promptLabel.alpha = 1
+                
+                }, completion: { (_) -> Void in
+                    self.shownTextField.becomeFirstResponder()
+            })
+        }
+    }
+    
+    func createTripComplete()
+    {
+        promptLabel.text = ""
+//        switch aTrip.budgetRemaining
+    }
+    
     // MARK: - Action Handlers
+    
+    
+    @IBAction func nextButtonPressed(sender: UIButton)
+    {
+        textFieldShouldReturn(shownTextField)
+    }
     
     @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
     {
@@ -328,16 +469,30 @@ class CreateTripTableViewController:
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
-        if textField != destinationTextField || textField != departureLocationTextField
+        var invalidCharacters: NSCharacterSet!
+        
+        if textField == destinationTextField || textField == departureLocationTextField
         {
-            let invalidCharacters = NSCharacterSet(charactersInString: "0123456789.").invertedSet //only includes 0-9
+            invalidCharacters = NSCharacterSet(charactersInString: "0123456789")
             if let _ = string
-                .rangeOfCharacterFromSet(invalidCharacters, options: [],
-                    range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
+            .rangeOfCharacterFromSet(invalidCharacters, options: [],
+            range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
             {
                 return false
             }
         }
+        else
+        {
+            invalidCharacters = NSCharacterSet(charactersInString: "0123456789.").invertedSet //only includes 0-9
+        }
+        
+        if let _ = string
+            .rangeOfCharacterFromSet(invalidCharacters, options: [],
+                range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
+        {
+            return false
+        }
+        
         return true
     }
     
@@ -355,7 +510,7 @@ class CreateTripTableViewController:
         }
         else
         {
-            return 400
+            return 200
         }
     }
     
