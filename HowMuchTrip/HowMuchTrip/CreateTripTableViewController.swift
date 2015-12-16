@@ -14,7 +14,8 @@ class CreateTripTableViewController:
     UITableViewController,
     UITextFieldDelegate,
     UIPopoverPresentationControllerDelegate,
-    DateWasChosenFromCalendarProtocol
+    DateWasChosenFromCalendarProtocol,
+    CalculationFinishedDelegate
 {
     var allProperties = [String]()
     
@@ -41,7 +42,10 @@ class CreateTripTableViewController:
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var legendContainerView: UIView!
     
+    var blurView: UIView!
+    
     var shownTextField: UITextField!
+    var budgetRemainingLabelColor: UIColor!
     
     var calculateFinished = false
     
@@ -50,9 +54,6 @@ class CreateTripTableViewController:
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        budgetRemainingLabel.alpha = 0
-        shownTextField = budgetTextField
         
         allProperties = [
             "Budget",
@@ -87,23 +88,17 @@ class CreateTripTableViewController:
             textField.alpha = 0
         }
         
-        cycleToNextField(-1)
-        
-//        budgetTextField.hidden = false
-//        
-//        UIView.animateWithDuration(0.25, animations: { () -> Void in
-//            self.budgetTextField.alpha = 1
-//            }) { (_) -> Void in
-//                self.budgetTextField.becomeFirstResponder()
-//        }
-        
         dateFromTextField.tag = 80
         dateToTextField.tag = 81
         pieChartView.alpha = 0
         pieChartView.backgroundColor = UIColor.clearColor()
+        budgetRemainingLabel.alpha = 0
+        budgetRemainingLabelColor = budgetRemainingLabel.textColor
 //        pieChartView.holeTransparent = true
 //        pieChartView.holeColor = UIColor.clearColor()
 //        pieChartView.holeAlpha = 0.0
+        
+        cycleToNextField(0)
     }
     
     // MARK: - UITextField Delegate
@@ -132,14 +127,14 @@ class CreateTripTableViewController:
             let propertyKey = allProperties[indexOfTextField]
             propertyDictionary[propertyKey] = selectedTextField.text
             
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                selectedTextField.alpha = 0
-                selectedTextField.hidden = true
-                
-                }, completion: { (_) -> Void in
-                    
-                    self.cycleToNextField(indexOfTextField)
-            })
+//            UIView.animateWithDuration(0.25, animations: { () -> Void in
+//                selectedTextField.alpha = 0
+//                selectedTextField.hidden = true
+//                
+//                }, completion: { (_) -> Void in
+//                    
+//                    self.cycleToNextField(indexOfTextField + 1)
+//            })
         }
 
         calculate()
@@ -147,37 +142,107 @@ class CreateTripTableViewController:
         return rc
     }
     
+    func calculationFinished(validCalc: Bool)
+    {
+        if validCalc
+        {
+            budgetRemainingLabel.textColor = budgetRemainingLabelColor
+            
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.shownTextField.alpha = 0
+                }, completion: { (_) -> Void in
+                    
+                    let nextTextFieldIndex = self.textFields.indexOf(self.shownTextField)! + 1
+                    self.shownTextField.hidden = true
+                    self.cycleToNextField(nextTextFieldIndex)
+            })
+        }
+        else
+        {
+            promptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget. How about we adjust something so we can make that work?"
+            promptLabel.alpha = 0
+            shownTextField.backgroundColor = UIColor.redColor()
+            budgetRemainingLabel.textColor = UIColor.redColor()
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.promptLabel.alpha = 1
+                self.shownTextField.backgroundColor = UIColor.whiteColor()
+                }, completion: { (_) -> Void in
+            })
+        }
+    }
+    
+    func startBuildingGraph()
+    {
+        var values = [
+            aTrip.budgetRemaining,
+            aTrip.planeTicketCost,
+            aTrip.totalLodgingCosts,
+            aTrip.totalFoodCosts,
+            aTrip.totalOtherDailyCosts,
+            aTrip.oneTimeCost
+        ]
+        
+        var graphProperties = [
+            "Budget Remaining",
+            "Plane Ticket",
+            "Total Lodging",
+            "Total Daily Food Cost",
+            "Total Daily Other Cost",
+            "Total One Time Costs"
+        ]
+        
+        // Remove '0' value entries for graphing
+        for x in values
+        {
+            if x == 0
+            {
+                let index = values.indexOf(x)
+                values.removeAtIndex(index!)
+                graphProperties.removeAtIndex(index!)
+            }
+        }
+        
+        graphCell.hidden = false
+        
+        buildGraph(graphProperties, values: values)
+        updateGraphLegend(graphProperties, values: values)
+    }
+    
     func cycleToNextField(indexOfTextField: Int)
     {
         // Add to dictionary that will pass to the calculator
 
-        if indexOfTextField + 1 < textFields.count
+        if indexOfTextField < textFields.count
         {
-            let nextTextField = textFields[indexOfTextField + 1]
+            let nextTextField = textFields[indexOfTextField]
             shownTextField = nextTextField
             shownTextField.hidden = false
-            
-            let y = shownTextField.frame.origin.y
-            shownTextField.frame.origin.y = 100
             
             var prefixes = [
                 "Okay. ",
                 "Alrighty. ",
                 "Sounds good. ",
-                "Cool cool cool. "
+                "Cool cool cool. ",
+                "Awesome. ",
+                "Great. ",
+                "All right. ",
+                "Fantastic. ",
+                "Perfect. "
             ]
             var suffix  : String!
             
-            print(indexOfTextField)
-            
-            switch indexOfTextField + 1
+            switch indexOfTextField
             {
             case 0:
                 prefixes = [
                     "First of all, ",
                     "Let's get started: ",
                     "To begin with, ",
-                    "Let's start. "
+                    "Let's start: ",
+                    "Let's kick it off: ",
+                    "Square one: ",
+                    "A journey of a thousand miles begins with a single budget. So ",
+                    "Investment in travel is an investment in yourself. So "
                 ]
                 suffix = "what's your budget for this trip?"
             case 1:
@@ -195,7 +260,6 @@ class CreateTripTableViewController:
                 prefixes = [
                     "Sounds nice. ",
                     "Never been there. ",
-                    "Cool. ",
                     "Always wanted to go there. "
                 ]
                 suffix = "Where are you leaving from?"
@@ -244,14 +308,21 @@ class CreateTripTableViewController:
             let index_rand = Int(arc4random() % UInt32(prefixes.count))
             promptLabel.text = "\(prefixes[index_rand])\(suffix)"
             
+            let originalY = shownTextField.frame.origin.y
+            shownTextField.frame.origin.y = 100
+            
             UIView.animateWithDuration(0.45, animations: { () -> Void in
-                self.shownTextField.frame.origin.y = y
+                self.shownTextField.frame.origin.y = originalY
                 self.shownTextField.alpha = 1
                 self.promptLabel.alpha = 1
                 
                 }, completion: { (_) -> Void in
                     self.shownTextField.becomeFirstResponder()
             })
+        }
+        else
+        {
+            createTripComplete()
         }
     }
     
@@ -279,6 +350,8 @@ class CreateTripTableViewController:
         for field in textFields
         {
             field.text = ""
+            field.hidden = true
+            field.alpha = 0
         }
         
         if calculator != nil
@@ -289,12 +362,15 @@ class CreateTripTableViewController:
         propertyDictionary.removeAll()
         pieChartView.hideWithFade(0.25)
         legendContainerView.hideWithFade(0.25)
-        
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.budgetRemainingLabel.alpha = 0
-            }) { (_) -> Void in
-                self.budgetRemainingLabel.text = ""
+        promptLabel.hideWithFade(0.25)
+
+        if budgetRemainingLabel.alpha != 0
+        {
+            budgetRemainingLabel.hideWithFade(0.25)
         }
+
+        cycleToNextField(0)
+        
         
         calculateFinished = false
         let indexPath = NSIndexPath(forRow: 1, inSection: 0)
@@ -311,6 +387,7 @@ class CreateTripTableViewController:
     func calculate()
     {
         calculator = Calculator(dictionary: propertyDictionary)
+        calculator.delegate = self
         
         aTrip = calculator.calculate(propertyDictionary)
         
@@ -318,39 +395,7 @@ class CreateTripTableViewController:
         budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
         budgetRemainingLabel.appearWithFade(0.25)
         
-        var values = [
-            aTrip.budgetRemaining,
-            aTrip.planeTicketCost,
-            aTrip.totalLodgingCosts,
-            aTrip.totalFoodCosts,
-            aTrip.totalOtherDailyCosts,
-            aTrip.oneTimeCost
-        ]
-        
-        var graphProperties = [
-            "Budget Remaining",
-            "Plane Ticket",
-            "Total Lodging",
-            "Total Daily Food Cost",
-            "Total Daily Other Cost",
-            "Total One Time Costs"
-        ]
-        
-        // Remove '0' value entries for graphing
-        for x in values
-        {
-            if x == 0
-            {
-                let index = values.indexOf(x)
-                values.removeAtIndex(index!)
-                graphProperties.removeAtIndex(index!)
-            }
-        }
-        
-        graphCell.hidden = false
-        
-        buildGraph(graphProperties, values: values)
-        updateGraphLegend(graphProperties, values: values)
+        startBuildingGraph()
     }
     
     func saveTrip(aTrip: Trip)
@@ -428,11 +473,43 @@ class CreateTripTableViewController:
         
         return colors
     }
-
+    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController)
+    {
+        print("popover dismissed")
+        removeBlurView()
+    }
+    
+    func removeBlurView()
+    {
+        if let _ = blurView
+        {
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.blurView.alpha = 0
+                }, completion: { (_) -> Void in
+                    self.blurView.removeFromSuperview()
+            })
+        }
+    }
+    
+    func addBlurView()
+    {
+        blurView = UIView()
+        blurView.frame = self.view.bounds
+        blurView.backgroundColor = UIColor.blackColor()
+        blurView.alpha = 0
+        view.addSubview(blurView)
+        
+        UIView.animateWithDuration(0.25) { () -> Void in
+            self.blurView.alpha = 0.6
+        }
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
         if let calendarPopover = segue.destinationViewController as? CalendarPopoverViewController
         {
+            addBlurView()
+            
             calendarPopover.textFieldTag = sender?.tag
             calendarPopover.popoverPresentationController?.delegate = self
             calendarPopover.delegate = self
@@ -455,6 +532,8 @@ class CreateTripTableViewController:
     
     func dateWasChosen(date: Moment, textFieldTag: Int)
     {
+        removeBlurView()
+        
         let dateStr = date.format("MM/dd/yy")
         
         switch textFieldTag
@@ -475,8 +554,8 @@ class CreateTripTableViewController:
         {
             invalidCharacters = NSCharacterSet(charactersInString: "0123456789")
             if let _ = string
-            .rangeOfCharacterFromSet(invalidCharacters, options: [],
-            range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
+                .rangeOfCharacterFromSet(invalidCharacters, options: [],
+                    range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
             {
                 return false
             }

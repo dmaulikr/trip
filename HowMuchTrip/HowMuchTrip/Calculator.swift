@@ -9,9 +9,15 @@
 import Foundation
 import SwiftMoment
 
+protocol CalculationFinishedDelegate
+{
+    func calculationFinished(validCalc: Bool)
+}
+
 class Calculator
 {
     let aTrip = Trip()
+    var delegate: CalculationFinishedDelegate?
 
     init(dictionary: [String:String])
     {
@@ -91,7 +97,14 @@ class Calculator
             aTrip.budgetTotal -
             aTrip.subtotalOfProperties
         
-         return aTrip
+        var validCalc = false
+        if aTrip.budgetRemaining >= -5.0
+        {
+            validCalc = true
+        }
+        delegate?.calculationFinished(validCalc)
+
+        return aTrip
     }
     
     

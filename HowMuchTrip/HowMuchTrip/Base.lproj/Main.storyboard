@@ -597,7 +597,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3r5-gS-UH3">
                                                     <rect key="frame" x="286" y="71" width="32" height="30"/>
                                                     <state key="normal" title="Next">
-                                                        <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                        <color key="titleColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                     <connections>
                                                         <action selector="nextButtonPressed:" destination="C82-LT-sBx" eventType="touchUpInside" id="eqB-5O-gRk"/>
@@ -606,7 +606,7 @@
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YJQ-al-fym">
                                                     <rect key="frame" x="350" y="71" width="30" height="30"/>
                                                     <state key="normal" title="Skip">
-                                                        <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                        <color key="titleColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WOG-wl-bvD">
@@ -616,7 +616,7 @@
                                                         <constraint firstAttribute="width" secondItem="WOG-wl-bvD" secondAttribute="height" multiplier="1:1" id="Sos-hR-Xps"/>
                                                     </constraints>
                                                     <state key="normal" image="pin">
-                                                        <color key="titleColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                                                        <color key="titleColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     </state>
                                                 </button>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Home, FL, USA" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5eN-fC-4zd">
@@ -816,12 +816,12 @@
                                             </constraints>
                                             <variation key="default">
                                                 <mask key="constraints">
-                                                    <exclude reference="oph-HA-IOw"/>
-                                                    <exclude reference="UPd-V3-K4P"/>
                                                     <exclude reference="5O2-EZ-NUp"/>
+                                                    <exclude reference="UPd-V3-K4P"/>
+                                                    <exclude reference="oph-HA-IOw"/>
                                                     <exclude reference="Mm1-Ym-rK0"/>
-                                                    <exclude reference="XC6-J7-ZrP"/>
                                                     <exclude reference="6H0-59-arq"/>
+                                                    <exclude reference="XC6-J7-ZrP"/>
                                                     <exclude reference="adO-iB-yJO"/>
                                                 </mask>
                                             </variation>
