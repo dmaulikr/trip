@@ -9,6 +9,7 @@ pod "Parse"
 pod 'CalendarView'
 pod 'ParseFacebookUtilsV4'
 pod 'ParseTwitterUtils'
+pod 'MBProgressHUD', '~> 0.9.0'
 end
 
 target 'HowMuchTripTests' do
@@ -17,4 +18,5 @@ pod "Parse"
 pod 'CalendarView'
 pod 'ParseFacebookUtilsV4'
 pod 'ParseTwitterUtils'
+pod 'MBProgressHUD', '~> 0.9.0'
 end

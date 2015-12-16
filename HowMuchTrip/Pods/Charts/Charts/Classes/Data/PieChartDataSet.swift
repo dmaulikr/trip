@@ -27,16 +27,16 @@ public class PieChartDataSet: ChartDataSet
     {
         super.init()
         
-        self.valueTextColor = UIColor.whiteColor()
-        self.valueFont = UIFont.systemFontOfSize(13.0)
+        self.valueTextColor = UIColor.clearColor()
+        self.valueFont = UIFont.systemFontOfSize(0.0)
     }
     
     public override init(yVals: [ChartDataEntry]?, label: String?)
     {
         super.init(yVals: yVals, label: label)
         
-        self.valueTextColor = UIColor.whiteColor()
-        self.valueFont = UIFont.systemFontOfSize(13.0)
+        self.valueTextColor = UIColor.clearColor()
+        self.valueFont = UIFont.systemFontOfSize(0.0)
     }
     
     /// the space that is left out between the piechart-slices, default: 0°
