@@ -8,12 +8,12 @@
 
 import UIKit
 import Parse
+//import MBProgressHUD
 
 class SettingsViewController: UIViewController
 {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
-    
     
 
     override func viewDidLoad()
@@ -21,10 +21,47 @@ class SettingsViewController: UIViewController
         super.viewDidLoad()
 
         title = "Settings"
-        if let pUserName = PFUser.currentUser()?["username"] as? String
+    }
+
+    override func didReceiveMemoryWarning()
+    {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        checkForUser()
+        processFacebookData()
+    }
+    
+    @IBAction func logOutAction(sender: UIButton)
+    {
+        // Send a request to log out a user
+        PFUser.logOut()
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+            self.presentViewController(viewController, animated: true, completion: { () -> Void in
+                self.tabBarController?.selectedIndex = 0
+            })
+        })
+        
+        userNameLabel.text = nil
+        userImage.image = nil
+    }
+    
+    func processFacebookData()
+    {
+        
+        if let firstName = PFUser.currentUser()?["first_name"] as? String, let lastName = PFUser.currentUser()?["last_name"] as? String
         {
-            self.userNameLabel?.text = "@" + pUserName
-            //userImage.image
+            self.userNameLabel?.text = "\(firstName) \(lastName)"
+        }
+        else if let pUsername = PFUser.currentUser()?["username"] as? String
+        {
+            self.userNameLabel?.text = "@" + pUsername
+            
         }
         
         let requestParameters = ["fields": "id, email, first_name, last_name"]
@@ -81,7 +118,7 @@ class SettingsViewController: UIViewController
                     let profilePictureData = NSData(contentsOfURL: profilePictureUrl!)
                     self.userImage?.image = UIImage(data: profilePictureData!)
                     
-//                    self.userImage.downloadImgFrom(<#T##imageURL: String##String#>, contentMode: .AspectFill)
+                    //                    self.userImage.downloadImgFrom(<#T##imageURL: String##String#>, contentMode: .AspectFill)
                     
                     
                     if(profilePictureData != nil)
@@ -105,68 +142,31 @@ class SettingsViewController: UIViewController
             }
             
         }
-        
 
-
-    }
-
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    func processTwitterData()
+    {
+        
+    }
+    
+    func checkForUser()
+    {
         if (PFUser.currentUser() == nil) {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
                 let viewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 self.presentViewController(viewController, animated: true, completion: nil)
             })
-            
-            //Above will redirect the user to the login screen if a user is not currently logged in.
         }
+        //Above will redirect the user to the login screen if a user is not currently logged in.
     }
     
-    @IBAction func logOutAction(sender: UIButton)
+    func showLoadingHUD()
     {
-        // Send a request to log out a user
-        PFUser.logOut()
-        
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
-            self.presentViewController(viewController, animated: true, completion: { () -> Void in
-                self.tabBarController?.selectedIndex = 0
-            })
-        })
+//        let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+//        spinningActivity.labelText = "Loading"
+//        spinningActivity.detailsLabelText = "Please wait"
     }
 }
 
-//extension UIImageView
-//{
-//    func downloadImgFrom(imageURL: String, contentMode: UIViewContentMode)
-//    {
-//        if let url = NSURL(string: imageURL)
-//        {
-//            var task: NSURLSessionDataTask!
-//            task = NSURLSession.sharedSession().dataTaskWithURL(url,
-//                completionHandler: { (data, response, error) -> Void in
-//                    if data != nil
-//                    {
-//                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                            let image = UIImage(data: data!)
-//                            self.image = image
-//                            self.contentMode = contentMode
-//                            task.cancel()
-//                        })
-//                    }
-//            })
-//            
-//            task.resume()
-//        }
-//        else
-//        {
-//            print("url \(imageURL) was invalid")
-//        }
-//    }
-//}
