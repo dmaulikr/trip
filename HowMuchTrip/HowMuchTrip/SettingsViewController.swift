@@ -8,7 +8,8 @@
 
 import UIKit
 import Parse
-//import MBProgressHUD
+import MBProgressHUD
+import ParseTwitterUtils
 
 class SettingsViewController: UIViewController
 {
@@ -148,6 +149,26 @@ class SettingsViewController: UIViewController
     func processTwitterData()
     {
         
+        
+        let pfTwitter = PFTwitterUtils.twitter()
+        let twitterUsername = pfTwitter?.screenName
+        
+        var userDetailsUrl:String = "https://api.twitter.com/1.1/users/show.json?screen_name="
+        userDetailsUrl = userDetailsUrl + twitterUsername!
+        
+        let myUrl = NSURL(string: userDetailsUrl)
+        let request = NSMutableURLRequest(URL: myUrl!)
+        request.HTTPMethod = "GET"
+        
+        pfTwitter!.signRequest(request)
+        
+        let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
+            
+            if error != nil {
+                
+            }
+      
+        }
     }
     
     func checkForUser()
@@ -164,9 +185,9 @@ class SettingsViewController: UIViewController
     
     func showLoadingHUD()
     {
-//        let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-//        spinningActivity.labelText = "Loading"
-//        spinningActivity.detailsLabelText = "Please wait"
+        let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        spinningActivity.labelText = "Loading"
+        spinningActivity.detailsLabelText = "Please wait"
     }
 }
 
