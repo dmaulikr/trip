@@ -12,6 +12,9 @@ import Parse
 class SettingsViewController: UIViewController
 {
     @IBOutlet weak var userNameLabel: UILabel!
+    @IBOutlet weak var userImage: UIImageView!
+    
+    
 
     override func viewDidLoad()
     {
@@ -20,10 +23,11 @@ class SettingsViewController: UIViewController
         title = "Settings"
         if let pUserName = PFUser.currentUser()?["username"] as? String
         {
-            self.userNameLabel.text = "@" + pUserName
+            self.userNameLabel?.text = "@" + pUserName
+            //userImage.image
         }
         
-        var requestParameters = ["fields": "id, email, first_name, last_name"]
+        let requestParameters = ["fields": "id, email, first_name, last_name"]
         
         let userDetails = FBSDKGraphRequest(graphPath: "me", parameters: requestParameters)
         
@@ -75,6 +79,10 @@ class SettingsViewController: UIViewController
                     let profilePictureUrl = NSURL(string: userProfile)
                     
                     let profilePictureData = NSData(contentsOfURL: profilePictureUrl!)
+                    self.userImage?.image = UIImage(data: profilePictureData!)
+                    
+//                    self.userImage.downloadImgFrom(<#T##imageURL: String##String#>, contentMode: .AspectFill)
+                    
                     
                     if(profilePictureData != nil)
                     {
@@ -133,3 +141,32 @@ class SettingsViewController: UIViewController
         })
     }
 }
+
+//extension UIImageView
+//{
+//    func downloadImgFrom(imageURL: String, contentMode: UIViewContentMode)
+//    {
+//        if let url = NSURL(string: imageURL)
+//        {
+//            var task: NSURLSessionDataTask!
+//            task = NSURLSession.sharedSession().dataTaskWithURL(url,
+//                completionHandler: { (data, response, error) -> Void in
+//                    if data != nil
+//                    {
+//                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                            let image = UIImage(data: data!)
+//                            self.image = image
+//                            self.contentMode = contentMode
+//                            task.cancel()
+//                        })
+//                    }
+//            })
+//            
+//            task.resume()
+//        }
+//        else
+//        {
+//            print("url \(imageURL) was invalid")
+//        }
+//    }
+//}
