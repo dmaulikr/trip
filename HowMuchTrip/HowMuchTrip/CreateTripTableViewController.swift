@@ -14,27 +14,18 @@ class CreateTripTableViewController:
     UITableViewController,
     UITextFieldDelegate,
     UIPopoverPresentationControllerDelegate,
-    DateWasChosenFromCalendarProtocol
+    DateWasChosenFromCalendarProtocol,
+    CalculationFinishedDelegate
 {
-    let allProperties = [
-        "Budget",
-        "Departure Location",
-        "Destination",
-        "Date From",
-        "Date To",
-        "Plane Ticket Cost",
-        "Daily Lodging Cost",
-        "Daily Food Cost",
-        "Daily Other Cost",
-        "One Time Cost"
-    ]
+    var allProperties = [String]()
     
     var propertyDictionary = [String: String]()
     var calculator: Calculator!
     var aTrip = Trip()
     var trips = [Trip]()
     
-    @IBOutlet var budgetRemainingLabel: UILabel!
+    @IBOutlet weak var budgetRemainingLabel: UILabel!
+    @IBOutlet weak var promptLabel: UILabel!
     
     @IBOutlet weak var budgetTextField: UITextField!
     @IBOutlet weak var departureLocationTextField: UITextField!
@@ -51,6 +42,11 @@ class CreateTripTableViewController:
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var legendContainerView: UIView!
     
+    var blurView: UIView!
+    
+    var shownTextField: UITextField!
+    var budgetRemainingLabelColor: UIColor!
+    
     var calculateFinished = false
     
     var textFields = [UITextField]()
@@ -58,14 +54,24 @@ class CreateTripTableViewController:
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        title = "Create Your Trip"
         
-        budgetRemainingLabel.alpha = 0
+        allProperties = [
+            "Budget",
+            "Destination",
+            "Departure Location",
+            "Date From",
+            "Date To",
+            "Plane Ticket Cost",
+            "Daily Lodging Cost",
+            "Daily Food Cost",
+            "Daily Other Cost",
+            "One Time Cost"
+        ]
         
         textFields = [
             budgetTextField!,
-            departureLocationTextField!,
             destinationTextField!,
+            departureLocationTextField!,
             dateFromTextField!,
             dateToTextField!,
             planeTicketTextField!,
@@ -78,12 +84,21 @@ class CreateTripTableViewController:
         for textField in textFields
         {
             textField.delegate = self
+            textField.hidden = true
+            textField.alpha = 0
         }
         
-        budgetTextField.becomeFirstResponder()
         dateFromTextField.tag = 80
         dateToTextField.tag = 81
         pieChartView.alpha = 0
+        pieChartView.backgroundColor = UIColor.clearColor()
+        budgetRemainingLabel.alpha = 0
+        budgetRemainingLabelColor = budgetRemainingLabel.textColor
+//        pieChartView.holeTransparent = true
+//        pieChartView.holeColor = UIColor.clearColor()
+//        pieChartView.holeAlpha = 0.0
+        
+        cycleToNextField(0)
     }
     
     // MARK: - UITextField Delegate
@@ -109,74 +124,55 @@ class CreateTripTableViewController:
             rc = true
             selectedTextField.resignFirstResponder()
             
-            // Add to dictionary that will pass to the calculator
             let propertyKey = allProperties[indexOfTextField]
             propertyDictionary[propertyKey] = selectedTextField.text
             
-            if indexOfTextField + 1 < textFields.count
-            {
-                let nextTextField = textFields[indexOfTextField + 1]
-                nextTextField.becomeFirstResponder()
-            }
+//            UIView.animateWithDuration(0.25, animations: { () -> Void in
+//                selectedTextField.alpha = 0
+//                selectedTextField.hidden = true
+//                
+//                }, completion: { (_) -> Void in
+//                    
+//                    self.cycleToNextField(indexOfTextField + 1)
+//            })
         }
-        
 
         calculate()
         tableView.reloadData()
         return rc
     }
     
-    // MARK: - Action Handlers
-    
-    @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
+    func calculationFinished(validCalc: Bool)
     {
-        clear()
-    }
-    
-    func clear()
-    {
-        for field in textFields
+        if validCalc
         {
-            field.text = ""
+            budgetRemainingLabel.textColor = budgetRemainingLabelColor
+            
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.shownTextField.alpha = 0
+                }, completion: { (_) -> Void in
+                    
+                    let nextTextFieldIndex = self.textFields.indexOf(self.shownTextField)! + 1
+                    self.shownTextField.hidden = true
+                    self.cycleToNextField(nextTextFieldIndex)
+            })
         }
-        
-        if calculator != nil
+        else
         {
-            calculator.clearCalculator()
+            promptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget. How about we adjust something so we can make that work?"
+            promptLabel.alpha = 0
+            shownTextField.backgroundColor = UIColor.redColor()
+            budgetRemainingLabel.textColor = UIColor.redColor()
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.promptLabel.alpha = 1
+                self.shownTextField.backgroundColor = UIColor.whiteColor()
+                }, completion: { (_) -> Void in
+            })
         }
-        
-        propertyDictionary.removeAll()
-        pieChartView.hideWithFade(0.25)
-        legendContainerView.hideWithFade(0.25)
-        
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.budgetRemainingLabel.alpha = 0
-            }) { (_) -> Void in
-                self.budgetRemainingLabel.text = ""
-        }
-        
-        calculateFinished = false
-        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
     }
     
-    @IBAction func saveButtonPressed(sender: UIButton!)
+    func startBuildingGraph()
     {
-        saveTrip(aTrip)
-    }
-    
-    // MARK: - Private Functions
-
-    func calculate()
-    {
-        calculator = Calculator(dictionary: propertyDictionary)
-        
-        aTrip = calculator.calculate(propertyDictionary)
-        
-        budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", aTrip.budgetRemaining))"
-        budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
-        budgetRemainingLabel.appearWithFade(0.25)
-        
         var values = [
             aTrip.budgetRemaining,
             aTrip.planeTicketCost,
@@ -210,6 +206,196 @@ class CreateTripTableViewController:
         
         buildGraph(graphProperties, values: values)
         updateGraphLegend(graphProperties, values: values)
+    }
+    
+    func cycleToNextField(indexOfTextField: Int)
+    {
+        // Add to dictionary that will pass to the calculator
+
+        if indexOfTextField < textFields.count
+        {
+            let nextTextField = textFields[indexOfTextField]
+            shownTextField = nextTextField
+            shownTextField.hidden = false
+            
+            var prefixes = [
+                "Okay. ",
+                "Alrighty. ",
+                "Sounds good. ",
+                "Cool cool cool. ",
+                "Awesome. ",
+                "Great. ",
+                "All right. ",
+                "Fantastic. ",
+                "Perfect. "
+            ]
+            var suffix  : String!
+            
+            switch indexOfTextField
+            {
+            case 0:
+                prefixes = [
+                    "First of all, ",
+                    "Let's get started: ",
+                    "To begin with, ",
+                    "Let's start: ",
+                    "Let's kick it off: ",
+                    "Square one: ",
+                    "A journey of a thousand miles begins with a single budget. So ",
+                    "Investment in travel is an investment in yourself. So "
+                ]
+                suffix = "what's your budget for this trip?"
+            case 1:
+                if aTrip.budgetTotal > 2000
+                {
+                    prefixes = [
+                        "Pulling out all the stops, I see! :) ",
+                        "Been saving for this one for a while? :) ",
+                        "Holiday bonus come early? :) "
+                    ]
+                }
+                
+                suffix = "Where are you planning on going?"
+            case 2:
+                prefixes = [
+                    "Sounds nice. ",
+                    "Never been there. ",
+                    "Always wanted to go there. "
+                ]
+                suffix = "Where are you leaving from?"
+            case 3:
+                prefixes += [
+                    "Oh, I have an aunt there! ",
+                    "Ah, \(aTrip.departureLocation). "
+                ]
+                suffix = "When are you planning on leaving?"
+            case 4:
+                suffix = "When are you planning on going back home?"
+            case 5:
+                suffix = "How about the price for the plane ticket?"
+                //TODO:
+                //subtitleLabel.text = "Press the PLANE button if you want to look up some prices.
+            case 6:
+                switch aTrip.planeTicketCost
+                {
+                case 0.0           : prefixes = ["Alright. "]
+                case 0.1 ... 300.0 : prefixes = ["Pretty cheap! "]
+                case 300.0...600.0 : prefixes = ["Not bad. "]
+                default            : prefixes = ["Ticket prices, am I right? "]
+                }
+                suffix = "How much is lodging going to cost?"
+                //TODO:
+                //subtitleLabel.text = "Press the HOTEL button if you want to look up some prices.
+            case 7:
+                if aTrip.dailyLodgingCost == 0.0
+                {
+                    suffix = "Crashing on a couch or camping? "
+                }
+                suffix = "How about your daily food costs?"
+            case 8:
+                if aTrip.dailyFoodCost > 100
+                {
+                    prefixes = ["Planning on some gooood eats! "]
+                }
+                suffix = "Any other daily costs we should put in the books?"
+            case 9:
+                suffix = "Any one-time costs we should put down? (Show tickets, tour, etc)"
+            default:
+                createTripComplete()
+            }
+            
+            promptLabel.alpha = 0
+            let index_rand = Int(arc4random() % UInt32(prefixes.count))
+            promptLabel.text = "\(prefixes[index_rand])\(suffix)"
+            
+            let originalY = shownTextField.frame.origin.y
+            shownTextField.frame.origin.y = 100
+            
+            UIView.animateWithDuration(0.45, animations: { () -> Void in
+                self.shownTextField.frame.origin.y = originalY
+                self.shownTextField.alpha = 1
+                self.promptLabel.alpha = 1
+                
+                }, completion: { (_) -> Void in
+                    self.shownTextField.becomeFirstResponder()
+            })
+        }
+        else
+        {
+            createTripComplete()
+        }
+    }
+    
+    func createTripComplete()
+    {
+        promptLabel.text = ""
+//        switch aTrip.budgetRemaining
+    }
+    
+    // MARK: - Action Handlers
+    
+    
+    @IBAction func nextButtonPressed(sender: UIButton)
+    {
+        textFieldShouldReturn(shownTextField)
+    }
+    
+    @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
+    {
+        clear()
+    }
+    
+    func clear()
+    {
+        for field in textFields
+        {
+            field.text = ""
+            field.hidden = true
+            field.alpha = 0
+        }
+        
+        if calculator != nil
+        {
+            calculator.clearCalculator()
+        }
+        
+        propertyDictionary.removeAll()
+        pieChartView.hideWithFade(0.25)
+        legendContainerView.hideWithFade(0.25)
+        promptLabel.hideWithFade(0.25)
+
+        if budgetRemainingLabel.alpha != 0
+        {
+            budgetRemainingLabel.hideWithFade(0.25)
+        }
+
+        cycleToNextField(0)
+        
+        
+        calculateFinished = false
+        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+    }
+    
+    @IBAction func saveButtonPressed(sender: UIButton!)
+    {
+        saveTrip(aTrip)
+    }
+    
+    // MARK: - Private Functions
+
+    func calculate()
+    {
+        calculator = Calculator(dictionary: propertyDictionary)
+        calculator.delegate = self
+        
+        aTrip = calculator.calculate(propertyDictionary)
+        
+        budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", aTrip.budgetRemaining))"
+        budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
+        budgetRemainingLabel.appearWithFade(0.25)
+        
+        startBuildingGraph()
     }
     
     func saveTrip(aTrip: Trip)
@@ -287,11 +473,43 @@ class CreateTripTableViewController:
         
         return colors
     }
-
+    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController)
+    {
+        print("popover dismissed")
+        removeBlurView()
+    }
+    
+    func removeBlurView()
+    {
+        if let _ = blurView
+        {
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.blurView.alpha = 0
+                }, completion: { (_) -> Void in
+                    self.blurView.removeFromSuperview()
+            })
+        }
+    }
+    
+    func addBlurView()
+    {
+        blurView = UIView()
+        blurView.frame = self.view.bounds
+        blurView.backgroundColor = UIColor.blackColor()
+        blurView.alpha = 0
+        view.addSubview(blurView)
+        
+        UIView.animateWithDuration(0.25) { () -> Void in
+            self.blurView.alpha = 0.6
+        }
+    }
+    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
         if let calendarPopover = segue.destinationViewController as? CalendarPopoverViewController
         {
+            addBlurView()
+            
             calendarPopover.textFieldTag = sender?.tag
             calendarPopover.popoverPresentationController?.delegate = self
             calendarPopover.delegate = self
@@ -314,6 +532,8 @@ class CreateTripTableViewController:
     
     func dateWasChosen(date: Moment, textFieldTag: Int)
     {
+        removeBlurView()
+        
         let dateStr = date.format("MM/dd/yy")
         
         switch textFieldTag
@@ -328,9 +548,11 @@ class CreateTripTableViewController:
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
-        if textField != destinationTextField || textField != departureLocationTextField
+        var invalidCharacters: NSCharacterSet!
+        
+        if textField == destinationTextField || textField == departureLocationTextField
         {
-            let invalidCharacters = NSCharacterSet(charactersInString: "0123456789.").invertedSet //only includes 0-9
+            invalidCharacters = NSCharacterSet(charactersInString: "0123456789")
             if let _ = string
                 .rangeOfCharacterFromSet(invalidCharacters, options: [],
                     range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
@@ -338,6 +560,18 @@ class CreateTripTableViewController:
                 return false
             }
         }
+        else
+        {
+            invalidCharacters = NSCharacterSet(charactersInString: "0123456789.").invertedSet //only includes 0-9
+        }
+        
+        if let _ = string
+            .rangeOfCharacterFromSet(invalidCharacters, options: [],
+                range:Range<String.Index>(start: string.startIndex, end: string.endIndex))
+        {
+            return false
+        }
+        
         return true
     }
     
@@ -355,7 +589,7 @@ class CreateTripTableViewController:
         }
         else
         {
-            return 400
+            return 200
         }
     }
     

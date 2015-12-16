@@ -9,9 +9,15 @@
 import Foundation
 import SwiftMoment
 
+protocol CalculationFinishedDelegate
+{
+    func calculationFinished(validCalc: Bool)
+}
+
 class Calculator
 {
     let aTrip = Trip()
+    var delegate: CalculationFinishedDelegate?
 
     init(dictionary: [String:String])
     {
@@ -20,12 +26,22 @@ class Calculator
     
     func calculate(dictionary: [String:String]) -> Trip
     {
-        for (key, value) in dictionary
+        for (key, var value) in dictionary
         {
+            if key == "Budget"
+            || key == "Plane Ticket Cost"
+            || key == "Daily Lodging Cost"
+            || key == "Daily Food Cost"
+            || key == "Daily Other Cost"
+            || key == "One Time Cost"
+            {
+                value = value.stringByReplacingOccurrencesOfString(",", withString: "")
+            }
+            
             switch key
             {
             case "Budget":
-                aTrip.budgetTotal = Double(value)!
+                aTrip.budgetTotal = Double(value.stringByReplacingOccurrencesOfString(",", withString: ""))!
             case "Departure Location":
                 aTrip.departureLocation = value
             case "Destination":
@@ -81,13 +97,19 @@ class Calculator
             aTrip.budgetTotal -
             aTrip.subtotalOfProperties
         
-         return aTrip
+        var validCalc = false
+        if aTrip.budgetRemaining >= -5.0
+        {
+            validCalc = true
+        }
+        delegate?.calculationFinished(validCalc)
+
+        return aTrip
     }
     
     
     func clearCalculator()
     {
-        
         aTrip.budgetTotal = 0.0
         aTrip.subtotalOfProperties = 0.0
         aTrip.budgetRemaining = 0.0
