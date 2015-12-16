@@ -12,7 +12,7 @@ import ParseTwitterUtils
 import ParseFacebookUtilsV4
 import FBSDKCoreKit
 
-
+var name = ""
 
 class LoginViewController: UIViewController, UITextFieldDelegate
 {

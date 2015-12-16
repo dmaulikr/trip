@@ -22,6 +22,7 @@ class SettingsViewController: UIViewController
         super.viewDidLoad()
 
         title = "Settings"
+        
     }
 
     override func didReceiveMemoryWarning()
@@ -34,6 +35,13 @@ class SettingsViewController: UIViewController
     {
         checkForUser()
         processFacebookData()
+        processTwitterData()
+        
+        if let pUserName = PFUser.currentUser()?["username"] as? String
+        {
+            self.userNameLabel.text = "@" + pUserName
+        }
+
     }
     
     @IBAction func logOutAction(sender: UIButton)
@@ -55,15 +63,6 @@ class SettingsViewController: UIViewController
     func processFacebookData()
     {
         
-        if let firstName = PFUser.currentUser()?["first_name"] as? String, let lastName = PFUser.currentUser()?["last_name"] as? String
-        {
-            self.userNameLabel?.text = "\(firstName) \(lastName)"
-        }
-        else if let pUsername = PFUser.currentUser()?["username"] as? String
-        {
-            self.userNameLabel?.text = "@" + pUsername
-            
-        }
         
         let requestParameters = ["fields": "id, email, first_name, last_name"]
         
@@ -109,7 +108,13 @@ class SettingsViewController: UIViewController
                     myUser.setObject(userEmail!, forKey: "email")
                 }
                 
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                if let firstName = PFUser.currentUser()?["first_name"] as? String, let lastName = PFUser.currentUser()?["last_name"] as? String
+                {
+                    self.userNameLabel?.text = "\(firstName) \(lastName)"
+                }
+
+               // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     
                     // Get Facebook profile picture
                     let userProfile = "https://graph.facebook.com/" + userId + "/picture?type=large"
@@ -119,7 +124,7 @@ class SettingsViewController: UIViewController
                     let profilePictureData = NSData(contentsOfURL: profilePictureUrl!)
                     self.userImage?.image = UIImage(data: profilePictureData!)
                     
-                    //                    self.userImage.downloadImgFrom(<#T##imageURL: String##String#>, contentMode: .AspectFill)
+                    //self.userImage.downloadImgFrom(<#T##imageURL: String##String#>, contentMode: .AspectFill)
                     
                     
                     if(profilePictureData != nil)
@@ -138,7 +143,7 @@ class SettingsViewController: UIViewController
                         
                     })
                     
-                }
+                })
                 
             }
             
@@ -148,11 +153,14 @@ class SettingsViewController: UIViewController
     
     func processTwitterData()
     {
+        //showLoadingHUD()
         
         
         let pfTwitter = PFTwitterUtils.twitter()
         let twitterUsername = pfTwitter?.screenName
         
+        if twitterUsername != nil
+        {
         var userDetailsUrl:String = "https://api.twitter.com/1.1/users/show.json?screen_name="
         userDetailsUrl = userDetailsUrl + twitterUsername!
         
@@ -160,16 +168,69 @@ class SettingsViewController: UIViewController
         let request = NSMutableURLRequest(URL: myUrl!)
         request.HTTPMethod = "GET"
         
-        pfTwitter!.signRequest(request)
+        pfTwitter?.signRequest(request)
+        
         
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
             
-            if error != nil {
+            if error != nil
+            {
+                
+                //self.hideLoadingHUD()
+                
+                let alert = UIAlertController(title: "Alert", message: "", preferredStyle: .Alert)
+                let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                alert.addAction(confirmAction)
+                self.presentViewController(alert, animated: true, completion: nil)
+                PFUser.logOut()
+                return
                 
             }
-      
+            
+            
+        do
+            {
+            //self.hideLoadingHUD()
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            let json = try!NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers) as? NSDictionary
+            
+            if let parseJSON = json
+            {
+                if let profileImageUrl = parseJSON["profile_image_url"] as? String
+                {
+                    let profilePictureUrl = NSURL(string: profileImageUrl)
+                    let profilePictureData = NSData(contentsOfURL: profilePictureUrl!)
+                    
+                    if (profilePictureData != nil)
+                    {
+                        let profileFileObject = PFFile(data: profilePictureData!)
+                        PFUser.currentUser()?.setObject(profileFileObject!, forKey: "profile_picture")
+                        self.userImage?.image = UIImage(data: profilePictureData!)
+                    }
+                    
+                    PFUser.currentUser()?.username = twitterUsername
+                    PFUser.currentUser()?.setObject(twitterUsername!, forKey: "first_name")
+                    PFUser.currentUser()?.setObject(" ", forKey: "last_name")
+                    
+                    if let username = PFUser.currentUser()?["first_name"] as? String
+                    {
+                        self.userNameLabel?.text = "@" + username
+                    }
+                }
+
+                }
+             })
+            
+            }
+        catch
+            {
+                print(error)
+            }
+        }
+        task.resume()
         }
     }
+    
     
     func checkForUser()
     {
@@ -188,6 +249,12 @@ class SettingsViewController: UIViewController
         let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
         spinningActivity.labelText = "Loading"
         spinningActivity.detailsLabelText = "Please wait"
+    }
+    
+    func hideLoadingHUD()
+    {
+        let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+        spinningActivity.hide(true)
     }
 }
 
