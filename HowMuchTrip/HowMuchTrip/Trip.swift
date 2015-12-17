@@ -33,6 +33,12 @@ class Trip: PFObject, PFSubclassing
     @NSManaged var totalFoodCosts: Double
     @NSManaged var totalOtherDailyCosts: Double
     
+    @NSManaged var departureLat: String
+    @NSManaged var departureLng: String
+    
+    @NSManaged var destinationLat: String
+    @NSManaged var destinationLng: String
+    
     override class func initialize() {
         struct Static {
             static var onceToken : dispatch_once_t = 0;
