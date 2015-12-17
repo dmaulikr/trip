@@ -53,6 +53,7 @@ extension UIView
 {
     func appearWithFade(duration: Double)
     {
+        self.hidden = false
         self.alpha = 0
         UIView.animateWithDuration(duration) { () -> Void in
             self.alpha = 1
@@ -82,6 +83,32 @@ extension UIView
         self.frame.origin.y += fromPointY
         UIView.animateWithDuration(duration) { () -> Void in
             self.frame.origin.y = originalY
+        }
+    }
+    
+    func removeDimmedOverlayView()
+    {
+        if let dimmedOverlayView = self.viewWithTag(100)
+        {
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                dimmedOverlayView.alpha = 0
+                }, completion: { (_) -> Void in
+                    dimmedOverlayView.removeFromSuperview()
+            })
+        }
+    }
+    
+    func addDimmedOverlayView()
+    {
+        let dimmedOverlayView = UIView()
+        dimmedOverlayView.frame = self.bounds
+        dimmedOverlayView.backgroundColor = UIColor.blackColor()
+        dimmedOverlayView.alpha = 0
+        dimmedOverlayView.tag = 100
+        self.addSubview(dimmedOverlayView)
+        
+        UIView.animateWithDuration(0.25) { () -> Void in
+            dimmedOverlayView.alpha = 0.6
         }
     }
 }
