@@ -14,6 +14,7 @@
 		639028B71C2085F600067A09 /* TripDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 639028B61C2085F600067A09 /* TripDetail.storyboard */; };
 		639FA4821C208C0000FBA7E6 /* GraphLegendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */; };
 		63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AE246C1C1E651B001ECCE9 /* Extensions.swift */; };
+		63F4E6CE1C23051F0040CFC4 /* CreateTripDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */; };
 		86C4D9728457428FD35D8DBB /* Pods_HowMuchTrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */; };
 		9A75AC5E1C1F54B700258473 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A75AC5D1C1F54B700258473 /* Validator.swift */; };
 		9A8518C31C1DEF98001046EA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C21C1DEF98001046EA /* Reachability.swift */; };
@@ -61,6 +62,7 @@
 		639028B61C2085F600067A09 /* TripDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TripDetail.storyboard; sourceTree = "<group>"; };
 		639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLegendCell.swift; sourceTree = "<group>"; };
 		63AE246C1C1E651B001ECCE9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTripDataSource.swift; sourceTree = "<group>"; };
 		79B012481EE474F4FCFC105E /* Pods-HowMuchTrip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTrip.release.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTrip/Pods-HowMuchTrip.release.xcconfig"; sourceTree = "<group>"; };
 		9A75AC5D1C1F54B700258473 /* Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		9A8518C21C1DEF98001046EA /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			children = (
 				9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */,
 				9ADAAAF71C19E51F00D26F79 /* CreateTripTableViewController.swift */,
+				63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */,
 				9ADAAAEA1C19D72C00D26F79 /* TripListTableViewController.swift */,
 				9ADAAAEC1C19D7ED00D26F79 /* TripDetailViewController.swift */,
 				9ADAAAE81C19D65500D26F79 /* SettingsViewController.swift */,
@@ -460,6 +463,7 @@
 				9ADAAAE51C19CE0000D26F79 /* FlightSearch.swift in Sources */,
 				630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */,
 				9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */,
+				63F4E6CE1C23051F0040CFC4 /* CreateTripDataSource.swift in Sources */,
 				9ADAAAEB1C19D72C00D26F79 /* TripListTableViewController.swift in Sources */,
 				9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */,
 				FE7F792E1C1F2620001C6C14 /* SignUpViewController.swift in Sources */,

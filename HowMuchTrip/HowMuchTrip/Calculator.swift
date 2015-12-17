@@ -73,8 +73,6 @@ class Calculator
             let interval = dateTo?.intervalSince(dateFrom!)
             aTrip.numberOfDays = interval!.days
             aTrip.numberOfNights = aTrip.numberOfDays - 1
-            
-            print(aTrip.numberOfDays)
         }
         else
         {
