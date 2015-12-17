@@ -17,6 +17,7 @@ class Trip: PFObject, PFSubclassing
     
     @NSManaged var departureLocation: String
     @NSManaged var destination: String
+    @NSManaged var tripName: String
     
     @NSManaged var dateFrom: String
     @NSManaged var dateTo: String
