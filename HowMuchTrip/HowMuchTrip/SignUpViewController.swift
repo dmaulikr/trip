@@ -16,7 +16,7 @@ class SignUpViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        emailField.becomeFirstResponder()
     }
     
     override func didReceiveMemoryWarning() {
@@ -77,8 +77,14 @@ class SignUpViewController: UIViewController {
                 spinner.stopAnimating()
                 if ((error) != nil)
                 {
-                    let alert = UIAlertController(title: "Error", message: "\(error)", preferredStyle: .Alert)
-                    let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                    // TODO: capitalize first letter of error sentence
+                    let alert = UIAlertController(title: "Error", message: "\(error!.localizedDescription)", preferredStyle: .Alert)
+                    let confirmAction = UIAlertAction(title: "OK", style: .Default) {(action) in
+                        self.emailField.text = ""
+                        self.usernameField.text = ""
+                        self.passwordField.text = ""
+                        print("error")
+                    }
                     alert.addAction(confirmAction)
                     self.presentViewController(alert, animated: true, completion: nil)
                     
@@ -87,15 +93,12 @@ class SignUpViewController: UIViewController {
                 {
                     
                     let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
-                    let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                    let confirmAction = UIAlertAction(title: "OK", style: .Default) {(action) in
+                        
+                        self.presentingViewController!.presentingViewController!.dismissViewControllerAnimated(true, completion: {})
+                    }
                     alert.addAction(confirmAction)
                     self.presentViewController(alert, animated: true, completion: nil)
-                
-                
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        let storyboard = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("SuggestedTrips")
-                        self.presentViewController(storyboard, animated: true, completion: nil)
-                    })
                 }
             })
         }

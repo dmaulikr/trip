@@ -12,9 +12,10 @@ import Parse
 class ResetPasswordViewController: UIViewController {
     @IBOutlet weak var emailField: UITextField!
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        emailField.becomeFirstResponder()
     }
     
     override func didReceiveMemoryWarning() {

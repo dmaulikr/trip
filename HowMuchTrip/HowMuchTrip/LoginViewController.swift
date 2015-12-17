@@ -13,6 +13,7 @@ import ParseFacebookUtilsV4
 import FBSDKCoreKit
 
 var name = ""
+var loggedInWith = ""
 
 class LoginViewController: UIViewController, UITextFieldDelegate
 {
@@ -52,6 +53,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     }
     
     @IBAction func loginAction(sender: AnyObject) {
+        
+        loggedInWith = "Username"
         let username = self.usernameField.text
         let password = self.passwordField.text
         
@@ -101,8 +104,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                 else
                 {
                     
-                    let alert = UIAlertController(title: "Error", message: "\(error)", preferredStyle: .Alert)
-                    let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
+                    let alert = UIAlertController(title: "Error", message: "Username or Password is Invalid", preferredStyle: .Alert)
+                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                        self.usernameField.text = ""
+                        self.passwordField.text = ""
+                        self.usernameField.becomeFirstResponder()
+                    
+                    }
                     alert.addAction(confirmAction)
                     self.presentViewController(alert, animated: true, completion: nil)
                 }
@@ -112,6 +120,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     
     @IBAction func loginWithTwitterTapped(sender: UIButton)
     {
+        loggedInWith = "Twitter"
+        
         PFTwitterUtils.logInWithBlock {
             (user: PFUser?, error: NSError?) -> Void in
             if let user = user {
@@ -151,6 +161,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     
     @IBAction func loginWithFacebook(sender: UIButton)
     {
+        loggedInWith = "Facebook"
+        
         PFFacebookUtils.logInInBackgroundWithReadPermissions(["public_profile", "email"]) {
             (user: PFUser?, error: NSError?) -> Void in
             if let user = user {

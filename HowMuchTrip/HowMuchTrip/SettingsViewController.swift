@@ -33,21 +33,26 @@ class SettingsViewController: UIViewController
     override func viewWillAppear(animated: Bool)
     {
         checkForUser()
-        processFacebookData()
-        processTwitterData()
         
-        if let pUserName = PFUser.currentUser()?["username"] as? String
+        switch loggedInWith
         {
-            self.userNameLabel.text = "@" + pUserName
-            self.userImage.image = UIImage(named: "GenericUserImage")
+        case "Twitter":
+            processTwitterData()
+        case "Facebook":
+            processFacebookData()
+        case "Username":
+            processUsernameData()
+        default:
+            processUsernameData()
         }
-
     }
     
     @IBAction func logOutAction(sender: UIButton)
     {
         // Send a request to log out a user
         PFUser.logOut()
+        userNameLabel.text = nil
+        userImage.image = nil
         
 
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -59,6 +64,14 @@ class SettingsViewController: UIViewController
         
     }
     
+    func processUsernameData()
+    {
+        let pUserName = PFUser.currentUser()?["username"] as? String
+        
+            self.userNameLabel.text = "@" + pUserName!
+            self.userImage.image = UIImage(named: "GenericUserImage")
+    }
+    
     func processFacebookData()
     {
         let requestParameters = ["fields": "id, email, first_name, last_name"]
@@ -68,7 +81,6 @@ class SettingsViewController: UIViewController
         if userDetails != nil
         {
             
-
         userDetails.startWithCompletionHandler { (connection, result, error:NSError!) -> Void in
             
             if(error != nil)
