@@ -20,6 +20,8 @@
 		9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */; };
 		9A8518C71C1DFCFE001046EA /* SuggestedTripsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */; };
 		9A8518CA1C1E0632001046EA /* suggestedTrips.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A8518C91C1E0632001046EA /* suggestedTrips.json */; };
+		9A93D2F51C23387A00496FE1 /* GoogleMapsAPIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93D2F41C23387A00496FE1 /* GoogleMapsAPIController.swift */; };
+		9A93D2F71C23399A00496FE1 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93D2F61C23399A00496FE1 /* Location.swift */; };
 		9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */; };
 		9ADAAAC11C19C26100D26F79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAAABF1C19C26100D26F79 /* Main.storyboard */; };
 		9ADAAAC31C19C26100D26F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAAAC21C19C26100D26F79 /* Assets.xcassets */; };
@@ -67,6 +69,8 @@
 		9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedTripCell.swift; sourceTree = "<group>"; };
 		9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedTripsTableViewController.swift; sourceTree = "<group>"; };
 		9A8518C91C1E0632001046EA /* suggestedTrips.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = suggestedTrips.json; sourceTree = "<group>"; };
+		9A93D2F41C23387A00496FE1 /* GoogleMapsAPIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleMapsAPIController.swift; sourceTree = "<group>"; };
+		9A93D2F61C23399A00496FE1 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		9ADAAAB61C19C26100D26F79 /* HowMuchTrip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HowMuchTrip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9ADAAAC01C19C26100D26F79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -149,6 +153,14 @@
 			name = Misc;
 			sourceTree = "<group>";
 		};
+		9A93D2F81C233A0100496FE1 /* API Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				9A93D2F41C23387A00496FE1 /* GoogleMapsAPIController.swift */,
+			);
+			name = "API Controllers";
+			sourceTree = "<group>";
+		};
 		9ADAAAAD1C19C26100D26F79 = {
 			isa = PBXGroup;
 			children = (
@@ -179,6 +191,7 @@
 				9ADAAAF01C19D88000D26F79 /* View Controllers */,
 				9ADAAAF11C19D88E00D26F79 /* Models */,
 				9ADAAAF61C19E4C300D26F79 /* Table Cells */,
+				9A93D2F81C233A0100496FE1 /* API Controllers */,
 				9A8518C81C1E057A001046EA /* Misc */,
 			);
 			path = HowMuchTrip;
@@ -213,6 +226,7 @@
 				9ADAAAE01C19CDD200D26F79 /* Trip.swift */,
 				9ADAAAE21C19CDE300D26F79 /* Calculator.swift */,
 				9ADAAAE41C19CE0000D26F79 /* FlightSearch.swift */,
+				9A93D2F61C23399A00496FE1 /* Location.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -465,8 +479,10 @@
 				FE7F792E1C1F2620001C6C14 /* SignUpViewController.swift in Sources */,
 				9ADAAAEF1C19D82200D26F79 /* TripCell.swift in Sources */,
 				9ADAAAED1C19D7ED00D26F79 /* TripDetailViewController.swift in Sources */,
+				9A93D2F71C23399A00496FE1 /* Location.swift in Sources */,
 				9ADAAAE31C19CDE300D26F79 /* Calculator.swift in Sources */,
 				639FA4821C208C0000FBA7E6 /* GraphLegendCell.swift in Sources */,
+				9A93D2F51C23387A00496FE1 /* GoogleMapsAPIController.swift in Sources */,
 				FE7F79301C1F2632001C6C14 /* ResetPasswordViewController.swift in Sources */,
 				9A8518C71C1DFCFE001046EA /* SuggestedTripsTableViewController.swift in Sources */,
 				9A75AC5E1C1F54B700258473 /* Validator.swift in Sources */,
