@@ -67,7 +67,9 @@ class SuggestedTripsTableViewController: UITableViewController
         let budgetTotal             = suggestedTrip["budgetTotal"]          as? Double ?? 0.0
         let subtotalOfProperties    = suggestedTrip["subtotalOfProperties"] as? Double ?? 0.0
         let budgetRemaining         = suggestedTrip["budgetRemaining"]      as? Double ?? 0.0
+        let departureLocation       = suggestedTrip["departureLocation"]    as? String ?? ""
         let destination             = suggestedTrip["destination"]          as? String ?? ""
+        let tripName                = suggestedTrip["tripName"]             as? String ?? ""
         let numberOfDays            = suggestedTrip["numberOfDays"]         as? Double ?? 0.0
         let numberOfNights          = suggestedTrip["numberOfNights"]       as? Double ?? 0.0
         let planeTicketCost         = suggestedTrip["planeTicketCost"]      as? Double ?? 0.0
@@ -85,7 +87,9 @@ class SuggestedTripsTableViewController: UITableViewController
         trip.budgetTotal            = budgetTotal
         trip.subtotalOfProperties   = subtotalOfProperties
         trip.budgetRemaining        = budgetRemaining
+        trip.departureLocation      = departureLocation
         trip.destination            = destination
+        trip.tripName               = tripName
         trip.numberOfDays           = numberOfDays
         trip.numberOfNights         = numberOfNights
         trip.planeTicketCost        = planeTicketCost
@@ -116,6 +120,8 @@ class SuggestedTripsTableViewController: UITableViewController
 
         let aTrip = trips[indexPath.row]
         
+        cell.tripNameLabel.text = aTrip.tripName
+        cell.departureLocationLabel.text = aTrip.departureLocation
         cell.destinationLabel.text = aTrip.destination
         cell.budgetLabel.text = formatCost(aTrip.budgetTotal)
 
