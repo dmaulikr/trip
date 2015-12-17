@@ -129,6 +129,12 @@ class Calculator
         aTrip.totalLodgingCosts = 0.0
         aTrip.totalFoodCosts = 0.0
         aTrip.totalOtherDailyCosts = 0.0
+        
+        aTrip.departureLat = ""
+        aTrip.departureLng = ""
+        
+        aTrip.destinationLat = ""
+        aTrip.destinationLng = ""
 
     }
 }

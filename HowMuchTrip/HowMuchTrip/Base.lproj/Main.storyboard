@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -12,47 +13,90 @@
         <scene sceneID="sE3-Sk-HYs">
             <objects>
                 <tableViewController storyboardIdentifier="SuggestedTrips" useStoryboardIdentifierAsRestorationIdentifier="YES" id="fdv-ye-oJ6" customClass="SuggestedTripsTableViewController" customModule="HowMuchTrip" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ofP-3y-i1f">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="125" sectionHeaderHeight="28" sectionFooterHeight="28" id="ofP-3y-i1f">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SuggestedTripCell" id="i1s-gb-jPY" customClass="SuggestedTripCell" customModule="HowMuchTrip" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="SuggestedTripCell" rowHeight="125" id="i1s-gb-jPY" customClass="SuggestedTripCell" customModule="HowMuchTrip" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i1s-gb-jPY" id="m4F-ca-AXa">
+<<<<<<< HEAD
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+=======
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="124"/>
+>>>>>>> master
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Destination" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tRt-op-k3E">
-                                            <rect key="frame" x="8" y="9" width="426" height="25"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Going From" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="tRt-op-k3E">
+                                            <rect key="frame" x="8" y="86" width="178" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="EC9-uR-aac"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budget" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="u6L-o6-Vcb">
-                                            <rect key="frame" x="442" y="9" width="150" height="25"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Going To" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="QvR-0L-EHs">
+                                            <rect key="frame" x="381" y="86" width="178" height="30"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="150" id="j9h-sY-8P2"/>
+                                                <constraint firstAttribute="height" constant="30" id="eGe-vU-hRp"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budget" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="u6L-o6-Vcb">
+                                            <rect key="frame" x="459" y="13" width="100" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="100" id="4UR-C0-5NW"/>
+                                                <constraint firstAttribute="height" constant="30" id="DBh-se-BaQ"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trip Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="YV9-kb-Qem">
+                                            <rect key="frame" x="8" y="9" width="443" height="30"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="QAl-Rt-uis"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="24"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O2P-xg-owH">
+                                            <rect key="frame" x="194" y="86" width="179" height="30"/>
+                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="30" id="OZ5-MT-8ut"/>
+                                            </constraints>
+                                        </view>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="u6L-o6-Vcb" firstAttribute="centerY" secondItem="m4F-ca-AXa" secondAttribute="centerY" id="3ob-xe-dlP"/>
-                                        <constraint firstItem="tRt-op-k3E" firstAttribute="top" secondItem="u6L-o6-Vcb" secondAttribute="top" id="Ihz-vR-ABV"/>
-                                        <constraint firstItem="tRt-op-k3E" firstAttribute="top" secondItem="m4F-ca-AXa" secondAttribute="topMargin" constant="1" id="NV8-1m-fmv"/>
-                                        <constraint firstItem="u6L-o6-Vcb" firstAttribute="bottom" secondItem="tRt-op-k3E" secondAttribute="bottom" id="Stk-zw-Igi"/>
-                                        <constraint firstItem="u6L-o6-Vcb" firstAttribute="trailing" secondItem="m4F-ca-AXa" secondAttribute="trailingMargin" id="iIo-Iy-UX9"/>
-                                        <constraint firstItem="u6L-o6-Vcb" firstAttribute="leading" secondItem="tRt-op-k3E" secondAttribute="trailing" constant="8" symbolic="YES" id="qfb-yT-wYw"/>
-                                        <constraint firstItem="tRt-op-k3E" firstAttribute="leading" secondItem="m4F-ca-AXa" secondAttribute="leadingMargin" id="zEi-W7-7ax"/>
+                                        <constraint firstAttribute="trailing" secondItem="u6L-o6-Vcb" secondAttribute="trailing" constant="8" id="2Ll-ff-IRf"/>
+                                        <constraint firstItem="tRt-op-k3E" firstAttribute="width" secondItem="O2P-xg-owH" secondAttribute="width" id="4D2-vC-xaV"/>
+                                        <constraint firstItem="YV9-kb-Qem" firstAttribute="top" secondItem="m4F-ca-AXa" secondAttribute="top" constant="9" id="4ui-O0-aqX"/>
+                                        <constraint firstAttribute="bottom" secondItem="tRt-op-k3E" secondAttribute="bottom" constant="8" id="8k3-cW-GYn"/>
+                                        <constraint firstItem="tRt-op-k3E" firstAttribute="leading" secondItem="m4F-ca-AXa" secondAttribute="leading" constant="8" id="Bdj-cK-UGi"/>
+                                        <constraint firstItem="u6L-o6-Vcb" firstAttribute="top" secondItem="m4F-ca-AXa" secondAttribute="top" constant="13" id="MOD-9T-ZUT"/>
+                                        <constraint firstItem="O2P-xg-owH" firstAttribute="leading" secondItem="tRt-op-k3E" secondAttribute="trailing" constant="8" id="OyG-EI-bRW"/>
+                                        <constraint firstItem="YV9-kb-Qem" firstAttribute="firstBaseline" secondItem="u6L-o6-Vcb" secondAttribute="firstBaseline" id="Xat-fd-Y0q"/>
+                                        <constraint firstItem="QvR-0L-EHs" firstAttribute="leading" secondItem="O2P-xg-owH" secondAttribute="trailing" constant="8" id="b61-Wd-3X3"/>
+                                        <constraint firstAttribute="bottom" secondItem="O2P-xg-owH" secondAttribute="bottom" constant="8" id="dXq-sm-3db"/>
+                                        <constraint firstItem="u6L-o6-Vcb" firstAttribute="leading" secondItem="YV9-kb-Qem" secondAttribute="trailing" constant="8" id="eAx-TQ-nJ9"/>
+                                        <constraint firstItem="YV9-kb-Qem" firstAttribute="leading" secondItem="m4F-ca-AXa" secondAttribute="leading" constant="8" id="eb8-jd-VAR"/>
+                                        <constraint firstAttribute="trailing" secondItem="QvR-0L-EHs" secondAttribute="trailing" constant="8" id="j5p-yK-VGN"/>
+                                        <constraint firstItem="O2P-xg-owH" firstAttribute="width" secondItem="QvR-0L-EHs" secondAttribute="width" id="lUX-Re-b4F"/>
+                                        <constraint firstAttribute="bottom" secondItem="QvR-0L-EHs" secondAttribute="bottom" constant="8" id="ues-1o-sgK"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="budgetLabel" destination="u6L-o6-Vcb" id="hhZ-HT-UR4"/>
-                                    <outlet property="destinationLabel" destination="tRt-op-k3E" id="UXs-gp-Gk7"/>
+                                    <outlet property="budgetLabel" destination="u6L-o6-Vcb" id="jBk-a0-re5"/>
+                                    <outlet property="departureLocationLabel" destination="tRt-op-k3E" id="6hU-hY-lrI"/>
+                                    <outlet property="destinationLabel" destination="QvR-0L-EHs" id="eAT-DT-N1f"/>
+                                    <outlet property="tripNameLabel" destination="YV9-kb-Qem" id="ryP-ub-6t4"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -71,7 +115,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eAC-uL-KTP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-378" y="953"/>
+            <point key="canvasLocation" x="-426" y="985"/>
         </scene>
         <!--Trip List Table View Controller-->
         <scene sceneID="BbD-CY-rFf">
@@ -146,7 +190,11 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GZN-II-gfj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
+<<<<<<< HEAD
             <point key="canvasLocation" x="1172" y="953"/>
+=======
+            <point key="canvasLocation" x="268" y="985"/>
+>>>>>>> master
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
@@ -166,7 +214,7 @@
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="654" y="-684"/>
+            <point key="canvasLocation" x="268" y="-610"/>
         </scene>
         <!--My Trips-->
         <scene sceneID="gCm-yA-gWo">
@@ -187,7 +235,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ggb-et-vjd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1172" y="156"/>
+            <point key="canvasLocation" x="268" y="216"/>
         </scene>
         <!--Settings-->
         <scene sceneID="k7l-O1-jCa">
@@ -250,7 +298,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="IIB-DC-Oig" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1816" y="156"/>
+            <point key="canvasLocation" x="912" y="216"/>
         </scene>
         <!--Calendar Popover View Controller-->
         <scene sceneID="I6b-z2-t6O">
@@ -430,7 +478,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FwP-r0-t9q" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-378" y="184"/>
+            <point key="canvasLocation" x="-426" y="216"/>
         </scene>
         <!--Create Trip Table View Controller-->
         <scene sceneID="aVf-ai-M0o">
