@@ -9,7 +9,8 @@
 import UIKit
 import Parse
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController
+{
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -25,7 +26,7 @@ class SignUpViewController: UIViewController {
     }
     
     
-    @IBAction func signUpAction(sender: AnyObject) {
+    @IBAction func signUpAction(sender: UIButton) {
         
         let username = self.usernameField.text
         let password = self.passwordField.text
@@ -102,16 +103,14 @@ class SignUpViewController: UIViewController {
                 }
             })
         }
+        func isValidEmail(testStr:String) -> Bool
+        {
+            // println("validate calendar: \(testStr)")
+            let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+            
+            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+            return emailTest.evaluateWithObject(testStr)
+        }
     }
-    
-    /*
-    // MARK: - Navigation
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-    // Get the new view controller using segue.destinationViewController.
-    // Pass the selected object to the new view controller.
-    }
-    */
     
 }

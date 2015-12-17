@@ -11,6 +11,12 @@ import Parse
 import MBProgressHUD
 import ParseTwitterUtils
 
+//emails for project:
+//howmuchtrip@gmail.com
+//support@howmuchtrip.com
+//feedback@howmuchtrip.com
+//Password for all: tiyios2015(edited)
+
 class SettingsViewController: UIViewController
 {
     @IBOutlet weak var userNameLabel: UILabel!
@@ -85,9 +91,12 @@ class SettingsViewController: UIViewController
             
             if(error != nil)
             {
-                print("\(error.localizedDescription)")
-                return
-            }
+                let alert = UIAlertController(title: "Error", message: "\(error!.localizedDescription)", preferredStyle: .Alert)
+                let confirmAction = UIAlertAction(title: "OK", style: .Default) {(action) in
+                }
+                alert.addAction(confirmAction)
+                self.presentViewController(alert, animated: true, completion: nil)
+                }
             
             if(result != nil)
             {
@@ -140,9 +149,6 @@ class SettingsViewController: UIViewController
                     
                     let profilePictureData = NSData(contentsOfURL: profilePictureUrl!)
                     self.userImage?.image = UIImage(data: profilePictureData!)
-                    
-                    //self.userImage.downloadImgFrom(<#T##imageURL: String##String#>, contentMode: .AspectFill)
-                    
                     
                     if(profilePictureData != nil)
                     {
@@ -201,7 +207,7 @@ class SettingsViewController: UIViewController
                 
                 //self.hideLoadingHUD()
                 
-                let alert = UIAlertController(title: "Alert", message: "", preferredStyle: .Alert)
+                let alert = UIAlertController(title: "Alert", message: "\(error!.localizedDescription)", preferredStyle: .Alert)
                 let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
                 alert.addAction(confirmAction)
                 self.presentViewController(alert, animated: true, completion: nil)

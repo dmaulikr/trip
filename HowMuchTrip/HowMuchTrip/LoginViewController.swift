@@ -20,22 +20,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         //usernameField.becomeFirstResponder()
-        
-        
-        
-        // Do any additional setup after loading the view.
     }
     
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
-    
-    
-    @IBAction func unwindToLogInScreen(segue:UIStoryboardSegue) {
+
+    @IBAction func unwindToLogInScreen(segue:UIStoryboardSegue){
     }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool
@@ -52,7 +49,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         return true
     }
     
-    @IBAction func loginAction(sender: AnyObject) {
+    @IBAction func loginAction(sender: UIButton)
+    {
         
         loggedInWith = "Username"
         let username = self.usernameField.text
@@ -67,15 +65,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             alert.addAction(confirmAction)
             presentViewController(alert, animated: true, completion: nil)
             
-            
-        } else if password?.characters.count < 8
+        }
+        else if password?.characters.count < 8
         {
             
             let alert = UIAlertController(title: "Invalid", message: "Password must be greater than 7 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
             presentViewController(alert, animated: true, completion: nil)
-            
             
         }
         else
@@ -99,7 +96,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate
 //                    }
 //                    alert.addAction(confirmAction)
 //                    self.presentViewController(alert, animated: true, completion: nil)
-                
                 }
                 else
                 {
@@ -127,16 +123,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             if let user = user {
                 if user.isNew
                 {
-//                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
-//                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
+                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
                     
                         self.dismissViewControllerAnimated(true, completion: nil)
                         print("User signed up and logged in with Twitter!")
-//                    }
-//                    alert.addAction(confirmAction)
-//                    self.presentViewController(alert, animated: true, completion: nil)
-                    
-                    
+                    }
+                    alert.addAction(confirmAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
                 }
                 else
                 {
@@ -147,8 +141,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate
 //                    }
 //                    alert.addAction(confirmAction)
 //                    self.presentViewController(alert, animated: true, completion: nil)
-                    
-                    
                 }
             }
             else
@@ -156,7 +148,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                 print("The user cancelled the Twitter login.")
             }
         }
-        
     }
     
     @IBAction func loginWithFacebook(sender: UIButton)
@@ -168,14 +159,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             if let user = user {
                 if user.isNew
                 {
-//                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
-//                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
+                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
                     
                         self.dismissViewControllerAnimated(true, completion: nil)
                         print("User signed up and logged in through Facebook!")
-//                    }
-//                    alert.addAction(confirmAction)
-//                    self.presentViewController(alert, animated: true, completion: nil)
+                    }
+                    alert.addAction(confirmAction)
+                    self.presentViewController(alert, animated: true, completion: nil)
                     
                 }
                 else
@@ -188,17 +179,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate
 //                    }
 //                    alert.addAction(confirmAction)
 //                    self.presentViewController(alert, animated: true, completion: nil)
-                    
                 }
             }
             else
             {
-                
                 print("The user cancelled the Facebook login.")
             }
         }
-        
     }
-    
-    
 }
