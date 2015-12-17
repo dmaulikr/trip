@@ -37,8 +37,13 @@ class GraphLegendTableViewController: UITableViewController
         let value     = values[indexPath.row]
         let color     = colors[indexPath.row]
         
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        formatter.locale = NSLocale(localeIdentifier: "en_US")
+        let propertyCostString = formatter.stringFromNumber(value)
+
         cell.propertyLabel.text = dataPoint
-        cell.propertyCost.text = String(value)
+        cell.propertyCost.text = propertyCostString
         cell.propertyColorView.backgroundColor = color
         
         cell.backgroundColor = UIColor.clearColor()
