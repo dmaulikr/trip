@@ -15,7 +15,7 @@ class SuggestedTripsTableViewController: UITableViewController
 {
     var trips = [Trip]()
     var userDefinedBudget = 1000.0
-
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()

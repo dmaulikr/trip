@@ -56,7 +56,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         let password = self.passwordField.text
         
         // Validate the text fields
-        if username?.characters.count < 5 {
+        if username?.characters.count < 5
+        {
             
             let alert = UIAlertController(title: "Invalid", message: "Username must be greater than 5 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
@@ -64,7 +65,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             presentViewController(alert, animated: true, completion: nil)
             
             
-        } else if password?.characters.count < 8 {
+        } else if password?.characters.count < 8
+        {
             
             let alert = UIAlertController(title: "Invalid", message: "Password must be greater than 7 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
@@ -72,7 +74,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             presentViewController(alert, animated: true, completion: nil)
             
             
-        } else {
+        }
+        else
+        {
             // Run a spinner to show a task in progress
             let spinner: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(0, 0, 150, 150)) as UIActivityIndicatorView
             spinner.startAnimating()
@@ -85,14 +89,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                 
                 if ((user) != nil)
                 {
-                    let alert = UIAlertController(title: "Success", message: "Logged In", preferredStyle: .Alert)
-                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-                        
-                        self.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                    alert.addAction(confirmAction)
-                    self.presentViewController(alert, animated: true, completion: nil)
+//                    let alert = UIAlertController(title: "Success", message: "Logged In", preferredStyle: .Alert)
+//                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
                     
+                        self.dismissViewControllerAnimated(true, completion: nil)
+//                    }
+//                    alert.addAction(confirmAction)
+//                    self.presentViewController(alert, animated: true, completion: nil)
+                
                 }
                 else
                 {
@@ -113,34 +117,33 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             if let user = user {
                 if user.isNew
                 {
-                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
-                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-                        
+//                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
+//                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                    
                         self.dismissViewControllerAnimated(true, completion: nil)
                         print("User signed up and logged in with Twitter!")
-                    }
-                    alert.addAction(confirmAction)
-                    self.presentViewController(alert, animated: true, completion: nil)
+//                    }
+//                    alert.addAction(confirmAction)
+//                    self.presentViewController(alert, animated: true, completion: nil)
                     
                     
                 }
                 else
                 {
-                    let alert = UIAlertController(title: "Success", message: "Logged In", preferredStyle: .Alert)
-                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-                        
+//                    let alert = UIAlertController(title: "Success", message: "Logged In", preferredStyle: .Alert)
+//                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
                         self.dismissViewControllerAnimated(true, completion: nil)
                         print("User logged in with Twitter!")
-                    }
-                    alert.addAction(confirmAction)
-                    self.presentViewController(alert, animated: true, completion: nil)
+//                    }
+//                    alert.addAction(confirmAction)
+//                    self.presentViewController(alert, animated: true, completion: nil)
                     
                     
                 }
             }
             else
             {
-                print("Uh oh. The user cancelled the Twitter login.")
+                print("The user cancelled the Twitter login.")
             }
         }
         
@@ -153,33 +156,33 @@ class LoginViewController: UIViewController, UITextFieldDelegate
             if let user = user {
                 if user.isNew
                 {
-                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
-                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-                        
+//                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
+//                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                    
                         self.dismissViewControllerAnimated(true, completion: nil)
                         print("User signed up and logged in through Facebook!")
-                    }
-                    alert.addAction(confirmAction)
-                    self.presentViewController(alert, animated: true, completion: nil)
+//                    }
+//                    alert.addAction(confirmAction)
+//                    self.presentViewController(alert, animated: true, completion: nil)
                     
                 }
                 else
                 {
-                    let alert = UIAlertController(title: "Success", message: "Logged In", preferredStyle: .Alert)
-                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-                        
+//                    let alert = UIAlertController(title: "Success", message: "Logged In", preferredStyle: .Alert)
+//                    let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
+                    
                         self.dismissViewControllerAnimated(true, completion: nil)
                         print("User logged in with Facebook!")
-                    }
-                    alert.addAction(confirmAction)
-                    self.presentViewController(alert, animated: true, completion: nil)
+//                    }
+//                    alert.addAction(confirmAction)
+//                    self.presentViewController(alert, animated: true, completion: nil)
                     
                 }
             }
             else
             {
                 
-                print("Uh oh. The user cancelled the Facebook login.")
+                print("The user cancelled the Facebook login.")
             }
         }
         

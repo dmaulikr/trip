@@ -22,7 +22,6 @@ class SettingsViewController: UIViewController
         super.viewDidLoad()
 
         title = "Settings"
-        
     }
 
     override func didReceiveMemoryWarning()
