@@ -40,6 +40,7 @@ class SettingsViewController: UIViewController
         if let pUserName = PFUser.currentUser()?["username"] as? String
         {
             self.userNameLabel.text = "@" + pUserName
+            self.userImage.image = UIImage(named: "GenericUserImage")
         }
 
     }
@@ -49,6 +50,7 @@ class SettingsViewController: UIViewController
         // Send a request to log out a user
         PFUser.logOut()
         
+
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
             self.presentViewController(viewController, animated: true, completion: { () -> Void in
@@ -56,18 +58,18 @@ class SettingsViewController: UIViewController
             })
         })
         
-        userNameLabel.text = nil
-        userImage.image = nil
     }
     
     func processFacebookData()
     {
-        
-        
         let requestParameters = ["fields": "id, email, first_name, last_name"]
         
         let userDetails = FBSDKGraphRequest(graphPath: "me", parameters: requestParameters)
         
+        if userDetails != nil
+        {
+            
+
         userDetails.startWithCompletionHandler { (connection, result, error:NSError!) -> Void in
             
             if(error != nil)
@@ -78,6 +80,9 @@ class SettingsViewController: UIViewController
             
             if(result != nil)
             {
+                let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+                spinningActivity.labelText = "Loading"
+                spinningActivity.detailsLabelText = "Please wait"
                 
                 let userId:String = result["id"] as! String
                 let userFirstName:String? = result["first_name"] as? String
@@ -108,14 +113,15 @@ class SettingsViewController: UIViewController
                     myUser.setObject(userEmail!, forKey: "email")
                 }
                 
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+
                 if let firstName = PFUser.currentUser()?["first_name"] as? String, let lastName = PFUser.currentUser()?["last_name"] as? String
                 {
                     self.userNameLabel?.text = "\(firstName) \(lastName)"
                 }
 
                // dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
+                
                     // Get Facebook profile picture
                     let userProfile = "https://graph.facebook.com/" + userId + "/picture?type=large"
                     
@@ -138,6 +144,7 @@ class SettingsViewController: UIViewController
                         
                         if(success)
                         {
+                            spinningActivity.hide(true)
                             print("User details are now updated")
                         }
                         
@@ -149,18 +156,23 @@ class SettingsViewController: UIViewController
             
         }
 
+      }
     }
+    
+    
     
     func processTwitterData()
     {
-        //showLoadingHUD()
-        
         
         let pfTwitter = PFTwitterUtils.twitter()
         let twitterUsername = pfTwitter?.screenName
         
         if twitterUsername != nil
         {
+        let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+            spinningActivity.labelText = "Loading"
+            spinningActivity.detailsLabelText = "Please wait"
+
         var userDetailsUrl:String = "https://api.twitter.com/1.1/users/show.json?screen_name="
         userDetailsUrl = userDetailsUrl + twitterUsername!
         
@@ -214,6 +226,7 @@ class SettingsViewController: UIViewController
                     
                     if let username = PFUser.currentUser()?["first_name"] as? String
                     {
+                        spinningActivity.hide(true)
                         self.userNameLabel?.text = "@" + username
                     }
                 }
