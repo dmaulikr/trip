@@ -53,6 +53,7 @@ extension UIView
 {
     func appearWithFade(duration: Double)
     {
+        self.hidden = false
         self.alpha = 0
         UIView.animateWithDuration(duration) { () -> Void in
             self.alpha = 1
