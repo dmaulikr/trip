@@ -49,6 +49,7 @@ class CreateTripTableViewController:
     
     var shownTextField: UITextField!
     var textFields = [UITextField]()
+    var buttons = [UIButton!]()
     
     override func viewDidLoad()
     {
@@ -84,11 +85,20 @@ class CreateTripTableViewController:
     
     func textFieldDidBeginEditing(textField: UITextField)
     {
-        if textField.isFirstResponder() && textField.tag == 80 || textField.tag == 81
+        if textField.tag == 80 || textField.tag == 81 && textField.isFirstResponder()
         {
             textField.resignFirstResponder()
             performSegueWithIdentifier("calendarPopover", sender: textField)
         }
+        else if textField == budgetTextField
+        {
+            nextButton.enabled = textField.text?.characters.count > 0
+        }
+    }
+    
+    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
+    {
+        return dataSource.testCharacters(textField, string: string, superview: self)
     }
     
     func cycleToNextField(indexOfTextField: Int)
@@ -102,6 +112,8 @@ class CreateTripTableViewController:
             shownTextField = nextTextField
             shownTextField.hidden = false
             shownTextField.frame.origin.y = 100
+
+            dataSource.manageButtons(self)
             
             promptLabel.alpha = 0
             promptLabel.text = dataSource.getPromptLabelText(indexOfTextField, aTrip: aTrip)
@@ -141,7 +153,13 @@ class CreateTripTableViewController:
     
     @IBAction func contextButtonPressed(sender: UIButton)
     {
-        
+        switch sender.imageForState(.Normal)
+        {
+        case UIImage(named: <#T##String#>):
+        case UIImage(named: <#T##String#>):
+        case UIImage(named: <#T##String#>):
+        default: print(sender.imageForState(.Normal))
+        }
     }
     
     func clear()
@@ -159,6 +177,8 @@ class CreateTripTableViewController:
         legendContainerView.hideWithFade(0.25)
         promptLabel.hideWithFade(0.25)
 
+        dataSource.hideButtons(buttons)
+        
         if budgetRemainingLabel.alpha != 0
         {
             budgetRemainingLabel.hideWithFade(0.25)
@@ -238,6 +258,8 @@ class CreateTripTableViewController:
         budgetRemainingLabel.alpha = 0
         dataSource.tripCreated = true
         
+        dataSource.hideButtons(buttons)
+        
         UIView.animateWithDuration(1.0, animations: { () -> Void in
             let index = NSIndexPath(forRow: 0, inSection: 0)
             self.tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
@@ -297,11 +319,6 @@ class CreateTripTableViewController:
                  textFieldShouldReturn(dateToTextField)
         default: print(textFieldTag)
         }
-    }
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
-    {
-        return dataSource.testCharacters(textField, string: string, superview: self)
     }
     
     //MARK: - Pie Graph Legend

@@ -13,9 +13,12 @@ class CreateTripDataSource
 {
     var calculateFinished = false
     var tripCreated = false
+    var superview: CreateTripTableViewController?
 
     func initialSetup(superview: CreateTripTableViewController)
     {
+        self.superview = superview
+        
         let textFields = [
             superview.budgetTextField!,
             superview.destinationTextField!,
@@ -50,6 +53,19 @@ class CreateTripDataSource
         ]
         
         superview.allProperties = allProperties
+        
+        let allButtons = [
+            superview.nextButton,
+            superview.skipButton,
+            superview.contextButton
+        ]
+        
+        superview.buttons = allButtons
+        for button in superview.buttons
+        {
+            button.alpha = 0
+            button.hidden = true
+        }
         
         let pieChartView = superview.pieChartView
         pieChartView.alpha = 0
@@ -213,6 +229,17 @@ class CreateTripDataSource
         }
     }
     
+    func hideButtons(buttons: [UIButton!])
+    {
+        for button in buttons
+        {
+            if button.alpha != 0
+            {
+                button.hideWithFade(0.25)
+            }
+        }
+    }
+    
     func getGraphColors() -> [UIColor]
     {
         let colors = [
@@ -343,5 +370,38 @@ class CreateTripDataSource
         return true
     }
     
-    
+    func manageButtons(superview: CreateTripTableViewController)
+    {
+//        let textFields = [
+//            superview.budgetTextField!,
+//            superview.destinationTextField!,
+//            superview.departureLocationTextField!,
+//            superview.dateFromTextField!,
+//            superview.dateToTextField!,
+//            superview.planeTicketTextField!,
+//            superview.dailyLodgingTextField!,
+//            superview.dailyFoodTextField!,
+//            superview.dailyOtherTextField!,
+//            superview.oneTimeCostTextField!
+//        ]
+        
+        if superview.contextButton.alpha != 0
+        {
+            superview.contextButton.hideWithFade(0.25)
+        }
+        
+        switch superview.shownTextField
+        {
+        case superview.budgetTextField:
+            superview.nextButton.appearWithFade(0.25)
+        case superview.destinationTextField, superview.departureLocationTextField:
+            superview.skipButton.appearWithFade(0.25)
+            superview.contextButton.appearWithFade(0.25)
+            superview.contextButton.setImage(<#T##image: UIImage?##UIImage?#>, forState: <#T##UIControlState#>)
+        case superview.planeTicketTextField:
+            superview.contextButton.appearWithFade(0.25)
+            superview.contextButton.setImage(<#T##image: UIImage?##UIImage?#>, forState: <#T##UIControlState#>)
+        default: break;
+        }
+    }
 }
