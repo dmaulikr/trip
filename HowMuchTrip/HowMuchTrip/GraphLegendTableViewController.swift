@@ -19,6 +19,8 @@ class GraphLegendTableViewController: UITableViewController
         super.viewDidLoad()
         tableView.backgroundColor = UIColor.clearColor()
         view.backgroundColor = UIColor.clearColor()
+        
+        tableView.separatorStyle = .None
     }
     
     // MARK: - Table view data source

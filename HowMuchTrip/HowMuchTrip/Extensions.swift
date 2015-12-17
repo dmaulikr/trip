@@ -84,6 +84,32 @@ extension UIView
             self.frame.origin.y = originalY
         }
     }
+    
+    func removeDimmedOverlayView()
+    {
+        if let dimmedOverlayView = self.viewWithTag(100)
+        {
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                dimmedOverlayView.alpha = 0
+                }, completion: { (_) -> Void in
+                    dimmedOverlayView.removeFromSuperview()
+            })
+        }
+    }
+    
+    func addDimmedOverlayView()
+    {
+        let dimmedOverlayView = UIView()
+        dimmedOverlayView.frame = self.bounds
+        dimmedOverlayView.backgroundColor = UIColor.blackColor()
+        dimmedOverlayView.alpha = 0
+        dimmedOverlayView.tag = 100
+        self.addSubview(dimmedOverlayView)
+        
+        UIView.animateWithDuration(0.25) { () -> Void in
+            dimmedOverlayView.alpha = 0.6
+        }
+    }
 }
 
 // Below via:
