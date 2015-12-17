@@ -50,16 +50,36 @@
                                     <segue destination="Ynf-B4-O0S" kind="presentation" id="VJ2-QH-hnY"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLS-VZ-Ng5">
-                                <rect key="frame" x="276" y="315" width="48" height="30"/>
-                                <state key="normal" title="Twitter"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BLS-VZ-Ng5">
+                                <rect key="frame" x="200" y="315" width="200" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="150" id="4Qb-7C-i1M"/>
+                                    <constraint firstAttribute="height" constant="50" id="8Vm-Hg-Y1J"/>
+                                    <constraint firstAttribute="width" constant="200" id="ZTD-hi-9l1"/>
+                                </constraints>
+                                <state key="normal" title="Twitter" image="LoginWithTwitter"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="4Qb-7C-i1M"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <action selector="loginWithTwitterTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wFZ-oB-ZSk"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SI2-eu-qjX">
-                                <rect key="frame" x="267" y="353" width="67" height="30"/>
-                                <state key="normal" title="Facebook"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SI2-eu-qjX">
+                                <rect key="frame" x="114" y="373" width="372" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="9dB-ep-XUd"/>
+                                    <constraint firstAttribute="height" constant="60" id="OyM-xf-z9u"/>
+                                    <constraint firstAttribute="width" constant="372" id="xTc-94-xQV"/>
+                                </constraints>
+                                <state key="normal" title="Facebook" image="LoginWithFacebook"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="9dB-ep-XUd"/>
+                                    </mask>
+                                </variation>
                                 <connections>
                                     <action selector="loginWithFacebook:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LhI-Ef-0l1"/>
                                 </connections>
@@ -249,6 +269,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="LoginWithFacebook" width="732" height="100"/>
+        <image name="LoginWithTwitter" width="260" height="58"/>
         <image name="close" width="64" height="64"/>
     </resources>
 </document>
