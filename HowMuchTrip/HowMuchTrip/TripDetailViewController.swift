@@ -13,9 +13,11 @@ import Charts
 class TripDetailViewController: UITableViewController
 {
     var aTrip: Trip!
+    let dataSource = CreateTripDataSource()
+    var viewAppeared = false
     
     @IBOutlet weak var mapView: MKMapView!
-    @IBOutlet weak var legendTableVC: UIView!
+    @IBOutlet weak var legendContainerView: UIView!
     @IBOutlet weak var pieChartView: PieChartView!
     
     @IBOutlet weak var saveTripButton: UIButton!
@@ -24,62 +26,63 @@ class TripDetailViewController: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-//        tableView.backgroundColor = UIColor(red:0.011, green:0.694, blue:0.921, alpha:1)
+
         tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
+        
+        dataSource.initialSetupPieChart(pieChartView)
     }
     
-//    // MARK: - Table view data source
-//    
-//    override func numberOfSectionsInTableView(tableView: UITableView) -> Int
-//    {
-//        return 2
-//    }
-//    
-//    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-//    {
-//        return 1
-//        
-//    }
-//    
-//    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-//    {
-//        switch indexPath.section
-//        {
-//        case 0:
-//            let identifier = "TripMapCell"
-//            let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! TripMapCell
-//            
-//            setCellMap(cell)
-//            
-//            return cell
-//            
-//        default:
-//            let identifier = "TripDataCell"
-//            let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! TripDetailCell
-//            
-//            cell.backgroundColor = UIColor.clearColor()
-//            cell.contentView.backgroundColor = UIColor.clearColor()
-//            cell.selectionStyle = .None
-//            
-//            setCellLabels(cell)
-//            
-//            return cell
-//        }
-//    }
-//    
-//    func setCellMap(cell: TripMapCell)
-//    {
-//        let mapView = cell.mapView
-//        mapView.mapType = MKMapType.Standard
-//        
-//        let annotation = MKPointAnnotation()
-//        annotation.coordinate.latitude = 28.538336
-//        annotation.coordinate.longitude = -81.379234
-//        let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
-////        mapView.addAnnotation(annotation)
-//        mapView.setRegion(region, animated: true)
-//        cell.sendSubviewToBack(mapView)
-//    }
+    override func viewWillAppear(animated: Bool)
+    {
+        viewAppeared = false
+        mapView.hidden = true
+        tableView.reloadData()
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        viewAppeared = true
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "viewDidAppearSetup", userInfo: nil, repeats: false)
+    }
+    
+    func viewDidAppearSetup()
+    {
+        let index = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
+        setMap()
+        tableView.reloadData()
+        
+        doSetup()
+    }
+
+    func setMap()
+    {
+        mapView.hidden = false
+        var lat: Double!
+        var lng: Double!
+        
+        if let tripLat = Double(aTrip.destinationLat)
+            , let tripLng = Double(aTrip.destinationLng)
+        {
+            lat = tripLat
+            lng = tripLng
+        }
+        else
+        {
+            lat = 28.538336
+            lng = -81.379234
+        }
+        
+        mapView.mapType = MKMapType.Standard
+        let annotation = MKPointAnnotation()
+        
+        annotation.coordinate.latitude = lat
+        annotation.coordinate.longitude = lng
+        let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
+
+        mapView.setRegion(region, animated: true)
+    }
     
     func setCellLabels(cell: TripDetailCell)
     {
@@ -97,9 +100,18 @@ class TripDetailViewController: UITableViewController
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        switch indexPath.section
+        switch indexPath.row
         {
-        case 0  : return UITableViewAutomaticDimension
+        case 0  :
+            if viewAppeared
+            {
+                return UITableViewAutomaticDimension
+            }
+            else
+            {
+                return 0
+            }
+            
         default : return self.view.bounds.height
         }
     }
@@ -108,7 +120,16 @@ class TripDetailViewController: UITableViewController
     {
         switch indexPath.section
         {
-        case 0  : return 200
+        case 0  :
+            if viewAppeared
+            {
+                return 200
+            }
+            else
+            {
+                return 0
+            }
+            
         default : return self.view.bounds.height
         }
     }
@@ -123,6 +144,65 @@ class TripDetailViewController: UITableViewController
             cell.scrollViewDidScroll(scrollView)
         }
     }
+    
+    func doSetup()
+    {
+        let (values, dataPoints) = dataSource.getGraphValuesAndProperties(aTrip)
+        buildGraph(values, dataPoints: dataPoints, superview: self)
+    }
+    
+    func buildGraphAndLegend(aTrip: Trip, superview: TripDetailViewController)
+    {
+        let (values, dataPoints) = dataSource.getGraphValuesAndProperties(aTrip)
+        buildLegend(values, dataPoints: dataPoints, superview: superview)
+        buildGraph(values, dataPoints: dataPoints, superview: superview)
+    }
+    
+    private func buildGraph(values: [Double], dataPoints: [String], superview: TripDetailViewController)
+    {
+        var dataEntries = [ChartDataEntry]()
+        
+        for i in 0..<dataPoints.count
+        {
+            let dataEntry = ChartDataEntry(value: values[i], xIndex: i)
+            dataEntries.append(dataEntry)
+        }
+        
+        var points = [String]()
+        for _ in dataPoints
+        {
+            points.append(" ")
+        }
+        
+        let pieChartDataSet = PieChartDataSet(yVals: dataEntries, label: "")
+        pieChartDataSet.colors = dataSource.getGraphColors()
+        let pieChartData = PieChartData(xVals: dataPoints, dataSet: pieChartDataSet)
+        superview.pieChartView.data = pieChartData
+        
+        superview.pieChartView.appearWithFade(0.25)
+        superview.pieChartView.slideHorizontallyToOrigin(0.25, fromPointX: -superview.pieChartView.frame.width)
+    }
+    
+    private func buildLegend(values: [Double], dataPoints: [String], superview: TripDetailViewController)
+    {
+        if let legendTableVC = superview.childViewControllers[0] as? GraphLegendTableViewController
+        {
+            legendTableVC.dataPoints = ["dataPoints"]
+            legendTableVC.values     = [0]
+            legendTableVC.colors     = dataSource.getGraphColors()
+            legendTableVC.tableView.reloadData()
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.legendContainerView.appearWithFade(0.25)
+                self.legendContainerView.slideHorizontallyToOrigin(0.25, fromPointX: superview.legendContainerView.frame.width)
+            })
+        }
+        else
+        {
+            print("no child view")
+        }
+    }
+
 }
 
 class TripDetailCell: UITableViewCell

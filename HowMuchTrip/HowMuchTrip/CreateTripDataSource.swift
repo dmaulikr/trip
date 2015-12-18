@@ -13,11 +13,11 @@ class CreateTripDataSource
 {
     var calculateFinished = false
     var tripCreated = false
-    var superview: CreateTripTableViewController?
+//    var superview: CreateTripTableViewController?
 
     func initialSetup(superview: CreateTripTableViewController)
     {
-        self.superview = superview
+//        self.superview = superview
         
         let textFields = [
             superview.budgetTextField!,
@@ -68,15 +68,20 @@ class CreateTripDataSource
         }
         
         let pieChartView = superview.pieChartView
+        initialSetupPieChart(pieChartView)
+        
+        superview.budgetRemainingLabel.alpha = 0
+        superview.saveTripButton.alpha = 0
+        superview.saveTripButton.hidden = true
+    }
+    
+    func initialSetupPieChart(pieChartView: PieChartView)
+    {
         pieChartView.alpha = 0
         pieChartView.backgroundColor = UIColor.clearColor()
         pieChartView.holeTransparent = true
         pieChartView.holeAlpha = 0.0
         pieChartView.holeColor = UIColor.clearColor()
-        
-        superview.budgetRemainingLabel.alpha = 0
-        superview.saveTripButton.alpha = 0
-        superview.saveTripButton.hidden = true
     }
     
     func getPromptLabelText(indexOfTextField: Int, aTrip: Trip) -> String

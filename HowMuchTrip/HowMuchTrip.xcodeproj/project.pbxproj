@@ -12,9 +12,9 @@
 		630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */; };
 		63400F981C20917000D5F29C /* GraphLegendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */; };
 		639028B71C2085F600067A09 /* TripDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 639028B61C2085F600067A09 /* TripDetail.storyboard */; };
-		6393FA291C23CA84003472CE /* hotel.png in Resources */ = {isa = PBXBuildFile; fileRef = 6393FA271C23CA84003472CE /* hotel.png */; };
 		6393FA2A1C23CA84003472CE /* pin.png in Resources */ = {isa = PBXBuildFile; fileRef = 6393FA281C23CA84003472CE /* pin.png */; };
-		6393FA2C1C23CA91003472CE /* hotel.png in Resources */ = {isa = PBXBuildFile; fileRef = 6393FA2B1C23CA91003472CE /* hotel.png */; };
+		6393FA2E1C245250003472CE /* hotel.png in Resources */ = {isa = PBXBuildFile; fileRef = 6393FA2D1C245250003472CE /* hotel.png */; };
+		6393FA301C24525C003472CE /* plane.png in Resources */ = {isa = PBXBuildFile; fileRef = 6393FA2F1C24525C003472CE /* plane.png */; };
 		639FA4821C208C0000FBA7E6 /* GraphLegendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */; };
 		63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AE246C1C1E651B001ECCE9 /* Extensions.swift */; };
 		63F4E6CE1C23051F0040CFC4 /* CreateTripDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */; };
@@ -67,9 +67,9 @@
 		630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPopoverViewController.swift; sourceTree = "<group>"; };
 		63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLegendTableViewController.swift; sourceTree = "<group>"; };
 		639028B61C2085F600067A09 /* TripDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TripDetail.storyboard; sourceTree = "<group>"; };
-		6393FA271C23CA84003472CE /* hotel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hotel.png; sourceTree = "<group>"; };
 		6393FA281C23CA84003472CE /* pin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pin.png; sourceTree = "<group>"; };
-		6393FA2B1C23CA91003472CE /* hotel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hotel.png; sourceTree = "<group>"; };
+		6393FA2D1C245250003472CE /* hotel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hotel.png; sourceTree = "<group>"; };
+		6393FA2F1C24525C003472CE /* plane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plane.png; sourceTree = "<group>"; };
 		639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLegendCell.swift; sourceTree = "<group>"; };
 		63AE246C1C1E651B001ECCE9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTripDataSource.swift; sourceTree = "<group>"; };
@@ -152,9 +152,9 @@
 			isa = PBXGroup;
 			children = (
 				63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */,
-				6393FA271C23CA84003472CE /* hotel.png */,
+				6393FA2D1C245250003472CE /* hotel.png */,
+				6393FA2F1C24525C003472CE /* plane.png */,
 				6393FA281C23CA84003472CE /* pin.png */,
-				6393FA2B1C23CA91003472CE /* hotel.png */,
 				9A75AC5D1C1F54B700258473 /* Validator.swift */,
 				630B3B4C1C1F283C006F12D2 /* disclosure.png */,
 				9A8518C91C1E0632001046EA /* suggestedTrips.json */,
@@ -378,15 +378,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6393FA291C23CA84003472CE /* hotel.png in Resources */,
 				630B3B4D1C1F283C006F12D2 /* disclosure.png in Resources */,
+				6393FA2E1C245250003472CE /* hotel.png in Resources */,
+				6393FA301C24525C003472CE /* plane.png in Resources */,
 				639028B71C2085F600067A09 /* TripDetail.storyboard in Resources */,
 				9A8518CA1C1E0632001046EA /* suggestedTrips.json in Resources */,
 				9ADAAAC61C19C26100D26F79 /* LaunchScreen.storyboard in Resources */,
 				9ADAAAC31C19C26100D26F79 /* Assets.xcassets in Resources */,
 				6393FA2A1C23CA84003472CE /* pin.png in Resources */,
 				FE7F79291C1F2521001C6C14 /* Login.storyboard in Resources */,
-				6393FA2C1C23CA91003472CE /* hotel.png in Resources */,
 				9ADAAAC11C19C26100D26F79 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
