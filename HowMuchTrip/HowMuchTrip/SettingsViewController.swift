@@ -26,8 +26,13 @@ class SettingsViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
         title = "Settings"
+        
+        userImage.layer.cornerRadius = userImage.frame.size.width / 2
+        userImage.clipsToBounds = true
+        userImage.layer.borderColor = UIColor.blackColor().CGColor
+        userImage.layer.borderWidth = 1
+
     }
 
     override func didReceiveMemoryWarning()
@@ -97,9 +102,9 @@ class SettingsViewController: UIViewController
             
             if(result != nil)
             {
-                let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-                spinningActivity.labelText = "Loading"
-                spinningActivity.detailsLabelText = "Please wait"
+//                let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+//                spinningActivity.labelText = "Loading"
+//                spinningActivity.detailsLabelText = "Please wait"
                 
                 let userId:String = result["id"] as! String
                 let userFirstName:String? = result["first_name"] as? String
@@ -158,7 +163,7 @@ class SettingsViewController: UIViewController
                         
                         if(success)
                         {
-                            spinningActivity.hide(true)
+//                            spinningActivity.hide(true)
                             print("User details are now updated")
                         }
                         
@@ -179,9 +184,9 @@ class SettingsViewController: UIViewController
         let pfTwitter = PFTwitterUtils.twitter()
         let twitterUsername = pfTwitter?.screenName
         
-        let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
-            spinningActivity.labelText = "Loading"
-            spinningActivity.detailsLabelText = "Please wait"
+//        let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
+//            spinningActivity.labelText = "Loading"
+//            spinningActivity.detailsLabelText = "Please wait"
 
         var userDetailsUrl:String = "https://api.twitter.com/1.1/users/show.json?screen_name="
         userDetailsUrl = userDetailsUrl + twitterUsername!
@@ -237,7 +242,7 @@ class SettingsViewController: UIViewController
                     
                     if let username = PFUser.currentUser()?["first_name"] as? String
                     {
-                        spinningActivity.hide(true)
+//                        spinningActivity.hide(true)
                         self.userNameLabel?.text = "@" + username
                     }
                 }
