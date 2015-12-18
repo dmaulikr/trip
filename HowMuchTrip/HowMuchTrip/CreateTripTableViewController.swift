@@ -151,16 +151,16 @@ class CreateTripTableViewController:
         clear()
     }
     
-    @IBAction func contextButtonPressed(sender: UIButton)
-    {
-        switch sender.imageForState(.Normal)
-        {
-        case UIImage(named: <#T##String#>):
-        case UIImage(named: <#T##String#>):
-        case UIImage(named: <#T##String#>):
-        default: print(sender.imageForState(.Normal))
-        }
-    }
+//    @IBAction func contextButtonPressed(sender: UIButton)
+//    {
+//        switch sender.imageForState(.Normal)
+//        {
+//        case UIImage(named: <#T##String#>):
+//        case UIImage(named: <#T##String#>):
+//        case UIImage(named: <#T##String#>):
+//        default: print(sender.imageForState(.Normal))
+//        }
+//    }
     
     func clear()
     {

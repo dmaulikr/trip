@@ -49,7 +49,9 @@ class SettingsViewController: UIViewController
         case "Username":
             processUsernameData()
         default:
-            processUsernameData()
+            userNameLabel.text = "Unknown User"
+            userImage.image = UIImage(named: "GenericUserImage")
+            
         }
     }
     
@@ -81,12 +83,7 @@ class SettingsViewController: UIViewController
     func processFacebookData()
     {
         let requestParameters = ["fields": "id, email, first_name, last_name"]
-        
         let userDetails = FBSDKGraphRequest(graphPath: "me", parameters: requestParameters)
-        
-        if userDetails != nil
-        {
-            
         userDetails.startWithCompletionHandler { (connection, result, error:NSError!) -> Void in
             
             if(error != nil)
@@ -170,10 +167,8 @@ class SettingsViewController: UIViewController
                 })
                 
             }
-            
-        }
 
-      }
+        }
     }
     
     
@@ -184,8 +179,6 @@ class SettingsViewController: UIViewController
         let pfTwitter = PFTwitterUtils.twitter()
         let twitterUsername = pfTwitter?.screenName
         
-        if twitterUsername != nil
-        {
         let spinningActivity = MBProgressHUD.showHUDAddedTo(self.view, animated: true)
             spinningActivity.labelText = "Loading"
             spinningActivity.detailsLabelText = "Please wait"
@@ -227,8 +220,9 @@ class SettingsViewController: UIViewController
             {
                 if let profileImageUrl = parseJSON["profile_image_url"] as? String
                 {
-                    let profilePictureUrl = NSURL(string: profileImageUrl)
-                    let profilePictureData = NSData(contentsOfURL: profilePictureUrl!)
+                    let hiResProfileImageUrl = profileImageUrl.stringByReplacingOccurrencesOfString("_normal", withString: "")
+                    let hiResProfilePictureUrl = NSURL(string: hiResProfileImageUrl)
+                    let profilePictureData = NSData(contentsOfURL: hiResProfilePictureUrl!)
                     
                     if (profilePictureData != nil)
                     {
@@ -251,14 +245,14 @@ class SettingsViewController: UIViewController
                 }
              })
             
-            }
+        }
         catch
             {
                 print(error)
             }
+        
         }
-        task.resume()
-        }
+         task.resume()
     }
     
     

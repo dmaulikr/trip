@@ -390,18 +390,18 @@ class CreateTripDataSource
             superview.contextButton.hideWithFade(0.25)
         }
         
-        switch superview.shownTextField
-        {
-        case superview.budgetTextField:
-            superview.nextButton.appearWithFade(0.25)
-        case superview.destinationTextField, superview.departureLocationTextField:
-            superview.skipButton.appearWithFade(0.25)
-            superview.contextButton.appearWithFade(0.25)
-            superview.contextButton.setImage(<#T##image: UIImage?##UIImage?#>, forState: <#T##UIControlState#>)
-        case superview.planeTicketTextField:
-            superview.contextButton.appearWithFade(0.25)
-            superview.contextButton.setImage(<#T##image: UIImage?##UIImage?#>, forState: <#T##UIControlState#>)
-        default: break;
-        }
+//        switch superview.shownTextField
+//        {
+//        case superview.budgetTextField:
+//            superview.nextButton.appearWithFade(0.25)
+//        case superview.destinationTextField, superview.departureLocationTextField:
+//            superview.skipButton.appearWithFade(0.25)
+//            superview.contextButton.appearWithFade(0.25)
+//            superview.contextButton.setImage(<#T##image: UIImage?##UIImage?#>, forState: <#T##UIControlState#>)
+//        case superview.planeTicketTextField:
+//            superview.contextButton.appearWithFade(0.25)
+//            superview.contextButton.setImage(<#T##image: UIImage?##UIImage?#>, forState: <#T##UIControlState#>)
+//        default: break;
+//        }
     }
 }

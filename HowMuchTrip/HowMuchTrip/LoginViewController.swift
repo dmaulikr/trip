@@ -49,7 +49,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         return true
     }
     
-    @IBAction func loginAction(sender: UIButton)
+    @IBAction func loginAction(sender: AnyObject)
     {
         
         loggedInWith = "Username"
@@ -114,7 +114,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         }
     }
     
-    @IBAction func loginWithTwitterTapped(sender: UIButton)
+    @IBAction func loginWithTwitterTapped(sender: AnyObject)
     {
         loggedInWith = "Twitter"
         
@@ -150,7 +150,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         }
     }
     
-    @IBAction func loginWithFacebook(sender: UIButton)
+    @IBAction func loginWithFacebook(sender: AnyObject)
     {
         loggedInWith = "Facebook"
         
