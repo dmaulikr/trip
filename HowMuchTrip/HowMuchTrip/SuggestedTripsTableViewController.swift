@@ -56,7 +56,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     
     func loadTrips()
     {
-        if let path = NSBundle.mainBundle().pathForResource("suggestedTrips", ofType: "json"), let data = NSData(contentsOfFile: path) {
+        if let path = NSBundle.mainBundle().pathForResource("suggestedTrips", ofType: "json"), let data = NSData(contentsOfFile: path)
+        {
             do
             {
                 let tripsJSON = try NSJSONSerialization
