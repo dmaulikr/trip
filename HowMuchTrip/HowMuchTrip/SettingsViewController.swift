@@ -93,7 +93,12 @@ class SettingsViewController: UIViewController
             
             if(error != nil)
             {
-                let alert = UIAlertController(title: "Error", message: "\(error!.localizedDescription)", preferredStyle: .Alert)
+                let description = error!.localizedDescription
+                let first = description.startIndex
+                let rest = first.advancedBy(1)..<description.endIndex
+                let capitalized = description[first...first].uppercaseString + description[rest]
+
+                let alert = UIAlertController(title: "Error", message: capitalized, preferredStyle: .Alert)
                 let confirmAction = UIAlertAction(title: "OK", style: .Default) {(action) in
                 }
                 alert.addAction(confirmAction)
@@ -202,10 +207,14 @@ class SettingsViewController: UIViewController
             
             if error != nil
             {
-                
                 //self.hideLoadingHUD()
+                let description = error!.localizedDescription
+                let first = description.startIndex
+                let rest = first.advancedBy(1)..<description.endIndex
+                let capitalized = description[first...first].uppercaseString + description[rest]
+
                 
-                let alert = UIAlertController(title: "Alert", message: "\(error!.localizedDescription)", preferredStyle: .Alert)
+                let alert = UIAlertController(title: "Alert", message: capitalized, preferredStyle: .Alert)
                 let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
                 alert.addAction(confirmAction)
                 self.presentViewController(alert, animated: true, completion: nil)

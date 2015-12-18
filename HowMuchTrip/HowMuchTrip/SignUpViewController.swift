@@ -78,8 +78,14 @@ class SignUpViewController: UIViewController
                 spinner.stopAnimating()
                 if ((error) != nil)
                 {
+                    let description = error!.localizedDescription
+                    let first = description.startIndex
+                    let rest = first.advancedBy(1)..<description.endIndex
+                    let capitalized = description[first...first].uppercaseString + description[rest]
+                    
                     // TODO: capitalize first letter of error sentence
-                    let alert = UIAlertController(title: "Error", message: "\(error!.localizedDescription)", preferredStyle: .Alert)
+                    let alert = UIAlertController(title: "Error", message: capitalized, preferredStyle: .Alert)
+                    
                     let confirmAction = UIAlertAction(title: "OK", style: .Default) {(action) in
                         self.emailField.text = ""
                         self.usernameField.text = ""
@@ -103,14 +109,5 @@ class SignUpViewController: UIViewController
                 }
             })
         }
-        func isValidEmail(testStr:String) -> Bool
-        {
-            // println("validate calendar: \(testStr)")
-            let emailRegEx = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-            
-            let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
-            return emailTest.evaluateWithObject(testStr)
-        }
     }
-    
 }
