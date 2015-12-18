@@ -60,6 +60,14 @@ class Calculator
                 aTrip.dailyOtherCost = Double(value)!
             case "One Time Cost":
                 aTrip.oneTimeCost = Double(value)!
+            case "destinationLat":
+                aTrip.destinationLat = value
+            case "destinationLng":
+                aTrip.destinationLng = value
+            case "departureLat":
+                aTrip.departureLat = value
+            case "departureLng":
+                aTrip.departureLng = value
             default:
                 break
             }

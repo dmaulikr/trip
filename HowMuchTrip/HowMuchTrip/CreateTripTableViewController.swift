@@ -20,7 +20,8 @@ class CreateTripTableViewController:
     UITextFieldDelegate,
     UIPopoverPresentationControllerDelegate,
     DateWasChosenFromCalendarProtocol,
-    CalculationFinishedDelegate
+    CalculationFinishedDelegate,
+    MapsAPIResultsProtocol
 {
     var dataSource = CreateTripDataSource()
     var delegate: TripWasSavedDelegate?
@@ -28,7 +29,7 @@ class CreateTripTableViewController:
     var allProperties = [String]()
     var propertyDictionary = [String: String]()
     var calculator: Calculator!
-    var aTrip = Trip()
+    var trip = Trip()
     var trips = [Trip]()
     
     @IBOutlet weak var budgetRemainingLabel: UILabel!
@@ -52,6 +53,8 @@ class CreateTripTableViewController:
     @IBOutlet weak var graphCell: UITableViewCell!
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var legendContainerView: UIView!
+    
+    var mapsAPIController: MapsAPIController?
     
     var shownTextField: UITextField!
     var textFields = [UITextField]()
@@ -98,7 +101,9 @@ class CreateTripTableViewController:
             let propertyKey = allProperties[indexOfTextField]
             propertyDictionary[propertyKey] = selectedTextField.text
         }
-
+        
+        checkForLocation(textField)
+        
         calculate()
         tableView.reloadData()
         return rc
@@ -136,8 +141,10 @@ class CreateTripTableViewController:
 
             dataSource.manageButtons(self)
             
+            
+            
             promptLabel.alpha = 0
-            promptLabel.text = dataSource.getPromptLabelText(indexOfTextField, aTrip: aTrip)
+            promptLabel.text = dataSource.getPromptLabelText(indexOfTextField, aTrip: trip)
             
             UIView.animateWithDuration(0.45, animations: { () -> Void in
                 self.shownTextField.frame.origin.y = originalY
@@ -152,12 +159,6 @@ class CreateTripTableViewController:
         {
             createTripComplete()
         }
-    }
-    
-    
-    func updateUI()
-    {
-        
     }
     
     // MARK: - Action Handlers
@@ -220,7 +221,7 @@ class CreateTripTableViewController:
     
     @IBAction func saveButtonPressed(sender: UIButton!)
     {
-        saveTrip(aTrip)
+        saveTrip(trip)
         
         
     }
@@ -232,13 +233,13 @@ class CreateTripTableViewController:
         calculator = Calculator(dictionary: propertyDictionary)
         calculator.delegate = self
         
-        aTrip = calculator.calculate(propertyDictionary)
+        trip = calculator.calculate(propertyDictionary)
         
-        budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", aTrip.budgetRemaining))"
+        budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", trip.budgetRemaining))"
         budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
         budgetRemainingLabel.appearWithFade(0.25)
         
-        dataSource.buildGraphAndLegend(aTrip, superview: self)
+        dataSource.buildGraphAndLegend(trip, superview: self)
     }
     
     func calculationFinished(validCalc: Bool)
@@ -258,7 +259,7 @@ class CreateTripTableViewController:
         }
         else
         {
-            promptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget. How about we adjust something so we can make that work?"
+            promptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
             promptLabel.alpha = 0
             shownTextField.backgroundColor = UIColor.redColor()
             budgetRemainingLabel.textColor = UIColor.redColor()
@@ -272,23 +273,16 @@ class CreateTripTableViewController:
     
     // MARK: - Save Trip
     
-    func saveTrip(aTrip: Trip)
+    func saveTrip(trip: Trip)
     {
         
         
-        trips.append(aTrip)
-        aTrip.pinInBackground()
-        aTrip.saveEventually()
+        trips.append(trip)
+        trip.pinInBackground()
+        trip.saveEventually()
         
         
-//        delegate?.tripWasSaved(aTrip)
-        
-        let selectedTrip = aTrip
-        let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
-        
-        let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
-        tripDetailVC.aTrip = selectedTrip
-        navigationController?.pushViewController(tripDetailVC, animated: false)
+        delegate?.tripWasSaved(trip)
     }
     
     func createTripComplete()
@@ -316,7 +310,7 @@ class CreateTripTableViewController:
 //        performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
         
         
-        //        switch aTrip.budgetRemaining
+        //        switch trip.budgetRemaining
     }
     
     // MARK: - Graph Functions
@@ -386,6 +380,56 @@ class CreateTripTableViewController:
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         return 2
+    }
+    
+    //MARK: - Location
+    
+    func checkForLocation(textField: UITextField)
+    {
+        if textField == destinationTextField
+        {
+            //DESTINATION
+            
+            if let term = destinationTextField.text
+            {
+                mapsAPIController = MapsAPIController(delegate: self)
+                mapsAPIController?.searchGMapsFor(term, textField: destinationTextField)
+            }
+        }
+        else if textField == departureLocationTextField
+        {
+            //ORIGIN
+            
+            if let term = departureLocationTextField.text
+            {
+//                mapsAPIController = MapsAPIController(delegate: self)
+                mapsAPIController?.searchGMapsFor(term, textField: departureLocationTextField)
+            }
+        }
+    }
+    
+    func didReceiveMapsAPIResults(results: NSDictionary, textField: UITextField)
+    {
+        if let (lat, lng) = trip.tripCoordinateFromJSON(results)
+        {
+            switch textField
+            {
+            case destinationTextField:
+                propertyDictionary["destinationLat"] = lat
+                propertyDictionary["destinationLng"] = lng
+//                trip.destinationLat = lat
+//                trip.destinationLng = lng
+            case departureLocationTextField:
+                propertyDictionary["departureLat"] = lat
+                propertyDictionary["departureLng"] = lng
+//                trip.departureLat = lat
+//                trip.departureLng = lng
+            default: break
+            }
+            
+            print(trip.destinationLng, trip.destinationLat)
+        }
+        calculate()
     }
 }
 

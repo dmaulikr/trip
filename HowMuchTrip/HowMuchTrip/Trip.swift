@@ -34,11 +34,11 @@ class Trip: PFObject, PFSubclassing
     @NSManaged var totalFoodCosts: Double
     @NSManaged var totalOtherDailyCosts: Double
     
-    @NSManaged var departureLat: String
-    @NSManaged var departureLng: String
+    @NSManaged var departureLat: String?
+    @NSManaged var departureLng: String?
     
-    @NSManaged var destinationLat: String
-    @NSManaged var destinationLng: String
+    @NSManaged var destinationLat: String?
+    @NSManaged var destinationLng: String?
     
     override class func initialize() {
         struct Static {
@@ -52,6 +52,29 @@ class Trip: PFObject, PFSubclassing
     static func parseClassName() -> String {
         return "Trip"
     }
-
+    
+    func tripCoordinateFromJSON(results: NSDictionary) -> (String, String)?
+    {
+        if let geometry = results["geometry"] as? NSDictionary
+        {
+            let location = geometry["location"] as? NSDictionary ?? NSDictionary()
+            let lat      = location["lat"]      as? Double ?? nil
+            let lng      = location["lng"]      as? Double ?? nil
+            
+            if lat != nil && lng != nil
+            {
+                return (String(lat), String(lng))
+            }
+            else
+            {
+                print("couldn't find lat, lng")
+            }
+        }
+        else
+        {
+            print(results)
+        }
+        return nil
+    }
 }
 

@@ -8,21 +8,25 @@
 
 import Foundation
 
+protocol MapsAPIResultsProtocol
+{
+    func didReceiveMapsAPIResults(results: NSDictionary, textField: UITextField)
+}
+
 class MapsAPIController
 {
-//    var cityDelegate: MapsAPIResultsProtocol?
-//    
-//    init(cityDelegate: MapsAPIResultsProtocol)
-//    {
-//        self.cityDelegate = cityDelegate
-//    }
+    var delegate: MapsAPIResultsProtocol?
     
-    func searchGMapsFor(searchTerm: String)
+    init(delegate: MapsAPIResultsProtocol)
+    {
+        self.delegate = delegate
+    }
+    
+    func searchGMapsFor(searchTerm: String, textField: UITextField)
     {
         let escapedSearchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
         let url = "https://maps.googleapis.com/maps/api/geocode/json?address=\(escapedSearchTerm)&components=postal_code:&sensor=false"
         let urlString = NSURL(string: url)
-        print(urlString)
         
         let session = NSURLSession.sharedSession()
         let task = session.dataTaskWithURL(urlString!, completionHandler: {data, response, error -> Void in
@@ -30,18 +34,12 @@ class MapsAPIController
             {
                 print(error!.localizedDescription)
             }
-            else
+            else if let results = self.parseJSON(data!)
             {
-                if let dictionary = self.parseJSON(data!)
+                let resultsArr = results["results"] as? NSArray ?? NSArray()
+                if let result = resultsArr[0] as? NSDictionary
                 {
-                    if let resultArray: NSArray = dictionary["results"] as? NSArray
-                    {
-                        if let cityInnerResultDictionary = resultArray[0] as? NSDictionary
-                        {
-//                            self.cityDelegate!.didReceiveMapsAPIResults(cityInnerResultDictionary)
-                        }
-                    }
-
+                    self.delegate!.didReceiveMapsAPIResults(result, textField: textField)
                 }
             }
         })

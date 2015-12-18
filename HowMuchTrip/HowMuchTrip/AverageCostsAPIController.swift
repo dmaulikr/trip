@@ -8,29 +8,27 @@
 
 import Foundation
 
+protocol AverageCostsAPIResultsProtocol
+{
+    func didReceiveAverageCostsAPIResults(results: NSDictionary)
+}
+
 class AverageCostsAPIController
 {
-//    var averageCostsDelegate: AverageCostsAPIResultsProtocol?
-//    
-//    init(averageCostsDelegate: AverageCostsAPIResultsProtocol)
-//    {
-//        self.averageCostsDelegate = averageCostsDelegate
-//    }
-
+    var averageCostsDelegate: AverageCostsAPIResultsProtocol?
     
+    init(averageCostsDelegate: AverageCostsAPIResultsProtocol)
+    {
+        self.averageCostsDelegate = averageCostsDelegate
+    }
 
-
-    
-    
     func searchAverageCostsFor(lat: Double, lng: Double)
     {
-        
         let apiKey = "jen@jshamilton.net"
         let baseURL = "http://www.budgetyourtrip.com/api/v3/"
         let geodataSearch = "/search/geodata/\(lat),\(lng)"
         let completeURL = "\(baseURL)\(geodataSearch)"
         let session = NSURLSession.sharedSession()
-        
         
         let request = NSMutableURLRequest(URL: NSURL(string: completeURL)!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 60.0)
         request.addValue(apiKey, forHTTPHeaderField: "X-API-KEY")
@@ -46,35 +44,28 @@ class AverageCostsAPIController
         }
         
         
-        let getDataTask = session.dataTaskWithRequest(request) {
+        session.dataTaskWithRequest(request) {
             data, response, error -> Void in
             if error == nil
             {
                 print("\(data)")
-                do
+                if let dictionary = self.parseJSON(data!)
                 {
-                    if let dictionary = self.parseJSON(data!)
+                    if let dataArray: NSArray = dictionary["data"] as? NSArray
                     {
-                        if let dataArray: NSArray = dictionary["data"] as? NSArray
+                        if let innerResultDictionary = dataArray[0] as? NSDictionary
                         {
-                            if let innerResultDictionary = dataArray[0] as? NSDictionary
-                            {
-                                //                            self.averageCostsDelegate!.didReceiveAverageCostsAPIResults(innerResultDictionary)
-                            }
+                            print(innerResultDictionary)
+                            self.averageCostsDelegate!.didReceiveAverageCostsAPIResults(innerResultDictionary)
                         }
-                        
-                    }                }
-                catch let error as NSError
-                {
-                    print("data couldn't be parsed: \(error)")
+                    }
                 }
-        
-        
+                else
+                {
+                    print("data could not be parsed")
+                }
             }
-        }
-        
-        
-        
+        }.resume()
     }
     
     

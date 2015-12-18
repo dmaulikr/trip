@@ -36,7 +36,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
             
         }
         
-        self.preferredContentSize = CGSizeMake(400, 400)
+        self.preferredContentSize = CGSizeMake(380, 380)
         setCalendarPrefs()
 
         monthLabel.text = ("\(moment().monthName), \(moment().year)")

@@ -26,10 +26,10 @@ class TripDetailViewController: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-
+        dataSource.initialSetupPieChart(pieChartView)
         tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
         
-        dataSource.initialSetupPieChart(pieChartView)
+//        dataSource.initialSetupPieChart(pieChartView)
     }
     
     override func viewWillAppear(animated: Bool)
@@ -43,7 +43,7 @@ class TripDetailViewController: UITableViewController
     {
         viewAppeared = true
         
-        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "viewDidAppearSetup", userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(0.25, target: self, selector: "viewDidAppearSetup", userInfo: nil, repeats: false)
     }
     
     func viewDidAppearSetup()
@@ -61,12 +61,11 @@ class TripDetailViewController: UITableViewController
         mapView.hidden = false
         var lat: Double!
         var lng: Double!
-        
-        if let tripLat = Double(aTrip.destinationLat)
-            , let tripLng = Double(aTrip.destinationLng)
+            
+        if aTrip.destinationLat != nil && aTrip.destinationLng != nil
         {
-            lat = tripLat
-            lng = tripLng
+            lat = Double(aTrip.destinationLat!)
+            lng = Double(aTrip.destinationLng!)
         }
         else
         {
@@ -147,8 +146,7 @@ class TripDetailViewController: UITableViewController
     
     func doSetup()
     {
-        let (values, dataPoints) = dataSource.getGraphValuesAndProperties(aTrip)
-        buildGraph(values, dataPoints: dataPoints, superview: self)
+        buildGraphAndLegend(aTrip, superview: self)
     }
     
     func buildGraphAndLegend(aTrip: Trip, superview: TripDetailViewController)
@@ -187,8 +185,8 @@ class TripDetailViewController: UITableViewController
     {
         if let legendTableVC = superview.childViewControllers[0] as? GraphLegendTableViewController
         {
-            legendTableVC.dataPoints = ["dataPoints"]
-            legendTableVC.values     = [0]
+            legendTableVC.dataPoints = dataPoints
+            legendTableVC.values     = values
             legendTableVC.colors     = dataSource.getGraphColors()
             legendTableVC.tableView.reloadData()
             

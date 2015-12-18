@@ -49,7 +49,11 @@ class CreateTripDataSource
             "Daily Lodging Cost",
             "Daily Food Cost",
             "Daily Other Cost",
-            "One Time Cost"
+            "One Time Cost",
+            "destinationLat",
+            "destinationLng",
+            "departureLat",
+            "departureLng"
         ]
         
         superview.allProperties = allProperties

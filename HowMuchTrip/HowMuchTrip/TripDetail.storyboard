@@ -19,18 +19,18 @@
                         <sections>
                             <tableViewSection id="loV-iA-UMB">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TripMapCell" rowHeight="200" id="ErT-Fx-m0z" customClass="TripMapCell" customModule="HowMuchTrip" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="400" height="200"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TripMapCell" rowHeight="0.0" id="ErT-Fx-m0z" customClass="TripMapCell" customModule="HowMuchTrip" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="400" height="0.0"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ErT-Fx-m0z" id="NT5-0f-o0M">
-                                            <rect key="frame" x="0.0" y="0.0" width="400" height="200"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="400" height="0.0"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kk6-w3-e9v" userLabel="Container View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="400" height="200"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="400" height="0.0"/>
                                                     <subviews>
                                                         <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Yqm-TO-FbA">
-                                                            <rect key="frame" x="0.0" y="0.0" width="400" height="200"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="400" height="0.0"/>
                                                         </mapView>
                                                     </subviews>
                                                     <color key="backgroundColor" red="0.0" green="0.65417450666427612" blue="0.92043131589889526" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -64,31 +64,57 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TripDataCell" rowHeight="591" id="JQM-xo-DqZ" customClass="TripDetailCell" customModule="HowMuchTrip" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="200" width="400" height="591"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="400" height="591"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JQM-xo-DqZ" id="n53-5x-zRm">
                                             <rect key="frame" x="0.0" y="0.0" width="400" height="591"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wYO-hY-Iq2" customClass="PieChartView" customModule="Charts">
-                                                    <rect key="frame" x="-8" y="89" width="240" height="240"/>
+                                                <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Fi-31-cTB">
+                                                    <rect key="frame" x="232" y="88" width="160" height="360"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" secondItem="wYO-hY-Iq2" secondAttribute="height" multiplier="1:1" id="WPS-oO-BGS"/>
-                                                        <constraint firstAttribute="width" constant="300" id="cm3-1y-KTO"/>
+                                                        <constraint firstAttribute="width" constant="240" id="0J9-oW-r4z"/>
                                                     </constraints>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="WPS-oO-BGS"/>
-                                                            <exclude reference="cm3-1y-KTO"/>
+                                                            <exclude reference="0J9-oW-r4z"/>
+                                                        </mask>
+                                                    </variation>
+                                                    <connections>
+                                                        <segue destination="nbg-mq-WtQ" kind="embed" id="fCg-mT-Idg"/>
+                                                    </connections>
+                                                </containerView>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FgB-Rc-onw" customClass="PieChartView" customModule="Charts">
+                                                    <rect key="frame" x="-8" y="88" width="240" height="240"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="300" id="1FE-A7-gYB"/>
+                                                        <constraint firstAttribute="width" secondItem="FgB-Rc-onw" secondAttribute="height" multiplier="1:1" id="1e9-C8-Kg9"/>
+                                                    </constraints>
+                                                    <variation key="default">
+                                                        <mask key="constraints">
+                                                            <exclude reference="1FE-A7-gYB"/>
+                                                            <exclude reference="1e9-C8-Kg9"/>
                                                         </mask>
                                                     </variation>
                                                 </view>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budget Remaining: $9001" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i8M-g3-Jbx">
+                                                    <rect key="frame" x="80.5" y="8" width="239" height="27.5"/>
+                                                    <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
+                                                    <color key="textColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="wYO-hY-Iq2" firstAttribute="leading" secondItem="n53-5x-zRm" secondAttribute="leadingMargin" constant="-16" id="VZS-mu-jSf"/>
-                                                <constraint firstItem="wYO-hY-Iq2" firstAttribute="width" secondItem="n53-5x-zRm" secondAttribute="width" multiplier="0.6" id="qyu-M4-E71"/>
-                                                <constraint firstItem="wYO-hY-Iq2" firstAttribute="top" secondItem="n53-5x-zRm" secondAttribute="topMargin" constant="81" id="uVd-RM-cho"/>
-                                                <constraint firstItem="wYO-hY-Iq2" firstAttribute="width" secondItem="wYO-hY-Iq2" secondAttribute="height" multiplier="1:1" id="vbC-SW-T6u"/>
+                                                <constraint firstItem="i8M-g3-Jbx" firstAttribute="centerX" secondItem="n53-5x-zRm" secondAttribute="centerX" id="2NY-ER-PCo"/>
+                                                <constraint firstItem="FgB-Rc-onw" firstAttribute="top" secondItem="n53-5x-zRm" secondAttribute="topMargin" constant="80.5" id="4er-Mk-dcG"/>
+                                                <constraint firstItem="FgB-Rc-onw" firstAttribute="width" secondItem="n53-5x-zRm" secondAttribute="width" multiplier="0.6" id="8Iq-jQ-TE5"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="8Fi-31-cTB" secondAttribute="trailing" id="RFQ-q1-i8L"/>
+                                                <constraint firstItem="FgB-Rc-onw" firstAttribute="leading" secondItem="n53-5x-zRm" secondAttribute="leadingMargin" constant="-16" id="S6P-EH-B4j"/>
+                                                <constraint firstItem="8Fi-31-cTB" firstAttribute="top" secondItem="FgB-Rc-onw" secondAttribute="top" id="VVd-83-qfM"/>
+                                                <constraint firstAttribute="topMargin" secondItem="i8M-g3-Jbx" secondAttribute="top" id="jqW-sK-Rkd"/>
+                                                <constraint firstItem="8Fi-31-cTB" firstAttribute="leading" secondItem="FgB-Rc-onw" secondAttribute="trailing" id="sNq-0S-vel"/>
+                                                <constraint firstItem="8Fi-31-cTB" firstAttribute="height" secondItem="FgB-Rc-onw" secondAttribute="height" multiplier="1.5" id="uOw-uX-X7s"/>
+                                                <constraint firstItem="FgB-Rc-onw" firstAttribute="width" secondItem="FgB-Rc-onw" secondAttribute="height" multiplier="1:1" id="zGe-2a-u3P"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.01176470588" green="0.69411764710000001" blue="0.92156862750000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -105,8 +131,9 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="400" height="800"/>
                     <connections>
+                        <outlet property="legendContainerView" destination="8Fi-31-cTB" id="4LG-Oc-iMB"/>
                         <outlet property="mapView" destination="Yqm-TO-FbA" id="6jq-ME-C2U"/>
-                        <outlet property="pieChartView" destination="wYO-hY-Iq2" id="r6T-Hw-yaj"/>
+                        <outlet property="pieChartView" destination="FgB-Rc-onw" id="c4u-IQ-MYj"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Sfs-9P-ceL" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -118,15 +145,15 @@
             <objects>
                 <tableViewController storyboardIdentifier="GraphLegendTableViewController" id="nbg-mq-WtQ" customClass="GraphLegendTableViewController" customModule="HowMuchTrip" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="28" sectionFooterHeight="28" id="WX2-69-3zw">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="160" height="360"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="GraphLegendCell" rowHeight="40" id="UkC-2j-n8z" customClass="GraphLegendCell" customModule="HowMuchTrip" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="600" height="40"/>
+                                <rect key="frame" x="0.0" y="28" width="160" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UkC-2j-n8z" id="JFN-g8-iiJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="39.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="160" height="39.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0vF-cV-FWw">
@@ -154,7 +181,7 @@
                                             <color key="textColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Budget" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pif-9I-mxM">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budget" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pif-9I-mxM">
                                             <rect key="frame" x="40" y="4" width="112" height="14"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="10"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -205,7 +232,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wob-c7-Af5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1027" y="661"/>
+            <point key="canvasLocation" x="784" y="642"/>
         </scene>
     </scenes>
 </document>

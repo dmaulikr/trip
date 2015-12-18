@@ -42,8 +42,11 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     func tripWasSaved(savedTrip: Trip)
     {
         print("trip was saved")
-        navigationController?.popToRootViewControllerAnimated(false)
+        
+        navigationController?.popToRootViewControllerAnimated(true)
         tableView.reloadData()
+        
+        print(savedTrip.destinationLat)
         
         let selectedTrip = savedTrip
         
@@ -51,7 +54,10 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         
         let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
         tripDetailVC.aTrip = selectedTrip
-        navigationController?.pushViewController(tripDetailVC, animated: false)
+        
+        navigationController?.pushViewController(tripDetailVC, animated: true)
+        
+        tabBarController?.selectedIndex = 1
     }
     
     func loadTrips()

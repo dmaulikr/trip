@@ -22,7 +22,6 @@ class SettingsViewController: UIViewController
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     
-
     override func viewDidLoad()
     {
         super.viewDidLoad()
