@@ -16,38 +16,67 @@ class AverageCostsAPIController
 //    {
 //        self.averageCostsDelegate = averageCostsDelegate
 //    }
+
+    
+
+
     
     
     func searchAverageCostsFor(lat: Double, lng: Double)
     {
+        
         let apiKey = "jen@jshamilton.net"
         let baseURL = "http://www.budgetyourtrip.com/api/v3/"
         let geodataSearch = "/search/geodata/\(lat),\(lng)"
-        let completeURL = NSURL(string: "\(baseURL)\(geodataSearch)")
+        let completeURL = "\(baseURL)\(geodataSearch)"
         let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithURL(completeURL!, completionHandler: {data, response, error -> Void in
-            if error != nil
+        
+        
+        let request = NSMutableURLRequest(URL: NSURL(string: completeURL)!, cachePolicy: NSURLRequestCachePolicy.UseProtocolCachePolicy, timeoutInterval: 60.0)
+        request.addValue(apiKey, forHTTPHeaderField: "X-API-KEY")
+        request.HTTPMethod = "GET"
+        do
+        {
+            let getData = try NSJSONSerialization.dataWithJSONObject(completeURL, options: NSJSONWritingOptions.PrettyPrinted)
+            request.HTTPBody = getData
+        }
+        catch let error as NSError
+        {
+            print("data couldn't be parsed: \(error)")
+        }
+        
+        
+        let getDataTask = session.dataTaskWithRequest(request) {
+            data, response, error -> Void in
+            if error == nil
             {
-                print(error!.localizedDescription)
-            }
-            else
-            {
-                if let dictionary = self.parseJSON(data!)
+                print("\(data)")
+                do
                 {
-                    if let dataArray: NSArray = dictionary["data"] as? NSArray
+                    if let dictionary = self.parseJSON(data!)
                     {
-                        if let innerResultDictionary = dataArray[0] as? NSDictionary
+                        if let dataArray: NSArray = dictionary["data"] as? NSArray
                         {
-//                            self.averageCostsDelegate!.didReceiveAverageCostsAPIResults(innerResultDictionary)
+                            if let innerResultDictionary = dataArray[0] as? NSDictionary
+                            {
+                                //                            self.averageCostsDelegate!.didReceiveAverageCostsAPIResults(innerResultDictionary)
+                            }
                         }
-                    }
-                    
+                        
+                    }                }
+                catch let error as NSError
+                {
+                    print("data couldn't be parsed: \(error)")
                 }
-
+        
+        
             }
-        })
-        task.resume()
+        }
+        
+        
+        
     }
+    
     
     func parseJSON(data: NSData) -> NSDictionary?
     {

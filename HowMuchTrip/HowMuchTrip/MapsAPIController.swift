@@ -17,11 +17,15 @@ class MapsAPIController
 //        self.cityDelegate = cityDelegate
 //    }
     
-    func searchGMapsFor(searchTerm: Int)
+    func searchGMapsFor(searchTerm: String)
     {
-        let url = NSURL(string: "https://maps.googleapis.com/maps/api/geocode/json?address=santa+cruz&components=postal_code:\(searchTerm)&sensor=false")
+        let escapedSearchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
+        let url = "https://maps.googleapis.com/maps/api/geocode/json?address=\(escapedSearchTerm)&components=postal_code:&sensor=false"
+        let urlString = NSURL(string: url)
+        print(urlString)
+        
         let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+        let task = session.dataTaskWithURL(urlString!, completionHandler: {data, response, error -> Void in
             if error != nil
             {
                 print(error!.localizedDescription)

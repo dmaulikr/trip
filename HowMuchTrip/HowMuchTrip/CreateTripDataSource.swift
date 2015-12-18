@@ -125,6 +125,7 @@ class CreateTripDataSource
                 "Never been there. ",
                 "Always wanted to go there. "
             ]
+            // TODO: look up lat & lng for destination name, save to trip
             
             if aTrip.destination == ""
             {

@@ -270,13 +270,16 @@ class CreateTripTableViewController:
         }
     }
     
-    // MARK: - Trip
+    // MARK: - Save Trip
     
     func saveTrip(aTrip: Trip)
     {
+        
+        
         trips.append(aTrip)
         aTrip.pinInBackground()
         aTrip.saveEventually()
+        
         
 //        delegate?.tripWasSaved(aTrip)
         
