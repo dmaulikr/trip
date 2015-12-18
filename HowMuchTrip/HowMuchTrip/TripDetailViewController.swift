@@ -8,68 +8,78 @@
 
 import UIKit
 import MapKit
+import Charts
 
 class TripDetailViewController: UITableViewController
 {
     var aTrip: Trip!
     
+    @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var legendTableVC: UIView!
+    @IBOutlet weak var pieChartView: PieChartView!
+    
+    @IBOutlet weak var saveTripButton: UIButton!
+    @IBOutlet weak var topLabel: UILabel!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        tableView.backgroundColor = UIColor(red:0.011, green:0.694, blue:0.921, alpha:1)
+//        tableView.backgroundColor = UIColor(red:0.011, green:0.694, blue:0.921, alpha:1)
+        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
     }
     
-    // MARK: - Table view data source
-    
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int
-    {
-        return 2
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        return 1
-    }
-    
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
-    {
-        switch indexPath.section
-        {
-        case 0:
-            let identifier = "TripMapCell"
-            let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! TripMapCell
-            
-            setCellMap(cell)
-            
-            return cell
-            
-        default:
-            let identifier = "TripDataCell"
-            let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! TripDetailCell
-            
-            cell.backgroundColor = UIColor.clearColor()
-            cell.contentView.backgroundColor = UIColor.clearColor()
-            cell.selectionStyle = .None
-            
-            setCellLabels(cell)
-            
-            return cell
-        }
-    }
-    
-    func setCellMap(cell: TripMapCell)
-    {
-        let mapView = cell.mapView
-        mapView.mapType = MKMapType.Standard
-        
-        let annotation = MKPointAnnotation()
-        annotation.coordinate.latitude = 28.538336
-        annotation.coordinate.longitude = -81.379234
-        let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
-//        mapView.addAnnotation(annotation)
-        mapView.setRegion(region, animated: true)
-        cell.sendSubviewToBack(mapView)
-    }
+//    // MARK: - Table view data source
+//    
+//    override func numberOfSectionsInTableView(tableView: UITableView) -> Int
+//    {
+//        return 2
+//    }
+//    
+//    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+//    {
+//        return 1
+//        
+//    }
+//    
+//    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+//    {
+//        switch indexPath.section
+//        {
+//        case 0:
+//            let identifier = "TripMapCell"
+//            let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! TripMapCell
+//            
+//            setCellMap(cell)
+//            
+//            return cell
+//            
+//        default:
+//            let identifier = "TripDataCell"
+//            let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath) as! TripDetailCell
+//            
+//            cell.backgroundColor = UIColor.clearColor()
+//            cell.contentView.backgroundColor = UIColor.clearColor()
+//            cell.selectionStyle = .None
+//            
+//            setCellLabels(cell)
+//            
+//            return cell
+//        }
+//    }
+//    
+//    func setCellMap(cell: TripMapCell)
+//    {
+//        let mapView = cell.mapView
+//        mapView.mapType = MKMapType.Standard
+//        
+//        let annotation = MKPointAnnotation()
+//        annotation.coordinate.latitude = 28.538336
+//        annotation.coordinate.longitude = -81.379234
+//        let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
+////        mapView.addAnnotation(annotation)
+//        mapView.setRegion(region, animated: true)
+//        cell.sendSubviewToBack(mapView)
+//    }
     
     func setCellLabels(cell: TripDetailCell)
     {
