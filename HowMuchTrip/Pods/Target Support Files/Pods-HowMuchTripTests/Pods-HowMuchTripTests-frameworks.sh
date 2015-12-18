@@ -84,6 +84,7 @@ strip_invalid_archs() {
 
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_framework "Pods-HowMuchTripTests/Alamofire.framework"
   install_framework "Pods-HowMuchTripTests/Bolts.framework"
   install_framework "Pods-HowMuchTripTests/CalendarView.framework"
   install_framework "Pods-HowMuchTripTests/Charts.framework"
@@ -94,8 +95,10 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "Pods-HowMuchTripTests/ParseFacebookUtilsV4.framework"
   install_framework "Pods-HowMuchTripTests/ParseTwitterUtils.framework"
   install_framework "Pods-HowMuchTripTests/SwiftMoment.framework"
+  install_framework "Pods-HowMuchTripTests/SwiftyJSON.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_framework "Pods-HowMuchTripTests/Alamofire.framework"
   install_framework "Pods-HowMuchTripTests/Bolts.framework"
   install_framework "Pods-HowMuchTripTests/CalendarView.framework"
   install_framework "Pods-HowMuchTripTests/Charts.framework"
@@ -106,4 +109,5 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "Pods-HowMuchTripTests/ParseFacebookUtilsV4.framework"
   install_framework "Pods-HowMuchTripTests/ParseTwitterUtils.framework"
   install_framework "Pods-HowMuchTripTests/SwiftMoment.framework"
+  install_framework "Pods-HowMuchTripTests/SwiftyJSON.framework"
 fi

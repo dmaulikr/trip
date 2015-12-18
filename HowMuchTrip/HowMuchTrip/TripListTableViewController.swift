@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class TripListTableViewController: UITableViewController
+class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 {
     var trips = [Trip]()
 
@@ -33,6 +33,11 @@ class TripListTableViewController: UITableViewController
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
+    }
+    
+    func tripWasSaved(savedTrip: Trip)
+    {
+    
     }
 
     // MARK: - Table view data source
