@@ -8,6 +8,7 @@
 
 import Foundation
 import Alamofire
+import SwiftyJSON
 
 class AFAverageCostsAPIController
 {
@@ -25,22 +26,15 @@ class AFAverageCostsAPIController
         let baseURL = "http://www.budgetyourtrip.com/api/v3/"
         let geodataSearch = "/search/geodata/\(lat),\(lng)"
         let completeURL = "\(baseURL)\(geodataSearch)"
-        
-        let manager = Alamofire.Manager.sharedInstance
-        // Add API key header to all requests make with this manager (i.e., the whole session)
-//        manager.session.configuration.HTTPAdditionalHeaders = ["X-API-KEY": apiKey]
-        
         let headers = ["X-API-KEY": apiKey]
-        manager.request(.GET, completeURL, headers: headers).responseJSON { response in
-            print(response.request)  // original URL request
-            print(response.response) // URL response
-            print(response.data)     // server data
-            print(response.result)   // result of response serialization
-            
-            if let JSON = response.result.value {
-                print("JSON: \(JSON)")
-                
-                if let dictionary = self.parseJSON(JSON as! NSData)
+        
+        // 1
+        Alamofire.request(.GET, completeURL, headers: headers).responseJSON { response in
+            switch response.result
+            {
+            case .Success(let data):
+
+                if let dictionary = self.parseJSON(data as! NSData)
                 {
                     if let dataArray: NSArray = dictionary["data"] as? NSArray
                     {
@@ -49,13 +43,39 @@ class AFAverageCostsAPIController
                             //                            self.averageCostsDelegate!.didReceiveAverageCostsAPIResults(innerResultDictionary)
                         }
                     }
-                    
                 }
-
-                
+            case .Failure(let error):
+                print("Request failed with error: \(error)")
             }
-            
-                    }
+        }
+
+        
+        // 2
+//        Alamofire.request(.GET, completeURL, headers: headers).responseJSON { response in
+//            print(response.request)  // original URL request
+//            print(response.response) // URL response
+//            print(response.data)     // server data
+//            print(response.result)   // result of response serialization
+//            
+//            if let JSON = response.result.value {
+//                print("JSON: \(JSON)")
+//                
+//                if let dictionary = self.parseJSON(JSON as! NSData)
+//                {
+//                    if let dataArray: NSArray = dictionary["data"] as? NSArray
+//                    {
+//                        if let innerResultDictionary = dataArray[0] as? NSDictionary
+//                        {
+//                            //                            self.averageCostsDelegate!.didReceiveAverageCostsAPIResults(innerResultDictionary)
+//                        }
+//                    }
+//                    
+//                }
+//
+//                
+//            }
+//            
+//        }
     }
     
     func parseJSON(data: NSData) -> NSDictionary?

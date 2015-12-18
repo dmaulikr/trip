@@ -202,9 +202,7 @@
 		9ADAAAB81C19C26100D26F79 /* HowMuchTrip */ = {
 			isa = PBXGroup;
 			children = (
-				FE7F79281C1F2521001C6C14 /* Login.storyboard */,
-				9ADAAABF1C19C26100D26F79 /* Main.storyboard */,
-				639028B61C2085F600067A09 /* TripDetail.storyboard */,
+				9AF548011C2488D100C8E7CE /* Storyboards */,
 				FE7F792A1C1F25E4001C6C14 /* Login ViewControllers */,
 				9ADAAAF01C19D88000D26F79 /* View Controllers */,
 				9ADAAAF11C19D88E00D26F79 /* Models */,
@@ -259,6 +257,16 @@
 				639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */,
 			);
 			name = "Table Cells";
+			sourceTree = "<group>";
+		};
+		9AF548011C2488D100C8E7CE /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				FE7F79281C1F2521001C6C14 /* Login.storyboard */,
+				9ADAAABF1C19C26100D26F79 /* Main.storyboard */,
+				639028B61C2085F600067A09 /* TripDetail.storyboard */,
+			);
+			name = Storyboards;
 			sourceTree = "<group>";
 		};
 		CD24ECBA41B1F675B2F99661 /* Frameworks */ = {
