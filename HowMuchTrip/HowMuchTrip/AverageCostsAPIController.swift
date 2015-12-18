@@ -20,7 +20,6 @@ class AverageCostsAPIController
     
     func searchAverageCostsFor(lat: Double, lng: Double)
     {
-        // TODO: waiting on API key from Budget Your Trip
         let apiKey = "jen@jshamilton.net"
         let baseURL = "http://www.budgetyourtrip.com/api/v3/"
         let geodataSearch = "/search/geodata/\(lat),\(lng)"
