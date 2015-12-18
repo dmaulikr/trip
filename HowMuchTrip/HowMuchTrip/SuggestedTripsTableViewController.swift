@@ -11,7 +11,7 @@ import Parse
 
 var userLocale = "en_US"
 
-class SuggestedTripsTableViewController: UITableViewController
+class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDelegate
 {
     var trips = [Trip]()
     var userDefinedBudget = 1000.0
@@ -37,6 +37,21 @@ class SuggestedTripsTableViewController: UITableViewController
             let loginViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
             self.presentViewController(loginViewController, animated: true, completion: nil)
         }
+    }
+    
+    func tripWasSaved(savedTrip: Trip)
+    {
+        print("trip was saved")
+        navigationController?.popToRootViewControllerAnimated(false)
+        tableView.reloadData()
+        
+        let selectedTrip = savedTrip
+        
+        let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
+        
+        let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
+        tripDetailVC.aTrip = selectedTrip
+        navigationController?.pushViewController(tripDetailVC, animated: false)
     }
     
     func loadTrips()
@@ -146,7 +161,12 @@ class SuggestedTripsTableViewController: UITableViewController
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let selectedTrip = trips[indexPath.row]
+        goToTripDetail(indexPath.row)
+    }
+
+    func goToTripDetail(indexPath: Int)
+    {
+        let selectedTrip = trips[indexPath]
         
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
         
@@ -154,7 +174,7 @@ class SuggestedTripsTableViewController: UITableViewController
         tripDetailVC.aTrip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
-
+    
     /*
     // MARK: - Navigation
 

@@ -394,13 +394,17 @@ class CreateTripDataSource
         {
         case superview.budgetTextField:
             superview.nextButton.appearWithFade(0.25)
-        case superview.destinationTextField, superview.departureLocationTextField:
+        case superview.departureLocationTextField:
             superview.skipButton.appearWithFade(0.25)
             superview.contextButton.appearWithFade(0.25)
-            superview.contextButton.setImage(<#T##image: UIImage?##UIImage?#>, forState: <#T##UIControlState#>)
+            superview.contextButton.setImage(UIImage(named: "pin.png"), forState: .Normal)
         case superview.planeTicketTextField:
             superview.contextButton.appearWithFade(0.25)
-            superview.contextButton.setImage(<#T##image: UIImage?##UIImage?#>, forState: <#T##UIControlState#>)
+            superview.contextButton.setImage(UIImage(named: "plane.png"), forState: .Normal)
+            print(superview.contextButton.imageForState(.Normal))
+        case superview.dailyLodgingTextField:
+            superview.contextButton.appearWithFade(0.25)
+            superview.contextButton.setImage(UIImage(named: "hotel.png"), forState: .Normal)
         default: break;
         }
     }

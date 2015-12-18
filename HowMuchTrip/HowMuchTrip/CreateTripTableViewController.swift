@@ -10,6 +10,11 @@ import UIKit
 import Charts
 import SwiftMoment
 
+protocol TripWasSavedDelegate
+{
+    func tripWasSaved(savedTrip: Trip)
+}
+
 class CreateTripTableViewController:
     UITableViewController,
     UITextFieldDelegate,
@@ -18,6 +23,7 @@ class CreateTripTableViewController:
     CalculationFinishedDelegate
 {
     var dataSource = CreateTripDataSource()
+    var delegate: TripWasSavedDelegate?
     
     var allProperties = [String]()
     var propertyDictionary = [String: String]()
@@ -54,6 +60,21 @@ class CreateTripTableViewController:
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+//        view.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
+        
+//        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
+        
+        if let delegate = navigationController?.viewControllers[0] as? SuggestedTripsTableViewController
+        {
+            self.delegate = delegate
+        }
+        else if let delegate = navigationController?.viewControllers[0] as? TripListTableViewController
+        {
+            self.delegate = delegate
+        }
+        
+        print(delegate)
     
         dataSource.initialSetup(self) //allProperties and textFields assigned here
         dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
@@ -153,12 +174,19 @@ class CreateTripTableViewController:
     
     @IBAction func contextButtonPressed(sender: UIButton)
     {
-        switch sender.imageForState(.Normal)
+        let buttonImg = sender.imageForState(.Normal)
+        
+        if buttonImg == UIImage(named: "pin")
         {
-        case UIImage(named: <#T##String#>):
-        case UIImage(named: <#T##String#>):
-        case UIImage(named: <#T##String#>):
-        default: print(sender.imageForState(.Normal))
+            //TODO
+        }
+        else if buttonImg == UIImage(named: "plane")
+        {
+            //TODO
+        }
+        else if buttonImg == UIImage(named: "hotel")
+        {
+            //TODO
         }
     }
     
@@ -193,6 +221,8 @@ class CreateTripTableViewController:
     @IBAction func saveButtonPressed(sender: UIButton!)
     {
         saveTrip(aTrip)
+        
+        
     }
     
     // MARK: - Private Functions
@@ -248,7 +278,14 @@ class CreateTripTableViewController:
         aTrip.pinInBackground()
         aTrip.saveEventually()
         
+//        delegate?.tripWasSaved(aTrip)
         
+        let selectedTrip = aTrip
+        let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
+        
+        let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
+        tripDetailVC.aTrip = selectedTrip
+        navigationController?.pushViewController(tripDetailVC, animated: false)
     }
     
     func createTripComplete()
