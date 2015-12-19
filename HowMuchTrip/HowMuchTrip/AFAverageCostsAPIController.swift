@@ -19,7 +19,7 @@ class AFAverageCostsAPIController
     //        self.averageCostsDelegate = averageCostsDelegate
     //    }
     
-    func searchAverageCostsFor(lat: Double, lng: Double)
+    func searchLocationForGeonameid(lat: Double, lng: Double)
     {
         
         let apiKey = "jen@jshamilton.net"
@@ -76,6 +76,37 @@ class AFAverageCostsAPIController
 //            }
 //            
 //        }
+    }
+    
+    func searchGeonameidForCosts(geonameid: String)
+    {
+        
+        let apiKey = "jen@jshamilton.net"
+        let baseURL = "http://www.budgetyourtrip.com/api/v3/"
+        let geodataSearch = "/costs/location/\(geonameid)"
+        let completeURL = "\(baseURL)\(geodataSearch)"
+        let headers = ["X-API-KEY": apiKey]
+        
+        // 1
+        Alamofire.request(.GET, completeURL, headers: headers).responseJSON { response in
+            switch response.result
+            {
+            case .Success(let data):
+                
+                if let dictionary = self.parseJSON(data as! NSData)
+                {
+                    if let dataArray: NSArray = dictionary["data"] as? NSArray
+                    {
+                        if let innerResultDictionary = dataArray[0] as? NSDictionary
+                        {
+                            //                            self.averageCostsDelegate!.didReceiveAverageCostsAPIResults(innerResultDictionary)
+                        }
+                    }
+                }
+            case .Failure(let error):
+                print("Request failed with error: \(error)")
+            }
+        }
     }
     
     func parseJSON(data: NSData) -> NSDictionary?
