@@ -46,6 +46,8 @@ class TripDetailViewController: UITableViewController
         NSTimer.scheduledTimerWithTimeInterval(0.25, target: self, selector: "viewDidAppearSetup", userInfo: nil, repeats: false)
     }
     
+    // MARK: - Initial View Setup
+    
     func viewDidAppearSetup()
     {
         let index = NSIndexPath(forRow: 0, inSection: 0)
@@ -62,10 +64,10 @@ class TripDetailViewController: UITableViewController
         var lat: Double!
         var lng: Double!
             
-        if aTrip.destinationLat != nil && aTrip.destinationLng != nil
+        if aTrip.destinationLat != "" && aTrip.destinationLng != ""
         {
-            lat = Double(aTrip.destinationLat!)
-            lng = Double(aTrip.destinationLng!)
+            lat = Double(aTrip.destinationLat)
+            lng = Double(aTrip.destinationLng)
         }
         else
         {
@@ -149,6 +151,8 @@ class TripDetailViewController: UITableViewController
         buildGraphAndLegend(aTrip, superview: self)
     }
     
+    // MARK: - Build Graph
+    
     func buildGraphAndLegend(aTrip: Trip, superview: TripDetailViewController)
     {
         let (values, dataPoints) = dataSource.getGraphValuesAndProperties(aTrip)
@@ -202,6 +206,8 @@ class TripDetailViewController: UITableViewController
     }
 
 }
+
+// MARK: - Detail View Cells
 
 class TripDetailCell: UITableViewCell
 {

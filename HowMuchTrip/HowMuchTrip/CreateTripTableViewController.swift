@@ -23,14 +23,9 @@ class CreateTripTableViewController:
     CalculationFinishedDelegate,
     MapsAPIResultsProtocol
 {
-    var dataSource = CreateTripDataSource()
-    var delegate: TripWasSavedDelegate?
+
     
-    var allProperties = [String]()
-    var propertyDictionary = [String: String]()
-    var calculator: Calculator!
-    var trip = Trip()
-    var trips = [Trip]()
+    // MARK: - Labels
     
     @IBOutlet weak var budgetRemainingLabel: UILabel!
     @IBOutlet weak var promptLabel: UILabel!
@@ -38,6 +33,8 @@ class CreateTripTableViewController:
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var contextButton: UIButton!
+    
+    // MARK: - Text Fields
     
     @IBOutlet weak var budgetTextField: UITextField!
     @IBOutlet weak var departureLocationTextField: UITextField!
@@ -50,14 +47,27 @@ class CreateTripTableViewController:
     @IBOutlet weak var dailyOtherTextField: UITextField!
     @IBOutlet weak var oneTimeCostTextField: UITextField!
     
+    var shownTextField: UITextField!
+    var textFields = [UITextField]()
+    
+    // MARK: - Graph Properties
+    
     @IBOutlet weak var graphCell: UITableViewCell!
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var legendContainerView: UIView!
+
+    // MARK: - Other Properties
+    var dataSource = CreateTripDataSource()
+    var delegate: TripWasSavedDelegate?
+    
+    var allProperties = [String]()
+    var propertyDictionary = [String: String]()
+    var calculator: Calculator!
+    var trip = Trip()
+    var trips = [Trip]()
     
     var mapsAPIController: MapsAPIController?
     
-    var shownTextField: UITextField!
-    var textFields = [UITextField]()
     var buttons = [UIButton!]()
     
     override func viewDidLoad()
@@ -191,33 +201,6 @@ class CreateTripTableViewController:
         }
     }
     
-    func clear()
-    {
-        dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
-        
-        if calculator != nil
-        {
-            calculator.clearCalculator()
-            dataSource.calculateFinished = false
-        }
-        
-        propertyDictionary.removeAll()
-        pieChartView.hideWithFade(0.25)
-        legendContainerView.hideWithFade(0.25)
-        promptLabel.hideWithFade(0.25)
-
-        dataSource.hideButtons(buttons)
-        
-        if budgetRemainingLabel.alpha != 0
-        {
-            budgetRemainingLabel.hideWithFade(0.25)
-        }
-        
-        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-        
-        cycleToNextField(0)
-    }
     
     @IBAction func saveButtonPressed(sender: UIButton!)
     {
@@ -226,92 +209,57 @@ class CreateTripTableViewController:
         
     }
     
-    // MARK: - Private Functions
-
-    func calculate()
-    {
-        calculator = Calculator(dictionary: propertyDictionary)
-        calculator.delegate = self
-        
-        trip = calculator.calculate(propertyDictionary)
-        
-        budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", trip.budgetRemaining))"
-        budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
-        budgetRemainingLabel.appearWithFade(0.25)
-        
-        dataSource.buildGraphAndLegend(trip, superview: self)
-    }
+    //MARK: - Location
     
-    func calculationFinished(validCalc: Bool)
+    func checkForLocation(textField: UITextField)
     {
-        if validCalc
+        if textField == destinationTextField
         {
-            budgetRemainingLabel.textColor = UIColor.whiteColor()
+            //DESTINATION
             
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.shownTextField.alpha = 0
-                }, completion: { (_) -> Void in
-                    
-                    let nextTextFieldIndex =
-                        self.textFields.indexOf(self.shownTextField)! + 1
-                    self.cycleToNextField(nextTextFieldIndex)
-            })
+            if let term = destinationTextField.text
+            {
+                mapsAPIController = MapsAPIController(delegate: self)
+                mapsAPIController?.searchGMapsFor(term, textField: destinationTextField)
+            }
         }
-        else
+        else if textField == departureLocationTextField
         {
-            promptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
-            promptLabel.alpha = 0
-            shownTextField.backgroundColor = UIColor.redColor()
-            budgetRemainingLabel.textColor = UIColor.redColor()
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.promptLabel.alpha = 1
-                self.shownTextField.backgroundColor = UIColor.whiteColor()
-                }, completion: { (_) -> Void in
-            })
+            //ORIGIN
+            
+            if let term = departureLocationTextField.text
+            {
+                //                mapsAPIController = MapsAPIController(delegate: self)
+                mapsAPIController?.searchGMapsFor(term, textField: departureLocationTextField)
+            }
         }
     }
     
-    // MARK: - Save Trip
-    
-    func saveTrip(trip: Trip)
+    func didReceiveMapsAPIResults(results: NSDictionary, textField: UITextField)
     {
-        
-        
-        trips.append(trip)
-        trip.pinInBackground()
-        trip.saveEventually()
-        print(trip.destinationLng)
-        
-        delegate?.tripWasSaved(trip)
-    }
-    
-    func createTripComplete()
-    {
-        promptLabel.text = ""
-        budgetRemainingLabel.text = "Everything look good?"
-        budgetRemainingLabel.alpha = 0
-        dataSource.tripCreated = true
-        
-        dataSource.hideButtons(buttons)
-        
-        UIView.animateWithDuration(1.0, animations: { () -> Void in
-            let index = NSIndexPath(forRow: 0, inSection: 0)
-            self.tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
-            }) { (_) -> Void in
-                
-                self.saveTripButton.hidden = false
-                self.saveTripButton.appearWithFade(0.25)
-                self.saveTripButton.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
-                
-                self.budgetRemainingLabel.appearWithFade(0.25)
-                self.budgetRemainingLabel.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
+        if let (lat, lng) = trip.tripCoordinateFromJSON(results)
+        {
+            switch textField
+            {
+            case destinationTextField:
+                propertyDictionary["destinationLat"] = String(lat)
+                propertyDictionary["destinationLng"] = lng
+                trip.destinationLat = lat
+                trip.destinationLng = lng
+            case departureLocationTextField:
+                propertyDictionary["departureLat"] = lat
+                propertyDictionary["departureLng"] = lng
+                //                trip.departureLat = lat
+                //                trip.departureLng = lng
+            default: break
+            }
+            
+            print(trip.destinationLng, trip.destinationLat)
         }
-        
-//        performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
-        
-        
-        //        switch trip.budgetRemaining
+        calculate()
     }
+    
+
     
     // MARK: - Graph Functions
     
@@ -382,54 +330,117 @@ class CreateTripTableViewController:
         return 2
     }
     
-    //MARK: - Location
     
-    func checkForLocation(textField: UITextField)
+    // MARK: - Private Functions
+    
+    func calculate()
     {
-        if textField == destinationTextField
+        calculator = Calculator(dictionary: propertyDictionary)
+        calculator.delegate = self
+        
+        trip = calculator.calculate(propertyDictionary)
+        
+        budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", trip.budgetRemaining))"
+        budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
+        budgetRemainingLabel.appearWithFade(0.25)
+        
+        dataSource.buildGraphAndLegend(trip, superview: self)
+    }
+    
+    func calculationFinished(validCalc: Bool)
+    {
+        if validCalc
         {
-            //DESTINATION
+            budgetRemainingLabel.textColor = UIColor.whiteColor()
             
-            if let term = destinationTextField.text
-            {
-                mapsAPIController = MapsAPIController(delegate: self)
-                mapsAPIController?.searchGMapsFor(term, textField: destinationTextField)
-            }
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.shownTextField.alpha = 0
+                }, completion: { (_) -> Void in
+                    
+                    let nextTextFieldIndex =
+                    self.textFields.indexOf(self.shownTextField)! + 1
+                    self.cycleToNextField(nextTextFieldIndex)
+            })
         }
-        else if textField == departureLocationTextField
+        else
         {
-            //ORIGIN
-            
-            if let term = departureLocationTextField.text
-            {
-//                mapsAPIController = MapsAPIController(delegate: self)
-                mapsAPIController?.searchGMapsFor(term, textField: departureLocationTextField)
-            }
+            promptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
+            promptLabel.alpha = 0
+            shownTextField.backgroundColor = UIColor.redColor()
+            budgetRemainingLabel.textColor = UIColor.redColor()
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                self.promptLabel.alpha = 1
+                self.shownTextField.backgroundColor = UIColor.whiteColor()
+                }, completion: { (_) -> Void in
+            })
         }
     }
     
-    func didReceiveMapsAPIResults(results: NSDictionary, textField: UITextField)
+    func clear()
     {
-        if let (lat, lng) = trip.tripCoordinateFromJSON(results)
+        dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
+        
+        if calculator != nil
         {
-            switch textField
-            {
-            case destinationTextField:
-                propertyDictionary["destinationLat"] = String(lat)
-                propertyDictionary["destinationLng"] = lng
-                trip.destinationLat = lat
-                trip.destinationLng = lng
-            case departureLocationTextField:
-                propertyDictionary["departureLat"] = lat
-                propertyDictionary["departureLng"] = lng
-//                trip.departureLat = lat
-//                trip.departureLng = lng
-            default: break
-            }
-            
-            print(trip.destinationLng, trip.destinationLat)
+            calculator.clearCalculator()
+            dataSource.calculateFinished = false
         }
-        calculate()
+        
+        propertyDictionary.removeAll()
+        pieChartView.hideWithFade(0.25)
+        legendContainerView.hideWithFade(0.25)
+        promptLabel.hideWithFade(0.25)
+        
+        dataSource.hideButtons(buttons)
+        
+        if budgetRemainingLabel.alpha != 0
+        {
+            budgetRemainingLabel.hideWithFade(0.25)
+        }
+        
+        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
+        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+        
+        cycleToNextField(0)
     }
+
+    
+    func saveTrip(trip: Trip)
+    {
+        trips.append(trip)
+        trip.pinInBackground()
+        trip.saveEventually()
+        
+        delegate?.tripWasSaved(trip)
+    }
+    
+    func createTripComplete()
+    {
+        promptLabel.text = ""
+        budgetRemainingLabel.text = "Everything look good?"
+        budgetRemainingLabel.alpha = 0
+        dataSource.tripCreated = true
+        
+        dataSource.hideButtons(buttons)
+        
+        UIView.animateWithDuration(1.0, animations: { () -> Void in
+            let index = NSIndexPath(forRow: 0, inSection: 0)
+            self.tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
+            }) { (_) -> Void in
+                
+                self.saveTripButton.hidden = false
+                self.saveTripButton.appearWithFade(0.25)
+                self.saveTripButton.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
+                
+                self.budgetRemainingLabel.appearWithFade(0.25)
+                self.budgetRemainingLabel.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
+        }
+        
+        //        performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
+        
+        
+        //        switch trip.budgetRemaining
+    }
+
 }
 

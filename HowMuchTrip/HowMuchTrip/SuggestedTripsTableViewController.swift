@@ -39,6 +39,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         }
     }
     
+    // MARK: - TripSaved Delegate
+    
     func tripWasSaved(savedTrip: Trip)
     {
         print("trip was saved")
@@ -60,6 +62,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         tabBarController?.selectedIndex = 1
     }
     
+    // MARK: - Load Suggested Trips JSON
+    
     func loadTrips()
     {
         if let path = NSBundle.mainBundle().pathForResource("suggestedTrips", ofType: "json"), let data = NSData(contentsOfFile: path)
@@ -68,12 +72,10 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             {
                 let tripsJSON = try NSJSONSerialization
                     .JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as! [NSDictionary]
-//                print(tripsJSON)
                 for tripDict in tripsJSON
                 {
                     let aTrip = suggestedTripFromJSON(tripDict)
                     trips.append(aTrip)
-//                    trips.shuffleInPlace()
                 }
             }
             catch
@@ -170,6 +172,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     {
         goToTripDetail(indexPath.row)
     }
+    
+    // MARK: - Shift View to TripDetailVC
 
     func goToTripDetail(indexPath: Int)
     {
@@ -182,13 +186,4 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 }

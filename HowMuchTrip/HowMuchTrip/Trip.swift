@@ -34,11 +34,11 @@ class Trip: PFObject, PFSubclassing
     @NSManaged var totalFoodCosts: Double
     @NSManaged var totalOtherDailyCosts: Double
     
-    @NSManaged var departureLat: String?
-    @NSManaged var departureLng: String?
+    @NSManaged var departureLat: String
+    @NSManaged var departureLng: String
     
-    @NSManaged var destinationLat: String?
-    @NSManaged var destinationLng: String?
+    @NSManaged var destinationLat: String
+    @NSManaged var destinationLng: String
     
     override class func initialize() {
         struct Static {
@@ -57,13 +57,13 @@ class Trip: PFObject, PFSubclassing
     {
         if let geometry = results["geometry"] as? NSDictionary
         {
-            let location = geometry["location"] as? NSDictionary ?? NSDictionary()
-            let lat      = location["lat"]      as? Double ?? nil
-            let lng      = location["lng"]      as? Double ?? nil
+            let location = geometry["location"] as? NSDictionary
             
-            if lat != nil && lng != nil
+            if location != nil
             {
-                return (String(lat), String(lng))
+                let lat = location!["lat"] as! Double
+                let lng = location!["lng"] as! Double
+                return (String(lat),String(lng))
             }
             else
             {

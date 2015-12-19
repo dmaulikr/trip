@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import MBProgressHUD
 import ParseTwitterUtils
-
+// TODO: Remove emails for security
 //emails for project:
 //howmuchtrip@gmail.com
 //support@howmuchtrip.com

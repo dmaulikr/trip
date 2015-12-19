@@ -15,6 +15,7 @@ class CreateTripDataSource
     var tripCreated = false
 //    var superview: CreateTripTableViewController?
 
+    // MARK: - Initial View Setup
     func initialSetup(superview: CreateTripTableViewController)
     {
 //        self.superview = superview
@@ -88,6 +89,8 @@ class CreateTripDataSource
         pieChartView.holeColor = UIColor.clearColor()
     }
     
+    // MARK: - Getters
+    
     func getPromptLabelText(indexOfTextField: Int, aTrip: Trip) -> String
     {
         var prefixes = [
@@ -134,8 +137,6 @@ class CreateTripDataSource
                 "Never been there. ",
                 "Always wanted to go there. "
             ]
-            // TODO: look up lat & lng for destination name, save to trip
-            
             if aTrip.destination == ""
             {
                 prefixes = [""]
@@ -228,28 +229,6 @@ class CreateTripDataSource
         return (selectedTextField, indexOfTextField)
     }
     
-    func hideTextFieldsAndClearText(textFields: [UITextField], delegate: CreateTripTableViewController)
-    {
-        for field in textFields
-        {
-            field.text = ""
-            field.hidden = true
-            field.alpha = 0
-            field.delegate = delegate
-        }
-    }
-    
-    func hideButtons(buttons: [UIButton!])
-    {
-        for button in buttons
-        {
-            if button.alpha != 0
-            {
-                button.hideWithFade(0.25)
-            }
-        }
-    }
-    
     func getGraphColors() -> [UIColor]
     {
         let colors = [
@@ -276,7 +255,7 @@ class CreateTripDataSource
             aTrip.totalOtherDailyCosts,
             aTrip.oneTimeCost
         ]
-    
+        
         var graphProperties = [
             "Budget Remaining",
             "Plane Ticket",
@@ -299,6 +278,71 @@ class CreateTripDataSource
         
         return (values, graphProperties)
     }
+
+    // MARK: - Presentation Functions
+    
+    func hideTextFieldsAndClearText(textFields: [UITextField], delegate: CreateTripTableViewController)
+    {
+        for field in textFields
+        {
+            field.text = ""
+            field.hidden = true
+            field.alpha = 0
+            field.delegate = delegate
+        }
+    }
+    
+    func hideButtons(buttons: [UIButton!])
+    {
+        for button in buttons
+        {
+            if button.alpha != 0
+            {
+                button.hideWithFade(0.25)
+            }
+        }
+    }
+    
+    func manageButtons(superview: CreateTripTableViewController)
+    {
+        //        let textFields = [
+        //            superview.budgetTextField!,
+        //            superview.destinationTextField!,
+        //            superview.departureLocationTextField!,
+        //            superview.dateFromTextField!,
+        //            superview.dateToTextField!,
+        //            superview.planeTicketTextField!,
+        //            superview.dailyLodgingTextField!,
+        //            superview.dailyFoodTextField!,
+        //            superview.dailyOtherTextField!,
+        //            superview.oneTimeCostTextField!
+        //        ]
+        
+        if superview.contextButton.alpha != 0
+        {
+            superview.contextButton.hideWithFade(0.25)
+        }
+        
+        switch superview.shownTextField
+        {
+        case superview.budgetTextField:
+            superview.nextButton.appearWithFade(0.25)
+        case superview.departureLocationTextField:
+            superview.skipButton.appearWithFade(0.25)
+            superview.contextButton.appearWithFade(0.25)
+            superview.contextButton.setImage(UIImage(named: "pin.png"), forState: .Normal)
+        case superview.planeTicketTextField:
+            superview.contextButton.appearWithFade(0.25)
+            superview.contextButton.setImage(UIImage(named: "plane.png"), forState: .Normal)
+            print(superview.contextButton.imageForState(.Normal))
+        case superview.dailyLodgingTextField:
+            superview.contextButton.appearWithFade(0.25)
+            superview.contextButton.setImage(UIImage(named: "hotel.png"), forState: .Normal)
+        default: break;
+        }
+    }
+    
+    // MARK: - Build Graph
     
     func buildGraphAndLegend(aTrip: Trip, superview: CreateTripTableViewController)
     {
@@ -351,6 +395,8 @@ class CreateTripDataSource
         }
     }
     
+    // MARK: - Text Field Validation
+    
     func testCharacters(textField: UITextField, string: String, superview: CreateTripTableViewController) -> Bool
     {
         var invalidCharacters: NSCharacterSet!
@@ -380,42 +426,5 @@ class CreateTripDataSource
         return true
     }
     
-    func manageButtons(superview: CreateTripTableViewController)
-    {
-//        let textFields = [
-//            superview.budgetTextField!,
-//            superview.destinationTextField!,
-//            superview.departureLocationTextField!,
-//            superview.dateFromTextField!,
-//            superview.dateToTextField!,
-//            superview.planeTicketTextField!,
-//            superview.dailyLodgingTextField!,
-//            superview.dailyFoodTextField!,
-//            superview.dailyOtherTextField!,
-//            superview.oneTimeCostTextField!
-//        ]
-        
-        if superview.contextButton.alpha != 0
-        {
-            superview.contextButton.hideWithFade(0.25)
-        }
-        
-        switch superview.shownTextField
-        {
-        case superview.budgetTextField:
-            superview.nextButton.appearWithFade(0.25)
-        case superview.departureLocationTextField:
-            superview.skipButton.appearWithFade(0.25)
-            superview.contextButton.appearWithFade(0.25)
-            superview.contextButton.setImage(UIImage(named: "pin.png"), forState: .Normal)
-        case superview.planeTicketTextField:
-            superview.contextButton.appearWithFade(0.25)
-            superview.contextButton.setImage(UIImage(named: "plane.png"), forState: .Normal)
-            print(superview.contextButton.imageForState(.Normal))
-        case superview.dailyLodgingTextField:
-            superview.contextButton.appearWithFade(0.25)
-            superview.contextButton.setImage(UIImage(named: "hotel.png"), forState: .Normal)
-        default: break;
-        }
-    }
+
 }

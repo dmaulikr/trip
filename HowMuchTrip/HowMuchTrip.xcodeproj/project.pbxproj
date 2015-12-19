@@ -206,8 +206,8 @@
 				FE7F792A1C1F25E4001C6C14 /* Login ViewControllers */,
 				9ADAAAF01C19D88000D26F79 /* View Controllers */,
 				9ADAAAF11C19D88E00D26F79 /* Models */,
-				9ADAAAF61C19E4C300D26F79 /* Table Cells */,
 				9A93D2F81C233A0100496FE1 /* API Controllers */,
+				9ADAAAF61C19E4C300D26F79 /* Table Cells */,
 				9A8518C81C1E057A001046EA /* Misc */,
 			);
 			path = HowMuchTrip;
