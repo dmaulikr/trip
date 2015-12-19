@@ -280,7 +280,7 @@ class CreateTripTableViewController:
         trips.append(trip)
         trip.pinInBackground()
         trip.saveEventually()
-        
+        print(trip.destinationLng)
         
         delegate?.tripWasSaved(trip)
     }
@@ -415,10 +415,10 @@ class CreateTripTableViewController:
             switch textField
             {
             case destinationTextField:
-                propertyDictionary["destinationLat"] = lat
+                propertyDictionary["destinationLat"] = String(lat)
                 propertyDictionary["destinationLng"] = lng
-//                trip.destinationLat = lat
-//                trip.destinationLng = lng
+                trip.destinationLat = lat
+                trip.destinationLng = lng
             case departureLocationTextField:
                 propertyDictionary["departureLat"] = lat
                 propertyDictionary["departureLng"] = lng
