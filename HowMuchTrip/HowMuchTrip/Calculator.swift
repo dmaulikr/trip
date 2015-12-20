@@ -33,7 +33,7 @@ class Calculator
             || key == "Daily Lodging Cost"
             || key == "Daily Food Cost"
             || key == "Daily Other Cost"
-            || key == "One Time Cost"
+            || key == "One Time Cost" 
             {
                 value = value.stringByReplacingOccurrencesOfString(",", withString: "")
             }
@@ -116,33 +116,33 @@ class Calculator
     
     func clearCalculator()
     {
-        aTrip.budgetTotal = 0.0
-        aTrip.subtotalOfProperties = 0.0
-        aTrip.budgetRemaining = 0.0
-        
-        aTrip.departureLocation = ""
-        aTrip.destination = ""
-        
-        aTrip.dateFrom = ""
-        aTrip.dateTo = ""
-        aTrip.numberOfDays = 0.0
-        aTrip.numberOfNights = 0.0
-        
-        aTrip.planeTicketCost = 0.0
-        aTrip.dailyLodgingCost = 0.0
-        aTrip.dailyFoodCost = 0.0
-        aTrip.dailyOtherCost = 0.0
-        aTrip.oneTimeCost = 0.0
-       
-        aTrip.totalLodgingCosts = 0.0
-        aTrip.totalFoodCosts = 0.0
-        aTrip.totalOtherDailyCosts = 0.0
-        
-        aTrip.departureLat = ""
-        aTrip.departureLng = ""
-        
-        aTrip.destinationLat = ""
-        aTrip.destinationLng = ""
+//        aTrip.budgetTotal = 0.0
+//        aTrip.subtotalOfProperties = 0.0
+//        aTrip.budgetRemaining = 0.0
+//        
+//        aTrip.departureLocation = ""
+//        aTrip.destination = ""
+//        
+//        aTrip.dateFrom = ""
+//        aTrip.dateTo = ""
+//        aTrip.numberOfDays = 0.0
+//        aTrip.numberOfNights = 0.0
+//        
+//        aTrip.planeTicketCost = 0.0
+//        aTrip.dailyLodgingCost = 0.0
+//        aTrip.dailyFoodCost = 0.0
+//        aTrip.dailyOtherCost = 0.0
+//        aTrip.oneTimeCost = 0.0
+//       
+//        aTrip.totalLodgingCosts = 0.0
+//        aTrip.totalFoodCosts = 0.0
+//        aTrip.totalOtherDailyCosts = 0.0
+//        
+//        aTrip.departureLat = ""
+//        aTrip.departureLng = ""
+//        
+//        aTrip.destinationLat = ""
+//        aTrip.destinationLng = ""
 
     }
 }

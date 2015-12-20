@@ -376,6 +376,7 @@ class CreateTripTableViewController:
         }
     }
     
+    // FIXME: When Clear is pressed, if at the "All done, save now" stage, it clears the screen, but doesn't load anything
     func clear()
     {
         dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
@@ -414,6 +415,7 @@ class CreateTripTableViewController:
         delegate?.tripWasSaved(trip)
     }
     
+    // FIXME: When Clear is pressed, if at the "All done, save now" stage, it clears the screen, but doesn't load anything
     func createTripComplete()
     {
         promptLabel.text = ""

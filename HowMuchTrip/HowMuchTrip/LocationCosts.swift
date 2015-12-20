@@ -11,21 +11,21 @@ import Foundation
 class Location
 {
 
-    var lat: String
-    var lng: String
+    let lat: String
+    let lng: String
     let geonameid: String
     
-    var valueBudget1: String
-    var valueMidrange1: String
-    var valueLuxury1: String
+    var valueBudget1 = ""
+    var valueMidrange1 = ""
+    var valueLuxury1 = ""
     
-    var valueBudget2: String
-    var valueMidrange2: String
-    var valueLuxury2: String
+    var valueBudget2 = ""
+    var valueMidrange2 = ""
+    var valueLuxury2 = ""
     
-    var valueBudget0: String
-    var valueMidrange0: String
-    var valueLuxury0: String
+    var valueBudget0 = ""
+    var valueMidrange0 = ""
+    var valueLuxury0 = ""
     
     
     init(lat: String, lng: String, geonameid: String?)
