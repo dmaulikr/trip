@@ -11,45 +11,53 @@ import Foundation
 class Location
 {
 
-    let lat: String
-    let lng: String
+    var lat: String
+    var lng: String
     let geonameid: String
     
-    let valueBudget1: String
-    let valueMidrange1: String
-    let valueLuxury1: String
+    var valueBudget1: String
+    var valueMidrange1: String
+    var valueLuxury1: String
     
-    let valueBudget2: String
-    let valueMidrange2: String
-    let valueLuxury2: String
+    var valueBudget2: String
+    var valueMidrange2: String
+    var valueLuxury2: String
     
-    let valueBudget0: String
-    let valueMidrange0: String
-    let valueLuxury0: String
+    var valueBudget0: String
+    var valueMidrange0: String
+    var valueLuxury0: String
     
     
-    init(lat: String, lng: String, geonameid: String?,
-         valueBudget1: String?, valueMidrange1: String?, valueLuxury1: String?,
-         valueBudget2: String?, valueMidrange2: String?, valueLuxury2: String?,
-         valueBudget0: String?, valueMidrange0: String?, valueLuxury0: String?
-        )
+    init(lat: String, lng: String, geonameid: String?)
     {
-        let propertyValueDictionary = [geonameid, valueBudget0, valueBudget1, valueBudget2, valueMidrange0, valueMidrange1, valueMidrange2, valueLuxury0, valueLuxury1, valueLuxury2]
-
         self.lat = lat
         self.lng = lng
-        
-        for propertyValue in propertyValueDictionary
-        {
-            if propertyValue != ""
-            {
-                self.property = propertyValue!
-            }
-        }
+        self.geonameid = geonameid!
         
     }
     
-    static func geonameidWithJSON(results: NSArray) -> Location
+    init(lat: String, lng: String, geonameid: String, valueBudget1: String?, valueMidrange1: String?, valueLuxury1: String?,
+        valueBudget2: String?, valueMidrange2: String?, valueLuxury2: String?, valueBudget0: String?, valueMidrange0: String?, valueLuxury0: String?)
+    {
+        self.lat = lat
+        self.lng = lng
+        self.geonameid = geonameid
+        
+        self.valueBudget0 = valueBudget0!
+        self.valueMidrange0 = valueMidrange0!
+        self.valueLuxury0 = valueLuxury0!
+        
+        self.valueBudget1 = valueBudget0!
+        self.valueMidrange1 = valueMidrange0!
+        self.valueLuxury1 = valueLuxury0!
+        
+        self.valueBudget2 = valueBudget0!
+        self.valueMidrange2 = valueMidrange0!
+        self.valueLuxury2 = valueLuxury0!
+        
+    }
+    
+    static func geonameidFromLocationNameWithJSON(results: NSArray) -> Location
     {
         var location: Location!
         
@@ -69,32 +77,50 @@ class Location
     }
     
     // FIXME: this may not work - check to see if object still holds lat & lng
-    static func costsFromGeonameidWithJSON(results: NSArray) -> Location
+    static func costsFromGeonameidWithJSON(results: NSArray, lat: String, lng: String) -> Location
     {
         var location: Location!
+        
+        var geonameid = ""
+        
+        var valueBudget1 = ""
+        var valueMidrange1 = ""
+        var valueLuxury1 = ""
+        
+        var valueBudget2 = ""
+        var valueMidrange2 = ""
+        var valueLuxury2 = ""
+        
+        var valueBudget0 = ""
+        var valueMidrange0 = ""
+        var valueLuxury0 = ""
         
         if results.count > 0
         {
             for result in results
             {
-                var categoryID = result["category_id"] as? String ?? ""
+                let categoryID = result["category_id"] as! Int
                 switch categoryID
                 {
                     case 1:
-                    let valueBudget1 = result["value_budget"] as? String ?? ""
-                    let valueMidrange1 = result["value_midrange"] as? String ?? ""
-                    let valueLuxury1 = result["value_luxury"] as? String ?? ""
+                    valueBudget1 = result["value_budget"] as? String ?? ""
+                    valueMidrange1 = result["value_midrange"] as? String ?? ""
+                    valueLuxury1 = result["value_luxury"] as? String ?? ""
+                    geonameid = result["geonameid"] as? String ?? ""
                     case 2:
-                    let valueBudget2 = result["value_budget"] as? String ?? ""
-                    let valueMidrange2 = result["value_midrange"] as? String ?? ""
-                    let valueLuxury2 = result["value_luxury"] as? String ?? ""
+                    valueBudget2 = result["value_budget"] as? String ?? ""
+                    valueMidrange2 = result["value_midrange"] as? String ?? ""
+                    valueLuxury2 = result["value_luxury"] as? String ?? ""
+                    geonameid = result["geonameid"] as? String ?? ""
                     default:
-                    let valueBudget0 = result["value_budget"] as? String ?? ""
-                    let valueMidrange0 = result["value_midrange"] as? String ?? ""
-                    let valueLuxury0 = result["value_luxury"] as? String ?? ""
-                    
-                    
+                    valueBudget0 = result["value_budget"] as? String ?? ""
+                    valueMidrange0 = result["value_midrange"] as? String ?? ""
+                    valueLuxury0 = result["value_luxury"] as? String ?? ""
+                    geonameid = result["geonameid"] as? String ?? ""
+                 
+                    location = Location(lat: lat, lng: lng, geonameid: geonameid, valueBudget1: valueBudget1, valueMidrange1: valueMidrange1, valueLuxury1: valueLuxury1, valueBudget2: valueBudget2, valueMidrange2: valueMidrange2, valueLuxury2: valueLuxury2, valueBudget0: valueBudget0, valueMidrange0: valueMidrange0, valueLuxury0: valueLuxury0)
                 }
+                
                 
             }
         }
