@@ -10,7 +10,8 @@ import Foundation
 import Parse
 
 /// A Trip object, holding all the static elements of a Trip.
-public class Trip: PFObject, PFSubclassing
+
+class Trip: PFObject, PFSubclassing
 {
     /// Total budget, as entered by user
     @NSManaged var budgetTotal: Double
@@ -62,8 +63,6 @@ public class Trip: PFObject, PFSubclassing
     @NSManaged var destinationLat: String
     /// The longitude of the destination location
     @NSManaged var destinationLng: String
-    
-    @NSManaged var propertyDictionary: [String : String]
 
     /**
     Initializes the Trip class as a Parse subclass
@@ -71,7 +70,7 @@ public class Trip: PFObject, PFSubclassing
      - Returns: An empty trip object.
      
     */
-    override public class func initialize() {
+    override class func initialize() {
         struct Static {
             static var onceToken : dispatch_once_t = 0;
         }
@@ -83,8 +82,9 @@ public class Trip: PFObject, PFSubclassing
     public static func parseClassName() -> String {
         return "Trip"
     }
+    
     /**
-     Method to set JSON results to object properties
+     Method to set JSON results from Google Maps API to object properties
       
      - Parameters:
         - results: A dictionary with JSON results from the API Controller class
