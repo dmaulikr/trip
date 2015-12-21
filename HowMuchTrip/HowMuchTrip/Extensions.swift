@@ -10,6 +10,7 @@ import Foundation
 
 extension NSDate
 {
+    /// Function to format a date or time to .ShortStyle
     func nsDateShortStyleAsString() -> String
     {
         let formatter = NSDateFormatter()
@@ -22,6 +23,7 @@ extension NSDate
 
 extension UIImageView
 {
+    /// Helper function to make downloading and formatting an image simpler and consistent
     func downloadImgFrom(imageURL: String, contentMode: UIViewContentMode)
     {
         if let url = NSURL(string: imageURL)
@@ -49,8 +51,10 @@ extension UIImageView
     }
 }
 
+/// Extension with functions related to animation of view
 extension UIView
 {
+    /// Function that allows a view to appear with fade animation
     func appearWithFade(duration: Double)
     {
         self.hidden = false
@@ -60,6 +64,7 @@ extension UIView
         }
     }
     
+    /// Function that allows a view to disappear with fade animation
     func hideWithFade(duration: Double)
     {
         self.alpha = 1
@@ -68,6 +73,7 @@ extension UIView
         }
     }
     
+    /// Function to horizontally slide a view from current position to original position
     func slideHorizontallyToOrigin(duration: Double, fromPointX: CGFloat)
     {
         let originalX = self.frame.origin.x
@@ -77,6 +83,7 @@ extension UIView
         }
     }
     
+    /// Function to vertically slide a view from current position to original position
     func slideVerticallyToOrigin(duration: Double, fromPointY: CGFloat)
     {
         let originalY = self.frame.origin.y
@@ -86,6 +93,7 @@ extension UIView
         }
     }
     
+    /// Removes an overlay view that is dimming the main view display
     func removeDimmedOverlayView()
     {
         if let dimmedOverlayView = self.viewWithTag(100)
@@ -98,6 +106,7 @@ extension UIView
         }
     }
     
+    /// Adds an overlay layer to a view, dimming the view's appearance
     func addDimmedOverlayView()
     {
         let dimmedOverlayView = UIView()
@@ -113,7 +122,7 @@ extension UIView
     }
 }
 
-// Below via:
+// Below via: http://stackoverflow.com/questions/24026510/how-do-i-shuffle-an-array-in-swift
 
 extension CollectionType {
     /// Return a copy of `self` with its elements shuffled
@@ -138,7 +147,7 @@ extension MutableCollectionType where Index == Int {
     }
 }
 
-/* Usage for shuffle funcs: http://stackoverflow.com/questions/24026510/how-do-i-shuffle-an-array-in-swift
+/* Usage for shuffle funcs
 
     [1, 2, 3].shuffle()
     // [2, 3, 1]
