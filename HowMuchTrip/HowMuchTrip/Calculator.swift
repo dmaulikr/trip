@@ -9,11 +9,13 @@
 import Foundation
 import SwiftMoment
 
+/// Delegate passes a notification to the CreateTrip class signaling that the calcualtion is finished and within budget.
 protocol CalculationFinishedDelegate
 {
     func calculationFinished(validCalc: Bool)
 }
 
+/// The Calculator class performs mathematical calculations using user-entered data, to populate a Trip's properties.
 class Calculator
 {
     let aTrip = Trip()
@@ -24,24 +26,24 @@ class Calculator
         
     }
     
+    /**
+     The calculate function uses user-entered data to calcualte values that are then stored in a Trip object. 
+     
+     - Parameters: 
+        - dictionary: A dictionary of String:String objects. Keys are Trip properties, and Values are the value of the properties.
+     
+     - Returns: A Trip object, populated with the user-entered data and the results of the 'calculate' function.
+
+    */
     func calculate(dictionary: [String:String]) -> Trip
     {
-        for (key, var value) in dictionary
+        for (key, value) in dictionary
         {
-            if key == "Budget"
-            || key == "Plane Ticket Cost"
-            || key == "Daily Lodging Cost"
-            || key == "Daily Food Cost"
-            || key == "Daily Other Cost"
-            || key == "One Time Cost" 
-            {
-                value = value.stringByReplacingOccurrencesOfString(",", withString: "")
-            }
-            
+            // Sets the relevant value to the correct key
             switch key
             {
             case "Budget":
-                aTrip.budgetTotal = Double(value.stringByReplacingOccurrencesOfString(",", withString: ""))!
+                aTrip.budgetTotal = Double(value)!
             case "Departure Location":
                 aTrip.departureLocation = value
             case "Destination":
@@ -72,10 +74,11 @@ class Calculator
                 break
             }
         }
-
+        
         let dateFrom = moment(aTrip.dateFrom, dateFormat: "MM/d/yy")
         let dateTo   = moment(aTrip.dateTo, dateFormat: "MM/d/yy")
         
+        // Calculate the total days and nights of the trip. Assumes the standard trip is x days and x-1 nights.
         if dateFrom != nil && dateTo != nil
         {
             let interval = dateTo?.intervalSince(dateFrom!)
@@ -88,10 +91,12 @@ class Calculator
             aTrip.numberOfNights = 1
         }
 
+        // Uses the number of days and nights to determine the subtotal for lodging, food and other daily costs.
         aTrip.totalLodgingCosts = (aTrip.dailyLodgingCost * aTrip.numberOfNights)
         aTrip.totalFoodCosts = (aTrip.dailyFoodCost * aTrip.numberOfDays)
         aTrip.totalOtherDailyCosts = (aTrip.dailyOtherCost * aTrip.numberOfDays)
         
+        // Deterimines the subtotal of all travel expenses
         aTrip.subtotalOfProperties =
             aTrip.planeTicketCost +
             aTrip.totalLodgingCosts +
@@ -99,15 +104,20 @@ class Calculator
             aTrip.totalOtherDailyCosts +
             aTrip.oneTimeCost
         
+        // Determines the amount of funds left after all expenses are covered.
         aTrip.budgetRemaining =
             aTrip.budgetTotal -
             aTrip.subtotalOfProperties
         
+        
+        // Prevents the user from spending more than allocated by budget.
         var validCalc = false
         if aTrip.budgetRemaining >= -5.0
         {
             validCalc = true
         }
+        
+        // Signals that the calcuation is finished, and the user has not gone over budget.
         delegate?.calculationFinished(validCalc)
 
         return aTrip
@@ -116,33 +126,6 @@ class Calculator
     
     func clearCalculator()
     {
-//        aTrip.budgetTotal = 0.0
-//        aTrip.subtotalOfProperties = 0.0
-//        aTrip.budgetRemaining = 0.0
-//        
-//        aTrip.departureLocation = ""
-//        aTrip.destination = ""
-//        
-//        aTrip.dateFrom = ""
-//        aTrip.dateTo = ""
-//        aTrip.numberOfDays = 0.0
-//        aTrip.numberOfNights = 0.0
-//        
-//        aTrip.planeTicketCost = 0.0
-//        aTrip.dailyLodgingCost = 0.0
-//        aTrip.dailyFoodCost = 0.0
-//        aTrip.dailyOtherCost = 0.0
-//        aTrip.oneTimeCost = 0.0
-//       
-//        aTrip.totalLodgingCosts = 0.0
-//        aTrip.totalFoodCosts = 0.0
-//        aTrip.totalOtherDailyCosts = 0.0
-//        
-//        aTrip.departureLat = ""
-//        aTrip.departureLng = ""
-//        
-//        aTrip.destinationLat = ""
-//        aTrip.destinationLng = ""
-
+        // TODO: delete func
     }
 }

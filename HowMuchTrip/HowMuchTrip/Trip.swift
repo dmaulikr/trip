@@ -10,7 +10,7 @@ import Foundation
 import Parse
 
 /// A Trip object, holding all the static elements of a Trip.
-public class Trip: PFObject, PFSubclassing
+class Trip: PFObject, PFSubclassing
 {
     /// Total budget, as entered by user
     @NSManaged var budgetTotal: Double
@@ -82,7 +82,7 @@ public class Trip: PFObject, PFSubclassing
         return "Trip"
     }
     /**
-     Method to set JSON results to object properties
+     Method to set JSON results from Google Maps API to object properties
       
      - Parameters:
         - results: A dictionary with JSON results from the API Controller class

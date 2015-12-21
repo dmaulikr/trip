@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Class to hold a trip's location data, and allow the user to find the average travel costs for the trip.
 class Location
 {
     /// Latitude of the location
