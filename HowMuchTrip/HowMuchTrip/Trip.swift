@@ -10,6 +10,7 @@ import Foundation
 import Parse
 
 /// A Trip object, holding all the static elements of a Trip.
+
 class Trip: PFObject, PFSubclassing
 {
     /// Total budget, as entered by user
@@ -78,9 +79,10 @@ class Trip: PFObject, PFSubclassing
         }
     }
     
-    static func parseClassName() -> String {
+    public static func parseClassName() -> String {
         return "Trip"
     }
+    
     /**
      Method to set JSON results from Google Maps API to object properties
       

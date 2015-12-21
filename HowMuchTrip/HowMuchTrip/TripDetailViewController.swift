@@ -23,13 +23,14 @@ class TripDetailViewController: UITableViewController
     @IBOutlet weak var saveTripButton: UIButton!
     @IBOutlet weak var topLabel: UILabel!
     
+    var calculator: Calculator!
+    var propertyDictionary = [String : String]()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         dataSource.initialSetupPieChart(pieChartView)
         tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
-        
-//        dataSource.initialSetupPieChart(pieChartView)
     }
     
     override func viewWillAppear(animated: Bool)
@@ -43,19 +44,18 @@ class TripDetailViewController: UITableViewController
     {
         viewAppeared = true
         
-        NSTimer.scheduledTimerWithTimeInterval(0.25, target: self, selector: "viewDidAppearSetup", userInfo: nil, repeats: false)
+        doSetup()
     }
     
     // MARK: - Initial View Setup
     
-    func viewDidAppearSetup()
+    func doSetup()
     {
         let index = NSIndexPath(forRow: 0, inSection: 0)
         tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
         setMap()
+        buildGraphAndLegend(aTrip, superview: self)
         tableView.reloadData()
-        
-        doSetup()
     }
 
     func setMap()
@@ -71,6 +71,7 @@ class TripDetailViewController: UITableViewController
         }
         else
         {
+            // TODO: - set generic vacation image in place of mapView if there is no lat and lng for location
             lat = 28.538336
             lng = -81.379234
         }
@@ -83,20 +84,6 @@ class TripDetailViewController: UITableViewController
         let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
 
         mapView.setRegion(region, animated: true)
-    }
-    
-    func setCellLabels(cell: TripDetailCell)
-    {
-        if aTrip != nil
-        {
-            cell.destinationLabel.text = aTrip.destination
-            cell.budgetLabel.text = String(aTrip.budgetTotal)
-            cell.planeTicketLabel.text = String(aTrip.planeTicketCost)
-            cell.totalLodgingLabel.text = String(aTrip.totalLodgingCosts)
-            cell.totalFoodLabel.text = String(aTrip.totalFoodCosts)
-            cell.totalOtherLabel.text = String(aTrip.totalOtherDailyCosts)
-            cell.oneTimeCostLabel.text = String(aTrip.oneTimeCost)
-        }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
@@ -146,11 +133,6 @@ class TripDetailViewController: UITableViewController
         }
     }
     
-    func doSetup()
-    {
-        buildGraphAndLegend(aTrip, superview: self)
-    }
-    
     // MARK: - Build Graph
     
     func buildGraphAndLegend(aTrip: Trip, superview: TripDetailViewController)
@@ -192,6 +174,10 @@ class TripDetailViewController: UITableViewController
             legendTableVC.dataPoints = dataPoints
             legendTableVC.values     = values
             legendTableVC.colors     = dataSource.getGraphColors()
+            legendTableVC.trip       = aTrip
+            
+//            let tripListTableVC      = tabBarController?.viewControllers![1] as! TripListTableViewController
+//            legendTableVC.delegate   = tripListTableVC
             legendTableVC.tableView.reloadData()
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -203,8 +189,30 @@ class TripDetailViewController: UITableViewController
         {
             print("no child view")
         }
-    }
+        
 
+    }
+    
+    func calculate(cycle: Bool)
+    {
+//        calculator = Calculator(delegate: nil)
+//        calculator.assignValue(<#T##trip: Trip?##Trip?#>, propertyAndValue: <#T##[String : String]#>)
+        
+        buildGraphAndLegend(aTrip, superview: self)
+    }
+    
+//    func getPropertyDict(trip: Trip) -> [String : String]
+//    {
+//        let allProperties = [
+//            "Budget"
+//            "Plane Ticket Cost",
+//            "Daily Lodging Cost",
+//            "Daily Food Cost",
+//            "Daily Other Cost"
+//        ]
+//        
+//        return allProperties
+//    }
 }
 
 // MARK: - Detail View Cells

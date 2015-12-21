@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class TripListTableViewController: UITableViewController, TripWasSavedDelegate
+class TripListTableViewController: UITableViewController, TripWasSavedDelegate, TripDidBeginEditingDelegate
 {
     var trips = [Trip]()
 
@@ -17,8 +17,6 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     {
         super.viewDidLoad()
         title = "My Trips"
-        
-        refreshList()
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
          self.navigationItem.leftBarButtonItem = self.editButtonItem()
@@ -35,9 +33,18 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         super.didReceiveMemoryWarning()
     }
     
-    func tripWasSaved(savedTrip: Trip)
+    func tripDetailDidBeginEditing()
     {
+        navigationController?.popToRootViewControllerAnimated(true)
+        performSegueWithIdentifier("createSegue", sender: "tripDetailDidBeginEditing")
+    }
     
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if let createTripVC = segue.destinationViewController as? CreateTripTableViewController, let trip = (sender as? Trip)
+        {
+            createTripVC.trip = trip
+        }
     }
 
     // MARK: - Table view data source
@@ -90,9 +97,21 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
     }
     
+    func tripWasSaved(savedTrip: Trip)
+    {
+        goToTripDetail(savedTrip)
+    }
+    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let selectedTrip = trips[indexPath.row]
+        goToTripDetail(selectedTrip)
+    }
+    
+    // MARK: - Shift View to TripDetailVC
+    
+    func goToTripDetail(selectedTrip: Trip)
+    {
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
         
         let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
@@ -105,10 +124,6 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     
     func refreshList()
     {
-        
-//        if PFUser.currentUser() != nil
-//        {
-
         let query = Trip.query()
         query!.orderByAscending("destination")
         query!.addAscendingOrder("budgetTotal")
@@ -122,10 +137,9 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             }
             else
             {
+                print("refreshList")
                 print(error?.localizedDescription)
             }
         }
-      
     }
-
 }
