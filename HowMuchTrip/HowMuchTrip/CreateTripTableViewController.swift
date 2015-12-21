@@ -24,7 +24,6 @@ class CreateTripTableViewController:
     MapsAPIResultsProtocol
 {
 
-    
     // MARK: - Labels
     
     @IBOutlet weak var budgetRemainingLabel: UILabel!
@@ -114,7 +113,9 @@ class CreateTripTableViewController:
         
         checkForLocation(textField)
         
-        calculate()
+        let property = allProperties[indexOfTextField]
+        
+        calculate(true, property: property, value: selectedTextField.text!)
         tableView.reloadData()
         return rc
     }
@@ -150,8 +151,6 @@ class CreateTripTableViewController:
             shownTextField.frame.origin.y = 100
 
             dataSource.manageButtons(self)
-            
-            
             
             promptLabel.alpha = 0
             promptLabel.text = dataSource.getPromptLabelText(indexOfTextField, aTrip: trip)
@@ -205,8 +204,6 @@ class CreateTripTableViewController:
     @IBAction func saveButtonPressed(sender: UIButton!)
     {
         saveTrip(trip)
-        
-        
     }
     
     //MARK: - Location
@@ -229,7 +226,7 @@ class CreateTripTableViewController:
             
             if let term = departureLocationTextField.text
             {
-                //                mapsAPIController = MapsAPIController(delegate: self)
+                mapsAPIController = MapsAPIController(delegate: self)
                 mapsAPIController?.searchGMapsFor(term, textField: departureLocationTextField)
             }
         }
@@ -242,25 +239,18 @@ class CreateTripTableViewController:
             switch textField
             {
             case destinationTextField:
-                propertyDictionary["destinationLat"] = String(lat)
-                propertyDictionary["destinationLng"] = lng
-                trip.destinationLat = lat
-                trip.destinationLng = lng
+                calculate(false, property: "destinationLat", value: lat)
+                calculate(false, property: "destinationLng", value: lng)
+                
             case departureLocationTextField:
-                propertyDictionary["departureLat"] = lat
-                propertyDictionary["departureLng"] = lng
-                //                trip.departureLat = lat
-                //                trip.departureLng = lng
+                calculate(false, property: "departureLat", value: lat)
+                calculate(false, property: "departureLng", value: lng)
+                
             default: break
             }
-            
-            print(trip.destinationLng, trip.destinationLat)
         }
-        calculate()
     }
-    
 
-    
     // MARK: - Graph Functions
     
     func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController)
@@ -330,15 +320,18 @@ class CreateTripTableViewController:
         return 2
     }
     
-    
     // MARK: - Private Functions
     
-    func calculate()
+    func calculate(cycle: Bool, property: String, value: String)
     {
-        calculator = Calculator(dictionary: propertyDictionary)
-        calculator.delegate = self
+        calculator = {
+            if cycle {
+                return Calculator(delegate: self)
+            }
+            return Calculator(delegate: nil)
+        }()
         
-        trip = calculator.calculate(propertyDictionary)
+        trip = calculator.assignValue(trip, propertyAndValue: [property : value])
         
         budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", trip.budgetRemaining))"
         budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
@@ -347,9 +340,9 @@ class CreateTripTableViewController:
         dataSource.buildGraphAndLegend(trip, superview: self)
     }
     
-    func calculationFinished(validCalc: Bool)
+    func calculationFinished(overBudget: Bool)
     {
-        if validCalc
+        if !overBudget
         {
             budgetRemainingLabel.textColor = UIColor.whiteColor()
             
@@ -372,6 +365,9 @@ class CreateTripTableViewController:
                 self.promptLabel.alpha = 1
                 self.shownTextField.backgroundColor = UIColor.whiteColor()
                 }, completion: { (_) -> Void in
+                    self.shownTextField.becomeFirstResponder()
+                    self.shownTextField.placeholder = self.shownTextField.text
+                    self.shownTextField.text = ""
             })
         }
     }
@@ -405,7 +401,6 @@ class CreateTripTableViewController:
         cycleToNextField(0)
     }
 
-    
     func saveTrip(trip: Trip)
     {
         trips.append(trip)

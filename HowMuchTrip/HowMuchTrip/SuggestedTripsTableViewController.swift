@@ -43,23 +43,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     
     func tripWasSaved(savedTrip: Trip)
     {
-        print("trip was saved")
-        
         navigationController?.popToRootViewControllerAnimated(true)
-        tableView.reloadData()
-        
-        print(savedTrip.destinationLat)
-        
-        let selectedTrip = savedTrip
-        
-        let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
-        
-        let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
-        tripDetailVC.aTrip = selectedTrip
-        
-        navigationController?.pushViewController(tripDetailVC, animated: true)
-        
-        tabBarController?.selectedIndex = 1
+        goToTripDetail(savedTrip)
     }
     
     // MARK: - Load Suggested Trips JSON
@@ -105,28 +90,32 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         let totalFoodCosts          = suggestedTrip["totalFoodCosts"]       as? Double ?? 0.0
         let totalOtherDailyCosts    = suggestedTrip["totalOtherDailyCosts"] as? Double ?? 0.0
         
-        var trip: Trip {
+        let trip: Trip = {
     
-        let trip = Trip()
-        trip.budgetTotal            = budgetTotal
-        trip.subtotalOfProperties   = subtotalOfProperties
-        trip.budgetRemaining        = budgetRemaining
-        trip.departureLocation      = departureLocation
-        trip.destination            = destination
-        trip.tripName               = tripName
-        trip.numberOfDays           = numberOfDays
-        trip.numberOfNights         = numberOfNights
-        trip.planeTicketCost        = planeTicketCost
-        trip.dailyLodgingCost       = dailyLodgingCost
-        trip.dailyFoodCost          = dailyFoodCost
-        trip.dailyOtherCost         = dailyOtherCost
-        trip.oneTimeCost            = oneTimeCost
-        trip.totalLodgingCosts      = totalLodgingCosts
-        trip.totalFoodCosts         = totalFoodCosts
-        trip.totalOtherDailyCosts   = totalOtherDailyCosts
-        return trip
+            var trip = Trip()
+            trip.budgetTotal            = budgetTotal
+            trip.subtotalOfProperties   = subtotalOfProperties
+            trip.budgetRemaining        = budgetRemaining
+            trip.departureLocation      = departureLocation
+            trip.destination            = destination
+            trip.tripName               = tripName
+            trip.numberOfDays           = numberOfDays
+            trip.numberOfNights         = numberOfNights
+            trip.planeTicketCost        = planeTicketCost
+            trip.dailyLodgingCost       = dailyLodgingCost
+            trip.dailyFoodCost          = dailyFoodCost
+            trip.dailyOtherCost         = dailyOtherCost
+            trip.oneTimeCost            = oneTimeCost
+            trip.totalLodgingCosts      = totalLodgingCosts
+            trip.totalFoodCosts         = totalFoodCosts
+            trip.totalOtherDailyCosts   = totalOtherDailyCosts
             
-        }
+            let calculator = Calculator(delegate: nil)
+            (trip, _) = calculator.getTotals(trip)
+                
+            return trip
+            
+        }()
 
         return trip
     }
@@ -170,20 +159,18 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        goToTripDetail(indexPath.row)
+        let selectedTrip = trips[indexPath.row]
+        goToTripDetail(selectedTrip)
     }
     
     // MARK: - Shift View to TripDetailVC
 
-    func goToTripDetail(indexPath: Int)
+    func goToTripDetail(selectedTrip: Trip)
     {
-        let selectedTrip = trips[indexPath]
-        
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
         
         let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
         tripDetailVC.aTrip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
-    
 }
