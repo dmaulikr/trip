@@ -49,6 +49,7 @@
 		FE7F79301C1F2632001C6C14 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7F792F1C1F2632001C6C14 /* ResetPasswordViewController.swift */; };
 		FE7F79621C2074E0001C6C14 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7F793D1C2057FD001C6C14 /* Accounts.framework */; };
 		FE7F79631C2074E8001C6C14 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE7F793F1C205806001C6C14 /* Social.framework */; };
+		FEE66D131C286B750018D985 /* ParseUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEE66D121C286B750018D985 /* ParseUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +114,7 @@
 		FE7F792F1C1F2632001C6C14 /* ResetPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewController.swift; sourceTree = "<group>"; };
 		FE7F793D1C2057FD001C6C14 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		FE7F793F1C205806001C6C14 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		FEE66D121C286B750018D985 /* ParseUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseUser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +245,7 @@
 				9ADAAAE21C19CDE300D26F79 /* Calculator.swift */,
 				9ADAAAE41C19CE0000D26F79 /* FlightSearch.swift */,
 				9A93D2F61C23399A00496FE1 /* LocationCosts.swift */,
+				FEE66D121C286B750018D985 /* ParseUser.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -506,6 +509,7 @@
 				630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */,
 				9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */,
 				63F4E6CE1C23051F0040CFC4 /* CreateTripDataSource.swift in Sources */,
+				FEE66D131C286B750018D985 /* ParseUser.swift in Sources */,
 				9AF91D8F1C246A330044D57C /* AFAverageCostsAPIController.swift in Sources */,
 				9ADAAAEB1C19D72C00D26F79 /* TripListTableViewController.swift in Sources */,
 				9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */,
