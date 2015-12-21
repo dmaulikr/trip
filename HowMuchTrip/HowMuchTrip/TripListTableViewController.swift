@@ -85,60 +85,20 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
     }
     
-    // TODO: documentation
-    /**
-     Description
-     
-     - Parameters:
-     - one: some stuff about one
-     
-     - Parameter two: some stuff about two
-     
-     - Throws:
-     
-     - Returns:
-     
-     */
     func tripWasSaved(savedTrip: Trip)
     {
         goToTripDetail(savedTrip)
     }
     
-    // TODO: documentation
-    /**
-     Description
-     
-     - Parameters:
-     - one: some stuff about one
-     
-     - Parameter two: some stuff about two
-     
-     - Throws:
-     
-     - Returns:
-     
-     */
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let selectedTrip = trips[indexPath.row]
         goToTripDetail(selectedTrip)
     }
     
-    // TODO: documentation
     // MARK: - Shift View to TripDetailVC
-    /**
-    Description
     
-    - Parameters: 
-        - one: some stuff about one
-    
-    - Parameter two: some stuff about two
-    
-    - Throws:
-    
-    - Returns:
-    
-    */
+    /// Function to segue to newly instantiated view controller on different storyboard
     func goToTripDetail(selectedTrip: Trip)
     {
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
@@ -147,7 +107,6 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         tripDetailVC.aTrip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
-
     
     // MARK: - Parse Queries
     /// Function queries Parse local datastore, then Parse cloud storage for items that have been pinned and saved, respectively.
