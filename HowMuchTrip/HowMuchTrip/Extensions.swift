@@ -122,13 +122,7 @@ extension UIView
     }
 }
 
-<<<<<<< HEAD
 // Below via: http://stackoverflow.com/questions/24026510/how-do-i-shuffle-an-array-in-swift
-=======
-
-
-// Below via:
->>>>>>> cee3196bc18655da31ca68e539c2f90db92aca6a
 
 extension CollectionType {
     /// Return a copy of `self` with its elements shuffled

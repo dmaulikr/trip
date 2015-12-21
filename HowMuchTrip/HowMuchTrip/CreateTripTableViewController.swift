@@ -379,7 +379,6 @@ class CreateTripTableViewController:
         
         if calculator != nil
         {
-            calculator.clearCalculator()
             dataSource.calculateFinished = false
         }
         
