@@ -86,8 +86,6 @@ class CreateTripTableViewController:
             self.delegate = delegate
         }
         
-        print(delegate)
-    
         dataSource.initialSetup(self) //allProperties and textFields assigned here
         dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
         
@@ -289,7 +287,7 @@ class CreateTripTableViewController:
                  textFieldShouldReturn(dateFromTextField)
         case 81: dateToTextField.text   = dateStr
                  textFieldShouldReturn(dateToTextField)
-        default: print(textFieldTag)
+        default: print("default error in dateWasChosen: \(textFieldTag)")
         }
     }
     

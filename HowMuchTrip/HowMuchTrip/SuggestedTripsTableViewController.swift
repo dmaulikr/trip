@@ -19,7 +19,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        title = "Suggested"
+//        title = "Suggested"
     }
     
     override func viewWillAppear(animated: Bool)
@@ -65,7 +65,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             }
             catch
             {
-                print(error)
+                print("loadTrips error: \(error)")
             }
         }
 

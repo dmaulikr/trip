@@ -334,7 +334,7 @@ class CreateTripDataSource
         case superview.planeTicketTextField:
             superview.contextButton.appearWithFade(0.25)
             superview.contextButton.setImage(UIImage(named: "plane.png"), forState: .Normal)
-            print(superview.contextButton.imageForState(.Normal))
+//            print(superview.contextButton.imageForState(.Normal))
         case superview.dailyLodgingTextField:
             superview.contextButton.appearWithFade(0.25)
             superview.contextButton.setImage(UIImage(named: "hotel.png"), forState: .Normal)

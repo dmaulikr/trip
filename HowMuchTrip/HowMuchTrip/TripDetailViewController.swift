@@ -47,6 +47,11 @@ class TripDetailViewController: UITableViewController
         doSetup()
     }
     
+    override func viewWillDisappear(animated: Bool)
+    {
+        updateTrip(aTrip)
+    }
+    
     // MARK: - Initial View Setup
     
     func doSetup()
@@ -213,7 +218,16 @@ class TripDetailViewController: UITableViewController
 //        
 //        return allProperties
 //    }
+    
+    
+    func updateTrip(aTrip: Trip)
+    {
+        aTrip.saveEventually()
+        aTrip.pinInBackground()
+    }
 }
+
+
 
 // MARK: - Detail View Cells
 

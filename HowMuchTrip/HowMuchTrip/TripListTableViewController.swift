@@ -16,9 +16,8 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        title = "My Trips"
+//        title = "My Trips"
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
          self.navigationItem.leftBarButtonItem = self.editButtonItem()
     }
     
@@ -64,7 +63,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
 
         let aTrip = trips[indexPath.row]
 
-        // Format budgetTotal into US currency style
+        // Formats budgetTotal into US currency style
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
         formatter.locale = NSLocale(localeIdentifier: "en_US")
@@ -121,7 +120,10 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
 
     
     // MARK: - Parse Queries
+    /**
+    Function queries Parse local datastore, then Parse cloud storage for items that have been pinned and saved, respectively.
     
+    */
     func refreshList()
     {
         let query = Trip.query()
@@ -137,8 +139,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
             }
             else
             {
-                print("refreshList")
-                print(error?.localizedDescription)
+                print("refreshList error: \(error?.localizedDescription)")
             }
         }
     }

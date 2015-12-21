@@ -181,7 +181,7 @@ class GraphLegendTableViewController: UITableViewController, UITextFieldDelegate
             
 //            tripDetailVC.calculate(false)
             
-            print(tripDetailVC)
+//            print(tripDetailVC)
         }
     }
     
