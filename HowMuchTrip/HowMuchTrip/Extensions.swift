@@ -11,6 +11,7 @@ import Foundation
 extension NSDate
 {
     /// Function to format a date or time to .ShortStyle
+    /// - Returns: Date as a String
     func nsDateShortStyleAsString() -> String
     {
         let formatter = NSDateFormatter()
@@ -18,6 +19,21 @@ extension NSDate
         formatter.timeStyle = .ShortStyle
         let formattedTime = formatter.stringFromDate(self)
         return formattedTime
+    }
+}
+
+extension Double
+{
+    /// Function to format a number to US currency style
+    /// - Returns: Amount of $, as a String
+    func formatAsUSCurrency() -> String
+    {
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        formatter.locale = NSLocale(localeIdentifier: "en_US")
+        let formattedNumber = formatter.stringFromNumber(self)
+        
+        return formattedNumber!
     }
 }
 

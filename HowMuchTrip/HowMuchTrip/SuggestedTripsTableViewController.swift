@@ -136,25 +136,9 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         cell.tripNameLabel.text = aTrip.tripName
         cell.departureLocationLabel.text = aTrip.departureLocation
         cell.destinationLabel.text = aTrip.destination
-        cell.budgetLabel.text = formatCost(aTrip.budgetTotal)
+        cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
 
         return cell
-    }
-    
-    func formatCost(numberToFormat: Double) -> String
-    {
-        // Format budgetTotal into US currency style
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        formatter.locale = NSLocale(localeIdentifier: userLocale)
-        if let budgetTotalString = formatter.stringFromNumber(numberToFormat)
-        {
-            return budgetTotalString
-        }
-        else
-        {
-            return ""
-        }
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)

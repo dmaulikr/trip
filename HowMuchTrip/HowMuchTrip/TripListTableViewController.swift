@@ -32,6 +32,19 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
         super.didReceiveMemoryWarning()
     }
     
+    /**
+     Description
+     
+     - Parameters:
+     - one: some stuff about one
+     
+     - Parameter two: some stuff about two
+     
+     - Throws:
+     
+     - Returns:
+     
+     */
     func tripDetailDidBeginEditing()
     {
         navigationController?.popToRootViewControllerAnimated(true)
@@ -62,16 +75,9 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
         let cell = tableView.dequeueReusableCellWithIdentifier("TripCell", forIndexPath: indexPath) as! TripCell
 
         let aTrip = trips[indexPath.row]
-
-        // Formats budgetTotal into US currency style
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        formatter.locale = NSLocale(localeIdentifier: "en_US")
-        let budgetTotalString = formatter.stringFromNumber(aTrip.budgetTotal)
         
         cell.destinationLabel.text = aTrip.destination
-        cell.budgetLabel.text = budgetTotalString
-
+        cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
 
         return cell
     }
@@ -96,11 +102,37 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
         }
     }
     
+    /**
+     Description
+     
+     - Parameters:
+     - one: some stuff about one
+     
+     - Parameter two: some stuff about two
+     
+     - Throws:
+     
+     - Returns:
+     
+     */
     func tripWasSaved(savedTrip: Trip)
     {
         goToTripDetail(savedTrip)
     }
     
+    /**
+     Description
+     
+     - Parameters:
+     - one: some stuff about one
+     
+     - Parameter two: some stuff about two
+     
+     - Throws:
+     
+     - Returns:
+     
+     */
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let selectedTrip = trips[indexPath.row]
@@ -108,7 +140,19 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
     }
     
     // MARK: - Shift View to TripDetailVC
+    /**
+    Description
     
+    - Parameters: 
+        - one: some stuff about one
+    
+    - Parameter two: some stuff about two
+    
+    - Throws:
+    
+    - Returns:
+    
+    */
     func goToTripDetail(selectedTrip: Trip)
     {
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
@@ -120,20 +164,22 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
 
     
     // MARK: - Parse Queries
-    /**
-    Function queries Parse local datastore, then Parse cloud storage for items that have been pinned and saved, respectively.
-    
-    */
+    /// Function queries Parse local datastore, then Parse cloud storage for items that have been pinned and saved, respectively.
     func refreshList()
     {
         let query = Trip.query()
+        // Sort results A-Z
         query!.orderByAscending("destination")
+        // After sorting A-Z, then sort 1-999999
         query!.addAscendingOrder("budgetTotal")
+        // First look in local datastore
         query!.fromLocalDatastore()
+        // Second look for objects in Parse cloud
         query!.findObjectsInBackgroundWithBlock {
             (objects: [PFObject]?, error: NSError?) -> Void in
             if error == nil
             {
+                // Save all the objects found in the trips array, then reload view
                 self.trips = (objects as? [Trip])!
                 self.tableView.reloadData()
             }
