@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class TripListTableViewController: UITableViewController, TripWasSavedDelegate, TripDidBeginEditingDelegate
+class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 {
     var trips = [Trip]()
 
@@ -30,25 +30,6 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
-    }
-    
-    /**
-     Description
-     
-     - Parameters:
-     - one: some stuff about one
-     
-     - Parameter two: some stuff about two
-     
-     - Throws:
-     
-     - Returns:
-     
-     */
-    func tripDetailDidBeginEditing()
-    {
-        navigationController?.popToRootViewControllerAnimated(true)
-        performSegueWithIdentifier("createSegue", sender: "tripDetailDidBeginEditing")
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
@@ -94,14 +75,17 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
         {
             let aTrip = trips[indexPath.row]
             trips.removeAtIndex(indexPath.row)
-            // TODO: test unpin
+            // Remove from local datastore
             aTrip.unpinInBackground()
+            // Remove from Parse cloud
             aTrip.deleteEventually()
+            // Delete row in table
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             tableView.reloadData()
         }
     }
     
+    // TODO: documentation
     /**
      Description
      
@@ -120,6 +104,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
         goToTripDetail(savedTrip)
     }
     
+    // TODO: documentation
     /**
      Description
      
@@ -139,6 +124,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate, 
         goToTripDetail(selectedTrip)
     }
     
+    // TODO: documentation
     // MARK: - Shift View to TripDetailVC
     /**
     Description

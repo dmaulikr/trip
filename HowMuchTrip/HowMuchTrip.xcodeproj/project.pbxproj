@@ -43,6 +43,7 @@
 		9AF91D8B1C2455AF0044D57C /* AverageCostsAPIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF91D8A1C2455AF0044D57C /* AverageCostsAPIController.swift */; };
 		9AF91D8D1C2455DF0044D57C /* MapsAPIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF91D8C1C2455DF0044D57C /* MapsAPIController.swift */; };
 		9AF91D8F1C246A330044D57C /* AFAverageCostsAPIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF91D8E1C246A330044D57C /* AFAverageCostsAPIController.swift */; };
+		9AFDF4141C28964B009AB5D2 /* AirportCodeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AFDF4131C28964B009AB5D2 /* AirportCodeAPI.swift */; };
 		FE7F79291C1F2521001C6C14 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FE7F79281C1F2521001C6C14 /* Login.storyboard */; };
 		FE7F792C1C1F260C001C6C14 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7F792B1C1F260C001C6C14 /* LoginViewController.swift */; };
 		FE7F792E1C1F2620001C6C14 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7F792D1C1F2620001C6C14 /* SignUpViewController.swift */; };
@@ -104,6 +105,7 @@
 		9AF91D8A1C2455AF0044D57C /* AverageCostsAPIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AverageCostsAPIController.swift; sourceTree = "<group>"; };
 		9AF91D8C1C2455DF0044D57C /* MapsAPIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsAPIController.swift; sourceTree = "<group>"; };
 		9AF91D8E1C246A330044D57C /* AFAverageCostsAPIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFAverageCostsAPIController.swift; sourceTree = "<group>"; };
+		9AFDF4131C28964B009AB5D2 /* AirportCodeAPI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AirportCodeAPI.swift; sourceTree = "<group>"; };
 		AF7DAEF72538D7A4153A6670 /* Pods_HowMuchTripTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HowMuchTripTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5FF73B3F3FD7F09D27ECE4C /* Pods-HowMuchTripTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTripTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTripTests/Pods-HowMuchTripTests.release.xcconfig"; sourceTree = "<group>"; };
 		CFB55FE67B2C93C42C52D96D /* Pods-HowMuchTrip.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTrip.debug.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTrip/Pods-HowMuchTrip.debug.xcconfig"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				9AF91D8A1C2455AF0044D57C /* AverageCostsAPIController.swift */,
 				9AF91D8E1C246A330044D57C /* AFAverageCostsAPIController.swift */,
 				9AF91D8C1C2455DF0044D57C /* MapsAPIController.swift */,
+				9AFDF4131C28964B009AB5D2 /* AirportCodeAPI.swift */,
 			);
 			name = "API Controllers";
 			sourceTree = "<group>";
@@ -511,6 +514,7 @@
 				63F4E6CE1C23051F0040CFC4 /* CreateTripDataSource.swift in Sources */,
 				FEE66D131C286B750018D985 /* ParseUser.swift in Sources */,
 				9AF91D8F1C246A330044D57C /* AFAverageCostsAPIController.swift in Sources */,
+				9AFDF4141C28964B009AB5D2 /* AirportCodeAPI.swift in Sources */,
 				9ADAAAEB1C19D72C00D26F79 /* TripListTableViewController.swift in Sources */,
 				9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */,
 				FE7F792E1C1F2620001C6C14 /* SignUpViewController.swift in Sources */,
