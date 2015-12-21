@@ -31,7 +31,6 @@ class SettingsViewController: UIViewController
         userImage.clipsToBounds = true
         userImage.layer.borderColor = UIColor.blackColor().CGColor
         userImage.layer.borderWidth = 1
-
     }
 
     override func didReceiveMemoryWarning()

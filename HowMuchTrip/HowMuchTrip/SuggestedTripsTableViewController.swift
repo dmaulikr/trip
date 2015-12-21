@@ -43,23 +43,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     
     func tripWasSaved(savedTrip: Trip)
     {
-        print("trip was saved")
-        
         navigationController?.popToRootViewControllerAnimated(true)
-        tableView.reloadData()
-        
-        print(savedTrip.destinationLat)
-        
-        let selectedTrip = savedTrip
-        
-        let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
-        
-        let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
-        tripDetailVC.aTrip = selectedTrip
-        
-        navigationController?.pushViewController(tripDetailVC, animated: true)
-        
-        tabBarController?.selectedIndex = 1
+        goToTripDetail(savedTrip)
     }
     
     // MARK: - Load Suggested Trips JSON
@@ -170,20 +155,18 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        goToTripDetail(indexPath.row)
+        let selectedTrip = trips[indexPath.row]
+        goToTripDetail(selectedTrip)
     }
     
     // MARK: - Shift View to TripDetailVC
 
-    func goToTripDetail(indexPath: Int)
+    func goToTripDetail(selectedTrip: Trip)
     {
-        let selectedTrip = trips[indexPath]
-        
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
         
         let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
         tripDetailVC.aTrip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
-    
 }

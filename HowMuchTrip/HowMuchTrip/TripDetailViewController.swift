@@ -28,8 +28,6 @@ class TripDetailViewController: UITableViewController
         super.viewDidLoad()
         dataSource.initialSetupPieChart(pieChartView)
         tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
-        
-//        dataSource.initialSetupPieChart(pieChartView)
     }
     
     override func viewWillAppear(animated: Bool)
@@ -43,19 +41,18 @@ class TripDetailViewController: UITableViewController
     {
         viewAppeared = true
         
-        NSTimer.scheduledTimerWithTimeInterval(0.25, target: self, selector: "viewDidAppearSetup", userInfo: nil, repeats: false)
+        doSetup()
     }
     
     // MARK: - Initial View Setup
     
-    func viewDidAppearSetup()
+    func doSetup()
     {
         let index = NSIndexPath(forRow: 0, inSection: 0)
         tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
         setMap()
+        buildGraphAndLegend(aTrip, superview: self)
         tableView.reloadData()
-        
-        doSetup()
     }
 
     func setMap()
@@ -71,6 +68,7 @@ class TripDetailViewController: UITableViewController
         }
         else
         {
+            // TODO: - set generic vacation image in place of mapView if there is no lat and lng for location
             lat = 28.538336
             lng = -81.379234
         }
@@ -83,20 +81,6 @@ class TripDetailViewController: UITableViewController
         let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
 
         mapView.setRegion(region, animated: true)
-    }
-    
-    func setCellLabels(cell: TripDetailCell)
-    {
-        if aTrip != nil
-        {
-            cell.destinationLabel.text = aTrip.destination
-            cell.budgetLabel.text = String(aTrip.budgetTotal)
-            cell.planeTicketLabel.text = String(aTrip.planeTicketCost)
-            cell.totalLodgingLabel.text = String(aTrip.totalLodgingCosts)
-            cell.totalFoodLabel.text = String(aTrip.totalFoodCosts)
-            cell.totalOtherLabel.text = String(aTrip.totalOtherDailyCosts)
-            cell.oneTimeCostLabel.text = String(aTrip.oneTimeCost)
-        }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
@@ -144,11 +128,6 @@ class TripDetailViewController: UITableViewController
         {
             cell.scrollViewDidScroll(scrollView)
         }
-    }
-    
-    func doSetup()
-    {
-        buildGraphAndLegend(aTrip, superview: self)
     }
     
     // MARK: - Build Graph

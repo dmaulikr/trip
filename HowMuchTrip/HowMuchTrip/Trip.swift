@@ -69,7 +69,7 @@ public class Trip: PFObject, PFSubclassing
      - Returns: An empty trip object.
      
     */
-    override class func initialize() {
+    override public class func initialize() {
         struct Static {
             static var onceToken : dispatch_once_t = 0;
         }
@@ -78,7 +78,7 @@ public class Trip: PFObject, PFSubclassing
         }
     }
     
-    static func parseClassName() -> String {
+    public static func parseClassName() -> String {
         return "Trip"
     }
     /**
