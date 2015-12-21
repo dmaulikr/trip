@@ -347,7 +347,7 @@ class CreateTripDataSource
     func buildGraphAndLegend(aTrip: Trip, superview: CreateTripTableViewController)
     {
         let (values, dataPoints) = getGraphValuesAndProperties(aTrip)
-        buildLegend(values, dataPoints: dataPoints, superview: superview)
+        buildLegend(values, dataPoints: dataPoints, superview: superview, trip: aTrip)
         buildGraph(values, dataPoints: dataPoints, superview: superview)
     }
     
@@ -384,13 +384,14 @@ class CreateTripDataSource
         calculateFinished = true
     }
     
-    private func buildLegend(values: [Double], dataPoints: [String], superview: CreateTripTableViewController)
+    private func buildLegend(values: [Double], dataPoints: [String], superview: CreateTripTableViewController, trip: Trip)
     {
         if let legendTableVC = superview.childViewControllers[0] as? GraphLegendTableViewController
         {
             legendTableVC.dataPoints = dataPoints
             legendTableVC.values     = values
             legendTableVC.colors     = getGraphColors()
+            legendTableVC.trip       = trip
             legendTableVC.tableView.reloadData()
         }
     }

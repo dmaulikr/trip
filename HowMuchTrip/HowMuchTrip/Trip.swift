@@ -62,6 +62,8 @@ public class Trip: PFObject, PFSubclassing
     @NSManaged var destinationLat: String
     /// The longitude of the destination location
     @NSManaged var destinationLng: String
+    
+    @NSManaged var propertyDictionary: [String : String]
 
     /**
     Initializes the Trip class as a Parse subclass

@@ -23,6 +23,9 @@ class TripDetailViewController: UITableViewController
     @IBOutlet weak var saveTripButton: UIButton!
     @IBOutlet weak var topLabel: UILabel!
     
+    var calculator: Calculator!
+    var propertyDictionary = [String : String]()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -171,6 +174,10 @@ class TripDetailViewController: UITableViewController
             legendTableVC.dataPoints = dataPoints
             legendTableVC.values     = values
             legendTableVC.colors     = dataSource.getGraphColors()
+            legendTableVC.trip       = aTrip
+            
+//            let tripListTableVC      = tabBarController?.viewControllers![1] as! TripListTableViewController
+//            legendTableVC.delegate   = tripListTableVC
             legendTableVC.tableView.reloadData()
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -182,8 +189,30 @@ class TripDetailViewController: UITableViewController
         {
             print("no child view")
         }
-    }
+        
 
+    }
+    
+    func calculate(cycle: Bool)
+    {
+//        calculator = Calculator(delegate: nil)
+//        calculator.assignValue(<#T##trip: Trip?##Trip?#>, propertyAndValue: <#T##[String : String]#>)
+        
+        buildGraphAndLegend(aTrip, superview: self)
+    }
+    
+//    func getPropertyDict(trip: Trip) -> [String : String]
+//    {
+//        let allProperties = [
+//            "Budget"
+//            "Plane Ticket Cost",
+//            "Daily Lodging Cost",
+//            "Daily Food Cost",
+//            "Daily Other Cost"
+//        ]
+//        
+//        return allProperties
+//    }
 }
 
 // MARK: - Detail View Cells

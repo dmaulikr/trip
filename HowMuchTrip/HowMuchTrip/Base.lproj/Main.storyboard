@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i1s-gb-jPY" id="m4F-ca-AXa">
-                                    <rect key="frame" x="0.0" y="0.0" width="567" height="124.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="567" height="124"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Going From" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="tRt-op-k3E">
@@ -126,7 +126,7 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xGT-QX-v0T" id="jt5-QD-GdG">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Destination" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4Y-ua-eMg">
@@ -179,7 +179,7 @@
                     <navigationItem key="navigationItem" id="9a2-vP-Dpy">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="4bz-Q0-Ogg">
                             <connections>
-                                <segue destination="C82-LT-sBx" kind="show" id="9C2-E2-FLu"/>
+                                <segue destination="C82-LT-sBx" kind="show" identifier="createSegue" id="9C2-E2-FLu"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -370,7 +370,7 @@
                                 <rect key="frame" x="0.0" y="28" width="160" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yLU-i0-5tm" id="qFx-3y-xVa">
-                                    <rect key="frame" x="0.0" y="0.0" width="160" height="39.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="160" height="39"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zVO-aT-c58">
@@ -805,7 +805,7 @@
         <image name="second" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="EzM-QW-XNS"/>
+        <segue reference="9C2-E2-FLu"/>
         <segue reference="NC3-i1-V7l"/>
     </inferredMetricsTieBreakers>
 </document>

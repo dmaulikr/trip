@@ -9,7 +9,7 @@
 import UIKit
 import Parse
 
-class TripListTableViewController: UITableViewController, TripWasSavedDelegate
+class TripListTableViewController: UITableViewController, TripWasSavedDelegate, TripDidBeginEditingDelegate
 {
     var trips = [Trip]()
 
@@ -31,6 +31,20 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     override func didReceiveMemoryWarning()
     {
         super.didReceiveMemoryWarning()
+    }
+    
+    func tripDetailDidBeginEditing()
+    {
+        navigationController?.popToRootViewControllerAnimated(true)
+        performSegueWithIdentifier("createSegue", sender: "tripDetailDidBeginEditing")
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if let createTripVC = segue.destinationViewController as? CreateTripTableViewController, let trip = (sender as? Trip)
+        {
+            createTripVC.trip = trip
+        }
     }
 
     // MARK: - Table view data source

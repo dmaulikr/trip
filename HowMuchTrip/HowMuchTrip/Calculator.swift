@@ -11,33 +11,111 @@ import SwiftMoment
 
 protocol CalculationFinishedDelegate
 {
-    func calculationFinished(validCalc: Bool)
+    func calculationFinished(overBudget: Bool)
 }
 
 class Calculator
 {
-    let aTrip = Trip()
     var delegate: CalculationFinishedDelegate?
 
-    init(dictionary: [String:String])
+    init(delegate: CalculationFinishedDelegate?)
     {
-        
+        if delegate != nil
+        {
+            self.delegate = delegate
+        }
     }
     
+    func assignValue(var trip: Trip?, propertyAndValue: [String : String]) -> Trip
+    {
+        if trip == nil
+        {
+            trip = Trip()
+        }
+        
+        var trip = trip!
+        
+        for (property, value) in propertyAndValue
+        {
+            switch property
+            {
+            case "Budget"               : trip.budgetTotal = Double(value)!
+            case "Departure Location"   : trip.departureLocation = value
+            case "Destination"          : trip.destination = value
+            case "Date From"            : trip.dateFrom = value
+            case "Date To"              : trip.dateTo = value
+            case "Plane Ticket Cost"    : trip.planeTicketCost = Double(value)!
+            case "Daily Lodging Cost"   : trip.dailyLodgingCost = Double(value)!
+            case "Daily Food Cost"      : trip.dailyFoodCost = Double(value)!
+            case "Daily Other Cost"     : trip.dailyOtherCost = Double(value)!
+            case "One Time Cost"        : trip.oneTimeCost = Double(value)!
+            case "destinationLat"       : trip.destinationLat = value
+            case "destinationLng"       : trip.destinationLng = value
+            case "departureLat"         : trip.departureLat = value
+            case "departureLng"         : trip.departureLng = value
+            default                     : print("invalid property \(property)")
+            }
+        }
+        
+        var overBudget: Bool
+        (trip, overBudget) = getTotals(trip)
+        
+        delegate?.calculationFinished(overBudget)
+        
+        return trip
+    }
+    
+    func getTotals(trip: Trip) -> (Trip, Bool)
+    {
+        trip.totalLodgingCosts =
+            trip.dailyLodgingCost *
+            trip.numberOfNights
+        
+        trip.totalFoodCosts =
+            trip.dailyFoodCost *
+            trip.numberOfDays
+        
+        trip.totalOtherDailyCosts =
+            trip.dailyOtherCost *
+            trip.numberOfDays
+        
+        trip.subtotalOfProperties =
+            trip.planeTicketCost +
+            trip.totalLodgingCosts +
+            trip.totalFoodCosts +
+            trip.totalOtherDailyCosts +
+            trip.oneTimeCost
+        
+        trip.budgetRemaining =
+            trip.budgetTotal -
+            trip.subtotalOfProperties
+        
+        if let dateFrom = moment(trip.dateFrom, dateFormat: "MM/d/yy"),
+            let dateTo = moment(trip.dateTo, dateFormat: "MM/d/yy")
+        {
+            let interval = dateTo.intervalSince(dateFrom)
+            trip.numberOfDays = interval.days
+            trip.numberOfNights = trip.numberOfDays - 1
+        }
+        else
+        {
+            trip.numberOfDays = 1
+            trip.numberOfNights = 1
+        }
+        
+        var overBudget: Bool {
+            if trip.budgetRemaining >= -5.0 { return false }
+            return true
+        }
+        
+        return (trip, overBudget)
+    }
+    
+    /*
     func calculate(dictionary: [String:String]) -> Trip
     {
-        for (key, var value) in dictionary
+        for (key, value) in dictionary
         {
-            if key == "Budget"
-            || key == "Plane Ticket Cost"
-            || key == "Daily Lodging Cost"
-            || key == "Daily Food Cost"
-            || key == "Daily Other Cost"
-            || key == "One Time Cost" 
-            {
-                value = value.stringByReplacingOccurrencesOfString(",", withString: "")
-            }
-            
             switch key
             {
             case "Budget":
@@ -109,9 +187,12 @@ class Calculator
             validCalc = true
         }
         delegate?.calculationFinished(validCalc)
+        
+        aTrip.propertyDictionary = dictionary
 
         return aTrip
     }
+*/
     
     
     func clearCalculator()
