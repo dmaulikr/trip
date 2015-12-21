@@ -10,24 +10,44 @@ import Foundation
 
 class Location
 {
-
+    /// Latitude of the location
     let lat: String
+    /// Longitude of the location
     let lng: String
+    /// A uniques identifier used by the BudgetYourTrip API for further lookups
     let geonameid: String
     
+    /// Average budget costs for accomodations for a location
     var valueBudget1 = ""
+    /// Average midrange costs for accomodations for a location
     var valueMidrange1 = ""
+    /// Average luxury costs for accomodations for a location
     var valueLuxury1 = ""
     
+    /// Average budget costs for ??? for a location
     var valueBudget2 = ""
+    /// Average midrange costs for ??? for a location
     var valueMidrange2 = ""
+    /// Average luxury costs for ??? for a location
     var valueLuxury2 = ""
     
+    /// Average budget costs for total, real costs for a location
     var valueBudget0 = ""
+    /// Average midrange costs for total, real costs for a location
     var valueMidrange0 = ""
+    /// Average luxury costs for total, real costs for a location
     var valueLuxury0 = ""
     
-    
+    /**
+     Initializes a new location with the latitude, longitude and geonameid.
+     
+     - Parameters:
+         - lat: The latitude of the location
+         - lng: The longitude of the location
+         - geonameid: The geonameid of the location
+     
+     - Returns: A location object that can then be used to find the average costs for a location.
+     */
     init(lat: String, lng: String, geonameid: String?)
     {
         self.lat = lat
@@ -36,6 +56,19 @@ class Location
         
     }
     
+    /**
+     Initializes a new location with the latitude, longitude, geonameid and average costs data.
+     
+     - Parameters:
+         - lat: The latitude of the location
+         - lng: The longitude of the location
+         - geonameid: The geonameid of the location
+         - value(Budget, Midrange, Luxury)0: Total average real costs for a location
+         - value(Budget, Midrange, Luxury)1: Total average accomodation costs for a location
+         - value(Budget, Midrange, Luxury)2: Total average ??? costs for a location
+     
+     - Returns: A location object with the average costs for a location.
+     */
     init(lat: String, lng: String, geonameid: String, valueBudget1: String?, valueMidrange1: String?, valueLuxury1: String?,
         valueBudget2: String?, valueMidrange2: String?, valueLuxury2: String?, valueBudget0: String?, valueMidrange0: String?, valueLuxury0: String?)
     {
@@ -57,6 +90,15 @@ class Location
         
     }
     
+    /**
+     Method to set JSON results to lat, lng and geonameid object properties
+     
+     - Parameters:
+         - results: A dictionary with JSON results from the API Controller class
+     
+     - Returns: A dictionary with the latitude, longitude and geonameid of the trip coordinates.
+     
+     */
     static func geonameidFromLocationNameWithJSON(results: NSArray) -> Location
     {
         var location: Location!
@@ -76,6 +118,16 @@ class Location
         return location
     }
     
+    /**
+     Method to set JSON results to lat, lng and geonameid object properties
+     
+     - Parameters:
+         - results: A dictionary with JSON results from the API Controller class
+         - lat: The latitude of the location
+         - lng: The longitude of the location
+     
+     - Returns: A dictionary with the location details and average costs in various ranges.
+     */
     // FIXME: this may not work - check to see if object still holds lat & lng
     static func costsFromGeonameidWithJSON(results: NSArray, lat: String, lng: String) -> Location
     {
