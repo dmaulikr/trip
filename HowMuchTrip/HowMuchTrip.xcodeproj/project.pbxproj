@@ -151,7 +151,6 @@
 		9A8518C81C1E057A001046EA /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-				63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */,
 				6393FA2D1C245250003472CE /* hotel.png */,
 				6393FA2F1C24525C003472CE /* plane.png */,
 				6393FA281C23CA84003472CE /* pin.png */,
@@ -232,6 +231,7 @@
 				9ADAAAEC1C19D7ED00D26F79 /* TripDetailViewController.swift */,
 				9ADAAAE81C19D65500D26F79 /* SettingsViewController.swift */,
 				630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */,
+				63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
