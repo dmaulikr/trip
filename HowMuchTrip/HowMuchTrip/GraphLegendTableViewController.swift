@@ -110,14 +110,23 @@ class GraphLegendTableViewController:
         contextPopover.view.frame = CGRect(
             x: 0, y: 0,
             width: contextPopover.view.frame.width,
-            height: contextPopover.view.frame.height / 2)
+            height: contextPopover.view.frame.height / 2
+        )
 
         contextPopover.view.center = CGPoint(x: parentViewController!.view.center.x, y: parentViewController!.view.center.y - 160)
-            
-
         
-        contextPopover.view.appearWithFade(0.25)
-        contextPopover.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height / 2)
+        if let parentVC = parentViewController as? TripDetailViewController
+        {
+            parentVC.contextPopover = contextPopover
+            parentVC.contextPopover!.view.appearWithFade(0.25)
+            parentVC.contextPopover!.view.slideVerticallyToOrigin(0.25, fromPointY: parentVC.view.frame.size.height / 2)
+        }
+        else if let parentVC = parentViewController as? CreateTripTableViewController
+        {
+            parentVC.contextPopover = contextPopover
+            parentVC.contextPopover!.view.appearWithFade(0.25)
+            parentVC.contextPopover!.view.slideVerticallyToOrigin(0.25, fromPointY: parentVC.view.frame.height / 2)
+        }
         
         childViewController = contextPopover
     }

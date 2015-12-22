@@ -73,12 +73,12 @@ class AverageCostsAPIController
     {
         do
         {
-            let dictionary: NSDictionary! = try NSJSONSerialization.JSONObjectWithData(data, options: []) as! NSDictionary
+            let dictionary: NSDictionary! = try NSJSONSerialization.JSONObjectWithData(data, options: []) as? NSDictionary
             return dictionary
         }
         catch let error as NSError
         {
-            print(error)
+            print("parse JSON error in \(error)")
             return nil
         }
     }

@@ -10,6 +10,11 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+//protocol AverageCostsAPIResultsProtocol
+//{
+//    func didReceiveAverageCosts(results: NSDictionary)
+//}
+
 class AFAverageCostsAPIController
 {
     //    var averageCostsDelegate: AverageCostsAPIResultsProtocol?
@@ -80,7 +85,6 @@ class AFAverageCostsAPIController
     
     func searchGeonameidForCosts(geonameid: String)
     {
-        
         let apiKey = "jen@jshamilton.net"
         let baseURL = "http://www.budgetyourtrip.com/api/v3/"
         let geodataSearch = "/costs/location/\(geonameid)"

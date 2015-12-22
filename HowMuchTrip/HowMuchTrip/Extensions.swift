@@ -86,6 +86,7 @@ extension UIView
         self.alpha = 1
         UIView.animateWithDuration(duration) { () -> Void in
             self.alpha = 0
+            self.hidden = true
         }
     }
     
@@ -94,9 +95,12 @@ extension UIView
     {
         let originalX = self.frame.origin.x
         self.frame.origin.x += fromPointX
-        UIView.animateWithDuration(duration) { () -> Void in
-            self.frame.origin.x = originalX
-        }
+        
+//        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            UIView.animateWithDuration(duration) { () -> Void in
+                self.frame.origin.x = originalX
+            }
+//        }
     }
     
     /// Function to vertically slide a view from current position to original position
@@ -104,8 +108,11 @@ extension UIView
     {
         let originalY = self.frame.origin.y
         self.frame.origin.y += fromPointY
-        UIView.animateWithDuration(duration) { () -> Void in
-            self.frame.origin.y = originalY
+        
+//        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            UIView.animateWithDuration(duration) { () -> Void in
+                self.frame.origin.y = originalY
+//            }
         }
     }
     
@@ -145,14 +152,14 @@ extension UIViewController
 {
     func addContextPopover(controllerToAdd: UIViewController)
     {
-        let width = self.view.frame.width
-        let height = width * 0.9
+        let height = self.view.frame.width
+        let width = height * 0.95
         
         let center = self.view.center
         
         controllerToAdd.view.frame = CGRect(
             x: 0, y: 0,
-            width: height, height: width)
+            width: width, height: height)
         
         controllerToAdd.view.center = CGPoint(x: center.x, y: center.y - 40)
         
@@ -164,6 +171,9 @@ extension UIViewController
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.addChildViewController(controllerToAdd)
             self.view.addSubview(controllerToAdd.view)
+            
+            controllerToAdd.view.appearWithFade(0.25)
+            controllerToAdd.view.slideHorizontallyToOrigin(0.25, fromPointX: self.view.frame.size.width)
         }
     }
     
@@ -186,8 +196,6 @@ extension UIViewController
                 return true
             }
         }
-        
-        
         
         return false
     }

@@ -31,7 +31,9 @@ class CreateTripTableViewController:
     @IBOutlet weak var saveTripButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var skipButton: UIButton!
+    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var contextButton: UIButton!
+    @IBOutlet weak var contextButtonImg: UIImageView!
     
     // MARK: - Text Fields
     
@@ -56,6 +58,13 @@ class CreateTripTableViewController:
     @IBOutlet weak var legendContainerView: UIView!
     
     var childViewControler: UIViewController?
+    
+    var contextPopover: UIViewController? {
+        didSet {
+            contextPopover!.view.appearWithFade(0.25)
+            contextPopover!.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height)
+        }
+    }
     
     // MARK: - Other Properties
     var dataSource = CreateTripDataSource()
@@ -105,14 +114,16 @@ class CreateTripTableViewController:
             
             let propertyKey = allProperties[indexOfTextField]
             propertyDictionary[propertyKey] = selectedTextField.text
+            
+            checkForLocation(textField)
+            
+            let property = allProperties[indexOfTextField]
+            
+            calculate(true, property: property, value: selectedTextField.text!)
+            tableView.reloadData()
         }
         
-        checkForLocation(textField)
-        
-        let property = allProperties[indexOfTextField]
-        
-        calculate(true, property: property, value: selectedTextField.text!)
-        tableView.reloadData()
+
         return rc
     }
     
@@ -129,11 +140,11 @@ class CreateTripTableViewController:
                 self.addContextPopover(contextPopover)
                 contextPopover.delegate = self
                 contextPopover.textField = textField
-                
+//                
                 contextPopover.view.appearWithFade(0.25)
                 contextPopover.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height / 2)
                 
-                childViewControler = contextPopover
+                self.contextPopover = contextPopover
             }
         }
         else
@@ -151,36 +162,29 @@ class CreateTripTableViewController:
     {
         if indexOfTextField < textFields.count
         {
-            shownTextField.hidden = true
-            
-            let nextTextField = textFields[indexOfTextField]
-            let originalY = nextTextField.frame.origin.y
-            shownTextField = nextTextField
-            shownTextField.hidden = false
-            shownTextField.text = ""
-            shownTextField.frame.origin.y = 100
-            
-            dataSource.manageButtons(self)
-            
-            promptLabel.alpha = 0
-            promptLabel.text = dataSource.getPromptLabelText(indexOfTextField, aTrip: trip)
-            
-            UIView.animateWithDuration(0.45, animations: { () -> Void in
-                self.shownTextField.frame.origin.y = originalY
-                self.shownTextField.alpha = 1
-                self.promptLabel.alpha = 1
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.shownTextField.hidden = true
                 
-                }, completion: { (_) -> Void in
-                    self.shownTextField.becomeFirstResponder()
-                    //
-                    //                    if self.shownTextField.tag == 81 || self.shownTextField.tag == 80
-                    //                    {
-                    //
-                    //                    }
-                    //                    else
-                    //                    {
-                    //                        self.shownTextField.becomeFirstResponder()
-                    //                    }
+                let nextTextField = self.textFields[indexOfTextField]
+                let originalY = nextTextField.frame.origin.y
+                self.shownTextField = nextTextField
+                self.shownTextField.hidden = false
+                self.shownTextField.text = ""
+                self.shownTextField.frame.origin.y = 100
+                
+                self.promptLabel.alpha = 0
+                self.promptLabel.text = self.dataSource.getPromptLabelText(indexOfTextField, aTrip: self.trip)
+                
+                self.dataSource.manageButtons(self)
+                
+                UIView.animateWithDuration(0.45, animations: { () -> Void in
+                    self.shownTextField.frame.origin.y = originalY
+                    self.shownTextField.alpha = 1
+                    self.promptLabel.alpha = 1
+                    
+                    }, completion: { (_) -> Void in
+                        self.shownTextField.becomeFirstResponder()
+                })
             })
         }
         else
@@ -196,8 +200,6 @@ class CreateTripTableViewController:
         textFieldShouldReturn(shownTextField)
         let nextIndex = textFields.indexOf(shownTextField)! + 1
         cycleToTextField(nextIndex)
-        
-        print("next")
     }
     
     @IBAction func backButtonPressed(sender: UIButton)
@@ -213,27 +215,36 @@ class CreateTripTableViewController:
     
     @IBAction func contextButtonPressed(sender: UIButton)
     {
-        //70 - location
-        //71 - flight
-        //72 - hotel
         switch sender.tag
         {
-        case 70: print("location")
-            
-            //TODO
-            
-        case 71: print("flight")
-        
-        let flightStoryboard = UIStoryboard(name: "FlightPopover", bundle: nil)
-        let contextPopover = flightStoryboard.instantiateViewControllerWithIdentifier("FlightPopover") as! FlightPopoverViewController
-        self.addContextPopover(contextPopover)
-            
-        case 72: print("hotel")
-            
-            //TODO
-            
+        case 70: //location
+            locationButtonPressed(sender)
+        case 71: //flight
+            flightButtonPressed(sender)
+        case 72: //hotel
+            hotelButtonPressed(sender)
         default: print("context button unknown tag: \(sender.tag)")
         }
+    }
+    
+    @IBAction func locationButtonPressed(sender: UIButton)
+    {
+        
+    }
+    
+    @IBAction func flightButtonPressed(sender: UIButton)
+    {
+        let flightStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
+        let contextPopover = flightStoryboard.instantiateViewControllerWithIdentifier("FlightPopover") as! FlightPopoverViewController
+        self.addContextPopover(contextPopover)
+    }
+    
+    @IBAction func hotelButtonPressed(sender: UIButton)
+    {
+        let contextStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
+        let contextPopover = contextStoryboard.instantiateViewControllerWithIdentifier("HotelPopover") as! HotelPopoverViewController
+        contextPopover.trip = trip
+        self.addContextPopover(contextPopover)
     }
     
     
@@ -270,17 +281,26 @@ class CreateTripTableViewController:
     
     func didReceiveMapsAPIResults(results: NSDictionary, textField: UITextField)
     {
+        print("didReceiveMapsAPIResults")
         if let (lat, lng) = trip.tripCoordinateFromJSON(results)
         {
             switch textField
             {
             case destinationTextField:
-                calculate(false, property: "destinationLat", value: lat)
-                calculate(false, property: "destinationLng", value: lng)
+                
+                trip = calculator.assignValue(trip, propertyAndValue: ["destinationLat" : lat])
+                trip = calculator.assignValue(trip, propertyAndValue: ["destinationLng" : lng])
+                
+//                calculate(false, property: "destinationLat", value: lat)
+//                calculate(false, property: "destinationLng", value: lng)
                 
             case departureLocationTextField:
-                calculate(false, property: "departureLat", value: lat)
-                calculate(false, property: "departureLng", value: lng)
+                
+                trip = calculator.assignValue(trip, propertyAndValue: ["departureLat" : lat])
+                trip = calculator.assignValue(trip, propertyAndValue: ["departureLng" : lng])
+                
+//                calculate(false, property: "departureLat", value: lat)
+//                calculate(false, property: "departureLng", value: lng)
                 
             default: break
             }
@@ -356,7 +376,10 @@ class CreateTripTableViewController:
         budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
         budgetRemainingLabel.appearWithFade(0.25)
         
-        dataSource.buildGraphAndLegend(trip, superview: self)
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.dataSource.buildGraphAndLegend(self.trip, superview: self)
+        }
+//        dataSource.buildGraphAndLegend(trip, superview: self)
     }
     
     func calculationFinished(overBudget: Bool)
@@ -378,6 +401,13 @@ class CreateTripTableViewController:
         {
             didGoOverBudget()
         }
+        
+        print(trip.destinationLng, trip.destinationLat)
+    }
+    
+    func flashLabel(label: UILabel!)
+    {
+        
     }
     
     func didGoOverBudget()
@@ -394,6 +424,8 @@ class CreateTripTableViewController:
                 self.shownTextField.placeholder = self.shownTextField.text
                 self.shownTextField.text = ""
         })
+        
+//        NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "flashLabel: budgetRemainingLabel", userInfo: nil, repeats: true)
     }
     
     func clear()
