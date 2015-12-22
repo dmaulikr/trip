@@ -175,10 +175,10 @@
 		9A93D2F81C233A0100496FE1 /* API Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				9AF91D8A1C2455AF0044D57C /* AverageCostsAPIController.swift */,
-				9AF91D8E1C246A330044D57C /* AFAverageCostsAPIController.swift */,
 				9AF91D8C1C2455DF0044D57C /* MapsAPIController.swift */,
 				9AFDF4131C28964B009AB5D2 /* AirportCodeAPI.swift */,
+				9AF91D8E1C246A330044D57C /* AFAverageCostsAPIController.swift */,
+				9AF91D8A1C2455AF0044D57C /* AverageCostsAPIController.swift */,
 			);
 			name = "API Controllers";
 			sourceTree = "<group>";

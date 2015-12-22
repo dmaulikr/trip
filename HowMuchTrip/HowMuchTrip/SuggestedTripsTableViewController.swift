@@ -27,7 +27,6 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         super.viewWillAppear(true)
         loadTrips()
         trips.shuffleInPlace()
-        
     }
     
     override func viewDidAppear(animated: Bool)
