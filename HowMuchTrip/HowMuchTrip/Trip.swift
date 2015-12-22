@@ -13,7 +13,7 @@ import Parse
 
 class Trip: PFObject, PFSubclassing
 {
-    /// User id
+    /// Username, derived from PFUser.currentUser()!.username!
     @NSManaged var user: String
     
     /// Total budget, as entered by user
@@ -67,6 +67,11 @@ class Trip: PFObject, PFSubclassing
     /// The longitude of the destination location
     @NSManaged var destinationLng: String
 
+    /// Destination airport code from Sabre Dev JSON file 'airports'
+    @NSManaged var destinationAirportCode: String
+    /// Origin airport code from Sabre Dev JSON file 'airports'
+    @NSManaged var originAirportCode: String
+    
     /**
     Initializes the Trip class as a Parse subclass
      
@@ -117,6 +122,13 @@ class Trip: PFObject, PFSubclassing
             print(results)
         }
         return nil
+    }
+    
+    func setAirportCodeFromCityName(city: String) -> String
+    {
+        let airportCode: String = ""
+        
+        return airportCode
     }
 }
 

@@ -112,8 +112,18 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     /// Function queries Parse local datastore, then Parse cloud storage for items that have been pinned and saved, respectively.
     func refreshList()
     {
-        let query = Trip.query()
+        var oldValues = self.tableView.visibleCells as! Array<TripCell>
         
+//        oldValues.removeAll()
+        
+        for cells in oldValues
+        {
+            cells.destinationLabel.text = ""
+            cells.budgetLabel.text = ""
+        }
+        
+        let query = Trip.query()
+        print(PFUser.currentUser()!.username!)
         query!.whereKey("user", equalTo: PFUser.currentUser()!.username!)
         
         // Sort results A-Z
