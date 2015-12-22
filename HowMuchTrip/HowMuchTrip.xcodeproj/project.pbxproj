@@ -30,7 +30,7 @@
 		9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */; };
 		9A8518C71C1DFCFE001046EA /* SuggestedTripsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */; };
 		9A8518CA1C1E0632001046EA /* suggestedTrips.json in Resources */ = {isa = PBXBuildFile; fileRef = 9A8518C91C1E0632001046EA /* suggestedTrips.json */; };
-		9A93D2F71C23399A00496FE1 /* LocationCosts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93D2F61C23399A00496FE1 /* LocationCosts.swift */; };
+		9A93D2F71C23399A00496FE1 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A93D2F61C23399A00496FE1 /* Location.swift */; };
 		9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */; };
 		9ADAAAC11C19C26100D26F79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAAABF1C19C26100D26F79 /* Main.storyboard */; };
 		9ADAAAC31C19C26100D26F79 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9ADAAAC21C19C26100D26F79 /* Assets.xcassets */; };
@@ -46,6 +46,7 @@
 		9ADAAAF31C19E4A000D26F79 /* TripPropertyCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAF21C19E4A000D26F79 /* TripPropertyCell.swift */; };
 		9ADAAAF51C19E4AE00D26F79 /* TripGraphCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAF41C19E4AE00D26F79 /* TripGraphCell.swift */; };
 		9ADAAAF81C19E51F00D26F79 /* CreateTripTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9ADAAAF71C19E51F00D26F79 /* CreateTripTableViewController.swift */; };
+		9AE10DBC1C29CC4D007E49D0 /* airports.json in Resources */ = {isa = PBXBuildFile; fileRef = 9AE10DBB1C29CC4D007E49D0 /* airports.json */; };
 		9AF91D8B1C2455AF0044D57C /* AverageCostsAPIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF91D8A1C2455AF0044D57C /* AverageCostsAPIController.swift */; };
 		9AF91D8D1C2455DF0044D57C /* MapsAPIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF91D8C1C2455DF0044D57C /* MapsAPIController.swift */; };
 		9AF91D8F1C246A330044D57C /* AFAverageCostsAPIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AF91D8E1C246A330044D57C /* AFAverageCostsAPIController.swift */; };
@@ -93,7 +94,7 @@
 		9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedTripCell.swift; sourceTree = "<group>"; };
 		9A8518C61C1DFCFE001046EA /* SuggestedTripsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SuggestedTripsTableViewController.swift; sourceTree = "<group>"; };
 		9A8518C91C1E0632001046EA /* suggestedTrips.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = suggestedTrips.json; sourceTree = "<group>"; };
-		9A93D2F61C23399A00496FE1 /* LocationCosts.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationCosts.swift; sourceTree = "<group>"; };
+		9A93D2F61C23399A00496FE1 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		9ADAAAB61C19C26100D26F79 /* HowMuchTrip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HowMuchTrip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9ADAAAC01C19C26100D26F79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -114,6 +115,7 @@
 		9ADAAAF21C19E4A000D26F79 /* TripPropertyCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripPropertyCell.swift; sourceTree = "<group>"; };
 		9ADAAAF41C19E4AE00D26F79 /* TripGraphCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TripGraphCell.swift; sourceTree = "<group>"; };
 		9ADAAAF71C19E51F00D26F79 /* CreateTripTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTripTableViewController.swift; sourceTree = "<group>"; };
+		9AE10DBB1C29CC4D007E49D0 /* airports.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = airports.json; sourceTree = "<group>"; };
 		9AF91D8A1C2455AF0044D57C /* AverageCostsAPIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AverageCostsAPIController.swift; sourceTree = "<group>"; };
 		9AF91D8C1C2455DF0044D57C /* MapsAPIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsAPIController.swift; sourceTree = "<group>"; };
 		9AF91D8E1C246A330044D57C /* AFAverageCostsAPIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AFAverageCostsAPIController.swift; sourceTree = "<group>"; };
@@ -200,6 +202,11 @@
 		9A8518C81C1E057A001046EA /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+
+				9AE10DBB1C29CC4D007E49D0 /* airports.json */,
+				6393FA2D1C245250003472CE /* hotel.png */,
+				6393FA2F1C24525C003472CE /* plane.png */,
+				6393FA281C23CA84003472CE /* pin.png */,
 				9A75AC5D1C1F54B700258473 /* Validator.swift */,
 				630B3B4C1C1F283C006F12D2 /* disclosure.png */,
 				9A8518C91C1E0632001046EA /* suggestedTrips.json */,
@@ -289,7 +296,7 @@
 			children = (
 				9ADAAAE01C19CDD200D26F79 /* Trip.swift */,
 				9ADAAAE21C19CDE300D26F79 /* Calculator.swift */,
-				9A93D2F61C23399A00496FE1 /* LocationCosts.swift */,
+				9A93D2F61C23399A00496FE1 /* Location.swift */,
 				FEE66D121C286B750018D985 /* ParseUser.swift */,
 			);
 			name = Models;
@@ -429,6 +436,7 @@
 				630B3B4D1C1F283C006F12D2 /* disclosure.png in Resources */,
 				63A70FCD1C29C2F3003FCB53 /* ContextPopovers.storyboard in Resources */,
 				639028B71C2085F600067A09 /* TripDetail.storyboard in Resources */,
+				9AE10DBC1C29CC4D007E49D0 /* airports.json in Resources */,
 				9A8518CA1C1E0632001046EA /* suggestedTrips.json in Resources */,
 				9ADAAAC61C19C26100D26F79 /* LaunchScreen.storyboard in Resources */,
 				9ADAAAC31C19C26100D26F79 /* Assets.xcassets in Resources */,
@@ -565,7 +573,7 @@
 				FE7F792E1C1F2620001C6C14 /* SignUpViewController.swift in Sources */,
 				9ADAAAEF1C19D82200D26F79 /* TripCell.swift in Sources */,
 				9ADAAAED1C19D7ED00D26F79 /* TripDetailViewController.swift in Sources */,
-				9A93D2F71C23399A00496FE1 /* LocationCosts.swift in Sources */,
+				9A93D2F71C23399A00496FE1 /* Location.swift in Sources */,
 				9ADAAAE31C19CDE300D26F79 /* Calculator.swift in Sources */,
 				639FA4821C208C0000FBA7E6 /* GraphLegendCell.swift in Sources */,
 				FE7F79301C1F2632001C6C14 /* ResetPasswordViewController.swift in Sources */,

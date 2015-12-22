@@ -18,6 +18,8 @@ class Location
     /// A uniques identifier used by the BudgetYourTrip API for further lookups
     let geonameid: String
     
+    
+    
     /// Average budget costs for accomodations for a location
     var valueBudget1 = ""
     /// Average midrange costs for accomodations for a location

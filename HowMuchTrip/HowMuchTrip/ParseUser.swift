@@ -15,7 +15,8 @@ class ParseUser: PFUser
     @NSManaged var loggedInWithTwitter: Bool
     @NSManaged var loggedInWithFacebook: Bool
     @NSManaged var loggedInWithUsername: Bool
-    @NSManaged var userName: String
+    @NSManaged var displayName: String
+    @NSManaged var parseUsername: String
     
     override class func initialize()
     {

@@ -22,6 +22,8 @@ class SettingsViewController: UIViewController
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     
+    let aParseUser = ParseUser()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -31,6 +33,15 @@ class SettingsViewController: UIViewController
         userImage.clipsToBounds = true
         userImage.layer.borderColor = UIColor.blackColor().CGColor
         userImage.layer.borderWidth = 1
+        
+
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        super.viewWillAppear(true)
+        userNameLabel.text = aParseUser.displayName
+
     }
 
     override func didReceiveMemoryWarning()
@@ -49,18 +60,23 @@ class SettingsViewController: UIViewController
             processTwitterData()
         case "Facebook":
             processFacebookData()
-        case "Username":
-            processUsernameData()
         default:
-            userNameLabel.text = "Unknown User"
-            userImage.image = UIImage(named: "GenericUserImage")
+            processUsernameData()
+//        default:
+//            userNameLabel.text = "Unknown User"
+//            userImage.image = UIImage(named: "GenericUserImage")
+        aParseUser.pinInBackground()
+        aParseUser.saveEventually()
             
+
         }
+        
     }
     
     @IBAction func logOutAction(sender: UIButton)
     {
         // Send a request to log out a user
+
         PFUser.logOut()
         userNameLabel.text = nil
         userImage.image = nil
@@ -79,8 +95,11 @@ class SettingsViewController: UIViewController
     {
         let pUserName = PFUser.currentUser()?["username"] as? String
         
-            self.userNameLabel.text = "@" + pUserName!
-            self.userImage.image = UIImage(named: "GenericUserImage")
+        self.userNameLabel.text = "@" + pUserName!
+        self.userImage.image = UIImage(named: "GenericUserImage")
+
+        aParseUser.displayName = "@" + pUserName!
+        aParseUser.parseUsername = PFUser.currentUser()!.username!
     }
     
     func processFacebookData()
@@ -114,6 +133,8 @@ class SettingsViewController: UIViewController
                 let userLastName:String? = result["last_name"] as? String
                 let userEmail:String? = result["email"] as? String
                 
+                self.aParseUser.displayName = "\(userFirstName) \(userLastName)"
+                self.aParseUser.parseUsername = PFUser.currentUser()!.username!
                 
                 print("\(userEmail)")
                 
@@ -247,6 +268,9 @@ class SettingsViewController: UIViewController
                     PFUser.currentUser()?.setObject(twitterUsername!, forKey: "first_name")
                     PFUser.currentUser()?.setObject(" ", forKey: "last_name")
                     
+                    self.aParseUser.displayName = twitterUsername!
+                    self.aParseUser.parseUsername = PFUser.currentUser()!.username!
+                    
                     if let username = PFUser.currentUser()?["first_name"] as? String
                     {
 //                        spinningActivity.hide(true)
@@ -278,6 +302,7 @@ class SettingsViewController: UIViewController
             })
         }
         //Above will redirect the user to the login screen if a user is not currently logged in.
+
     }
     
     func showLoadingHUD()
