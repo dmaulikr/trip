@@ -13,7 +13,10 @@ protocol TripDidBeginEditingDelegate
     func tripDetailDidBeginEditing()
 }
 
-class GraphLegendTableViewController: UITableViewController, UITextFieldDelegate
+class GraphLegendTableViewController:
+    UITableViewController,
+    UITextFieldDelegate,
+    TripValueWasEditedDelegate
 {
     var dataPoints = [String]()
     var values     = [Double]()
@@ -21,6 +24,7 @@ class GraphLegendTableViewController: UITableViewController, UITextFieldDelegate
     
     var trip: Trip!
     var delegate: TripDidBeginEditingDelegate!
+    var childViewController: UIViewController!
     
     override func viewDidLoad()
     {
@@ -47,11 +51,12 @@ class GraphLegendTableViewController: UITableViewController, UITextFieldDelegate
         let color     = colors[indexPath.row]
         
         cell.propertyLabel.text = property
-        cell.propertyCost.text  = formatCost(value)
+        cell.propertyCost.text  = value.formatCostAsUSD()
         cell.propertyColorView.backgroundColor = color
         
         cell.backgroundColor = UIColor.clearColor()
         cell.contentView.backgroundColor = UIColor.clearColor()
+        cell.accessoryType = .DisclosureIndicator
         
         return cell
     }
@@ -59,18 +64,10 @@ class GraphLegendTableViewController: UITableViewController, UITextFieldDelegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
-        makeAlert(indexPath.row)
-        
-//        switch parentViewController
-//        {
-//        case is CreateTripTableViewController: makeAlert(indexPath.row)
-//        default: delegate?.tripDidBeginEditing()
-//        }
-        
-//        makeAlert(indexPath.row)
+        makeEditView(indexPath.row)
     }
     
-    func makeAlert(index: Int)
+    func makeEditView(index: Int)
     {
         var property = dataPoints[index]
         
@@ -99,103 +96,49 @@ class GraphLegendTableViewController: UITableViewController, UITextFieldDelegate
         default: print(property)
         }
         
-        let alert = UIAlertController(title: "Edit", message: "Editing \(property)", preferredStyle: .Alert)
+        print(property, value)
         
-        let confirmations = [
-            "Okay",
-            "All set",
-            "Looks good"
-        ]
+        let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
+        let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("editValueView") as! EditValueViewController
         
-        let confirmation = confirmations[Int(arc4random() % UInt32(confirmations.count))]
+        contextPopover.delegate = self
+        contextPopover.property = property
+        contextPopover.value = value
         
-        let confirmAction = UIAlertAction(title: confirmation, style: .Default) { (_) -> Void in
-            if let textField = alert.textFields?.first
+        parentViewController!.addContextPopover(contextPopover)
+        
+        contextPopover.view.frame = CGRect(
+            x: 0, y: 0,
+            width: contextPopover.view.frame.width,
+            height: contextPopover.view.frame.height / 2)
+
+        contextPopover.view.center = CGPoint(x: parentViewController!.view.center.x, y: parentViewController!.view.center.y - 160)
+            
+
+        
+        contextPopover.view.appearWithFade(0.25)
+        contextPopover.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height / 2)
+        
+        childViewController = contextPopover
+    }
+    
+    func valueWasEdited(property: String, value: String?)
+    {
+        parentViewController!.dismissContextPopover(EditValueViewController)
+        
+        if value != nil
+        {
+            if let createTripVC = parentViewController as? CreateTripTableViewController
             {
-                textField.delegate = self
-                self.didEditValue(property, newValue: textField.text!)
-                self.dismissViewControllerAnimated(true, completion: nil)
+                createTripVC.calculate(false, property: property, value: value!)
+            }
+            else if let tripDetailVC = parentViewController as? TripDetailViewController
+            {
+                let calculator = Calculator(delegate: nil)
+                trip = calculator.assignValue(trip, propertyAndValue: [property : value!])
+                tripDetailVC.buildGraphAndLegend(trip, superview: tripDetailVC)
             }
         }
-        
-        let cancellations = [
-            "Never mind",
-            "Just kidding",
-            "Forget it"
-        ]
-        
-        let cancellation = cancellations[Int(arc4random() % UInt32(cancellations.count))]
-        
-        let cancelAction = UIAlertAction(title: cancellation, style: .Cancel) { (_) -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
-        }
-        
-        alert.addAction(confirmAction)
-        alert.addAction(cancelAction)
-        
-        alert.addTextFieldWithConfigurationHandler { (textField) -> Void in
-            
-            textField.placeholder = self.formatCost(value)
-        }
-        presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    func didEditValue(property: String, newValue: String)
-    {
-        if let createTripVC = parentViewController as? CreateTripTableViewController
-        {
-//            createTripVC.propertyDictionary[property] = newValue
-//            createTripVC.calculate(false)
-            
-            let calculator = Calculator(delegate: nil)
-            trip = calculator.assignValue(trip, propertyAndValue: [property : newValue])
-            
-            createTripVC.dataSource.buildGraphAndLegend(trip, superview: createTripVC)
-            
-            
-            // TODO: - change calculator "xxx Cost" into just "xxx"
-        }
-        else if let tripDetailVC = parentViewController as? TripDetailViewController
-        {
-//            var propertyDictionary = trip.propertyDictionary
-//            print(propertyDictionary)
-//            propertyDictionary[property] = newValue
-
-            let calculator = Calculator(delegate: nil)
-            trip = calculator.assignValue(trip, propertyAndValue: [property : newValue])
-            tripDetailVC.buildGraphAndLegend(trip, superview: tripDetailVC)
-            
-            
-            
-            
-            
-            
-            
-            
-            //calculate here as well
-//            tripDetailVC.propertyDictionary[property] = newValue
-//            tripDetailVC.calculate(false)
-
-//            delegate.tripDetailDidBeginEditing()
-//            navigationController?.popToRootViewControllerAnimated(true)
-            
-//            tripDetailVC.calculate(false)
-            
-//            print(tripDetailVC)
-        }
-    }
-    
-    func formatCost(value: Double) -> String
-    {
-        let formatter = NSNumberFormatter()
-        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
-        formatter.locale = NSLocale(localeIdentifier: "en_US")
-        return formatter.stringFromNumber(value)!
-    }
-    
-    func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
-    {
-        return textField.testCharacters("numbers")
     }
 }
 

@@ -125,18 +125,85 @@ extension UIView
     /// Adds an overlay layer to a view, dimming the view's appearance
     func addDimmedOverlayView()
     {
-        let dimmedOverlayView = UIView()
-        dimmedOverlayView.frame = self.bounds
-        dimmedOverlayView.backgroundColor = UIColor.blackColor()
-        dimmedOverlayView.alpha = 0
-        dimmedOverlayView.tag = 100
-        self.addSubview(dimmedOverlayView)
-        
-        UIView.animateWithDuration(0.25) { () -> Void in
-            dimmedOverlayView.alpha = 0.6
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            let dimmedOverlayView = UIView()
+            dimmedOverlayView.frame = self.bounds
+            dimmedOverlayView.backgroundColor = UIColor.blackColor()
+            dimmedOverlayView.alpha = 0
+            dimmedOverlayView.tag = 100
+            self.addSubview(dimmedOverlayView)
+            
+            UIView.animateWithDuration(0.25) { () -> Void in
+                dimmedOverlayView.alpha = 0.6
+            }
         }
     }
+    
 }
+
+extension UIViewController
+{
+    func addContextPopover(controllerToAdd: UIViewController)
+    {
+        let width = self.view.frame.width
+        let height = width * 0.9
+        
+        let center = self.view.center
+        
+        controllerToAdd.view.frame = CGRect(
+            x: 0, y: 0,
+            width: height, height: width)
+        
+        controllerToAdd.view.center = CGPoint(x: center.x, y: center.y - 40)
+        
+        controllerToAdd.view.layer.cornerRadius = height / 30
+        controllerToAdd.view.layer.masksToBounds = true
+        
+        self.view.addDimmedOverlayView()
+        
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.addChildViewController(controllerToAdd)
+            self.view.addSubview(controllerToAdd.view)
+        }
+    }
+    
+    func dismissContextPopover(contextPopover: AnyClass) -> Bool
+    {
+        self.view.removeDimmedOverlayView()
+        
+        for viewController in self.childViewControllers
+        {
+            if object_getClass(viewController) == contextPopover
+            {
+                UIView.animateWithDuration(0.25, animations: { () -> Void in
+                    viewController.view.alpha = 0
+                    }, completion: { (_) -> Void in
+                        
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                viewController.removeFromParentViewController()
+                        })
+                })
+                return true
+            }
+        }
+        
+        
+        
+        return false
+    }
+}
+
+extension Double
+{
+    func formatCostAsUSD() -> String
+    {
+        let formatter = NSNumberFormatter()
+        formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
+        formatter.locale = NSLocale(localeIdentifier: "en_US")
+        return formatter.stringFromNumber(self)!
+    }
+}
+
 
 // Below via: http://stackoverflow.com/questions/24026510/how-do-i-shuffle-an-array-in-swift
 

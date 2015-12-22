@@ -331,13 +331,15 @@ class CreateTripDataSource
             superview.skipButton.appearWithFade(0.25)
             superview.contextButton.appearWithFade(0.25)
             superview.contextButton.setImage(UIImage(named: "pin.png"), forState: .Normal)
+            superview.contextButton.tag = 70
         case superview.planeTicketTextField:
             superview.contextButton.appearWithFade(0.25)
             superview.contextButton.setImage(UIImage(named: "plane.png"), forState: .Normal)
-//            print(superview.contextButton.imageForState(.Normal))
+            superview.contextButton.tag = 71
         case superview.dailyLodgingTextField:
             superview.contextButton.appearWithFade(0.25)
             superview.contextButton.setImage(UIImage(named: "hotel.png"), forState: .Normal)
+            superview.contextButton.tag = 72
         default: break;
         }
     }

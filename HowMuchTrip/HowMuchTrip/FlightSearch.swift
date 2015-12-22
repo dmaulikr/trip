@@ -1,18 +1,20 @@
 //
 //  FlightSearch.swift
-//  HowMuchTrip
+//  APITest
 //
-//  Created by Jennifer Hamilton on 12/10/15.
-//  Copyright © 2015 HowMuchTrip. All rights reserved.
+//  Created by david on 12/9/15.
+//  Copyright © 2015 The Iron Yard. All rights reserved.
 //
 
 import Foundation
 
 struct FlightSearch
 {
-    let origin = "SFO"
-    let destination = "LAX"
-    let date = "2015-12-10"
+    let origin = "BNA"
+    let destination = "MSN"
+    let date = "2016-01-12"
+    let maxStops = 0
+    let preferredCabin = "COACH"
     
     let adultCount = 1
     let infantInLapCount = 0
@@ -21,5 +23,7 @@ struct FlightSearch
     let seniorCount = 0
     
     let numberOfResults = 5
+    let maxPrice = "USD800.00"
+    let saleCountry = "US"
+    let refundable = false
 }
-

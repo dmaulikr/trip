@@ -16,6 +16,13 @@
 		6393FA2E1C245250003472CE /* hotel.png in Resources */ = {isa = PBXBuildFile; fileRef = 6393FA2D1C245250003472CE /* hotel.png */; };
 		6393FA301C24525C003472CE /* plane.png in Resources */ = {isa = PBXBuildFile; fileRef = 6393FA2F1C24525C003472CE /* plane.png */; };
 		639FA4821C208C0000FBA7E6 /* GraphLegendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */; };
+		63A70FCD1C29C2F3003FCB53 /* ContextPopovers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63A70FCC1C29C2F3003FCB53 /* ContextPopovers.storyboard */; };
+		63A70FCF1C29C2FA003FCB53 /* EditValueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A70FCE1C29C2FA003FCB53 /* EditValueViewController.swift */; };
+		63A70FD21C29C303003FCB53 /* FlightPopoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A70FD01C29C303003FCB53 /* FlightPopoverTableViewController.swift */; };
+		63A70FD31C29C303003FCB53 /* FlightPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A70FD11C29C303003FCB53 /* FlightPopoverViewController.swift */; };
+		63A70FD51C29C312003FCB53 /* QPX_EX_APIController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A70FD41C29C312003FCB53 /* QPX_EX_APIController.swift */; };
+		63A70FD81C29C383003FCB53 /* FullFlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A70FD71C29C383003FCB53 /* FullFlight.swift */; };
+		63A70FDA1C29C3A5003FCB53 /* IndividualFlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A70FD91C29C3A5003FCB53 /* IndividualFlight.swift */; };
 		63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AE246C1C1E651B001ECCE9 /* Extensions.swift */; };
 		63F4E6CE1C23051F0040CFC4 /* CreateTripDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */; };
 		86C4D9728457428FD35D8DBB /* Pods_HowMuchTrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */; };
@@ -73,6 +80,13 @@
 		6393FA2D1C245250003472CE /* hotel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hotel.png; sourceTree = "<group>"; };
 		6393FA2F1C24525C003472CE /* plane.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plane.png; sourceTree = "<group>"; };
 		639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLegendCell.swift; sourceTree = "<group>"; };
+		63A70FCC1C29C2F3003FCB53 /* ContextPopovers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ContextPopovers.storyboard; sourceTree = "<group>"; };
+		63A70FCE1C29C2FA003FCB53 /* EditValueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditValueViewController.swift; sourceTree = "<group>"; };
+		63A70FD01C29C303003FCB53 /* FlightPopoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlightPopoverTableViewController.swift; sourceTree = "<group>"; };
+		63A70FD11C29C303003FCB53 /* FlightPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FlightPopoverViewController.swift; sourceTree = "<group>"; };
+		63A70FD41C29C312003FCB53 /* QPX_EX_APIController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QPX_EX_APIController.swift; sourceTree = "<group>"; };
+		63A70FD71C29C383003FCB53 /* FullFlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullFlight.swift; sourceTree = "<group>"; };
+		63A70FD91C29C3A5003FCB53 /* IndividualFlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndividualFlight.swift; sourceTree = "<group>"; };
 		63AE246C1C1E651B001ECCE9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTripDataSource.swift; sourceTree = "<group>"; };
 		79B012481EE474F4FCFC105E /* Pods-HowMuchTrip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTrip.release.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTrip/Pods-HowMuchTrip.release.xcconfig"; sourceTree = "<group>"; };
@@ -152,6 +166,29 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		63A70FCB1C29C2E4003FCB53 /* ContextPopovers */ = {
+			isa = PBXGroup;
+			children = (
+				63A70FCC1C29C2F3003FCB53 /* ContextPopovers.storyboard */,
+				63A70FD61C29C37A003FCB53 /* Flight */,
+				63A70FCE1C29C2FA003FCB53 /* EditValueViewController.swift */,
+				630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */,
+			);
+			name = ContextPopovers;
+			sourceTree = "<group>";
+		};
+		63A70FD61C29C37A003FCB53 /* Flight */ = {
+			isa = PBXGroup;
+			children = (
+				9ADAAAE41C19CE0000D26F79 /* FlightSearch.swift */,
+				63A70FD91C29C3A5003FCB53 /* IndividualFlight.swift */,
+				63A70FD71C29C383003FCB53 /* FullFlight.swift */,
+				63A70FD01C29C303003FCB53 /* FlightPopoverTableViewController.swift */,
+				63A70FD11C29C303003FCB53 /* FlightPopoverViewController.swift */,
+			);
+			name = Flight;
+			sourceTree = "<group>";
+		};
 		9A8518C81C1E057A001046EA /* Misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +212,7 @@
 		9A93D2F81C233A0100496FE1 /* API Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				63A70FD41C29C312003FCB53 /* QPX_EX_APIController.swift */,
 				9AF91D8C1C2455DF0044D57C /* MapsAPIController.swift */,
 				9AFDF4131C28964B009AB5D2 /* AirportCodeAPI.swift */,
 				9AF91D8E1C246A330044D57C /* AFAverageCostsAPIController.swift */,
@@ -235,7 +273,7 @@
 				9ADAAAEA1C19D72C00D26F79 /* TripListTableViewController.swift */,
 				9ADAAAEC1C19D7ED00D26F79 /* TripDetailViewController.swift */,
 				9ADAAAE81C19D65500D26F79 /* SettingsViewController.swift */,
-				630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */,
+				63A70FCB1C29C2E4003FCB53 /* ContextPopovers */,
 				63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */,
 			);
 			name = "View Controllers";
@@ -246,7 +284,6 @@
 			children = (
 				9ADAAAE01C19CDD200D26F79 /* Trip.swift */,
 				9ADAAAE21C19CDE300D26F79 /* Calculator.swift */,
-				9ADAAAE41C19CE0000D26F79 /* FlightSearch.swift */,
 				9A93D2F61C23399A00496FE1 /* LocationCosts.swift */,
 				FEE66D121C286B750018D985 /* ParseUser.swift */,
 			);
@@ -385,6 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				630B3B4D1C1F283C006F12D2 /* disclosure.png in Resources */,
+				63A70FCD1C29C2F3003FCB53 /* ContextPopovers.storyboard in Resources */,
 				6393FA2E1C245250003472CE /* hotel.png in Resources */,
 				6393FA301C24525C003472CE /* plane.png in Resources */,
 				639028B71C2085F600067A09 /* TripDetail.storyboard in Resources */,
@@ -511,11 +549,15 @@
 				9AF91D8B1C2455AF0044D57C /* AverageCostsAPIController.swift in Sources */,
 				630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */,
 				9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */,
+				63A70FDA1C29C3A5003FCB53 /* IndividualFlight.swift in Sources */,
 				63F4E6CE1C23051F0040CFC4 /* CreateTripDataSource.swift in Sources */,
 				FEE66D131C286B750018D985 /* ParseUser.swift in Sources */,
 				9AF91D8F1C246A330044D57C /* AFAverageCostsAPIController.swift in Sources */,
 				9AFDF4141C28964B009AB5D2 /* AirportCodeAPI.swift in Sources */,
 				9ADAAAEB1C19D72C00D26F79 /* TripListTableViewController.swift in Sources */,
+				63A70FD81C29C383003FCB53 /* FullFlight.swift in Sources */,
+				63A70FD31C29C303003FCB53 /* FlightPopoverViewController.swift in Sources */,
+				63A70FD21C29C303003FCB53 /* FlightPopoverTableViewController.swift in Sources */,
 				9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */,
 				FE7F792E1C1F2620001C6C14 /* SignUpViewController.swift in Sources */,
 				9ADAAAEF1C19D82200D26F79 /* TripCell.swift in Sources */,
@@ -528,11 +570,13 @@
 				9A75AC5E1C1F54B700258473 /* Validator.swift in Sources */,
 				9ADAAAE91C19D65500D26F79 /* SettingsViewController.swift in Sources */,
 				63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */,
+				63A70FCF1C29C2FA003FCB53 /* EditValueViewController.swift in Sources */,
 				9ADAAAF31C19E4A000D26F79 /* TripPropertyCell.swift in Sources */,
 				FE7F792C1C1F260C001C6C14 /* LoginViewController.swift in Sources */,
 				9ADAAAF51C19E4AE00D26F79 /* TripGraphCell.swift in Sources */,
 				9ADAAAF81C19E51F00D26F79 /* CreateTripTableViewController.swift in Sources */,
 				9A8518C31C1DEF98001046EA /* Reachability.swift in Sources */,
+				63A70FD51C29C312003FCB53 /* QPX_EX_APIController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

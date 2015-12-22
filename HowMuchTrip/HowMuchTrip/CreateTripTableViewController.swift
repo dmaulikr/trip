@@ -23,7 +23,7 @@ class CreateTripTableViewController:
     CalculationFinishedDelegate,
     MapsAPIResultsProtocol
 {
-
+    
     // MARK: - Labels
     
     @IBOutlet weak var budgetRemainingLabel: UILabel!
@@ -54,7 +54,9 @@ class CreateTripTableViewController:
     @IBOutlet weak var graphCell: UITableViewCell!
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var legendContainerView: UIView!
-
+    
+    var childViewControler: UIViewController?
+    
     // MARK: - Other Properties
     var dataSource = CreateTripDataSource()
     var delegate: TripWasSavedDelegate?
@@ -73,10 +75,6 @@ class CreateTripTableViewController:
     {
         super.viewDidLoad()
         
-//        view.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
-        
-//        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
-        
         if let delegate = navigationController?.viewControllers[0] as? SuggestedTripsTableViewController
         {
             self.delegate = delegate
@@ -89,7 +87,7 @@ class CreateTripTableViewController:
         dataSource.initialSetup(self) //allProperties and textFields assigned here
         dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
         
-        cycleToNextField(0)
+        cycleToTextField(0)
     }
     
     // MARK: - UITextField Stuff
@@ -97,7 +95,7 @@ class CreateTripTableViewController:
     func textFieldShouldReturn(textField: UITextField) -> Bool
     {
         var rc = false
-       
+        
         let (selectedTextField, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
         
         if selectedTextField.text != ""
@@ -120,14 +118,27 @@ class CreateTripTableViewController:
     
     func textFieldDidBeginEditing(textField: UITextField)
     {
-        if textField.tag == 80 || textField.tag == 81 && textField.isFirstResponder()
+        if textField == dateToTextField || textField == dateFromTextField && textField.isFirstResponder()
         {
             textField.resignFirstResponder()
-            performSegueWithIdentifier("calendarPopover", sender: textField)
+            
+            if self.childViewControllers.count == 1
+            {
+                let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
+                let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
+                self.addContextPopover(contextPopover)
+                contextPopover.delegate = self
+                contextPopover.textField = textField
+                
+                contextPopover.view.appearWithFade(0.25)
+                contextPopover.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height / 2)
+                
+                childViewControler = contextPopover
+            }
         }
-        else if textField == budgetTextField
+        else
         {
-            nextButton.enabled = textField.text?.characters.count > 0
+            nextButton.enabled = true//textField.text?.characters.count > 0
         }
     }
     
@@ -136,7 +147,7 @@ class CreateTripTableViewController:
         return dataSource.testCharacters(textField, string: string, superview: self)
     }
     
-    func cycleToNextField(indexOfTextField: Int)
+    func cycleToTextField(indexOfTextField: Int)
     {
         if indexOfTextField < textFields.count
         {
@@ -146,8 +157,9 @@ class CreateTripTableViewController:
             let originalY = nextTextField.frame.origin.y
             shownTextField = nextTextField
             shownTextField.hidden = false
+            shownTextField.text = ""
             shownTextField.frame.origin.y = 100
-
+            
             dataSource.manageButtons(self)
             
             promptLabel.alpha = 0
@@ -160,6 +172,15 @@ class CreateTripTableViewController:
                 
                 }, completion: { (_) -> Void in
                     self.shownTextField.becomeFirstResponder()
+                    //
+                    //                    if self.shownTextField.tag == 81 || self.shownTextField.tag == 80
+                    //                    {
+                    //
+                    //                    }
+                    //                    else
+                    //                    {
+                    //                        self.shownTextField.becomeFirstResponder()
+                    //                    }
             })
         }
         else
@@ -173,6 +194,16 @@ class CreateTripTableViewController:
     @IBAction func nextButtonPressed(sender: UIButton)
     {
         textFieldShouldReturn(shownTextField)
+        let nextIndex = textFields.indexOf(shownTextField)! + 1
+        cycleToTextField(nextIndex)
+        
+        print("next")
+    }
+    
+    @IBAction func backButtonPressed(sender: UIButton)
+    {
+        let previousTextFieldIndex = textFields.indexOf(shownTextField)! - 1
+        self.cycleToTextField(previousTextFieldIndex)
     }
     
     @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
@@ -182,19 +213,26 @@ class CreateTripTableViewController:
     
     @IBAction func contextButtonPressed(sender: UIButton)
     {
-        let buttonImg = sender.imageForState(.Normal)
+        //70 - location
+        //71 - flight
+        //72 - hotel
+        switch sender.tag
+        {
+        case 70: print("location")
+            
+            //TODO
+            
+        case 71: print("flight")
         
-        if buttonImg == UIImage(named: "pin")
-        {
+        let flightStoryboard = UIStoryboard(name: "FlightPopover", bundle: nil)
+        let contextPopover = flightStoryboard.instantiateViewControllerWithIdentifier("FlightPopover") as! FlightPopoverViewController
+        self.addContextPopover(contextPopover)
+            
+        case 72: print("hotel")
+            
             //TODO
-        }
-        else if buttonImg == UIImage(named: "plane")
-        {
-            //TODO
-        }
-        else if buttonImg == UIImage(named: "hotel")
-        {
-            //TODO
+            
+        default: print("context button unknown tag: \(sender.tag)")
         }
     }
     
@@ -248,46 +286,39 @@ class CreateTripTableViewController:
             }
         }
     }
-
+    
     // MARK: - Graph Functions
     
-    func popoverPresentationControllerDidDismissPopover(popoverPresentationController: UIPopoverPresentationController)
+    func dateWasChosen(date: Moment?, textField: UITextField)
     {
-        view.removeDimmedOverlayView()
-    }
-    
-    // MARK: - Calendar Popover
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
-    {
-        if let calendarPopover = segue.destinationViewController as? CalendarPopoverViewController
-        {
-            view.addDimmedOverlayView()
-            
-            calendarPopover.textFieldTag = sender?.tag
-            calendarPopover.popoverPresentationController?.delegate = self
-            calendarPopover.delegate = self
-        }
-    }
-    
-    func adaptivePresentationStyleForPresentationController(controller: UIPresentationController) -> UIModalPresentationStyle
-    {
-        return .None
-    }
-    
-    func dateWasChosen(date: Moment, textFieldTag: Int)
-    {
-        view.removeDimmedOverlayView()
+        dismissContextPopover(CalendarPopoverViewController)
         
-        let dateStr = date.format("MM/dd/yy")
-        
-        switch textFieldTag
+        if date != nil
         {
-        case 80: dateFromTextField.text = dateStr
-                 textFieldShouldReturn(dateFromTextField)
-        case 81: dateToTextField.text   = dateStr
-                 textFieldShouldReturn(dateToTextField)
-        default: print("default error in dateWasChosen: \(textFieldTag)")
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                let dateStr = date!.format("MM/dd/yy")
+                
+                switch textField
+                {
+                case self.dateFromTextField:
+                    if self.dateFromTextField.text == ""
+                    {
+                        self.dateFromTextField.text = dateStr
+                        self.textFieldShouldReturn(self.dateFromTextField)
+                        self.dateFromTextField.tag = 1000
+                    }
+                    //            self.calculate(false, property: "Date From", value: dateStr)
+                case self.dateToTextField:
+                    if self.dateToTextField.text == ""
+                    {
+                        self.dateToTextField.text   = dateStr
+                        self.textFieldShouldReturn(self.dateToTextField)
+                        self.dateToTextField.tag = 1001
+                    }
+                    //            self.calculate(false, property: "Date To", value: dateStr)
+                default: print("default error in dateWasChosen -- unknown textField: \(textField)")
+                }
+            }
         }
     }
     
@@ -295,22 +326,10 @@ class CreateTripTableViewController:
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        if indexPath.row == 1 && !dataSource.calculateFinished
-        {
-            return 0
-        }
-        else if indexPath.row == 1
-        {
-            return 440
-        }
-        else if indexPath.row == 0 && !dataSource.tripCreated
-        {
-            return 140
-        }
-        else
-        {
-            return 0
-        }
+        if indexPath.row == 1 && !dataSource.calculateFinished  { return 0 }
+        else if indexPath.row == 1                              { return 440 }
+        else if indexPath.row == 0 && !dataSource.tripCreated   { return 140 }
+        else                                                    { return 0 }
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
@@ -327,7 +346,9 @@ class CreateTripTableViewController:
                 return Calculator(delegate: self)
             }
             return Calculator(delegate: nil)
-        }()
+            }()
+        
+        print(cycle)
         
         trip = calculator.assignValue(trip, propertyAndValue: [property : value])
         
@@ -350,27 +371,31 @@ class CreateTripTableViewController:
                     
                     let nextTextFieldIndex =
                     self.textFields.indexOf(self.shownTextField)! + 1
-                    self.cycleToNextField(nextTextFieldIndex)
+                    self.cycleToTextField(nextTextFieldIndex)
             })
         }
         else
         {
-            promptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
-            promptLabel.alpha = 0
-            shownTextField.backgroundColor = UIColor.redColor()
-            budgetRemainingLabel.textColor = UIColor.redColor()
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.promptLabel.alpha = 1
-                self.shownTextField.backgroundColor = UIColor.whiteColor()
-                }, completion: { (_) -> Void in
-                    self.shownTextField.becomeFirstResponder()
-                    self.shownTextField.placeholder = self.shownTextField.text
-                    self.shownTextField.text = ""
-            })
+            didGoOverBudget()
         }
     }
     
-    // FIXME: When Clear is pressed, if at the "All done, save now" stage, it clears the screen, but doesn't load anything
+    func didGoOverBudget()
+    {
+        promptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
+        promptLabel.alpha = 0
+        shownTextField.backgroundColor = UIColor.redColor()
+        budgetRemainingLabel.textColor = UIColor.redColor()
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.promptLabel.alpha = 1
+            self.shownTextField.backgroundColor = UIColor.whiteColor()
+            }, completion: { (_) -> Void in
+                self.shownTextField.becomeFirstResponder()
+                self.shownTextField.placeholder = self.shownTextField.text
+                self.shownTextField.text = ""
+        })
+    }
+    
     func clear()
     {
         dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
@@ -395,9 +420,9 @@ class CreateTripTableViewController:
         let indexPath = NSIndexPath(forRow: 1, inSection: 0)
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         
-        cycleToNextField(0)
+        cycleToTextField(0)
     }
-
+    
     func saveTrip(trip: Trip)
     {
         trips.append(trip)
@@ -407,7 +432,6 @@ class CreateTripTableViewController:
         delegate?.tripWasSaved(trip)
     }
     
-    // FIXME: When Clear is pressed, if at the "All done, save now" stage, it clears the screen, but doesn't load anything
     func createTripComplete()
     {
         promptLabel.text = ""
@@ -435,6 +459,6 @@ class CreateTripTableViewController:
         
         //        switch trip.budgetRemaining
     }
-
+    
 }
 

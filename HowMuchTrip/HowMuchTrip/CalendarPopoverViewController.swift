@@ -10,39 +10,71 @@ import UIKit
 import CalendarView
 import SwiftMoment
 
-var firstRun = true
-
 protocol DateWasChosenFromCalendarProtocol
 {
-    func dateWasChosen(date: Moment, textFieldTag: Int)
+    func dateWasChosen(date: Moment?, textField: UITextField)
 }
 
 class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
 {
     @IBOutlet weak var calendar: CalendarView!
+    
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var leftArrow: UIImageView!
     
-    var textFieldTag: Int!
+    @IBOutlet weak var cancelButton: UIButton!
+    @IBOutlet weak var confirmButton: UIButton!
+    
+    var textField: UITextField!
+    var selectedDate: Moment!
     
     var delegate: DateWasChosenFromCalendarProtocol?
+    
+    let confirmations = [
+        "Okay",
+        "All set",
+        "Looks good"
+    ]
+    
+    let cancellations = [
+        "Never mind",
+        "Just kidding",
+        "Forget it"
+    ]
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
-        if firstRun
-        {
-            
-        }
+        confirmButton.alpha = 0
         
-        self.preferredContentSize = CGSizeMake(380, 380)
         setCalendarPrefs()
-
-        monthLabel.text = ("\(moment().monthName), \(moment().year)")
+        
+        monthLabel.text = ("\(moment().monthName) \(moment().year)")
         leftArrow.alpha = 0
         leftArrow.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
         
+        let confirmation = confirmations[Int(arc4random() % 3)]
+        let cancellation = cancellations[Int(arc4random() % 3)]
+        
+        confirmButton.setTitle(confirmation, forState: .Normal)
+        cancelButton.setTitle(cancellation, forState: .Normal)
+    }
+    
+    @IBAction func confirmButtonPressed(sender: UIButton)
+    {
+        delegate?.dateWasChosen(selectedDate, textField: textField)
+    }
+    
+    @IBAction func cancelButtonPressed(sender: UIButton)
+    {
+        delegate?.dateWasChosen(nil, textField: textField)
+    }
+    
+    func calendarDidSelectDate(date: Moment)
+    {
+        selectedDate = date
+        confirmButton.appearWithFade(0.25)
     }
     
     func setCalendarPrefs()
@@ -61,16 +93,10 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         CalendarView.weekLabelTextColor = UIColor(white: 1.0, alpha: 0.3)
     }
     
-    func calendarDidSelectDate(date: Moment)
-    {
-        delegate?.dateWasChosen(date, textFieldTag: textFieldTag)
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
     func calendarDidPageToDate(date: Moment)
     {
         monthLabel.hideWithFade(0.1)
-        monthLabel.text = ("\(date.monthName), \(date.year)")
+        monthLabel.text = ("\(date.monthName) \(date.year)")
         UIView.animateWithDuration(0.1) { () -> Void in
             self.monthLabel.alpha = 1
         }
