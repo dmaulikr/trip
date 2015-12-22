@@ -9,6 +9,7 @@
 import UIKit
 import Charts
 import SwiftMoment
+import Parse
 
 protocol TripWasSavedDelegate
 {
@@ -425,6 +426,7 @@ class CreateTripTableViewController:
     
     func saveTrip(trip: Trip)
     {
+        trip.user = PFUser.currentUser()!.username!
         trips.append(trip)
         trip.pinInBackground()
         trip.saveEventually()

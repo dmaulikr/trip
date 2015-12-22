@@ -13,6 +13,9 @@ import Parse
 
 class Trip: PFObject, PFSubclassing
 {
+    /// User id
+    @NSManaged var user: String
+    
     /// Total budget, as entered by user
     @NSManaged var budgetTotal: Double
     /// The subtotal of the expense properties
@@ -67,7 +70,7 @@ class Trip: PFObject, PFSubclassing
     /**
     Initializes the Trip class as a Parse subclass
      
-     - Returns: An empty trip object.
+     - Returns: An empty trip object, which is a PFObject subclass.
      
     */
     override class func initialize() {
@@ -79,7 +82,7 @@ class Trip: PFObject, PFSubclassing
         }
     }
     
-    public static func parseClassName() -> String {
+    static func parseClassName() -> String {
         return "Trip"
     }
     

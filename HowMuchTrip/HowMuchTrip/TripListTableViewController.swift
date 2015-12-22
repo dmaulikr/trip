@@ -113,6 +113,9 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     func refreshList()
     {
         let query = Trip.query()
+        
+        query!.whereKey("user", equalTo: PFUser.currentUser()!.username!)
+        
         // Sort results A-Z
         query!.orderByAscending("destination")
         // After sorting A-Z, then sort 1-999999
