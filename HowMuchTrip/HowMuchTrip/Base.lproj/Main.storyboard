@@ -22,11 +22,11 @@
                                 <rect key="frame" x="0.0" y="92" width="400" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="i1s-gb-jPY" id="m4F-ca-AXa">
-                                    <rect key="frame" x="0.0" y="0.0" width="367" height="124.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="367" height="124"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Going From" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="tRt-op-k3E">
-                                            <rect key="frame" x="8" y="86" width="111.5" height="30"/>
+                                            <rect key="frame" x="8" y="86" width="112" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="EC9-uR-aac"/>
                                             </constraints>
@@ -35,7 +35,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Going To" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="QvR-0L-EHs">
-                                            <rect key="frame" x="380" y="86" width="178.5" height="30"/>
+                                            <rect key="frame" x="380" y="86" width="179" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="30" id="eGe-vU-hRp"/>
                                             </constraints>
@@ -62,7 +62,7 @@
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O2P-xg-owH">
+                                        <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O2P-xg-owH">
                                             <rect key="frame" x="127" y="86" width="112" height="30"/>
                                             <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
@@ -128,7 +128,7 @@
                                 <rect key="frame" x="0.0" y="92" width="400" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xGT-QX-v0T" id="jt5-QD-GdG">
-                                    <rect key="frame" x="0.0" y="0.0" width="400" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="400" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Destination" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g4Y-ua-eMg">
@@ -249,7 +249,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEN-fe-ZB8">
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEN-fe-ZB8">
                                 <rect key="frame" x="176" y="281" width="48" height="30"/>
                                 <state key="normal" title="Logout"/>
                                 <connections>
@@ -257,7 +257,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJd-TV-w5S">
-                                <rect key="frame" x="161" y="226" width="79" height="20.5"/>
+                                <rect key="frame" x="161" y="226" width="79" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -294,6 +294,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="400" height="600"/>
                     <connections>
+                        <outlet property="loginLogoutButton" destination="aEN-fe-ZB8" id="bai-re-oIb"/>
                         <outlet property="userImage" destination="WG8-Gy-gJQ" id="EVm-29-jBx"/>
                         <outlet property="userNameLabel" destination="TJd-TV-w5S" id="JFF-ao-BgG"/>
                     </connections>
@@ -315,7 +316,7 @@
                                 <rect key="frame" x="0.0" y="28" width="208" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yLU-i0-5tm" id="qFx-3y-xVa">
-                                    <rect key="frame" x="0.0" y="0.0" width="208" height="39.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="208" height="39"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zVO-aT-c58">
@@ -631,7 +632,7 @@
                                                     </connections>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hotel " translatesAutoresizingMaskIntoConstraints="NO" id="i7E-gz-QG7">
-                                                    <rect key="frame" x="110.5" y="110.5" width="19" height="19"/>
+                                                    <rect key="frame" x="111" y="111" width="19" height="19"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="i7E-gz-QG7" secondAttribute="height" multiplier="1:1" id="RUo-DT-L1Y"/>
                                                         <constraint firstAttribute="width" constant="76" id="tMN-Ti-Gch"/>
@@ -710,7 +711,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zUk-4L-58V">
-                                                    <rect key="frame" x="160" y="43.5" width="80" height="37"/>
+                                                    <rect key="frame" x="160" y="44" width="80" height="37"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="80" id="k1Y-mv-e6P"/>
                                                     </constraints>
@@ -723,7 +724,7 @@
                                                     </connections>
                                                 </button>
                                                 <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="piM-EJ-Jdg">
-                                                    <rect key="frame" x="200" y="88.5" width="208" height="360"/>
+                                                    <rect key="frame" x="200" y="89" width="208" height="360"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="240" id="fsN-sv-wDP"/>
                                                     </constraints>
@@ -737,7 +738,7 @@
                                                     </connections>
                                                 </containerView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6vU-uK-aHa" customClass="PieChartView" customModule="Charts">
-                                                    <rect key="frame" x="-16" y="88.5" width="240" height="240"/>
+                                                    <rect key="frame" x="-16" y="89" width="240" height="240"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="300" id="RQz-Cu-8Gn"/>
                                                         <constraint firstAttribute="width" secondItem="6vU-uK-aHa" secondAttribute="height" multiplier="1:1" id="yPp-Fk-8rs"/>
@@ -749,7 +750,7 @@
                                                     </variation>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budget Remaining: $9001" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e2x-eG-bMN">
-                                                    <rect key="frame" x="81" y="8" width="239" height="27.5"/>
+                                                    <rect key="frame" x="81" y="8" width="239" height="28"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
                                                     <color key="textColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>

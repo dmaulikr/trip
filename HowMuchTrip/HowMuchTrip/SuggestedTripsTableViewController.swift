@@ -15,6 +15,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
 {
     var trips = [Trip]()
     var userDefinedBudget = 1000.0
+    let settingsVC = SettingsViewController()
     
     override func viewDidLoad()
     {
@@ -27,17 +28,24 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         super.viewWillAppear(true)
         loadTrips()
         trips.shuffleInPlace()
-    }
-    
-    override func viewDidAppear(animated: Bool)
-    {
-        if PFUser.currentUser()?.username == nil
+        if PFUser.currentUser() != nil
         {
-            let loginViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
-            self.presentViewController(loginViewController, animated: true, completion: nil)
+            switch loggedInWith
+            {
+            case "Twitter":
+                settingsVC.processTwitterData()
+            case "Facebook":
+                settingsVC.processFacebookData()
+            case "Username":
+                settingsVC.processUsernameData()
+            default:
+                PFUser.logOut()
+            }
         }
+
     }
     
+        
     // MARK: - TripSaved Delegate
     
     func tripWasSaved(savedTrip: Trip)

@@ -12,6 +12,7 @@ import Parse
 class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 {
     var trips = [Trip]()
+    let settingsVC = SettingsViewController()
 
     override func viewDidLoad()
     {
@@ -25,6 +26,21 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     {
         super.viewDidAppear(animated)
         refreshList()
+        if PFUser.currentUser() != nil
+        {
+            switch loggedInWith
+            {
+            case "Twitter":
+                settingsVC.processTwitterData()
+            case "Facebook":
+                settingsVC.processFacebookData()
+            case "Username":
+                settingsVC.processUsernameData()
+            default:
+                PFUser.logOut()
+            }
+        }
+
     }
 
     override func didReceiveMemoryWarning()
@@ -112,39 +128,45 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     /// Function queries Parse local datastore, then Parse cloud storage for items that have been pinned and saved, respectively.
     func refreshList()
     {
-        var oldValues = self.tableView.visibleCells as! Array<TripCell>
-        
-//        oldValues.removeAll()
-        
-        for cells in oldValues
-        {
-            cells.destinationLabel.text = ""
-            cells.budgetLabel.text = ""
-        }
         
         let query = Trip.query()
-        print(PFUser.currentUser()!.username!)
-        query!.whereKey("user", equalTo: PFUser.currentUser()!.username!)
-        
-        // Sort results A-Z
-        query!.orderByAscending("destination")
-        // After sorting A-Z, then sort 1-999999
-        query!.addAscendingOrder("budgetTotal")
-        // First look in local datastore
-        query!.fromLocalDatastore()
-        // Second look for objects in Parse cloud
-        query!.findObjectsInBackgroundWithBlock {
-            (objects: [PFObject]?, error: NSError?) -> Void in
-            if error == nil
-            {
-                // Save all the objects found in the trips array, then reload view
-                self.trips = (objects as? [Trip])!
-                self.tableView.reloadData()
-            }
-            else
-            {
-                print("refreshList error: \(error?.localizedDescription)")
+        if PFUser.currentUser()?.username != nil
+        {
+            query!.whereKey("user", equalTo: PFUser.currentUser()!.username!)
+            
+            // Sort results A-Z
+            query!.orderByAscending("destination")
+            // After sorting A-Z, then sort 1-999999
+            query!.addAscendingOrder("budgetTotal")
+            // First look in local datastore
+            query!.fromLocalDatastore()
+            // Second look for objects in Parse cloud
+            query!.findObjectsInBackgroundWithBlock {
+                (objects: [PFObject]?, error: NSError?) -> Void in
+                if error == nil
+                {
+                    // Save all the objects found in the trips array, then reload view
+                    self.trips = (objects as? [Trip])!
+                    self.tableView.reloadData()
+                }
+                else
+                {
+                    print("refreshList error: \(error?.localizedDescription)")
+                }
             }
         }
+        else
+        {
+            let oldValues = self.tableView.visibleCells as! Array<TripCell>
+            
+            for cells in oldValues
+            {
+                cells.destinationLabel.text = nil
+                cells.budgetLabel.text = nil
+                print("clear cell")
+            }
+            
+        }
     }
+    
 }

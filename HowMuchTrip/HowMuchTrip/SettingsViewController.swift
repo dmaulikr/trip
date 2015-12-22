@@ -21,6 +21,7 @@ class SettingsViewController: UIViewController
 {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var loginLogoutButton: UIButton!
     
     let aParseUser = ParseUser()
     
@@ -28,21 +29,15 @@ class SettingsViewController: UIViewController
     {
         super.viewDidLoad()
         title = "Settings"
-        
-        userImage.layer.cornerRadius = userImage.frame.size.width / 2
-        userImage.clipsToBounds = true
-        userImage.layer.borderColor = UIColor.blackColor().CGColor
-        userImage.layer.borderWidth = 1
-        
-
+    
     }
     
-    override func viewDidAppear(animated: Bool)
-    {
-        super.viewWillAppear(true)
-        userNameLabel.text = aParseUser.displayName
-
-    }
+//    override func viewDidAppear(animated: Bool)
+//    {
+//        super.viewWillAppear(true)
+//        userNameLabel.text = aParseUser.displayName
+//
+//    }
 
     override func didReceiveMemoryWarning()
     {
@@ -52,54 +47,65 @@ class SettingsViewController: UIViewController
     
     override func viewWillAppear(animated: Bool)
     {
-        checkForUser()
+        userImage.layer.cornerRadius = userImage.frame.size.width / 2
+        userImage.clipsToBounds = true
+        userImage.layer.borderColor = UIColor.blackColor().CGColor
+        userImage.layer.borderWidth = 1
         
-        switch loggedInWith
+        if PFUser.currentUser() != nil
         {
-        case "Twitter":
-            processTwitterData()
-        case "Facebook":
-            processFacebookData()
-        default:
-            processUsernameData()
-//        default:
-//            userNameLabel.text = "Unknown User"
-//            userImage.image = UIImage(named: "GenericUserImage")
-        aParseUser.pinInBackground()
-        aParseUser.saveEventually()
-            
-
+            switch loggedInWith
+            {
+            case "Twitter":
+                processTwitterData()
+            case "Facebook":
+                processFacebookData()
+            case "Username":
+                processUsernameData()
+            default:
+                PFUser.logOut()
+                loginLogoutButton.setTitle("Login", forState: .Normal)
+                userImage.image = UIImage(named: "GenericUserImage")
+                userNameLabel.text = ""
+            }
         }
-        
+ 
     }
     
     @IBAction func logOutAction(sender: UIButton)
     {
-        // Send a request to log out a user
-
-        PFUser.logOut()
-        userNameLabel.text = nil
-        userImage.image = nil
         
-
-        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
-            self.presentViewController(viewController, animated: true, completion: { () -> Void in
-                self.tabBarController?.selectedIndex = 0
+        if PFUser.currentUser() == nil
+        {
+            sender.setTitle("Logout", forState: .Normal)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+                self.presentViewController(viewController, animated: true, completion: { () -> Void in
+                    self.tabBarController?.selectedIndex = 0
+                })
             })
-        })
-        
+            
+        }
+        else if PFUser.currentUser() != nil
+        {
+            // Send a request to log out a user
+            sender.setTitle(("Login"), forState: .Normal)
+            //PFUser.logOut()
+            PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in if error != nil { print("logout fail"); print(error) } else { print("logout success") } }
+            userNameLabel.text = nil
+            userImage.image = UIImage(named: "GenericUserImage")
+        }
     }
     
     func processUsernameData()
     {
-        let pUserName = PFUser.currentUser()?["username"] as? String
+        let pUserName = PFUser.currentUser()!["username"] as! String
         
-        self.userNameLabel.text = "@" + pUserName!
+        self.userNameLabel.text = "@" + pUserName
         self.userImage.image = UIImage(named: "GenericUserImage")
 
-        aParseUser.displayName = "@" + pUserName!
-        aParseUser.parseUsername = PFUser.currentUser()!.username!
+//        aParseUser.displayName = "@" + pUserName!
+//        aParseUser.parseUsername = PFUser.currentUser()!.username!
     }
     
     func processFacebookData()

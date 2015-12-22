@@ -26,8 +26,9 @@ class SignUpViewController: UIViewController
     }
     
     
-    @IBAction func signUpAction(sender: UIButton) {
-        
+    @IBAction func signUpAction(sender: UIButton)
+    {
+        loggedInWith = "Username"
         let username = self.usernameField.text
         let password = self.passwordField.text
         let email = self.emailField.text

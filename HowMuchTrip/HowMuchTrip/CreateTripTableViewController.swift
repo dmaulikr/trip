@@ -251,8 +251,26 @@ class CreateTripTableViewController:
     
     @IBAction func saveButtonPressed(sender: UIButton!)
     {
+        if PFUser.currentUser()?.username == nil
+        {
+            
+            let alert = UIAlertController(title: "Login", message: "Please login to save your trip.", preferredStyle: .Alert)
+            let confirmAction = UIAlertAction(title: "OK", style: .Default){ (action) in
+                let loginViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+                self.presentViewController(loginViewController, animated: true, completion: nil)
+            }
+            let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
+            
+            alert.addAction(confirmAction)
+            alert.addAction(cancelAction)
+            presentViewController(alert, animated: true, completion: nil)
+            
+        }
+        
+        
         saveTrip(trip)
     }
+
     
     //MARK: - Location
     
