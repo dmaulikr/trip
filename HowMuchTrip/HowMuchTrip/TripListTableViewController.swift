@@ -129,7 +129,9 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     /// Function queries Parse local datastore, then Parse cloud storage for items that have been pinned and saved, respectively.
     func refreshList()
     {
-        
+        let spinner: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(0, 0, 150, 150)) as UIActivityIndicatorView
+        spinner.startAnimating()
+
         let query = Trip.query()
         if PFUser.currentUser()?.username != nil
         {
@@ -149,10 +151,12 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                     // Save all the objects found in the trips array, then reload view
                     self.trips = (objects as? [Trip])!
                     self.tableView.reloadData()
+                    spinner.stopAnimating()
                 }
                 else
                 {
                     print("refreshList error: \(error?.localizedDescription)")
+                    spinner.stopAnimating()
                 }
             }
         }
@@ -165,8 +169,9 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 cells.destinationLabel.text = nil
                 cells.budgetLabel.text = nil
                 print("clear cell")
+                
             }
-            
+            spinner.stopAnimating()
         }
     }
     
