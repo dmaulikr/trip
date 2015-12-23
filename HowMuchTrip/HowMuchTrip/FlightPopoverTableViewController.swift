@@ -8,28 +8,31 @@
 
 import UIKit
 
-class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControllerDelegate
+class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControllerDelegate, UISearchBarDelegate
 {
+    @IBOutlet weak var searchBar: UISearchBar!
+    
     var trip: Trip! {
         didSet {
-            loadAirports()
+            loadAirports(trip.departureLocation)
         }
     }
     
     var flights = [FullFlight]()
     var airportCodes = [String]()
     var airportCities = [String]()
+    var allAirports: NSArray!
     
     var airports: NSDictionary! {
         return [airportCities : airportCodes]
     }
     
-    var searchParameters: FlightSearch!
+    var flightSearchParameters: FlightSearch!
     
     var apiController: QPX_EX_APIController? {
         didSet {
-            apiController!.search(searchParameters)
-            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+//            apiController!.search(searchParameters)
+//            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         }
     }
     
@@ -55,68 +58,42 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     {
         super.viewDidLoad()
         
-        searchingForAirports = true
+        allAirports = loadJSON()
         
-        searchParameters = FlightSearch()
+        searchingForAirports = true
+        searchBar.delegate = self
+//        searchParameters = FlightSearch()
         apiController = QPX_EX_APIController(delegate: self)
     }
     
-    func loadAirports()
+    func searchBarSearchButtonClicked(searchBar: UISearchBar)
     {
-        if let allAirportsArray = loadJSON()
+        if searchBar.text != ""
         {
-            for airport in allAirportsArray
-            {
-                let airportCity = airport["CITY_NAME"] as? String ?? ""
-                let airportCode = airport["VENDOR_CODE"] as? String ?? ""
-                
-                print(airportCity, airportCode)
-                
-                var row = 0
-                
-                if searchingForDestinationAirports
-                {
-                    if trip.destination.containsString(airportCity) && airportCity != "" && airportCode != ""
-                    {
-                        print("contains")
-                        self.airportCities.append(airportCity)
-                        self.airportCodes.append(airportCode)
-                        
-                        row = airportCities.indexOf(airportCity)!
-                    }
-                }
-                else
-                {
-                    if trip.departureLocation.containsString(airportCity) && airportCity != "" && airportCode != ""
-                    {
-                        print("contains")
-                        self.airportCities.append(airportCity)
-                        self.airportCodes.append(airportCode)
-                        
-                        row = airportCities.indexOf(airportCity)!
-                    }
-                }
-                
-                let indexPath = NSIndexPath(forRow: row, inSection: 0)
-                tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-            }
+            loadAirports(searchBar.text!)
         }
     }
     
-    func loadJSON() -> NSArray?
+    func loadAirports(searchParameters: String)
     {
-        do
+        airportCities.removeAll()
+        airportCodes.removeAll()
+        
+        for airport in allAirports
         {
-            let filePath = NSBundle.mainBundle().pathForResource("airports", ofType: "json")
-            let data = NSData(contentsOfFile: filePath!)
-            let airportData = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [NSDictionary]
-            return airportData
+            let airportCity = airport["CITY_NAME"] as? String ?? ""
+            let airportCode = airport["VENDOR_CODE"] as? String ?? ""
             
-        }
-        catch let error as NSError
-        {
-            print(error.localizedDescription)
-            return nil
+            print(airportCity, airportCode)
+        
+            if searchParameters.containsString(airportCity) && airportCity != "" && airportCode != ""
+            {
+                print("contains")
+                self.airportCities.append(airportCity)
+                self.airportCodes.append(airportCode)
+            }
+
+            tableView.reloadData()
         }
     }
     
@@ -182,6 +159,25 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
             cell.textLabel?.text = flight.saleTotal
             
             return cell
+        }
+    }
+    
+    // MARK: - private func
+    
+    private func loadJSON() -> NSArray?
+    {
+        do
+        {
+            let filePath = NSBundle.mainBundle().pathForResource("airports", ofType: "json")
+            let data = NSData(contentsOfFile: filePath!)
+            let airportData = try NSJSONSerialization.JSONObjectWithData(data!, options: []) as! [NSDictionary]
+            return airportData
+            
+        }
+        catch let error as NSError
+        {
+            print(error.localizedDescription)
+            return nil
         }
     }
 
