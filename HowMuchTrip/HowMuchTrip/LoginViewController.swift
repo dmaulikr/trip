@@ -49,6 +49,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate
         return true
     }
     
+    @IBAction func dismissLoginTapped(sender: UIButton)
+    {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
     @IBAction func loginAction(sender: AnyObject)
     {
         
