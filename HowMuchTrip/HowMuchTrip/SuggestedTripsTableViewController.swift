@@ -20,6 +20,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+
 //        title = "Suggested"
     }
     
@@ -164,4 +166,16 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         tripDetailVC.aTrip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        // Do some reloading of data and update the table view's data source
+        // Fetch more objects from a web service, for example...
+        
+        // Simply adding an object to the data source for this example
+        trips.shuffleInPlace()
+        
+        self.tableView.reloadData()
+        refreshControl.endRefreshing()
+    }
+
 }
