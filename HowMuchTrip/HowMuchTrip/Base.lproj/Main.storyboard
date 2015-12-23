@@ -249,26 +249,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="400" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEN-fe-ZB8">
-                                <rect key="frame" x="176" y="281" width="48" height="30"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aEN-fe-ZB8">
+                                <rect key="frame" x="176" y="275" width="48" height="30"/>
                                 <state key="normal" title="Logout"/>
                                 <connections>
                                     <action selector="logOutAction:" destination="hR0-gd-RTV" eventType="touchUpInside" id="K5k-j5-BAY"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TJd-TV-w5S">
-                                <rect key="frame" x="161" y="226" width="79" height="21"/>
+                                <rect key="frame" x="160" y="244" width="79" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WG8-Gy-gJQ">
-                                <rect key="frame" x="163" y="122" width="75" height="75"/>
+                                <rect key="frame" x="125" y="84" width="150" height="150"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="75" id="7Kx-aM-2bE"/>
+                                    <constraint firstAttribute="height" constant="150" id="7Kx-aM-2bE"/>
                                     <constraint firstAttribute="height" constant="150" id="jsn-vc-ISt"/>
                                     <constraint firstAttribute="width" constant="150" id="vgG-f4-mHX"/>
-                                    <constraint firstAttribute="width" constant="75" id="x5R-s1-4Gq"/>
+                                    <constraint firstAttribute="width" constant="150" id="x5R-s1-4Gq"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -280,10 +280,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="aEN-fe-ZB8" firstAttribute="top" secondItem="TJd-TV-w5S" secondAttribute="bottom" constant="35" id="WmY-B4-wSa"/>
-                            <constraint firstItem="WG8-Gy-gJQ" firstAttribute="top" secondItem="Y38-Zf-2Vt" secondAttribute="bottom" constant="58" id="aCv-D1-J8j"/>
+                            <constraint firstItem="aEN-fe-ZB8" firstAttribute="top" secondItem="TJd-TV-w5S" secondAttribute="bottom" constant="10" id="WmY-B4-wSa"/>
+                            <constraint firstItem="WG8-Gy-gJQ" firstAttribute="top" secondItem="Y38-Zf-2Vt" secondAttribute="bottom" constant="20" id="aCv-D1-J8j"/>
                             <constraint firstItem="aEN-fe-ZB8" firstAttribute="centerX" secondItem="TJd-TV-w5S" secondAttribute="centerX" id="bx0-I3-zWN"/>
-                            <constraint firstItem="TJd-TV-w5S" firstAttribute="top" secondItem="WG8-Gy-gJQ" secondAttribute="bottom" constant="29" id="dd9-5s-9aI"/>
+                            <constraint firstItem="TJd-TV-w5S" firstAttribute="top" secondItem="WG8-Gy-gJQ" secondAttribute="bottom" constant="10" id="dd9-5s-9aI"/>
                             <constraint firstItem="WG8-Gy-gJQ" firstAttribute="centerX" secondItem="F7h-dn-cFj" secondAttribute="centerX" id="gBw-sG-vgK"/>
                             <constraint firstItem="TJd-TV-w5S" firstAttribute="centerX" secondItem="WG8-Gy-gJQ" secondAttribute="centerX" id="uQ2-gR-wST"/>
                         </constraints>

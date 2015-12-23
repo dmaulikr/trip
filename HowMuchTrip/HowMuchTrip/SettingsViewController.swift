@@ -66,8 +66,15 @@ class SettingsViewController: UIViewController
                 PFUser.logOut()
                 loginLogoutButton.setTitle("Login", forState: .Normal)
                 userImage.image = UIImage(named: "GenericUserImage")
-                userNameLabel.text = ""
+                userNameLabel.text = nil
             }
+        }
+        else
+        {
+            PFUser.logOut()
+            loginLogoutButton.setTitle("Login", forState: .Normal)
+            userImage.image = UIImage(named: "GenericUserImage")
+            userNameLabel.text = nil
         }
  
     }
@@ -101,8 +108,8 @@ class SettingsViewController: UIViewController
     {
         let pUserName = PFUser.currentUser()!["username"] as! String
         
-        self.userNameLabel.text = "@" + pUserName
-        self.userImage.image = UIImage(named: "GenericUserImage")
+        self.userNameLabel?.text = "@" + pUserName
+        self.userImage?.image = UIImage(named: "GenericUserImage")
 
 //        aParseUser.displayName = "@" + pUserName!
 //        aParseUser.parseUsername = PFUser.currentUser()!.username!

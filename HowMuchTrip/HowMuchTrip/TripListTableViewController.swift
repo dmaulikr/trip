@@ -22,7 +22,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
          self.navigationItem.leftBarButtonItem = self.editButtonItem()
     }
     
-    override func viewDidAppear(animated: Bool)
+    override func viewWillAppear(animated: Bool)
     {
         super.viewDidAppear(animated)
         refreshList()
@@ -34,10 +34,8 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 settingsVC.processTwitterData()
             case "Facebook":
                 settingsVC.processFacebookData()
-            case "Username":
-                settingsVC.processUsernameData()
             default:
-                PFUser.logOut()
+                settingsVC.processUsernameData()
             }
         }
 
