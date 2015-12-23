@@ -134,7 +134,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         if PFUser.currentUser()?.username != nil
         {
             query!.whereKey("user", equalTo: PFUser.currentUser()!.username!)
-            
+            print(PFUser.currentUser()!.username!)
             // Sort results A-Z
             query!.orderByAscending("destination")
             // After sorting A-Z, then sort 1-999999
@@ -156,18 +156,18 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 }
             }
         }
-//        else
-//        {
-//            let oldValues = self.tableView.visibleCells as! Array<TripCell>
-//            
-//            for cells in oldValues
-//            {
-//                cells.destinationLabel.text = nil
-//                cells.budgetLabel.text = nil
-//                print("clear cell")
-//            }
-//            
-//        }
+        else
+        {
+            let oldValues = self.tableView.visibleCells as! Array<TripCell>
+            
+            for cells in oldValues
+            {
+                cells.destinationLabel.text = nil
+                cells.budgetLabel.text = nil
+                print("clear cell")
+            }
+            
+        }
     }
     
 }
