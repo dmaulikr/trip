@@ -102,6 +102,8 @@ class Trip: PFObject, PFSubclassing
      */
     func tripCoordinateFromJSON(results: NSDictionary) -> (String, String)?
     {
+        
+        
         if let geometry = results["geometry"] as? NSDictionary
         {
             let location = geometry["location"] as? NSDictionary
@@ -110,7 +112,9 @@ class Trip: PFObject, PFSubclassing
             {
                 let lat = location!["lat"] as! Double
                 let lng = location!["lng"] as! Double
+                
                 return (String(lat),String(lng))
+                
             }
             else
             {
@@ -124,10 +128,42 @@ class Trip: PFObject, PFSubclassing
         return nil
     }
     
-    func setAirportCodeFromCityName(city: String) -> String
+    func setAirportCodeFromCityName(results: NSDictionary) -> String
     {
         let airportCode: String = ""
+        let city: String
+        let state: String
         
+        if let formattedAddress = results["formatted_address"] as? String
+        {
+            let addressComponentsForCity = formattedAddress.componentsSeparatedByString(",")
+            city = String(addressComponentsForCity[0])
+            
+            let stateZip = String(addressComponentsForCity[1])
+            state = stateZip.componentsSeparatedByString(" ")[1]
+        }
+        
+//        airportCode = search json for city and airport code
+        
+        if let path = NSBundle.mainBundle().pathForResource("airports", ofType: "json"), let data = NSData(contentsOfFile: path)
+        {
+            do
+            {
+                let airportJSON = try NSJSONSerialization
+                    .JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as! [NSDictionary]
+                for airportDict in airportJSON
+                {
+                    // want the VENDOR_CODE where CITY_NAME = city && STATE_CODE = state
+                }
+            }
+            catch
+            {
+                print("loadTrips error: \(error)")
+            }
+        }
+        
+        // pass vendor code to api to get airport code
+
         return airportCode
     }
 }
