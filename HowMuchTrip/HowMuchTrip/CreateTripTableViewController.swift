@@ -51,6 +51,7 @@ class CreateTripTableViewController:
     
     var shownTextField: UITextField!
     var textFields = [UITextField]()
+    let settingsVC = SettingsViewController()
     
     // MARK: - Graph Properties
     
@@ -98,6 +99,22 @@ class CreateTripTableViewController:
         dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
         
         cycleToTextField(0)
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        switch loggedInWith
+        {
+        case "Twitter":
+            settingsVC.processTwitterData()
+        case "Facebook":
+            settingsVC.processFacebookData()
+        case "Username":
+            settingsVC.processUsernameData()
+        default:
+            PFUser.logOut()
+        }
+
     }
     
     // MARK: - UITextField Stuff
@@ -267,9 +284,19 @@ class CreateTripTableViewController:
             presentViewController(alert, animated: true, completion: nil)
             
         }
-        
-        
         saveTrip(trip)
+        switch loggedInWith
+        {
+            case "Twitter":
+                settingsVC.processTwitterData()
+            case "Facebook":
+                settingsVC.processFacebookData()
+            case "Username":
+                settingsVC.processUsernameData()
+            default:
+                PFUser.logOut()
+        }
+
     }
 
     
@@ -485,6 +512,10 @@ class CreateTripTableViewController:
         trip.saveEventually()
         
         delegate?.tripWasSaved(trip)
+        }
+        else
+        {
+            
         }
     }
     
