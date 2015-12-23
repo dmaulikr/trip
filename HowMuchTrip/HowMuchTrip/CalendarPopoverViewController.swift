@@ -12,7 +12,7 @@ import SwiftMoment
 
 protocol DateWasChosenFromCalendarProtocol
 {
-    func dateWasChosen(date: Moment?, textField: UITextField)
+    func dateWasChosen(date: Moment?, textFieldTag: Int)
 }
 
 class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
@@ -25,7 +25,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var confirmButton: UIButton!
     
-    var textField: UITextField!
+    var textFieldTag: Int!
     var selectedDate: Moment!
     
     var delegate: DateWasChosenFromCalendarProtocol?
@@ -63,12 +63,12 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     
     @IBAction func confirmButtonPressed(sender: UIButton)
     {
-        delegate?.dateWasChosen(selectedDate, textField: textField)
+        delegate?.dateWasChosen(selectedDate, textFieldTag: textFieldTag)
     }
     
     @IBAction func cancelButtonPressed(sender: UIButton)
     {
-        delegate?.dateWasChosen(nil, textField: textField)
+        delegate?.dateWasChosen(nil, textFieldTag: textFieldTag)
     }
     
     func calendarDidSelectDate(date: Moment)

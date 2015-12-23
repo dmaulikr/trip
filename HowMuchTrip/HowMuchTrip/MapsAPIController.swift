@@ -10,7 +10,7 @@ import Foundation
 
 protocol MapsAPIResultsProtocol
 {
-    func didReceiveMapsAPIResults(results: NSDictionary, textField: UITextField)
+    func didReceiveMapsAPIResults(results: NSDictionary, textFieldTag: Int)
 }
 
 /// MapsAPIController allows user to find the Google Maps API data for a location
@@ -43,7 +43,7 @@ class MapsAPIController
      Passes the data back to the calling object via the delegate.
      
     */
-    func searchGMapsFor(searchTerm: String, textField: UITextField)
+    func searchGMapsFor(searchTerm: String, textFieldTag: Int)
     {
         // Format searchTerm correctly for url
         let escapedSearchTerm = searchTerm.stringByReplacingOccurrencesOfString(" ", withString: "%20", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
@@ -62,7 +62,7 @@ class MapsAPIController
                 if let result = resultsArr[0] as? NSDictionary
                 {
                     // Sends results back to the calling object via delegate
-                    self.delegate!.didReceiveMapsAPIResults(result, textField: textField)
+                    self.delegate!.didReceiveMapsAPIResults(result, textFieldTag: textFieldTag)
                 }
             }
         })

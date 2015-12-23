@@ -71,7 +71,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8Fi-31-cTB">
-                                                    <rect key="frame" x="232" y="88" width="160" height="360"/>
+                                                    <rect key="frame" x="200" y="88" width="210" height="360"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="240" id="0J9-oW-r4z"/>
                                                     </constraints>
@@ -85,7 +85,7 @@
                                                     </connections>
                                                 </containerView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FgB-Rc-onw" customClass="PieChartView" customModule="Charts">
-                                                    <rect key="frame" x="-8" y="88" width="240" height="240"/>
+                                                    <rect key="frame" x="-16" y="88" width="240" height="240"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="300" id="1FE-A7-gYB"/>
                                                         <constraint firstAttribute="width" secondItem="FgB-Rc-onw" secondAttribute="height" multiplier="1:1" id="1e9-C8-Kg9"/>
@@ -108,11 +108,11 @@
                                                 <constraint firstItem="i8M-g3-Jbx" firstAttribute="centerX" secondItem="n53-5x-zRm" secondAttribute="centerX" id="2NY-ER-PCo"/>
                                                 <constraint firstItem="FgB-Rc-onw" firstAttribute="top" secondItem="n53-5x-zRm" secondAttribute="topMargin" constant="80.5" id="4er-Mk-dcG"/>
                                                 <constraint firstItem="FgB-Rc-onw" firstAttribute="width" secondItem="n53-5x-zRm" secondAttribute="width" multiplier="0.6" id="8Iq-jQ-TE5"/>
-                                                <constraint firstAttribute="trailingMargin" secondItem="8Fi-31-cTB" secondAttribute="trailing" id="RFQ-q1-i8L"/>
-                                                <constraint firstItem="FgB-Rc-onw" firstAttribute="leading" secondItem="n53-5x-zRm" secondAttribute="leadingMargin" constant="-16" id="S6P-EH-B4j"/>
+                                                <constraint firstAttribute="trailingMargin" secondItem="8Fi-31-cTB" secondAttribute="trailing" constant="-18" id="RFQ-q1-i8L"/>
+                                                <constraint firstItem="FgB-Rc-onw" firstAttribute="leading" secondItem="n53-5x-zRm" secondAttribute="leadingMargin" constant="-24" id="S6P-EH-B4j"/>
                                                 <constraint firstItem="8Fi-31-cTB" firstAttribute="top" secondItem="FgB-Rc-onw" secondAttribute="top" id="VVd-83-qfM"/>
                                                 <constraint firstAttribute="topMargin" secondItem="i8M-g3-Jbx" secondAttribute="top" id="jqW-sK-Rkd"/>
-                                                <constraint firstItem="8Fi-31-cTB" firstAttribute="leading" secondItem="FgB-Rc-onw" secondAttribute="trailing" id="sNq-0S-vel"/>
+                                                <constraint firstItem="8Fi-31-cTB" firstAttribute="leading" secondItem="FgB-Rc-onw" secondAttribute="trailing" constant="-24" id="sNq-0S-vel"/>
                                                 <constraint firstItem="8Fi-31-cTB" firstAttribute="height" secondItem="FgB-Rc-onw" secondAttribute="height" multiplier="1.5" id="uOw-uX-X7s"/>
                                                 <constraint firstItem="FgB-Rc-onw" firstAttribute="width" secondItem="FgB-Rc-onw" secondAttribute="height" multiplier="1:1" id="zGe-2a-u3P"/>
                                             </constraints>
@@ -145,15 +145,15 @@
             <objects>
                 <tableViewController storyboardIdentifier="GraphLegendTableViewController" id="nbg-mq-WtQ" customClass="GraphLegendTableViewController" customModule="HowMuchTrip" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="28" sectionFooterHeight="28" id="WX2-69-3zw">
-                        <rect key="frame" x="0.0" y="0.0" width="160" height="360"/>
+                        <rect key="frame" x="0.0" y="0.0" width="210" height="360"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GraphLegendCell" rowHeight="40" id="UkC-2j-n8z" customClass="GraphLegendCell" customModule="HowMuchTrip" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="28" width="160" height="40"/>
+                                <rect key="frame" x="0.0" y="28" width="210" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UkC-2j-n8z" id="JFN-g8-iiJ">
-                                    <rect key="frame" x="0.0" y="0.0" width="160" height="39.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="210" height="39.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0vF-cV-FWw">
@@ -181,7 +181,7 @@
                                             <color key="textColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budget" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pif-9I-mxM">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Budget" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="pif-9I-mxM">
                                             <rect key="frame" x="40" y="4" width="112" height="14"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="10"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -232,7 +232,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Wob-c7-Af5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="784" y="642"/>
+            <point key="canvasLocation" x="796" y="644"/>
         </scene>
     </scenes>
 </document>
