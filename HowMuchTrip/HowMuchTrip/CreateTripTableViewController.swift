@@ -477,12 +477,15 @@ class CreateTripTableViewController:
     
     func saveTrip(trip: Trip)
     {
+        if PFUser.currentUser() != nil
+        {
         trip.user = PFUser.currentUser()!.username!
         trips.append(trip)
         trip.pinInBackground()
         trip.saveEventually()
         
         delegate?.tripWasSaved(trip)
+        }
     }
     
     func createTripComplete()
