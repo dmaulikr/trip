@@ -36,8 +36,10 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
                 settingsVC.processTwitterData()
             case "Facebook":
                 settingsVC.processFacebookData()
-            default:
+            case "Username":
                 settingsVC.processUsernameData()
+            default:
+                PFUser.logOut()
             }
         }
 

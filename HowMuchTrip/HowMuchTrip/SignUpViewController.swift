@@ -35,23 +35,23 @@ class SignUpViewController: UIViewController
         let finalEmail = email!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         // Validate the text fields
-        if username?.characters.count < 5
+        if username?.characters.count < 6
         {
-            let alert = UIAlertController(title: "Invalid", message: "Username must be greater than 5 characters", preferredStyle: .Alert)
+            let alert = UIAlertController(title: "Invalid", message: "Username must be at least 6 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
             presentViewController(alert, animated: true, completion: nil)
         
         }
-        else if password?.characters.count < 8
+        else if password?.characters.count < 7
         {
-            let alert = UIAlertController(title: "Invalid", message: "Password must be greater than 7 characters", preferredStyle: .Alert)
+            let alert = UIAlertController(title: "Invalid", message: "Password must be at least 7 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
             presentViewController(alert, animated: true, completion: nil)
             
         }
-        else if email?.characters.count < 8
+        else if email?.characters.count < 5
         {
             
             let alert = UIAlertController(title: "Invalid", message: "Please enter a valid email address", preferredStyle: .Alert)

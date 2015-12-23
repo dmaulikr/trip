@@ -24,7 +24,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     
     override func viewWillAppear(animated: Bool)
     {
-        super.viewDidAppear(animated)
+        //super.viewDidAppear(animated)
         refreshList()
         if PFUser.currentUser() != nil
         {
@@ -34,8 +34,11 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 settingsVC.processTwitterData()
             case "Facebook":
                 settingsVC.processFacebookData()
-            default:
+            case "Username":
                 settingsVC.processUsernameData()
+            default:
+                PFUser.logOut()
+//                tableView.reloadData()
             }
         }
 
@@ -153,18 +156,18 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 }
             }
         }
-        else
-        {
-            let oldValues = self.tableView.visibleCells as! Array<TripCell>
-            
-            for cells in oldValues
-            {
-                cells.destinationLabel.text = nil
-                cells.budgetLabel.text = nil
-                print("clear cell")
-            }
-            
-        }
+//        else
+//        {
+//            let oldValues = self.tableView.visibleCells as! Array<TripCell>
+//            
+//            for cells in oldValues
+//            {
+//                cells.destinationLabel.text = nil
+//                cells.budgetLabel.text = nil
+//                print("clear cell")
+//            }
+//            
+//        }
     }
     
 }
