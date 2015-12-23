@@ -17,6 +17,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
 //        title = "My Trips"
 
          self.navigationItem.leftBarButtonItem = self.editButtonItem()
@@ -173,6 +174,17 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             }
             spinner.stopAnimating()
         }
+    }
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        // Do some reloading of data and update the table view's data source
+        // Fetch more objects from a web service, for example...
+        
+        // Simply adding an object to the data source for this example
+        refreshList()
+        
+        self.tableView.reloadData()
+        refreshControl.endRefreshing()
     }
     
 }
