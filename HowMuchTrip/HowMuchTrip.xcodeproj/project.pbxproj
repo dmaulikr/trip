@@ -11,6 +11,7 @@
 		630B3B4D1C1F283C006F12D2 /* disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B3B4C1C1F283C006F12D2 /* disclosure.png */; };
 		630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */; };
 		63400F981C20917000D5F29C /* GraphLegendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */; };
+		63628DD91C2A1FD400B36D0A /* ContextPopoverSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63628DD81C2A1FD400B36D0A /* ContextPopoverSetup.swift */; };
 		639028B71C2085F600067A09 /* TripDetail.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 639028B61C2085F600067A09 /* TripDetail.storyboard */; };
 		639FA4821C208C0000FBA7E6 /* GraphLegendCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */; };
 		63A70FCD1C29C2F3003FCB53 /* ContextPopovers.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63A70FCC1C29C2F3003FCB53 /* ContextPopovers.storyboard */; };
@@ -75,6 +76,7 @@
 		630B3B4C1C1F283C006F12D2 /* disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disclosure.png; sourceTree = "<group>"; };
 		630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPopoverViewController.swift; sourceTree = "<group>"; };
 		63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLegendTableViewController.swift; sourceTree = "<group>"; };
+		63628DD81C2A1FD400B36D0A /* ContextPopoverSetup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextPopoverSetup.swift; sourceTree = "<group>"; };
 		639028B61C2085F600067A09 /* TripDetail.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TripDetail.storyboard; sourceTree = "<group>"; };
 		639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLegendCell.swift; sourceTree = "<group>"; };
 		63A70FCC1C29C2F3003FCB53 /* ContextPopovers.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = ContextPopovers.storyboard; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				63A70FCC1C29C2F3003FCB53 /* ContextPopovers.storyboard */,
+				63628DD81C2A1FD400B36D0A /* ContextPopoverSetup.swift */,
 				63A70FDF1C29F38F003FCB53 /* Hotel */,
 				63A70FD61C29C37A003FCB53 /* Flight */,
 				63A70FCE1C29C2FA003FCB53 /* EditValueViewController.swift */,
@@ -202,11 +205,7 @@
 		9A8518C81C1E057A001046EA /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-
 				9AE10DBB1C29CC4D007E49D0 /* airports.json */,
-				6393FA2D1C245250003472CE /* hotel.png */,
-				6393FA2F1C24525C003472CE /* plane.png */,
-				6393FA281C23CA84003472CE /* pin.png */,
 				9A75AC5D1C1F54B700258473 /* Validator.swift */,
 				630B3B4C1C1F283C006F12D2 /* disclosure.png */,
 				9A8518C91C1E0632001046EA /* suggestedTrips.json */,
@@ -256,6 +255,7 @@
 		9ADAAAB81C19C26100D26F79 /* HowMuchTrip */ = {
 			isa = PBXGroup;
 			children = (
+				63A70FCB1C29C2E4003FCB53 /* ContextPopovers */,
 				9AF548011C2488D100C8E7CE /* Storyboards */,
 				FE7F792A1C1F25E4001C6C14 /* Login ViewControllers */,
 				9ADAAAF01C19D88000D26F79 /* View Controllers */,
@@ -285,7 +285,6 @@
 				9ADAAAEA1C19D72C00D26F79 /* TripListTableViewController.swift */,
 				9ADAAAEC1C19D7ED00D26F79 /* TripDetailViewController.swift */,
 				9ADAAAE81C19D65500D26F79 /* SettingsViewController.swift */,
-				63A70FCB1C29C2E4003FCB53 /* ContextPopovers */,
 				63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */,
 			);
 			name = "View Controllers";
@@ -569,6 +568,7 @@
 				63A70FDC1C29F355003FCB53 /* HotelPopoverViewController.swift in Sources */,
 				63A70FD31C29C303003FCB53 /* FlightPopoverViewController.swift in Sources */,
 				63A70FD21C29C303003FCB53 /* FlightPopoverTableViewController.swift in Sources */,
+				63628DD91C2A1FD400B36D0A /* ContextPopoverSetup.swift in Sources */,
 				9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */,
 				FE7F792E1C1F2620001C6C14 /* SignUpViewController.swift in Sources */,
 				9ADAAAEF1C19D82200D26F79 /* TripCell.swift in Sources */,

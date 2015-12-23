@@ -13,10 +13,15 @@ class FlightPopoverViewController: UIViewController
     @IBOutlet weak var confirmButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
     
+    var trip: Trip!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
         ContextPopoverSetup.setup(confirmButton, cancelButton: cancelButton)
+        
+        let childViewController = childViewControllers.first as! FlightPopoverTableViewController
+        childViewController.trip = trip
     }
     
     @IBAction func confirmButtonPressed(sender: UIButton)
@@ -34,31 +39,5 @@ class FlightPopoverViewController: UIViewController
         {
             parentVC.dismissContextPopover(FlightPopoverViewController)
         }
-    }
-}
-
-class ContextPopoverSetup
-{
-    class func setup(confirmButton: UIButton, cancelButton: UIButton)
-    {
-        confirmButton.alpha = 0
-        
-        let confirmations = [
-            "Okay",
-            "All set",
-            "Looks good"
-        ]
-        
-        let cancellations = [
-            "Never mind",
-            "Just kidding",
-            "Forget it"
-        ]
-        
-        let confirmation = confirmations[Int(arc4random() % 3)]
-        let cancellation = cancellations[Int(arc4random() % 3)]
-        
-        confirmButton.setTitle(confirmation, forState: .Normal)
-        cancelButton.setTitle(cancellation, forState: .Normal)
     }
 }

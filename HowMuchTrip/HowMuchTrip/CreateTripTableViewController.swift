@@ -237,6 +237,7 @@ class CreateTripTableViewController:
     {
         let flightStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
         let contextPopover = flightStoryboard.instantiateViewControllerWithIdentifier("FlightPopover") as! FlightPopoverViewController
+        contextPopover.trip = trip
         self.addContextPopover(contextPopover)
     }
     
