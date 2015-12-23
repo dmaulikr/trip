@@ -58,10 +58,13 @@ class SettingsViewController: UIViewController
             {
             case "Twitter":
                 processTwitterData()
+                loginLogoutButton.setTitle("Logout", forState: .Normal)
             case "Facebook":
                 processFacebookData()
+                loginLogoutButton.setTitle("Logout", forState: .Normal)
             case "Username":
                 processUsernameData()
+                loginLogoutButton.setTitle("Logout", forState: .Normal)
             default:
                 PFUser.logOut()
                 loginLogoutButton.setTitle("Login", forState: .Normal)
@@ -106,10 +109,13 @@ class SettingsViewController: UIViewController
     
     func processUsernameData()
     {
+        if PFUser.currentUser() != nil
+        {
         let pUserName = PFUser.currentUser()!["username"] as! String
         
         self.userNameLabel?.text = "@" + pUserName
         self.userImage?.image = UIImage(named: "GenericUserImage")
+        }
 
 //        aParseUser.displayName = "@" + pUserName!
 //        aParseUser.parseUsername = PFUser.currentUser()!.username!
