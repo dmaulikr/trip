@@ -83,9 +83,7 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
         {
             let airportCity = airport["CITY_NAME"] as? String ?? ""
             let airportCode = airport["VENDOR_CODE"] as? String ?? ""
-            
-            print(airportCity, airportCode)
-        
+                    
             if searchParameters.containsString(airportCity) && airportCity != "" && airportCode != ""
             {
                 print("contains")
@@ -125,6 +123,7 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
         }
     }
     
+    // MARK: - Table View Functions
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
         switch searchingForAirports
@@ -162,7 +161,7 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
         }
     }
     
-    // MARK: - private func
+    // MARK: - Private Functions
     
     private func loadJSON() -> NSArray?
     {
