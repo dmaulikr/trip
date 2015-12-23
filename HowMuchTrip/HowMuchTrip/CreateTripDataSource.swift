@@ -150,10 +150,6 @@ class CreateTripDataSource
             
             suffix = "Where are you leaving from?"
         case 3:
-            prefixes += [
-                "Oh, I have an aunt there! ",
-                "Ah, \(aTrip.departureLocation). "
-            ]
             
             if aTrip.departureLocation == ""
             {
@@ -319,6 +315,13 @@ class CreateTripDataSource
     
     func manageButtons(superview: CreateTripTableViewController)
     {
+        if superview.shownTextField != superview.budgetTextField
+        {
+            if superview.backButton.alpha == 0
+            {
+                superview.backButton.appearWithFade(0.25)
+            }
+        }
         //        let textFields = [
         //            superview.budgetTextField!,
         //            superview.destinationTextField!,
