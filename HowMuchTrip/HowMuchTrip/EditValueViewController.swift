@@ -22,34 +22,18 @@ class EditValueViewController: UIViewController, UITextFieldDelegate
     
     var delegate: TripValueWasEditedDelegate?
     
-    let confirmations = [
-        "Okay",
-        "All set",
-        "Looks good"
-    ]
-    
-    let cancellations = [
-        "Never mind",
-        "Just kidding",
-        "Forget it"
-    ]
-    
     var property: String!
     var value: Double!
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        confirmButton.alpha = 0
-        editTextField.delegate = self
         
-        let confirmation = confirmations[Int(arc4random() % 3)]
-        let cancellation = cancellations[Int(arc4random() % 3)]
-        
-        confirmButton.setTitle(confirmation, forState: .Normal)
-        cancelButton.setTitle(cancellation, forState: .Normal)
+        ContextPopoverSetup.setup(confirmButton, cancelButton: cancelButton)
         
         topLabel.text = "Editing \(property)"
+        
+        editTextField.delegate = self
         editTextField.placeholder = value.formatCostAsUSD()
     }
     

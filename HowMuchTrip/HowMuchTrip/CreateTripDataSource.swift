@@ -61,8 +61,9 @@ class CreateTripDataSource
         
         let allButtons = [
             superview.nextButton,
-            superview.skipButton,
-            superview.contextButton
+//            superview.skipButton,
+            superview.contextButton,
+            superview.backButton
         ]
         
         superview.buttons = allButtons
@@ -71,6 +72,8 @@ class CreateTripDataSource
             button.alpha = 0
             button.hidden = true
         }
+        
+        superview.contextButtonImg.image = nil
         
         let pieChartView = superview.pieChartView
         initialSetupPieChart(pieChartView)
@@ -131,6 +134,9 @@ class CreateTripDataSource
             }
             
             suffix = "Where are you planning on going?"
+            
+            
+            
         case 2:
             prefixes = [
                 "Sounds nice. ",
@@ -231,15 +237,23 @@ class CreateTripDataSource
     
     func getGraphColors() -> [UIColor]
     {
+//        let colors = [
+//            UIColor(red:0.51, green:0.65, blue:0.65, alpha:1.0),
+//            UIColor(red:0.00, green:0.20, blue:0.35, alpha:1.0),
+//            UIColor(red:0.53, green:0.59, blue:0.70, alpha:1.0),
+//            UIColor(red:0.04, green:0.32, blue:0.34, alpha:1.0),
+//            UIColor(red:0.32, green:0.54, blue:0.79, alpha:1.0),
+//            UIColor(red:0.92, green:0.82, blue:0.67, alpha:1.0),
+//            UIColor(red:0.36, green:0.33, blue:0.42, alpha:1.0),
+//            UIColor(red:0.77, green:0.77, blue:0.77, alpha:1.0)
+//        ]
         let colors = [
-            UIColor(red:0.51, green:0.65, blue:0.65, alpha:1.0),
-            UIColor(red:0.00, green:0.20, blue:0.35, alpha:1.0),
-            UIColor(red:0.53, green:0.59, blue:0.70, alpha:1.0),
-            UIColor(red:0.04, green:0.32, blue:0.34, alpha:1.0),
-            UIColor(red:0.32, green:0.54, blue:0.79, alpha:1.0),
-            UIColor(red:0.92, green:0.82, blue:0.67, alpha:1.0),
-            UIColor(red:0.36, green:0.33, blue:0.42, alpha:1.0),
-            UIColor(red:0.77, green:0.77, blue:0.77, alpha:1.0)
+            UIColor(red: 0.9, green: 0.29, blue: 0.29, alpha: 1),
+            UIColor(red: 0.07, green: 0.17, blue: 0.2, alpha: 1),
+            UIColor(red: 0.31, green: 0.65, blue: 0.85, alpha: 1),
+            UIColor(red: 0.27, green: 0.81, blue: 0.8, alpha: 1),
+            UIColor(red: 0, green: 0.41, blue: 0.55, alpha: 1),
+            UIColor(red: 0.64, green: 0.75, blue: 0.93, alpha: 1)
         ]
         
         return colors
@@ -321,25 +335,59 @@ class CreateTripDataSource
         if superview.contextButton.alpha != 0
         {
             superview.contextButton.hideWithFade(0.25)
+            superview.contextButtonImg.hideWithFade(0.25)
         }
         
         switch superview.shownTextField
         {
         case superview.budgetTextField:
             superview.nextButton.appearWithFade(0.25)
+            if superview.backButton.alpha != 0
+            {
+                superview.backButton.hideWithFade(0.25)
+                superview.backButton.hidden = true
+            }
+
         case superview.departureLocationTextField:
-            superview.skipButton.appearWithFade(0.25)
-            superview.contextButton.appearWithFade(0.25)
-            superview.contextButton.setImage(UIImage(named: "pin.png"), forState: .Normal)
-            superview.contextButton.tag = 70
+//            superview.skipButton.appearWithFade(0.25)
+            superview.backButton.hidden = false
+            superview.backButton.appearWithFade(0.25)
+            
+            if Reachability.isConnectedToNetwork()
+            {
+                if let pin = UIImage(named: "pin")
+                {
+                    superview.contextButtonImg.image = pin
+                }
+                superview.contextButton.setTitle(" Tap to get your current location", forState: .Normal)
+                superview.contextButton.tag = 70
+                superview.contextButton.appearWithFade(0.25)
+            }
+            
         case superview.planeTicketTextField:
-            superview.contextButton.appearWithFade(0.25)
-            superview.contextButton.setImage(UIImage(named: "plane.png"), forState: .Normal)
-            superview.contextButton.tag = 71
+            
+            if Reachability.isConnectedToNetwork()
+            {
+                let plane = UIImage(named: "plane")
+                superview.contextButtonImg.image = plane
+                
+                superview.contextButton.setTitle(" Tap to get average ticket prices", forState: .Normal)
+                superview.contextButton.tag = 71
+                superview.contextButton.appearWithFade(0.25)
+            }
+            
         case superview.dailyLodgingTextField:
-            superview.contextButton.appearWithFade(0.25)
-            superview.contextButton.setImage(UIImage(named: "hotel.png"), forState: .Normal)
-            superview.contextButton.tag = 72
+            
+            if superview.trip.destinationLat != "" && superview.trip.destinationLng != "" && Reachability.isConnectedToNetwork()
+            {
+                let hotel = UIImage(named: "hotel")
+                superview.contextButtonImg.image = hotel
+                
+                superview.contextButton.setTitle(" Tap to get average hotel prices", forState: .Normal)
+                superview.contextButton.tag = 72
+                superview.contextButton.appearWithFade(0.25)
+            }
+            
         default: break;
         }
     }

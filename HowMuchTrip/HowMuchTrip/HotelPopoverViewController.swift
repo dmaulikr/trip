@@ -1,14 +1,14 @@
 //
-//  FlightPopoverViewController.swift
+//  HotelPopoverViewController.swift
 //  HowMuchTrip
 //
-//  Created by david on 12/21/15.
+//  Created by david on 12/22/15.
 //  Copyright © 2015 HowMuchTrip. All rights reserved.
 //
 
 import UIKit
 
-class FlightPopoverViewController: UIViewController
+class HotelPopoverViewController: UIViewController
 {
     @IBOutlet weak var confirmButton: UIButton!
     @IBOutlet weak var cancelButton: UIButton!
@@ -20,8 +20,8 @@ class FlightPopoverViewController: UIViewController
         super.viewDidLoad()
         ContextPopoverSetup.setup(confirmButton, cancelButton: cancelButton)
         
-        let childViewController = childViewControllers.first as! FlightPopoverTableViewController
-        childViewController.trip = trip
+        let childVC = childViewControllers.first as! HotelPopoverTableViewController
+        childVC.trip = self.trip
     }
     
     @IBAction func confirmButtonPressed(sender: UIButton)

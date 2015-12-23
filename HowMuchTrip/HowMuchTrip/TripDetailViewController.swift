@@ -26,6 +26,8 @@ class TripDetailViewController: UITableViewController
     var calculator: Calculator!
     var propertyDictionary = [String : String]()
     
+    var contextPopover: UIViewController?
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
