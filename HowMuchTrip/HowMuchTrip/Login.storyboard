@@ -84,6 +84,17 @@
                                     <action selector="loginWithFacebook:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LhI-Ef-0l1"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RXb-tc-tby">
+                                <rect key="frame" x="560" y="40" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="FIe-s5-AK1"/>
+                                    <constraint firstAttribute="height" constant="20" id="vZp-P5-tvr"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="close"/>
+                                <connections>
+                                    <action selector="dismissLoginTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YIW-Fr-gyN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -96,6 +107,7 @@
                             <constraint firstItem="X76-MJ-uMy" firstAttribute="centerX" secondItem="oB1-hm-Cn4" secondAttribute="centerX" id="OoS-jy-fKx"/>
                             <constraint firstItem="Qjw-h3-WaI" firstAttribute="top" secondItem="KwU-YM-WQ0" secondAttribute="bottom" constant="8" id="P4S-0v-Qum"/>
                             <constraint firstItem="oB1-hm-Cn4" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.7" id="T6n-Vz-IIZ"/>
+                            <constraint firstItem="RXb-tc-tby" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="TIe-6T-ngt"/>
                             <constraint firstItem="KwU-YM-WQ0" firstAttribute="top" secondItem="X76-MJ-uMy" secondAttribute="bottom" constant="20" id="WRu-0C-1hi"/>
                             <constraint firstItem="SI2-eu-qjX" firstAttribute="centerX" secondItem="BLS-VZ-Ng5" secondAttribute="centerX" id="XDf-OM-jrl"/>
                             <constraint firstItem="oB1-hm-Cn4" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ejL-ix-G4Q"/>
@@ -103,6 +115,7 @@
                             <constraint firstItem="69l-np-XLN" firstAttribute="centerX" secondItem="Qjw-h3-WaI" secondAttribute="centerX" id="fcf-0T-cXq"/>
                             <constraint firstItem="X76-MJ-uMy" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="mW9-IW-FFG"/>
                             <constraint firstItem="oB1-hm-Cn4" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="uOK-3q-Aam"/>
+                            <constraint firstAttribute="trailing" secondItem="RXb-tc-tby" secondAttribute="trailing" constant="20" id="ut2-Wl-M7o"/>
                             <constraint firstItem="oB1-hm-Cn4" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="80" id="vxa-R8-QFb"/>
                             <constraint firstItem="X76-MJ-uMy" firstAttribute="top" secondItem="oB1-hm-Cn4" secondAttribute="bottom" constant="15" id="y7L-JS-U3d"/>
                         </constraints>
