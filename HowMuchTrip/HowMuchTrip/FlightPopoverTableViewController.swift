@@ -23,6 +23,10 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     var airportCities = [String]()
     var allAirports: NSArray!
     
+    var destinationAirportCode: String!
+    var originAirportCode: String!
+    
+    
     var airports: NSDictionary! {
         return [airportCities : airportCodes]
     }
@@ -158,6 +162,23 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
             cell.textLabel?.text = flight.saleTotal
             
             return cell
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let selectedAirportCode = airportCodes[indexPath.row]
+        if destinationAirportCode == nil || destinationAirportCode == ""
+        {
+            destinationAirportCode = selectedAirportCode
+        }
+        else if originAirportCode == nil || originAirportCode == ""
+        {
+            originAirportCode = selectedAirportCode
+        }
+        else
+        {
+            print("problem assigning airport codes to variables")
         }
     }
     

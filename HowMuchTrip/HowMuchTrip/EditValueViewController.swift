@@ -64,6 +64,7 @@ class EditValueViewController: UIViewController, UITextFieldDelegate
     {
         if textField.text != "" && confirmButton.alpha == 0 {
             confirmButton.appearWithFade(0.25)
+            textField.resignFirstResponder()
         }
         return testCharacters(textField, string: string)
     }

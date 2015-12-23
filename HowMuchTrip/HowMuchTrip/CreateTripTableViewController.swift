@@ -61,12 +61,13 @@ class CreateTripTableViewController:
     
     var childViewControler: UIViewController?
     
-    var contextPopover: UIViewController? {
-        didSet {
-            contextPopover!.view.appearWithFade(0.25)
-            contextPopover!.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height)
-        }
-    }
+    var contextPopover: UIViewController?
+//        {
+//        didSet {
+//            contextPopover!.view.appearWithFade(0.25)
+//            contextPopover!.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height)
+//        }
+//    }
     
     // MARK: - Other Properties
     var dataSource = CreateTripDataSource()
@@ -81,6 +82,8 @@ class CreateTripTableViewController:
     var mapsAPIController: MapsAPIController?
     
     var buttons = [UIButton!]()
+    
+    var cycleCount = 0
     
     override func viewDidLoad()
     {
@@ -97,6 +100,9 @@ class CreateTripTableViewController:
         
         dataSource.initialSetup(self) //allProperties and textFields assigned here
         dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
+        
+        dateFromTextField.tag = 80
+        dateToTextField.tag = 81
         
         cycleToTextField(0)
     }
@@ -145,30 +151,29 @@ class CreateTripTableViewController:
         return rc
     }
     
-    func textFieldDidBeginEditing(textField: UITextField)
+    func presentCalendar(textFieldTag: Int)
     {
-        if textField == dateToTextField || textField == dateFromTextField && textField.isFirstResponder()
-        {
-            textField.resignFirstResponder()
-            
+        print("textFieldDidBeginEditing")
+//        if textField == dateToTextField || textField == dateFromTextField && textField.isFirstResponder()
+//        {
+//            textField.resignFirstResponder()
+        
             if self.childViewControllers.count == 1
             {
                 let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
                 let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
                 self.addContextPopover(contextPopover)
                 contextPopover.delegate = self
-                contextPopover.textField = textField
+                contextPopover.textFieldTag = textFieldTag
 //                
-                contextPopover.view.appearWithFade(0.25)
-                contextPopover.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height / 2)
+//                contextPopover.view.appearWithFade(0.25)
+//                contextPopover.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height / 2)
                 
                 self.contextPopover = contextPopover
             }
-        }
-        else
-        {
-            nextButton.enabled = true//textField.text?.characters.count > 0
-        }
+//        }
+
+        nextButton.enabled = true//textField.text?.characters.count > 0
     }
     
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
@@ -201,7 +206,20 @@ class CreateTripTableViewController:
                     self.promptLabel.alpha = 1
                     
                     }, completion: { (_) -> Void in
-                        self.shownTextField.becomeFirstResponder()
+                        if self.shownTextField.tag == 81
+                        {
+//                            self.dateToTextField.tag = 80
+                            self.presentCalendar(self.dateToTextField.tag)
+                        }
+                        else if self.shownTextField.tag == 80
+                        {
+//                            self.dateFromTextField.tag = 81
+                            self.presentCalendar(self.dateFromTextField.tag)
+                        }
+                        else
+                        {
+                            self.shownTextField.becomeFirstResponder()
+                        }
                 })
             })
         }
@@ -209,6 +227,9 @@ class CreateTripTableViewController:
         {
             createTripComplete()
         }
+        
+        print("text field index: \(indexOfTextField) should == cycle count: \(cycleCount)")
+        cycleCount++
     }
     
     // MARK: - Action Handlers
@@ -216,8 +237,6 @@ class CreateTripTableViewController:
     @IBAction func nextButtonPressed(sender: UIButton)
     {
         textFieldShouldReturn(shownTextField)
-        let nextIndex = textFields.indexOf(shownTextField)! + 1
-        cycleToTextField(nextIndex)
     }
     
     @IBAction func backButtonPressed(sender: UIButton)
@@ -311,7 +330,8 @@ class CreateTripTableViewController:
             if let term = destinationTextField.text
             {
                 mapsAPIController = MapsAPIController(delegate: self)
-                mapsAPIController?.searchGMapsFor(term, textField: destinationTextField)
+                destinationTextField.tag = 60
+                mapsAPIController?.searchGMapsFor(term, textFieldTag: destinationTextField.tag)
             }
         }
         else if textField == departureLocationTextField
@@ -321,42 +341,48 @@ class CreateTripTableViewController:
             if let term = departureLocationTextField.text
             {
                 mapsAPIController = MapsAPIController(delegate: self)
-                mapsAPIController?.searchGMapsFor(term, textField: departureLocationTextField)
+                departureLocationTextField.tag = 61
+                mapsAPIController?.searchGMapsFor(term, textFieldTag: departureLocationTextField.tag)
             }
         }
     }
     
-    func didReceiveMapsAPIResults(results: NSDictionary, textField: UITextField)
+    func didReceiveMapsAPIResults(results: NSDictionary, textFieldTag: Int)
     {
-        print("didReceiveMapsAPIResults")
-        if let (lat, lng) = trip.tripCoordinateFromJSON(results)
-        {
-            switch textField
+        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+        
+        dispatch_async(backgroundQueue) { () -> Void in
+            if let (lat, lng) = self.trip.tripCoordinateFromJSON(results)
             {
-            case destinationTextField:
-                
-                trip = calculator.assignValue(trip, propertyAndValue: ["destinationLat" : lat])
-                trip = calculator.assignValue(trip, propertyAndValue: ["destinationLng" : lng])
-                
-//                calculate(false, property: "destinationLat", value: lat)
-//                calculate(false, property: "destinationLng", value: lng)
-                
-            case departureLocationTextField:
-                
-                trip = calculator.assignValue(trip, propertyAndValue: ["departureLat" : lat])
-                trip = calculator.assignValue(trip, propertyAndValue: ["departureLng" : lng])
-                
-//                calculate(false, property: "departureLat", value: lat)
-//                calculate(false, property: "departureLng", value: lng)
-                
-            default: break
+                switch textFieldTag
+                {
+                case self.destinationTextField.tag:
+                    
+                    self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["destinationLat" : lat])
+                    self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["destinationLng" : lng])
+                    
+                    //                calculate(false, property: "destinationLat", value: lat)
+                    //                calculate(false, property: "destinationLng", value: lng)
+                    
+                case self.departureLocationTextField.tag:
+                    
+                    self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["departureLat" : lat])
+                    self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["departureLng" : lng])
+                    
+                    //                calculate(false, property: "departureLat", value: lat)
+                    //                calculate(false, property: "departureLng", value: lng)
+                    
+                default: break
+                }
             }
         }
+        
+        print("didReceiveMapsAPIResults")
     }
     
     // MARK: - Graph Functions
     
-    func dateWasChosen(date: Moment?, textField: UITextField)
+    func dateWasChosen(date: Moment?, textFieldTag: Int)
     {
         dismissContextPopover(CalendarPopoverViewController)
         
@@ -365,9 +391,9 @@ class CreateTripTableViewController:
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
                 let dateStr = date!.format("MM/dd/yy")
                 
-                switch textField
+                switch textFieldTag
                 {
-                case self.dateFromTextField:
+                case self.dateFromTextField.tag:
                     if self.dateFromTextField.text == ""
                     {
                         self.dateFromTextField.text = dateStr
@@ -375,7 +401,7 @@ class CreateTripTableViewController:
                         self.dateFromTextField.tag = 1000
                     }
                     //            self.calculate(false, property: "Date From", value: dateStr)
-                case self.dateToTextField:
+                case self.dateToTextField.tag:
                     if self.dateToTextField.text == ""
                     {
                         self.dateToTextField.text   = dateStr
@@ -383,7 +409,7 @@ class CreateTripTableViewController:
                         self.dateToTextField.tag = 1001
                     }
                     //            self.calculate(false, property: "Date To", value: dateStr)
-                default: print("default error in dateWasChosen -- unknown textField: \(textField)")
+                default: print("default error in dateWasChosen -- unknown textField: \(textFieldTag)")
                 }
             }
         }
@@ -395,7 +421,7 @@ class CreateTripTableViewController:
     {
         if indexPath.row == 1 && !dataSource.calculateFinished  { return 0 }
         else if indexPath.row == 1                              { return 440 }
-        else if indexPath.row == 0 && !dataSource.tripCreated   { return 140 }
+        else if indexPath.row == 0 && !dataSource.tripCreated   { return 180 }
         else                                                    { return 0 }
     }
     
@@ -477,29 +503,34 @@ class CreateTripTableViewController:
     
     func clear()
     {
-        dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
+        trip = Trip()
         
-        if calculator != nil
-        {
-            dataSource.calculateFinished = false
-        }
+        dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
+        dataSource.calculateFinished = false
+        dataSource.tripCreated = false
+        
+        dismissContextPopover(FlightPopoverViewController)
+        dismissContextPopover(CalendarPopoverViewController)
+        dismissContextPopover(EditValueViewController)
         
         propertyDictionary.removeAll()
-        pieChartView.hideWithFade(0.25)
-        legendContainerView.hideWithFade(0.25)
-        promptLabel.hideWithFade(0.25)
-        
-        dataSource.hideButtons(buttons)
-        
-        if budgetRemainingLabel.alpha != 0
-        {
-            budgetRemainingLabel.hideWithFade(0.25)
-        }
+//        pieChartView.hideWithFade(0.25)
+//        legendContainerView.hideWithFade(0.25)
+//        promptLabel.hideWithFade(0.25)
+//        
+//        dataSource.hideButtons(buttons)
+//        
+//        if budgetRemainingLabel.alpha != 0
+//        {
+//            budgetRemainingLabel.hideWithFade(0.25)
+//        }
+        dataSource.initialSetup(self)
         
         let indexPath = NSIndexPath(forRow: 1, inSection: 0)
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         
         cycleToTextField(0)
+        tableView.reloadData()
     }
     
     func saveTrip(trip: Trip)
