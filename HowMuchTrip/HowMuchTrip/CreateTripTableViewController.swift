@@ -49,6 +49,8 @@ class CreateTripTableViewController:
     @IBOutlet weak var dailyOtherTextField: UITextField!
     @IBOutlet weak var oneTimeCostTextField: UITextField!
     
+    @IBOutlet weak var tripNameTextField: UITextField!
+    
     var shownTextField: UITextField!
     var textFields = [UITextField]()
     
@@ -371,7 +373,7 @@ class CreateTripTableViewController:
                     {
                         self.dateFromTextField.text = dateStr
                         self.textFieldShouldReturn(self.dateFromTextField)
-                        self.dateFromTextField.tag = 1000
+//                        self.dateFromTextField.tag = 1000
                     }
                     //            self.calculate(false, property: "Date From", value: dateStr)
                 case self.dateToTextField.tag:
@@ -379,7 +381,7 @@ class CreateTripTableViewController:
                     {
                         self.dateToTextField.text   = dateStr
                         self.textFieldShouldReturn(self.dateToTextField)
-                        self.dateToTextField.tag = 1001
+//                        self.dateToTextField.tag = 1001
                     }
                     //            self.calculate(false, property: "Date To", value: dateStr)
                 default: print("default error in dateWasChosen -- unknown textField: \(textFieldTag)")
@@ -508,7 +510,17 @@ class CreateTripTableViewController:
     
     func saveTrip(trip: Trip)
     {
-        trip.user = PFUser.currentUser()!.username!
+//        trip.user = PFUser.currentUser()!.username!
+        
+        if let user = PFUser.currentUser()?.username
+        {
+            trip.user = user
+        }
+        else
+        {
+            //prompt to sign in
+        }
+        
         trips.append(trip)
         trip.pinInBackground()
         trip.saveEventually()
@@ -531,6 +543,7 @@ class CreateTripTableViewController:
             }) { (_) -> Void in
                 
                 self.saveTripButton.hidden = false
+                self.saveTripButton.enabled = true
                 self.saveTripButton.appearWithFade(0.25)
                 self.saveTripButton.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
                 
