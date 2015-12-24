@@ -12905,15 +12905,6 @@
         "LONGITUDE": "-48.100000000000001"
     },
     {
-        "VENDOR_CODE": "JGS",
-        "POI_NAME": "Ji An/Jing Gang Shan Airport",
-        "CITY_NAME": " ",
-        "STATE_CODE": " ",
-        "COUNTRY_CODE": "CN",
-        "LATITUDE": "26.899721",
-        "LONGITUDE": "114.7375"
-    },
-    {
         "VENDOR_CODE": "JHB",
         "POI_NAME": "Johore Bharu",
         "CITY_NAME": "Johor Bahru",

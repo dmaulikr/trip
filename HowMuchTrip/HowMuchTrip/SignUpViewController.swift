@@ -25,18 +25,22 @@ class SignUpViewController: UIViewController
         // Dispose of any resources that can be recreated.
     }
     
-    
+    //Signs the user up if they dont already have an account
     @IBAction func signUpAction(sender: UIButton)
     {
+        //Global variable that identifies how the user logged in
         loggedInWith = "Username"
         let username = self.usernameField.text
         let password = self.passwordField.text
         let email = self.emailField.text
+        
+        //Eliminates any white spaces on the beginning or end of email entered
         let finalEmail = email!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         // Validate the text fields
         if username?.characters.count < 6
         {
+            //Verify that the username meets the minimum length requirements
             let alert = UIAlertController(title: "Invalid", message: "Username must be at least 6 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
@@ -45,6 +49,7 @@ class SignUpViewController: UIViewController
         }
         else if password?.characters.count < 7
         {
+            //Verify that the password meets the minimum length requirements
             let alert = UIAlertController(title: "Invalid", message: "Password must be at least 7 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
@@ -53,7 +58,7 @@ class SignUpViewController: UIViewController
         }
         else if email?.characters.count < 5
         {
-            
+            //Verify that the email meets the minimum length requirements
             let alert = UIAlertController(title: "Invalid", message: "Please enter a valid email address", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
@@ -68,6 +73,7 @@ class SignUpViewController: UIViewController
             
             let newUser = PFUser()
             
+            //Create new entries in Parse for the user
             newUser.username = username
             newUser.password = password
             newUser.email = finalEmail
@@ -79,12 +85,13 @@ class SignUpViewController: UIViewController
                 spinner.stopAnimating()
                 if ((error) != nil)
                 {
+                    //Display the localized error and capitalize the first letter of the error string
                     let description = error!.localizedDescription
                     let first = description.startIndex
                     let rest = first.advancedBy(1)..<description.endIndex
                     let capitalized = description[first...first].uppercaseString + description[rest]
                     
-                    // TODO: capitalize first letter of error sentence
+                    //Create the AlertController
                     let alert = UIAlertController(title: "Error", message: capitalized, preferredStyle: .Alert)
                     
                     let confirmAction = UIAlertAction(title: "OK", style: .Default) {(action) in
@@ -99,10 +106,11 @@ class SignUpViewController: UIViewController
                 }
                 else
                 {
-                    
+                    //Create AlertController to notify the user they have successfully signed up
                     let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
                     let confirmAction = UIAlertAction(title: "OK", style: .Default) {(action) in
                         
+                        //Dismiss the previous two VCs on the stack
                         self.presentingViewController!.presentingViewController!.dismissViewControllerAnimated(true, completion: {})
                     }
                     alert.addAction(confirmAction)

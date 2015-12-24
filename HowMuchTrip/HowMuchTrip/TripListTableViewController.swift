@@ -17,6 +17,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
 //        title = "My Trips"
 
          self.navigationItem.leftBarButtonItem = self.editButtonItem()
@@ -129,7 +130,9 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     /// Function queries Parse local datastore, then Parse cloud storage for items that have been pinned and saved, respectively.
     func refreshList()
     {
-        
+        let spinner: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(0, 0, 150, 150)) as UIActivityIndicatorView
+        spinner.startAnimating()
+
         let query = Trip.query()
         if PFUser.currentUser()?.username != nil
         {
@@ -149,10 +152,12 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                     // Save all the objects found in the trips array, then reload view
                     self.trips = (objects as? [Trip])!
                     self.tableView.reloadData()
+                    spinner.stopAnimating()
                 }
                 else
                 {
                     print("refreshList error: \(error?.localizedDescription)")
+                    spinner.stopAnimating()
                 }
             }
         }
@@ -165,9 +170,21 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 cells.destinationLabel.text = nil
                 cells.budgetLabel.text = nil
                 print("clear cell")
+                
             }
-            
+            spinner.stopAnimating()
         }
+    }
+    
+    func handleRefresh(refreshControl: UIRefreshControl) {
+        // Do some reloading of data and update the table view's data source
+        // Fetch more objects from a web service, for example...
+        
+        // Simply adding an object to the data source for this example
+        refreshList()
+        
+        self.tableView.reloadData()
+        refreshControl.endRefreshing()
     }
     
 }

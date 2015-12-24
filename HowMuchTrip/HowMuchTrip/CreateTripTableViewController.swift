@@ -53,6 +53,7 @@ class CreateTripTableViewController:
     
     var shownTextField: UITextField!
     var textFields = [UITextField]()
+    let settingsVC = SettingsViewController()
     
     // MARK: - Graph Properties
     
@@ -106,6 +107,22 @@ class CreateTripTableViewController:
         dateToTextField.tag = 81
         
         cycleToTextField(0)
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        switch loggedInWith
+        {
+        case "Twitter":
+            settingsVC.processTwitterData()
+        case "Facebook":
+            settingsVC.processFacebookData()
+        case "Username":
+            settingsVC.processUsernameData()
+        default:
+            PFUser.logOut()
+        }
+
     }
     
     // MARK: - UITextField Stuff
@@ -288,9 +305,19 @@ class CreateTripTableViewController:
             presentViewController(alert, animated: true, completion: nil)
             
         }
-        
-        
         saveTrip(trip)
+        switch loggedInWith
+        {
+            case "Twitter":
+                settingsVC.processTwitterData()
+            case "Facebook":
+                settingsVC.processFacebookData()
+            case "Username":
+                settingsVC.processUsernameData()
+            default:
+                PFUser.logOut()
+        }
+
     }
 
     
@@ -510,22 +537,19 @@ class CreateTripTableViewController:
     
     func saveTrip(trip: Trip)
     {
-//        trip.user = PFUser.currentUser()!.username!
-        
         if let user = PFUser.currentUser()?.username
         {
             trip.user = user
+            trips.append(trip)
+            trip.pinInBackground()
+            trip.saveEventually()
+            
+            delegate?.tripWasSaved(trip)
         }
         else
         {
             //prompt to sign in
         }
-        
-        trips.append(trip)
-        trip.pinInBackground()
-        trip.saveEventually()
-        
-        delegate?.tripWasSaved(trip)
     }
     
     func createTripComplete()
