@@ -19,8 +19,7 @@ class TripDetailViewController: UITableViewController
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var legendContainerView: UIView!
     @IBOutlet weak var pieChartView: PieChartView!
-    
-    @IBOutlet weak var saveTripButton: UIButton!
+
     @IBOutlet weak var topLabel: UILabel!
     
     var calculator: Calculator!
@@ -33,6 +32,15 @@ class TripDetailViewController: UITableViewController
         super.viewDidLoad()
         dataSource.initialSetupPieChart(pieChartView)
         tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
+        
+        if aTrip.tripName != nil
+        {
+            topLabel.text = aTrip.tripName
+        }
+        else
+        {
+            topLabel.text = aTrip.destination
+        }
     }
     
     override func viewWillAppear(animated: Bool)

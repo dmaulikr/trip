@@ -52,20 +52,21 @@ class Calculator
         {
             switch property
             {
-            case "Budget"               : trip.budgetTotal = Double(value)!
-            case "Departure Location"   : trip.departureLocation = value
-            case "Destination"          : trip.destination = value
-            case "Date From"            : trip.dateFrom = value
-            case "Date To"              : trip.dateTo = value
-            case "Plane Ticket Cost"    : trip.planeTicketCost = Double(value)!
-            case "Daily Lodging Cost"   : trip.dailyLodgingCost = Double(value)!
-            case "Daily Food Cost"      : trip.dailyFoodCost = Double(value)!
-            case "Daily Other Cost"     : trip.dailyOtherCost = Double(value)!
-            case "One Time Cost"        : trip.oneTimeCost = Double(value)!
-            case "destinationLat"       : trip.destinationLat = value
-            case "destinationLng"       : trip.destinationLng = value
-            case "departureLat"         : trip.departureLat = value
-            case "departureLng"         : trip.departureLng = value
+            case "Budget"               : trip.budgetTotal          = Double(value)!
+            case "Departure Location"   : trip.departureLocation    = value
+            case "Destination"          : trip.destination          = value
+            case "Date From"            : trip.dateFrom             = value
+            case "Date To"              : trip.dateTo               = value
+            case "Plane Ticket Cost"    : trip.planeTicketCost      = Double(value)!
+            case "Daily Lodging Cost"   : trip.dailyLodgingCost     = Double(value)!
+            case "Daily Food Cost"      : trip.dailyFoodCost        = Double(value)!
+            case "Daily Other Cost"     : trip.dailyOtherCost       = Double(value)!
+            case "One Time Cost"        : trip.oneTimeCost          = Double(value)!
+            case "destinationLat"       : trip.destinationLat       = value
+            case "destinationLng"       : trip.destinationLng       = value
+            case "departureLat"         : trip.departureLat         = value
+            case "departureLng"         : trip.departureLng         = value 
+            case "Name"                 : trip.tripName             = value
             default                     : print("invalid property \(property)")
             }
         }

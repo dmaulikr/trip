@@ -58,11 +58,13 @@ class MapsAPIController
             }
             else if let results = self.parseJSON(data!)
             {
-                let resultsArr = results["results"] as? NSArray ?? NSArray()
-                if let result = resultsArr[0] as? NSDictionary
+                if let resultsArr = results["results"] as? NSArray
                 {
-                    // Sends results back to the calling object via delegate
-                    self.delegate!.didReceiveMapsAPIResults(result, textFieldTag: textFieldTag)
+                    if results.count > 0, let result = resultsArr[0] as? NSDictionary
+                    {
+                        // Sends results back to the calling object via delegate
+                        self.delegate!.didReceiveMapsAPIResults(result, textFieldTag: textFieldTag)
+                    }
                 }
             }
         })

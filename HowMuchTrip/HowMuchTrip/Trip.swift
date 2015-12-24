@@ -28,7 +28,7 @@ class Trip: PFObject, PFSubclassing
     /// The name of the destination location in "City, State (or Country)" format
     @NSManaged var destination: String
     /// A string with the user selected trip name
-    @NSManaged var tripName: String
+    @NSManaged var tripName: String?
     
     /// The date of the first day of the trip, uses 'Moments' Pod
     @NSManaged var dateFrom: String
