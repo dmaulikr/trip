@@ -129,6 +129,7 @@ class CreateTripTableViewController:
     
     func textFieldShouldReturn(textField: UITextField) -> Bool
     {
+        print("textFieldShouldReturn")
         var rc = false
         
         let (selectedTextField, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
@@ -155,7 +156,6 @@ class CreateTripTableViewController:
     
     func presentCalendar(textFieldTag: Int)
     {
-        print("textFieldDidBeginEditing")
 //        if textField == dateToTextField || textField == dateFromTextField && textField.isFirstResponder()
 //        {
 //            textField.resignFirstResponder()
@@ -480,16 +480,11 @@ class CreateTripTableViewController:
         print(trip.destinationLng, trip.destinationLat)
     }
     
-    func flashLabel(label: UILabel!)
-    {
-        
-    }
-    
     func didGoOverBudget()
     {
         promptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
         promptLabel.alpha = 0
-        shownTextField.backgroundColor = UIColor.redColor()
+        
         budgetRemainingLabel.textColor = UIColor.redColor()
         UIView.animateWithDuration(0.25, animations: { () -> Void in
             self.promptLabel.alpha = 1
@@ -499,8 +494,6 @@ class CreateTripTableViewController:
                 self.shownTextField.placeholder = self.shownTextField.text
                 self.shownTextField.text = ""
         })
-        
-//        NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "flashLabel: budgetRemainingLabel", userInfo: nil, repeats: true)
     }
     
     func clear()
@@ -516,16 +509,7 @@ class CreateTripTableViewController:
         dismissContextPopover(EditValueViewController)
         
         propertyDictionary.removeAll()
-//        pieChartView.hideWithFade(0.25)
-//        legendContainerView.hideWithFade(0.25)
-//        promptLabel.hideWithFade(0.25)
-//        
-//        dataSource.hideButtons(buttons)
-//        
-//        if budgetRemainingLabel.alpha != 0
-//        {
-//            budgetRemainingLabel.hideWithFade(0.25)
-//        }
+
         dataSource.initialSetup(self)
         
         let indexPath = NSIndexPath(forRow: 1, inSection: 0)
