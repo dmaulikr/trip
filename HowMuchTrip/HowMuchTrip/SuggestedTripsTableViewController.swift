@@ -22,7 +22,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         super.viewDidLoad()
         self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
 
-//        title = "Suggested"
+        title = "Suggested"
     }
     
     override func viewWillAppear(animated: Bool)
