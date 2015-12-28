@@ -30,7 +30,8 @@ class CreateTripDataSource
             superview.dailyLodgingTextField!,
             superview.dailyFoodTextField!,
             superview.dailyOtherTextField!,
-            superview.oneTimeCostTextField!
+            superview.oneTimeCostTextField!,
+            superview.tripNameTextField!
         ]
         
         superview.dateFromTextField.tag = 80
@@ -54,7 +55,8 @@ class CreateTripDataSource
             "destinationLat",
             "destinationLng",
             "departureLat",
-            "departureLng"
+            "departureLng",
+            "Name"
         ]
         
         superview.allProperties = allProperties
@@ -188,6 +190,8 @@ class CreateTripDataSource
             suffix = "Any other daily costs we should put in the books?"
         case 9:
             suffix = "Any one-time costs we should put down? (Show tickets, tour, etc)"
+        case 10:
+            suffix = "What should we call this trip?"
         default: print("no")
         }
         
@@ -464,6 +468,10 @@ class CreateTripDataSource
             {
                 return false
             }
+        }
+        else if textField == superview.tripNameTextField
+        {
+            invalidCharacters = NSCharacterSet(charactersInString: "")
         }
         else
         {

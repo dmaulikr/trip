@@ -18,15 +18,15 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     {
         super.viewDidLoad()
         self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
-//        title = "My Trips"
+        title = "My Trips"
 
-         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+        self.navigationItem.leftBarButtonItem = self.editButtonItem()
     }
     
     override func viewWillAppear(animated: Bool)
     {
-        //super.viewDidAppear(animated)
-        refreshList()
+        super.viewWillAppear(true)
+        
         if PFUser.currentUser() != nil
         {
             switch loggedInWith
@@ -39,10 +39,20 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 settingsVC.processUsernameData()
             default:
                 PFUser.logOut()
-//                tableView.reloadData()
             }
         }
+        
+        refreshList()
+        tableView.reloadData()
 
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        super.viewDidAppear(true)
+        refreshList()
+        tableView.reloadData()
+        
     }
 
     override func didReceiveMemoryWarning()
@@ -75,7 +85,16 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 
         let aTrip = trips[indexPath.row]
         
-        cell.destinationLabel.text = aTrip.destination
+        
+        if aTrip.tripName != nil
+        {
+            cell.destinationLabel.text = aTrip.tripName
+        }
+        else
+        {
+            cell.destinationLabel.text = aTrip.destination
+        }
+
         cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
 
         return cell
@@ -173,6 +192,15 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 
             }
             spinner.stopAnimating()
+        }
+        
+        if trips.count == 0
+        {
+            tableView.backgroundView = UIImageView(image: UIImage(named: "emptyState2"))
+        }
+        else
+        {
+            tableView.backgroundView = UIImageView(image: UIImage(named: "blank-background"))
         }
     }
     
