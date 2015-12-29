@@ -23,8 +23,8 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     var airportCities = [String]()
     var allAirports: NSArray!
     
-    var destinationAirportCode: String!
     var originAirportCode: String!
+    var destinationAirportCode: String!
     
     
     var airports: NSDictionary! {
@@ -168,13 +168,13 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
         let selectedAirportCode = airportCodes[indexPath.row]
-        if destinationAirportCode == nil || destinationAirportCode == ""
-        {
-            destinationAirportCode = selectedAirportCode
-        }
-        else if originAirportCode == nil || originAirportCode == ""
+        if originAirportCode == nil || originAirportCode == ""
         {
             originAirportCode = selectedAirportCode
+        }
+        else if destinationAirportCode == nil || destinationAirportCode == ""
+        {
+            destinationAirportCode = selectedAirportCode
         }
         else
         {
