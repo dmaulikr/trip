@@ -85,16 +85,17 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 
         let aTrip = trips[indexPath.row]
         
-        
         if aTrip.tripName != nil
         {
-            cell.destinationLabel.text = aTrip.tripName
+            cell.tripNameLabel.text = aTrip.tripName
         }
         else
         {
-            cell.destinationLabel.text = aTrip.destination
+            cell.tripNameLabel.text = aTrip.destination
         }
 
+//        cell.departureLocationLabel.text = aTrip.departureLocation
+        cell.destinationLabel.text = aTrip.destination
         cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
 
         return cell
