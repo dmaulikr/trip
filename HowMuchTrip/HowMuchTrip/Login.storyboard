@@ -274,6 +274,9 @@
                                         <exclude reference="k0e-Gf-5bk"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <action selector="loginWithTwitterTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yvK-vf-T5G"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQp-0E-HYD">
                                 <rect key="frame" x="392" y="402" width="148" height="44"/>
@@ -288,6 +291,9 @@
                                         <exclude reference="t99-Tw-4g8"/>
                                     </mask>
                                 </variation>
+                                <connections>
+                                    <action selector="loginWithFacebook:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4qE-e3-oJ5"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.16078431369999999" green="0.3294117647" blue="0.45098039220000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -325,6 +331,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="600" height="600"/>
                     <connections>
+                        <outlet property="passwordField" destination="YNV-W7-Mvt" id="Hhp-ic-KTN"/>
                         <outlet property="usernameField" destination="oB1-hm-Cn4" id="jrF-Jo-7x7"/>
                     </connections>
                 </viewController>
