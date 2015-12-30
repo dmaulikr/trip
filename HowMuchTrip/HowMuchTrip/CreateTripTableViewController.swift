@@ -174,16 +174,16 @@ class CreateTripTableViewController:
         {
             rc = true
             
-            if nextButton.enabled == true && nextButton.alpha == 1
-            {
-                nextButtonPressed(nextButton)
-            }
-            else
-            {
+//            if nextButton.enabled == true && nextButton.alpha == 1
+//            {
+//                nextButtonPressed(nextButton)
+//            }
+//            else
+//            {
                 nextButton.enabled = true
                 dataSource.appearButton(nextButton)
                 selectedTextField.resignFirstResponder()
-            }
+//            }
         }
         else
         {
