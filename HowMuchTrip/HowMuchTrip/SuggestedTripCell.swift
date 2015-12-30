@@ -11,10 +11,10 @@ import UIKit
 class SuggestedTripCell: UITableViewCell
 {
     @IBOutlet weak var tripNameLabel: UILabel!
-    @IBOutlet weak var departureLocationLabel: UILabel!
+//    @IBOutlet weak var departureLocationLabel: UILabel!
     @IBOutlet weak var destinationLabel: UILabel!
     @IBOutlet weak var budgetLabel: UILabel!
-//    @IBOutlet weak var locationImage: UIImageView!
+    @IBOutlet weak var destinationImageView: UIImageView!
 
     override func awakeFromNib()
     {

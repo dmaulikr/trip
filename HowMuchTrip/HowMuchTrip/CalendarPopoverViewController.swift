@@ -49,8 +49,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         confirmButton.alpha = 0
         
         setCalendarPrefs()
-        
-        monthLabel.text = ("\(moment().monthName) \(moment().year)")
+
         leftArrow.alpha = 0
         leftArrow.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
         
@@ -59,6 +58,12 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         
         confirmButton.setTitle(confirmation, forState: .Normal)
         cancelButton.setTitle(cancellation, forState: .Normal)
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        super.viewDidAppear(true)
+        monthLabel.text = ("\(moment().monthName) \(moment().year)")
     }
     
     @IBAction func confirmButtonPressed(sender: UIButton)
@@ -75,6 +80,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     {
         selectedDate = date
         confirmButton.appearWithFade(0.25)
+        monthLabel.text = ("\(moment().monthName) \(moment().year)")
     }
     
     func setCalendarPrefs()

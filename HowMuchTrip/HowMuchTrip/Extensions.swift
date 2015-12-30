@@ -31,6 +31,7 @@ extension Double
         let formatter = NSNumberFormatter()
         formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
         formatter.locale = NSLocale(localeIdentifier: "en_US")
+        formatter.maximumFractionDigits = 0
         let formattedNumber = formatter.stringFromNumber(self)
         
         return formattedNumber!
@@ -163,8 +164,10 @@ extension UIViewController
         
         controllerToAdd.view.center = CGPoint(x: center.x, y: center.y - 40)
         
-        controllerToAdd.view.layer.cornerRadius = height / 30
+        controllerToAdd.view.layer.cornerRadius = 4
         controllerToAdd.view.layer.masksToBounds = true
+        
+        controllerToAdd.view.alpha = 0
         
         self.view.addDimmedOverlayView()
         
@@ -172,7 +175,11 @@ extension UIViewController
             self.addChildViewController(controllerToAdd)
             self.view.addSubview(controllerToAdd.view)
             
-            controllerToAdd.view.appearWithFade(0.25)
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
+                controllerToAdd.view.alpha = 0.95
+                }, completion: nil)
+            
+            
             controllerToAdd.view.slideHorizontallyToOrigin(0.25, fromPointX: self.view.frame.size.width)
         }
     }

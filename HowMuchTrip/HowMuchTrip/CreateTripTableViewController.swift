@@ -22,12 +22,18 @@ class CreateTripTableViewController:
     UIPopoverPresentationControllerDelegate,
     DateWasChosenFromCalendarProtocol,
     CalculationFinishedDelegate,
-    MapsAPIResultsProtocol
+    MapsAPIResultsProtocol,
+    UIGestureRecognizerDelegate
 {
     
     // MARK: - Labels
     
     @IBOutlet weak var budgetRemainingLabel: UILabel!
+    @IBOutlet weak var budgetRemainingBottomLabel: UILabel!
+    
+    @IBOutlet weak var prefixPromptLabel: UILabel!
+    @IBOutlet weak var suffixPromptLabel: UILabel!
+    
     @IBOutlet weak var promptLabel: UILabel!
     @IBOutlet weak var saveTripButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
@@ -35,6 +41,8 @@ class CreateTripTableViewController:
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var contextButton: UIButton!
     @IBOutlet weak var contextButtonImg: UIImageView!
+    
+    var buttons = [UIButton!]()
     
     // MARK: - Text Fields
     
@@ -48,8 +56,10 @@ class CreateTripTableViewController:
     @IBOutlet weak var dailyFoodTextField: UITextField!
     @IBOutlet weak var dailyOtherTextField: UITextField!
     @IBOutlet weak var oneTimeCostTextField: UITextField!
-    
+
     @IBOutlet weak var tripNameTextField: UITextField!
+    
+    @IBOutlet weak var textFieldBGView: UIView!
     
     var shownTextField: UITextField!
     var textFields = [UITextField]()
@@ -57,23 +67,18 @@ class CreateTripTableViewController:
     
     // MARK: - Graph Properties
     
-    @IBOutlet weak var graphCell: UITableViewCell!
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var legendContainerView: UIView!
     
     var childViewControler: UIViewController?
     
     var contextPopover: UIViewController?
-//        {
-//        didSet {
-//            contextPopover!.view.appearWithFade(0.25)
-//            contextPopover!.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height)
-//        }
-//    }
     
     // MARK: - Other Properties
     var dataSource = CreateTripDataSource()
     var delegate: TripWasSavedDelegate?
+    
+    var indexOfTextField = 0
     
     var allProperties = [String]()
     var propertyDictionary = [String: String]()
@@ -82,8 +87,6 @@ class CreateTripTableViewController:
     var trips = [Trip]()
     
     var mapsAPIController: MapsAPIController?
-    
-    var buttons = [UIButton!]()
     
     var cycleCount = 0
     
@@ -106,7 +109,40 @@ class CreateTripTableViewController:
         dateFromTextField.tag = 80
         dateToTextField.tag = 81
         
+        let tapOutsideTextField = UITapGestureRecognizer(target: self, action: "dismissKeyboardUponTouch")
+        tapOutsideTextField.delegate = self
+        
+        tableView.addGestureRecognizer(tapOutsideTextField)
+//        pieChartView.addGestureRecognizer(tapOutsideTextField)
+        
         cycleToTextField(0)
+    }
+    
+    func dismissKeyboardUponTouch()
+    {
+        if shownTextField.isFirstResponder()
+        {
+            shownTextField.resignFirstResponder()
+        }
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
+    {
+        let legendView = self.childViewControllers[0] as! GraphLegendTableViewController
+        
+        let cells = legendView.tableView.visibleCells
+        
+        for cell in cells
+        {
+            let pointInView = touch.locationInView(cell.contentView)
+            
+            if CGRectContainsPoint(cell.frame, pointInView)
+            {
+                return false
+            }
+        }
+        
+        return true
     }
     
     override func viewWillAppear(animated: Bool)
@@ -129,52 +165,72 @@ class CreateTripTableViewController:
     
     func textFieldShouldReturn(textField: UITextField) -> Bool
     {
-        print("textFieldShouldReturn")
         var rc = false
         
         let (selectedTextField, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
+        self.indexOfTextField = indexOfTextField
         
-        if selectedTextField.text != ""
+        if shownTextField.text != ""
         {
             rc = true
-            selectedTextField.resignFirstResponder()
-            
-            let propertyKey = allProperties[indexOfTextField]
-            propertyDictionary[propertyKey] = selectedTextField.text
-            
-            checkForLocation(textField)
-            
-            let property = allProperties[indexOfTextField]
-            
-            calculate(true, property: property, value: selectedTextField.text!)
-            tableView.reloadData()
+//            
+//            if nextButton.enabled == true && nextButton.alpha == 1
+//            {
+//                nextButtonPressed(nextButton)
+//            }
+//            else
+//            {
+                nextButton.enabled = true
+                dataSource.appearButton(nextButton)
+                selectedTextField.resignFirstResponder()
+//            }
+        }
+        else
+        {
+            nextButton.enabled = false
+            dataSource.fadeButton(nextButton)
         }
         
-
         return rc
+    }
+    
+    func textFieldDidEndEditing(textField: UITextField)
+    {
+        let (_, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
+        self.indexOfTextField = indexOfTextField
+        
+        if shownTextField.text != ""
+        {
+            nextButton.enabled = true
+            dataSource.appearButton(nextButton)
+//            
+//            nextButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+//            nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:1)
+        }
+        else
+        {
+            nextButton.enabled = false
+            dataSource.fadeButton(nextButton)
+//            nextButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+//            nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
+        }
     }
     
     func presentCalendar(textFieldTag: Int)
     {
-//        if textField == dateToTextField || textField == dateFromTextField && textField.isFirstResponder()
-//        {
-//            textField.resignFirstResponder()
-        
-            if self.childViewControllers.count == 1
-            {
-                let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
-                let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
-                self.addContextPopover(contextPopover)
-                contextPopover.delegate = self
-                contextPopover.textFieldTag = textFieldTag
+        if self.childViewControllers.count == 1
+        {
+            let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
+            let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
+            self.addContextPopover(contextPopover)
+            contextPopover.delegate = self
+            contextPopover.textFieldTag = textFieldTag
 //                
 //                contextPopover.view.appearWithFade(0.25)
 //                contextPopover.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height / 2)
-                
-                self.contextPopover = contextPopover
-            }
-//        }
-
+            
+            self.contextPopover = contextPopover
+        }
         nextButton.enabled = true//textField.text?.characters.count > 0
     }
     
@@ -192,20 +248,41 @@ class CreateTripTableViewController:
                 
                 let nextTextField = self.textFields[indexOfTextField]
                 let originalY = nextTextField.frame.origin.y
+                
                 self.shownTextField = nextTextField
                 self.shownTextField.hidden = false
+                self.shownTextField.alpha = 0
                 self.shownTextField.text = ""
                 self.shownTextField.frame.origin.y = 100
+                self.textFieldBGView.frame.origin.y = 100
                 
-                self.promptLabel.alpha = 0
-                self.promptLabel.text = self.dataSource.getPromptLabelText(indexOfTextField, aTrip: self.trip)
+//                self.promptLabel.alpha = 0
+                
+                self.prefixPromptLabel.alpha = 0
+                self.suffixPromptLabel.alpha = 0
+                
+                let (prefix, suffix) = self.dataSource.getPromptLabelText(indexOfTextField, aTrip: self.trip)
+                
+                self.prefixPromptLabel.text = prefix
+                self.suffixPromptLabel.text = suffix
+                
+//                self.promptLabel.text = self.dataSource.getPromptLabelText(indexOfTextField, aTrip: self.trip)
                 
                 self.dataSource.manageButtons(self)
+                
+                self.dataSource.fadeButton(self.nextButton)
+//                
+//                self.nextButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+//                self.nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
                 
                 UIView.animateWithDuration(0.45, animations: { () -> Void in
                     self.shownTextField.frame.origin.y = originalY
                     self.shownTextField.alpha = 1
-                    self.promptLabel.alpha = 1
+                    
+                    self.prefixPromptLabel.alpha = 1
+                    self.suffixPromptLabel.alpha = 1
+                    
+//                    self.promptLabel.alpha = 1
                     
                     }, completion: { (_) -> Void in
                         if self.shownTextField.tag == 81
@@ -238,13 +315,31 @@ class CreateTripTableViewController:
     
     @IBAction func nextButtonPressed(sender: UIButton)
     {
-        textFieldShouldReturn(shownTextField)
+        if !dataSource.tripCreated
+        {
+//            textFieldShouldReturn(shownTextField)
+            print(indexOfTextField, allProperties.count)
+            let propertyKey = allProperties[indexOfTextField]
+            propertyDictionary[propertyKey] = shownTextField.text
+            
+            checkForLocation(shownTextField)
+            
+            let property = allProperties[indexOfTextField]
+            
+            calculate(true, property: property, value: shownTextField.text!)
+        }
+        else
+        {
+            saveTrip(trip)
+        }
     }
     
     @IBAction func backButtonPressed(sender: UIButton)
     {
         let previousTextFieldIndex = textFields.indexOf(shownTextField)! - 1
         self.cycleToTextField(previousTextFieldIndex)
+        
+        nextButton.setTitle("N E X T", forState: .Normal)
     }
     
     @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
@@ -419,18 +514,18 @@ class CreateTripTableViewController:
     
     //MARK: - Pie Graph Legend
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
-    {
-        if indexPath.row == 1 && !dataSource.calculateFinished  { return 0 }
-        else if indexPath.row == 1                              { return 440 }
-        else if indexPath.row == 0 && !dataSource.tripCreated   { return 180 }
-        else                                                    { return 0 }
-    }
-    
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-    {
-        return 2
-    }
+//    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+//    {
+//        if indexPath.row == 1 && !dataSource.calculateFinished  { return 0 }
+//        else if indexPath.row == 1                              { return 440 }
+//        else if indexPath.row == 0 && !dataSource.tripCreated   { return 180 }
+//        else                                                    { return 0 }
+//    }
+//    
+//    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+//    {
+//        return 2
+//    }
     
     // MARK: - Private Functions
     
@@ -445,14 +540,21 @@ class CreateTripTableViewController:
         
         print(cycle)
         
+        let lastBudget = trip.budgetRemaining
+        
         trip = calculator.assignValue(trip, propertyAndValue: [property : value])
         
-        budgetRemainingLabel.text = "Budget Remaining: $\(String(format: "%.2f", trip.budgetRemaining))"
-        budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
-        budgetRemainingLabel.appearWithFade(0.25)
-        
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.dataSource.buildGraphAndLegend(self.trip, superview: self)
+        if trip.budgetRemaining != lastBudget
+        {
+            budgetRemainingLabel.text = "$\(String(format: "%.2f", trip.budgetRemaining))"
+            budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
+            budgetRemainingLabel.appearWithFade(0.25)
+            
+            budgetRemainingBottomLabel.appearWithFade(0.25)
+            
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                self.dataSource.buildGraphAndLegend(self.trip, superview: self)
+            }
         }
 //        dataSource.buildGraphAndLegend(trip, superview: self)
     }
@@ -480,20 +582,30 @@ class CreateTripTableViewController:
         print(trip.destinationLng, trip.destinationLat)
     }
     
+    func flashLabel(label: UILabel!)
+    {
+        
+    }
+    
     func didGoOverBudget()
     {
-        promptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
-        promptLabel.alpha = 0
+        prefixPromptLabel.text = ""
+        suffixPromptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
+        suffixPromptLabel.alpha = 0
         
+        let viewColorBak = textFieldBGView.backgroundColor
+        textFieldBGView.backgroundColor = UIColor.redColor()
         budgetRemainingLabel.textColor = UIColor.redColor()
-        UIView.animateWithDuration(0.25, animations: { () -> Void in
-            self.promptLabel.alpha = 1
-            self.shownTextField.backgroundColor = UIColor.whiteColor()
+        UIView.animateWithDuration(0.45, animations: { () -> Void in
+            self.suffixPromptLabel.alpha = 1
+            self.textFieldBGView.backgroundColor = viewColorBak
             }, completion: { (_) -> Void in
                 self.shownTextField.becomeFirstResponder()
                 self.shownTextField.placeholder = self.shownTextField.text
                 self.shownTextField.text = ""
         })
+        
+//        NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "flashLabel: budgetRemainingLabel", userInfo: nil, repeats: true)
     }
     
     func clear()
@@ -509,11 +621,22 @@ class CreateTripTableViewController:
         dismissContextPopover(EditValueViewController)
         
         propertyDictionary.removeAll()
-
+        
+        nextButton.setTitle("N E X T", forState: .Normal)
+//        pieChartView.hideWithFade(0.25)
+//        legendContainerView.hideWithFade(0.25)
+//        promptLabel.hideWithFade(0.25)
+//        
+//        dataSource.hideButtons(buttons)
+//        
+//        if budgetRemainingLabel.alpha != 0
+//        {
+//            budgetRemainingLabel.hideWithFade(0.25)
+//        }
         dataSource.initialSetup(self)
         
-        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
-        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+//        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
+//        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         
         cycleToTextField(0)
         tableView.reloadData()
@@ -538,10 +661,15 @@ class CreateTripTableViewController:
     
     func createTripComplete()
     {
-        promptLabel.text = ""
+        prefixPromptLabel.text = ""
+        suffixPromptLabel.text = ""
+        
         budgetRemainingLabel.text = "Everything look good?"
         budgetRemainingLabel.alpha = 0
+        budgetRemainingBottomLabel.alpha = 0
         dataSource.tripCreated = true
+        
+        nextButton.setTitle("S A V E  T R I P", forState: .Normal)
         
         dataSource.hideButtons(buttons)
         

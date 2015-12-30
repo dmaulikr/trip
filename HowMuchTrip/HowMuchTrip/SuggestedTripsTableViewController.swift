@@ -22,7 +22,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         super.viewDidLoad()
         self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
 
-//        title = "Suggested"
+        title = "Suggested"
     }
     
     override func viewWillAppear(animated: Bool)
@@ -142,8 +142,16 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
 
         let aTrip = trips[indexPath.row]
         
-        cell.tripNameLabel.text = aTrip.tripName
-        cell.departureLocationLabel.text = aTrip.departureLocation
+        if aTrip.tripName != nil
+        {
+            cell.tripNameLabel.text = aTrip.tripName
+        }
+        else
+        {
+            cell.tripNameLabel.text = aTrip.destination
+        }
+        
+//        cell.departureLocationLabel.text = aTrip.departureLocation
         cell.destinationLabel.text = aTrip.destination
         cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
 
