@@ -62,7 +62,7 @@ class CreateTripDataSource
         superview.allProperties = allProperties
         
         let allButtons = [
-            superview.nextButton,
+//            superview.nextButton,
 //            superview.skipButton,
             superview.contextButton,
             superview.backButton
@@ -75,14 +75,21 @@ class CreateTripDataSource
             button.hidden = true
         }
         
+        let nextButton = superview.nextButton
+        
+        nextButton.enabled = false
+        nextButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+        nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
+        
         superview.contextButtonImg.image = nil
         
         let pieChartView = superview.pieChartView
         initialSetupPieChart(pieChartView)
         
         superview.budgetRemainingLabel.alpha = 0
-        superview.saveTripButton.alpha = 0
-        superview.saveTripButton.hidden = true
+        superview.budgetRemainingBottomLabel.alpha = 0
+//        superview.saveTripButton.alpha = 0
+//        superview.saveTripButton.hidden = true
     }
     
     func initialSetupPieChart(pieChartView: PieChartView)
@@ -96,18 +103,18 @@ class CreateTripDataSource
     
     // MARK: - Getters
     
-    func getPromptLabelText(indexOfTextField: Int, aTrip: Trip) -> String
+    func getPromptLabelText(indexOfTextField: Int, aTrip: Trip) -> (String, String)
     {
         var prefixes = [
             "Okay. ",
             "Alrighty. ",
             "Sounds good. ",
-            "Cool cool cool. ",
             "Awesome. ",
             "Great. ",
             "All right. ",
             "Fantastic. ",
-            "Perfect. "
+            "Perfect. ",
+            "Lookin' great so far."
         ]
         var suffix  : String!
         
@@ -121,10 +128,10 @@ class CreateTripDataSource
                 "Let's start: ",
                 "Let's kick it off: ",
                 "Square one: ",
-                "A journey of a thousand miles begins with a single budget. So ",
-                "Investment in travel is an investment in yourself. So "
+                "A journey of a thousand miles begins with a single budget.",
+                "Investment in travel is an investment in yourself."
             ]
-            suffix = "what's your budget for this trip?"
+            suffix = "What's your budget for this trip?"
         case 1:
             if aTrip.budgetTotal > 2000
             {
@@ -136,8 +143,6 @@ class CreateTripDataSource
             }
             
             suffix = "Where are you planning on going?"
-            
-            
             
         case 2:
             prefixes = [
@@ -196,9 +201,9 @@ class CreateTripDataSource
         }
         
         let index_rand = Int(arc4random() % UInt32(prefixes.count))
-        let promptLabelText = "\(prefixes[index_rand])\(suffix)"
+//        let promptLabelText = "\(prefixes[index_rand])\(suffix)"
         
-        return promptLabelText
+        return (prefixes[index_rand], suffix)
     }
     
     func getGraphValues(trip: Trip) -> [Double]
@@ -248,12 +253,12 @@ class CreateTripDataSource
 //            UIColor(red:0.77, green:0.77, blue:0.77, alpha:1.0)
 //        ]
         let colors = [
-            UIColor(red: 0.9, green: 0.29, blue: 0.29, alpha: 1),
-            UIColor(red: 0.07, green: 0.17, blue: 0.2, alpha: 1),
-            UIColor(red: 0.31, green: 0.65, blue: 0.85, alpha: 1),
-            UIColor(red: 0.27, green: 0.81, blue: 0.8, alpha: 1),
-            UIColor(red: 0, green: 0.41, blue: 0.55, alpha: 1),
-            UIColor(red: 0.64, green: 0.75, blue: 0.93, alpha: 1)
+            UIColor(red: 0, green: 0.41, blue: 0.55, alpha: 0.6),
+            UIColor(red: 0.5, green: 0.85, blue: 0.85, alpha: 1),
+            UIColor(red: 0.14, green: 0.75, blue: 0.73, alpha: 1),
+            UIColor(red: 0.41, green: 0.76, blue: 0.87, alpha: 1),
+            UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1),
+            UIColor(red: 0.87, green: 0.51, blue: 0.98, alpha: 1),
         ]
         
         return colors
@@ -396,6 +401,28 @@ class CreateTripDataSource
             }
             
         default: break;
+        }
+    }
+    
+    func fadeButton(button: UIButton)
+    {
+        button.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            button.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
+            }) { (_) -> Void in
+        }
+    }
+    
+    func appearButton(button: UIButton)
+    {
+//        UIView.animateWithDuration(0.25, animations: { () -> Void in
+//            button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+//            button.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:1)
+//            }, completion: nil)
+        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            button.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:1)
+            }) { (_) -> Void in
         }
     }
     
