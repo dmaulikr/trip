@@ -63,8 +63,27 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     {
         //Global variable that identifies how a user is logged in
         loggedInWith = "Username"
-        let username = self.usernameField.text
-        let password = self.passwordField.text
+        let username: String? = {
+            if let username = self.usernameField.text
+            {
+                return username
+            }
+            else
+            {
+                return nil
+            }
+        }()
+        
+        let password: String? = {
+            if let password = self.passwordField.text
+            {
+                return password
+            }
+            else
+            {
+                return nil
+            }
+        }()
         
         // Validate the text fields
         if username?.characters.count < 5
