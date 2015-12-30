@@ -21,7 +21,8 @@
     "departureLat": "28.538335",
     "departureLng": "-81.379236",
     "destinationLat": "33.748995",
-    "destinationLng": "-84.387982"
+    "destinationLng": "-84.387982",
+    "destinationImage": "atlanta"
   },
   {
     "budgetTotal": 600.0,
@@ -45,7 +46,9 @@
     "departureLat": "33.538652",
     "departureLng": "-112.185987",
     "destinationLat": "39.739236",
-    "destinationLng": "-104.990251"
+    "destinationLng": "-104.990251",
+    "destinationImage": "denver"
+
   },
     {
     "budgetTotal": 450.0,
@@ -69,7 +72,9 @@
     "departureLat": "44.953703",
     "departureLng": "-93.089958",
     "destinationLat": "42.886447",
-    "destinationLng": "-78.878369"
+    "destinationLng": "-78.878369",
+    "destinationImage": "hotel-room-service"
+
   },
     {
     "budgetTotal": 2400.0,
@@ -93,7 +98,9 @@
     "departureLat": "35.373292",
     "departureLng": "-119.018712",
     "destinationLat": "35.227087",
-    "destinationLng": "-80.843127"
+    "destinationLng": "-80.843127",
+    "destinationImage": "japan-fall-countryside"
+
   },
     {
     "budgetTotal": 390.0,
@@ -117,7 +124,9 @@
     "departureLat": "45.523062",
     "departureLng": "-122.676482",
     "destinationLat": "35.994033",
-    "destinationLng": "-78.898619"
+    "destinationLng": "-78.898619",
+    "destinationImage": "outside-cafe"
+
   },
     {
     "budgetTotal": 800.0,
@@ -141,7 +150,9 @@
     "departureLat": "32.776664",
     "departureLng": "-96.796988",
     "destinationLat": "32.840695",
-    "destinationLng": "-83.632402"
+    "destinationLng": "-83.632402",
+    "destinationImage": "waterfall"
+
   },
     {
     "budgetTotal": 550.0,
@@ -165,7 +176,9 @@
     "departureLat": "-12.046374",
     "departureLng": "-77.042793",
     "destinationLat": "40.868154",
-    "destinationLng": "-73.425676"
+    "destinationLng": "-73.425676",
+    "destinationImage": "fruit-market"
+
   },
     {
     "budgetTotal": 890.0,
@@ -189,7 +202,9 @@
     "departureLat": "32.755488",
     "departureLng": "-97.330766",
     "destinationLat": "39.933363",
-    "destinationLng": "32.859742"
+    "destinationLng": "32.859742",
+    "destinationImage": "turkey-hagio-sophia"
+
   },
     {
     "budgetTotal": 540.0,
@@ -213,7 +228,9 @@
     "departureLat": "37.639097",
     "departureLng": "-120.996878",
     "destinationLat": "35.443708",
-    "destinationLng": "139.638026"
+    "destinationLng": "139.638026",
+    "destinationImage": "japan-temple-2"
+
   },
     {
     "budgetTotal": 590.0,
@@ -237,7 +254,9 @@
     "departureLat": "43.038902",
     "departureLng": "-87.906474",
     "destinationLat": "19.432608",
-    "destinationLng": "-99.133208"
+    "destinationLng": "-99.133208",
+    "destinationImage": "mojito"
+
   },
     {
     "budgetTotal": 10000.0,
@@ -261,7 +280,9 @@
     "departureLat": "36.162664",
     "departureLng": "-86.781602",
     "destinationLat": "52.520007",
-    "destinationLng": "13.404954"
+    "destinationLng": "13.404954",
+    "destinationImage": "german-castle"
+
   },
     {
     "budgetTotal": 50.0,
@@ -285,7 +306,9 @@
     "departureLat": "39.103118",
     "departureLng": "-84.512020",
     "destinationLat": "39.103118",
-    "destinationLng": "-84.512020"
+    "destinationLng": "-84.512020",
+    "destinationImage": "cincinnati"
+
   }
 
 ]

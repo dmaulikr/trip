@@ -72,6 +72,9 @@ class Trip: PFObject, PFSubclassing
     /// Origin airport code from Sabre Dev JSON file 'airports'
     @NSManaged var originAirportCode: String
     
+    /// Image holder for destinationLocation
+    @NSManaged var destinationImage: String
+    
     /**
     Initializes the Trip class as a Parse subclass
      

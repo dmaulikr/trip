@@ -29,7 +29,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     {
         super.viewWillAppear(true)
         loadTrips()
-        trips.shuffleInPlace()
+//        trips.shuffleInPlace()
         if PFUser.currentUser() != nil
         {
             switch loggedInWith
@@ -98,6 +98,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         let totalLodgingCosts       = suggestedTrip["totalLodgingCosts"]    as? Double ?? 0.0
         let totalFoodCosts          = suggestedTrip["totalFoodCosts"]       as? Double ?? 0.0
         let totalOtherDailyCosts    = suggestedTrip["totalOtherDailyCosts"] as? Double ?? 0.0
+        let destinationImage        = suggestedTrip["destinationImage"]     as? String ?? ""
         
         let trip: Trip = {
     
@@ -118,6 +119,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             trip.totalLodgingCosts      = totalLodgingCosts
             trip.totalFoodCosts         = totalFoodCosts
             trip.totalOtherDailyCosts   = totalOtherDailyCosts
+            trip.destinationImage       = destinationImage
+            
             
             let calculator = Calculator(delegate: nil)
             (trip, _) = calculator.getTotals(trip)
@@ -154,6 +157,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
 //        cell.departureLocationLabel.text = aTrip.departureLocation
         cell.destinationLabel.text = aTrip.destination
         cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
+        cell.imageView!.image = UIImage(named: "\(aTrip.destinationImage)")
 
         return cell
     }
@@ -180,7 +184,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         // Fetch more objects from a web service, for example...
         
         // Simply adding an object to the data source for this example
-        trips.shuffleInPlace()
+        trips = trips.shuffle()
         
         self.tableView.reloadData()
         refreshControl.endRefreshing()
