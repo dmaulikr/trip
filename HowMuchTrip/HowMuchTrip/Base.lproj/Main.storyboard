@@ -126,7 +126,7 @@
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="125" sectionHeaderHeight="28" sectionFooterHeight="28" id="DmM-eU-a0Z">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="710"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.18039215689999999" green="0.43529411759999997" blue="0.55294117649999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" red="0.16557449102401733" green="0.43315419554710388" blue="0.55755734443664551" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TripCell" rowHeight="125" id="xGT-QX-v0T" customClass="TripCell" customModule="HowMuchTrip" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="92" width="400" height="125"/>
@@ -1103,6 +1103,6 @@
         <image name="suitcase_unselected" width="30" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KJn-LN-HrG"/>
+        <segue reference="9C2-E2-FLu"/>
     </inferredMetricsTieBreakers>
 </document>

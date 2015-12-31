@@ -114,9 +114,11 @@ class CreateTripTableViewController:
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
         setupDismissTapGesture()
-        
-        addDoneButtonOnKeyboard()
-        
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "initialCycle", userInfo: nil, repeats: false)
+    }
+    
+    func initialCycle()
+    {
         cycleToTextField(0)
     }
     
@@ -186,6 +188,16 @@ class CreateTripTableViewController:
     {
         nextButton.enabled = false
         dataSource.fadeButton(nextButton)
+    }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool
+    {
+        if textField.keyboardType != .Default
+        {
+            print("addDoneButton")
+            self.addDoneButtonOnKeyboard(self.shownTextField)
+        }
+        return true
     }
     
     func presentCalendar(textFieldTag: Int)
@@ -268,6 +280,7 @@ class CreateTripTableViewController:
                         else
                         {
                             self.shownTextField.becomeFirstResponder()
+                            
                         }
                 })
             })
@@ -321,7 +334,7 @@ class CreateTripTableViewController:
         nextButton.setTitle("N E X T", forState: .Normal)
     }
     
-    @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
+    @IBAction func clearButtonPressed(sender: UIBarButtonItem?)
     {
         clear()
     }
@@ -737,13 +750,17 @@ class CreateTripTableViewController:
         }
     }
     
-    func addDoneButtonOnKeyboard()
+    func addDoneButtonOnKeyboard(textField: UITextField!)
     {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
-        doneToolbar.barStyle = .Default
+        doneToolbar.barStyle = .Black
+        doneToolbar.backgroundColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
+        doneToolbar.translucent = true
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
         let done: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("doneButtonAction"))
+        done.tintColor = UIColor.whiteColor()
         
         var items: [UIBarButtonItem] = []
         items.append(flexSpace)
@@ -752,16 +769,12 @@ class CreateTripTableViewController:
         doneToolbar.items = items
         doneToolbar.sizeToFit()
         
-        // FIXME
-        //        self.textView.inputAccessoryView = doneToolbar
-        //        self.textField.inputAccessoryView = doneToolbar
-        
+        textField.inputAccessoryView = doneToolbar
     }
     
     func doneButtonAction()
     {
-        //        self.textViewDescription.resignFirstResponder()
-        //        self.textViewDescription.resignFirstResponder()
+        shownTextField.resignFirstResponder()
     }
 }
 
