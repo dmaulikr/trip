@@ -52,10 +52,10 @@ class CreateTripDataSource
             "Daily Food Cost",
             "Daily Other Cost",
             "One Time Cost",
-            "destinationLat",
-            "destinationLng",
-            "departureLat",
-            "departureLng",
+//            "destinationLat",
+//            "destinationLng",
+//            "departureLat",
+//            "departureLng",
             "Name"
         ]
         
@@ -76,21 +76,23 @@ class CreateTripDataSource
         }
         
         let nextButton = superview.nextButton
-        
         nextButton.enabled = false
-        nextButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-        nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
+        fadeButton(nextButton)
         
         superview.contextButtonImg.image = nil
         
         let pieChartView = superview.pieChartView
         initialSetupPieChart(pieChartView)
         
+        superview.legendContainerView.alpha = 0
+        
         superview.budgetRemainingLabel.alpha = 0
         superview.budgetRemainingBottomLabel.alpha = 0
 //        superview.saveTripButton.alpha = 0
 //        superview.saveTripButton.hidden = true
     }
+    
+    
     
     func initialSetupPieChart(pieChartView: PieChartView)
     {
@@ -408,7 +410,7 @@ class CreateTripDataSource
     {
         button.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
         UIView.animateWithDuration(0.25, animations: { () -> Void in
-            button.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
+            button.backgroundColor = UIColor(red:0.45, green:0.8, blue:0.898, alpha:0.3)
             }) { (_) -> Void in
         }
     }
@@ -421,7 +423,7 @@ class CreateTripDataSource
 //            }, completion: nil)
         button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         UIView.animateWithDuration(0.25, animations: { () -> Void in
-            button.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:1)
+            button.backgroundColor = UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
             }) { (_) -> Void in
         }
     }
