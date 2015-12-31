@@ -12,7 +12,12 @@ class TabBarController: UITabBarController
 {
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        tabBar.backgroundImage = UIImage(named: "background")
+        tabBar.contentMode = .Bottom
+        
+        tabBar.autoresizesSubviews = false
+        tabBar.clipsToBounds = true
         // Do any additional setup after loading the view.
     }
 

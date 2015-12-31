@@ -20,6 +20,9 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
+        tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
+        
         self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
         title = "My Trips"
 
@@ -176,6 +179,8 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     
     func tripWasSaved(savedTrip: Trip)
     {
+        refreshList()
+        navigationController?.popToRootViewControllerAnimated(true)
         goToTripDetail(savedTrip)
     }
     
@@ -200,7 +205,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
         
         let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
-        tripDetailVC.aTrip = selectedTrip
+        tripDetailVC.trip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
     
