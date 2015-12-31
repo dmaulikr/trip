@@ -46,6 +46,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             }
         }
 
+        view.appearWithFade(0.25)
+        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
     }
     
         

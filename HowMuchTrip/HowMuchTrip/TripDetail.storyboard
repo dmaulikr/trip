@@ -197,6 +197,7 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="400" height="800"/>
                     <connections>
+                        <outlet property="backgroundImageView" destination="Kgd-Fp-G4a" id="R1i-zm-uCk"/>
                         <outlet property="legendContainerView" destination="nlM-QV-aDf" id="Ntu-is-lia"/>
                         <outlet property="mapView" destination="Yqm-TO-FbA" id="6jq-ME-C2U"/>
                         <outlet property="pieChartView" destination="XS3-kg-apE" id="jBI-1m-mJq"/>

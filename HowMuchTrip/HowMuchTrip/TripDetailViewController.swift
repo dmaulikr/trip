@@ -19,6 +19,7 @@ class TripDetailViewController: UITableViewController
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var legendContainerView: UIView!
     @IBOutlet weak var pieChartView: PieChartView!
+    @IBOutlet weak var backgroundImageView: UIImageView!
 
     @IBOutlet weak var topLabel: UILabel!
     
@@ -30,6 +31,7 @@ class TripDetailViewController: UITableViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        backgroundImageView.alpha = 0
         dataSource.initialSetupPieChart(pieChartView)
 //        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
         
@@ -69,8 +71,17 @@ class TripDetailViewController: UITableViewController
         let index = NSIndexPath(forRow: 0, inSection: 0)
         tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
         setMap()
+        
         buildGraphAndLegend(aTrip, superview: self)
+        
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "delayedSetup", userInfo: nil, repeats: false)
+        
         tableView.reloadData()
+    }
+    
+    func delayedSetup()
+    {
+        backgroundImageView.appearWithFade(0.25)
     }
 
     func setMap()

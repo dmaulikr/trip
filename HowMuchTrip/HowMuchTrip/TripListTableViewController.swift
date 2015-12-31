@@ -45,6 +45,9 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             }
         }
         
+        view.appearWithFade(0.25)
+        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
+        
         refreshList()
         tableView.reloadData()
 

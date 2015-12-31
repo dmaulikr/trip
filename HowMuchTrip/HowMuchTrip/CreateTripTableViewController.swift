@@ -127,7 +127,6 @@ class CreateTripTableViewController:
         default:
             PFUser.logOut()
         }
-
     }
     
     // MARK: - UITextField Stuff
