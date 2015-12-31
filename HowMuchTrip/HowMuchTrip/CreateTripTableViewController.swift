@@ -94,6 +94,9 @@ class CreateTripTableViewController:
     {
         super.viewDidLoad()
         
+        self.addDoneButtonOnKeyboard()
+
+        
         if let delegate = navigationController?.viewControllers[0] as? SuggestedTripsTableViewController
         {
             self.delegate = delegate
@@ -737,5 +740,33 @@ class CreateTripTableViewController:
             return 600
         }
     }
+    
+    func addDoneButtonOnKeyboard()
+    {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
+        doneToolbar.barStyle = .Default
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        let done: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("doneButtonAction"))
+        
+        var items: [UIBarButtonItem] = []
+        items.append(flexSpace)
+        items.append(done)
+        
+        doneToolbar.items = items
+        doneToolbar.sizeToFit()
+        
+        // FIXME
+//        self.textView.inputAccessoryView = doneToolbar
+//        self.textField.inputAccessoryView = doneToolbar
+        
+    }
+    
+    func doneButtonAction()
+    {
+//        self.textViewDescription.resignFirstResponder()
+//        self.textViewDescription.resignFirstResponder()
+    }
+
 }
 
