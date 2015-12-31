@@ -20,6 +20,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     {
         super.viewDidLoad()
         
+        tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
+        
         refreshControl?.tintColor = UIColor.whiteColor()
         self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
 
@@ -179,7 +181,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
         
         let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
-        tripDetailVC.aTrip = selectedTrip
+        tripDetailVC.trip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
     

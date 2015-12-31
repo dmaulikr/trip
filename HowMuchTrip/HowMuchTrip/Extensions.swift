@@ -32,9 +32,14 @@ extension Double
         formatter.numberStyle = NSNumberFormatterStyle.CurrencyStyle
         formatter.locale = NSLocale(localeIdentifier: "en_US")
         formatter.maximumFractionDigits = 0
-        let formattedNumber = formatter.stringFromNumber(self)
-        
-        return formattedNumber!
+        if let formattedNumber = formatter.stringFromNumber(self)
+        {
+            return formattedNumber
+        }
+        else
+        {
+            return "N/A"
+        }
     }
 }
 

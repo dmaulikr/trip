@@ -663,27 +663,7 @@ class CreateTripTableViewController:
         shownTextField.alpha = 0
         shownTextField.hidden = true
         textFieldBGView.alpha = 0
-        
-//        dataSource.hideButtons(buttons)
-        
-//        UIView.animateWithDuration(1.0, animations: { () -> Void in
-//            let index = NSIndexPath(forRow: 0, inSection: 0)
-//            self.tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
-//            }) { (_) -> Void in
-//                
-////                self.saveTripButton.hidden = false
-////                self.saveTripButton.enabled = true
-////                self.saveTripButton.appearWithFade(0.25)
-////                self.saveTripButton.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
-//                
-//                self.budgetRemainingLabel.appearWithFade(0.25)
-////                self.budgetRemainingLabel.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
-//        }
-//        
-//        //        performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
-//        
-//        
-//        //        switch trip.budgetRemaining
+
     }
     
     // MARK: - Tap Gesture Recognizers

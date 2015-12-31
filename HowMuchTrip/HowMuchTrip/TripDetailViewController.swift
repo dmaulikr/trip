@@ -12,13 +12,15 @@ import Charts
 
 class TripDetailViewController: UITableViewController
 {
-    var aTrip: Trip!
+    var trip: Trip!
     let dataSource = CreateTripDataSource()
     var viewAppeared = false
     
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var legendContainerView: UIView!
     @IBOutlet weak var pieChartView: PieChartView!
+    @IBOutlet weak var budgetRemainingLabel: UILabel!
+    
     @IBOutlet weak var backgroundImageView: UIImageView!
 
     @IBOutlet weak var topLabel: UILabel!
@@ -35,13 +37,13 @@ class TripDetailViewController: UITableViewController
         dataSource.initialSetupPieChart(pieChartView)
 //        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
         
-        if aTrip.tripName != nil
+        if trip.tripName != nil
         {
-            topLabel.text = aTrip.tripName
+            topLabel.text = trip.tripName
         }
         else
         {
-            topLabel.text = aTrip.destination
+            topLabel.text = trip.destination
         }
     }
     
@@ -61,7 +63,7 @@ class TripDetailViewController: UITableViewController
     
     override func viewWillDisappear(animated: Bool)
     {
-        updateTrip(aTrip)
+        updateTrip(trip)
     }
     
     // MARK: - Initial View Setup
@@ -72,7 +74,7 @@ class TripDetailViewController: UITableViewController
         tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
         setMap()
         
-        buildGraphAndLegend(aTrip, superview: self)
+        buildGraphAndLegend(trip, superview: self)
         
         NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "delayedSetup", userInfo: nil, repeats: false)
         
@@ -90,10 +92,10 @@ class TripDetailViewController: UITableViewController
         var lat: Double!
         var lng: Double!
             
-        if aTrip.destinationLat != "" && aTrip.destinationLng != ""
+        if trip.destinationLat != "" && trip.destinationLng != ""
         {
-            lat = Double(aTrip.destinationLat)
-            lng = Double(aTrip.destinationLng)
+            lat = Double(trip.destinationLat)
+            lng = Double(trip.destinationLng)
         }
         else
         {
@@ -161,15 +163,17 @@ class TripDetailViewController: UITableViewController
     
     // MARK: - Build Graph
     
-    func buildGraphAndLegend(aTrip: Trip, superview: TripDetailViewController)
+    func buildGraphAndLegend(trip: Trip, superview: TripDetailViewController)
     {
-        let (values, dataPoints) = dataSource.getGraphValuesAndProperties(aTrip)
+        let (values, dataPoints) = dataSource.getGraphValuesAndProperties(trip)
         buildLegend(values, dataPoints: dataPoints, superview: superview)
         buildGraph(values, dataPoints: dataPoints, superview: superview)
     }
     
     private func buildGraph(values: [Double], dataPoints: [String], superview: TripDetailViewController)
     {
+        budgetRemainingLabel.text = trip.budgetRemaining.formatCostAsUSD()
+        
         var dataEntries = [ChartDataEntry]()
         
         for i in 0..<dataPoints.count
@@ -200,7 +204,7 @@ class TripDetailViewController: UITableViewController
             legendTableVC.dataPoints = dataPoints
             legendTableVC.values     = values
             legendTableVC.colors     = dataSource.getGraphColors()
-            legendTableVC.trip       = aTrip
+            legendTableVC.trip       = trip
             
 //            let tripListTableVC      = tabBarController?.viewControllers![1] as! TripListTableViewController
 //            legendTableVC.delegate   = tripListTableVC
@@ -224,7 +228,7 @@ class TripDetailViewController: UITableViewController
 //        calculator = Calculator(delegate: nil)
 //        calculator.assignValue(<#T##trip: Trip?##Trip?#>, propertyAndValue: <#T##[String : String]#>)
         
-        buildGraphAndLegend(aTrip, superview: self)
+        buildGraphAndLegend(trip, superview: self)
     }
     
 //    func getPropertyDict(trip: Trip) -> [String : String]
@@ -241,10 +245,10 @@ class TripDetailViewController: UITableViewController
 //    }
     
     
-    func updateTrip(aTrip: Trip)
+    func updateTrip(trip: Trip)
     {
-        aTrip.saveEventually()
-        aTrip.pinInBackground()
+        trip.saveEventually()
+        trip.pinInBackground()
     }
 }
 
