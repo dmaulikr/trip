@@ -52,10 +52,10 @@ class CreateTripDataSource
             "Daily Food Cost",
             "Daily Other Cost",
             "One Time Cost",
-            "destinationLat",
-            "destinationLng",
-            "departureLat",
-            "departureLng",
+//            "destinationLat",
+//            "destinationLng",
+//            "departureLat",
+//            "departureLng",
             "Name"
         ]
         
@@ -76,21 +76,23 @@ class CreateTripDataSource
         }
         
         let nextButton = superview.nextButton
-        
         nextButton.enabled = false
-        nextButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-        nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
+        fadeButton(nextButton)
         
         superview.contextButtonImg.image = nil
         
         let pieChartView = superview.pieChartView
         initialSetupPieChart(pieChartView)
         
+        superview.legendContainerView.alpha = 0
+        
         superview.budgetRemainingLabel.alpha = 0
         superview.budgetRemainingBottomLabel.alpha = 0
 //        superview.saveTripButton.alpha = 0
 //        superview.saveTripButton.hidden = true
     }
+    
+    
     
     func initialSetupPieChart(pieChartView: PieChartView)
     {

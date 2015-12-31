@@ -129,7 +129,7 @@ class CreateTripTableViewController:
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
     {
         let legendView = self.childViewControllers[0] as! GraphLegendTableViewController
-        
+        legendView.tableView.reloadData()
         let cells = legendView.tableView.visibleCells
         
         for cell in cells
@@ -214,6 +214,12 @@ class CreateTripTableViewController:
 //            nextButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
 //            nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
         }
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField)
+    {
+        nextButton.enabled = false
+        dataSource.fadeButton(nextButton)
     }
     
     func presentCalendar(textFieldTag: Int)
@@ -304,6 +310,7 @@ class CreateTripTableViewController:
         }
         else
         {
+            print("create trip complete")
             createTripComplete()
         }
         
@@ -317,6 +324,10 @@ class CreateTripTableViewController:
     {
         if !dataSource.tripCreated
         {
+            if shownTextField == tripNameTextField
+            {
+                nextButton.setTitle("S A V E  T R I P", forState: .Normal)
+            }
 //            textFieldShouldReturn(shownTextField)
             print(indexOfTextField, allProperties.count)
             let propertyKey = allProperties[indexOfTextField]
@@ -330,7 +341,8 @@ class CreateTripTableViewController:
         }
         else
         {
-            saveTrip(trip)
+            print("save button pressed")
+            saveButtonPressed(sender)
         }
     }
     
@@ -622,6 +634,7 @@ class CreateTripTableViewController:
         
         propertyDictionary.removeAll()
         
+        textFieldBGView.alpha = 1
         nextButton.setTitle("N E X T", forState: .Normal)
 //        pieChartView.hideWithFade(0.25)
 //        legendContainerView.hideWithFade(0.25)
@@ -661,36 +674,43 @@ class CreateTripTableViewController:
     
     func createTripComplete()
     {
-        prefixPromptLabel.text = ""
-        suffixPromptLabel.text = ""
+        prefixPromptLabel.text = "Perfect."
+        suffixPromptLabel.text = "Everything look good?"
         
-        budgetRemainingLabel.text = "Everything look good?"
-        budgetRemainingLabel.alpha = 0
-        budgetRemainingBottomLabel.alpha = 0
+//        budgetRemainingLabel.text = "Everything look good?"
+//        budgetRemainingLabel.alpha = 0
+//        budgetRemainingBottomLabel.alpha = 0
         dataSource.tripCreated = true
         
-        nextButton.setTitle("S A V E  T R I P", forState: .Normal)
-        
-        dataSource.hideButtons(buttons)
-        
-        UIView.animateWithDuration(1.0, animations: { () -> Void in
-            let index = NSIndexPath(forRow: 0, inSection: 0)
-            self.tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            self.nextButton.frame = self.textFieldBGView.frame
             }) { (_) -> Void in
-                
-                self.saveTripButton.hidden = false
-                self.saveTripButton.enabled = true
-                self.saveTripButton.appearWithFade(0.25)
-                self.saveTripButton.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
-                
-                self.budgetRemainingLabel.appearWithFade(0.25)
-                self.budgetRemainingLabel.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
         }
         
-        //        performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
+        shownTextField.alpha = 0
+        shownTextField.hidden = true
+        textFieldBGView.alpha = 0
         
+//        dataSource.hideButtons(buttons)
         
-        //        switch trip.budgetRemaining
+//        UIView.animateWithDuration(1.0, animations: { () -> Void in
+//            let index = NSIndexPath(forRow: 0, inSection: 0)
+//            self.tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
+//            }) { (_) -> Void in
+//                
+////                self.saveTripButton.hidden = false
+////                self.saveTripButton.enabled = true
+////                self.saveTripButton.appearWithFade(0.25)
+////                self.saveTripButton.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
+//                
+//                self.budgetRemainingLabel.appearWithFade(0.25)
+////                self.budgetRemainingLabel.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
+//        }
+//        
+//        //        performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
+//        
+//        
+//        //        switch trip.budgetRemaining
     }
     
 }
