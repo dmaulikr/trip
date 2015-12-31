@@ -303,6 +303,9 @@ class CreateTripTableViewController:
             print("save button pressed")
             saveButtonPressed(sender)
         }
+        
+        let index = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Top, animated: true)
     }
     
     @IBAction func backButtonPressed(sender: UIButton)
@@ -722,6 +725,18 @@ class CreateTripTableViewController:
 //        }
         
         return true
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        if view.frame.size.height > 600
+        {
+            return view.frame.size.height - 96
+        }
+        else
+        {
+            return 600
+        }
     }
 }
 

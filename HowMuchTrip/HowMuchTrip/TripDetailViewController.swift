@@ -31,7 +31,7 @@ class TripDetailViewController: UITableViewController
     {
         super.viewDidLoad()
         dataSource.initialSetupPieChart(pieChartView)
-        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
+//        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
         
         if aTrip.tripName != nil
         {
