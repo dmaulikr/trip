@@ -173,17 +173,9 @@ class CreateTripTableViewController:
         if shownTextField.text != ""
         {
             rc = true
-//            
-//            if nextButton.enabled == true && nextButton.alpha == 1
-//            {
-//                nextButtonPressed(nextButton)
-//            }
-//            else
-//            {
-                nextButton.enabled = true
-                dataSource.appearButton(nextButton)
-                selectedTextField.resignFirstResponder()
-//            }
+            nextButton.enabled = true
+            dataSource.appearButton(nextButton)
+            selectedTextField.resignFirstResponder()
         }
         else
         {
@@ -261,8 +253,6 @@ class CreateTripTableViewController:
                 self.shownTextField.text = ""
                 self.shownTextField.frame.origin.y = 100
                 self.textFieldBGView.frame.origin.y = 100
-                
-//                self.promptLabel.alpha = 0
                 
                 self.prefixPromptLabel.alpha = 0
                 self.suffixPromptLabel.alpha = 0
@@ -681,6 +671,10 @@ class CreateTripTableViewController:
 //        budgetRemainingLabel.alpha = 0
 //        budgetRemainingBottomLabel.alpha = 0
         dataSource.tripCreated = true
+        
+        nextButton.setTitle("S A V E  T R I P", forState: .Normal)
+        
+        dataSource.hideButtons(buttons)
         
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             self.nextButton.frame = self.textFieldBGView.frame
