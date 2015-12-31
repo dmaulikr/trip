@@ -15,9 +15,10 @@ class SignUpViewController: UIViewController
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
     
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
-        emailField.becomeFirstResponder()
+        usernameField.becomeFirstResponder()
     }
     
     override func didReceiveMemoryWarning() {
@@ -32,10 +33,19 @@ class SignUpViewController: UIViewController
         loggedInWith = "Username"
         let username = self.usernameField.text
         let password = self.passwordField.text
-        let email = self.emailField.text
+        
+        let email: String = {
+            if let email = emailField.text
+            {
+                return email.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+            }
+            else
+            {
+                return ""
+            }
+        }()
         
         //Eliminates any white spaces on the beginning or end of email entered
-        let finalEmail = email!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
         
         // Validate the text fields
         if username?.characters.count < 6
@@ -56,7 +66,7 @@ class SignUpViewController: UIViewController
             presentViewController(alert, animated: true, completion: nil)
             
         }
-        else if email?.characters.count < 5
+        else if email.characters.count < 5 && Validator.validate("email", string: email) //addition
         {
             //Verify that the email meets the minimum length requirements
             let alert = UIAlertController(title: "Invalid", message: "Please enter a valid email address", preferredStyle: .Alert)
@@ -76,7 +86,7 @@ class SignUpViewController: UIViewController
             //Create new entries in Parse for the user
             newUser.username = username
             newUser.password = password
-            newUser.email = finalEmail
+            newUser.email = email
             
             // Sign up the user asynchronously
             newUser.signUpInBackgroundWithBlock({ (succeed, error) -> Void in
@@ -94,7 +104,7 @@ class SignUpViewController: UIViewController
                     //Create the AlertController
                     let alert = UIAlertController(title: "Error", message: capitalized, preferredStyle: .Alert)
                     
-                    let confirmAction = UIAlertAction(title: "OK", style: .Default) {(action) in
+                    let confirmAction = UIAlertAction(title: "Okay", style: .Default) {(action) in
                         self.emailField.text = ""
                         self.usernameField.text = ""
                         self.passwordField.text = ""
@@ -107,8 +117,8 @@ class SignUpViewController: UIViewController
                 else
                 {
                     //Create AlertController to notify the user they have successfully signed up
-                    let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
-                    let confirmAction = UIAlertAction(title: "OK", style: .Default) {(action) in
+                    let alert = UIAlertController(title: "Success", message: "Signed up and logged in.", preferredStyle: .Alert)
+                    let confirmAction = UIAlertAction(title: "Okay", style: .Default) {(action) in
                         
                         //Dismiss the previous two VCs on the stack
                         self.presentingViewController!.presentingViewController!.dismissViewControllerAnimated(true, completion: {})

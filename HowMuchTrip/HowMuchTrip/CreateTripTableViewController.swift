@@ -109,40 +109,9 @@ class CreateTripTableViewController:
         dateFromTextField.tag = 80
         dateToTextField.tag = 81
         
-        let tapOutsideTextField = UITapGestureRecognizer(target: self, action: "dismissKeyboardUponTouch")
-        tapOutsideTextField.delegate = self
-        
-        tableView.addGestureRecognizer(tapOutsideTextField)
-//        pieChartView.addGestureRecognizer(tapOutsideTextField)
+        setupDismissTapGesture()
         
         cycleToTextField(0)
-    }
-    
-    func dismissKeyboardUponTouch()
-    {
-        if shownTextField.isFirstResponder()
-        {
-            shownTextField.resignFirstResponder()
-        }
-    }
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
-    {
-        let legendView = self.childViewControllers[0] as! GraphLegendTableViewController
-        legendView.tableView.reloadData()
-        let cells = legendView.tableView.visibleCells
-        
-        for cell in cells
-        {
-            let pointInView = touch.locationInView(cell.contentView)
-            
-            if CGRectContainsPoint(cell.frame, pointInView)
-            {
-                return false
-            }
-        }
-        
-        return true
     }
     
     override func viewWillAppear(animated: Bool)
@@ -422,28 +391,33 @@ class CreateTripTableViewController:
     
     func checkForLocation(textField: UITextField)
     {
-        if textField == destinationTextField
-        {
-            //DESTINATION
-            
-            if let term = destinationTextField.text
+        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+
+        dispatch_async(backgroundQueue) { () -> Void in
+            if textField == self.destinationTextField
             {
-                mapsAPIController = MapsAPIController(delegate: self)
-                destinationTextField.tag = 60
-                mapsAPIController?.searchGMapsFor(term, textFieldTag: destinationTextField.tag)
+                //DESTINATION
+                
+                if let term = self.destinationTextField.text
+                {
+                    self.mapsAPIController = MapsAPIController(delegate: self)
+                    self.destinationTextField.tag = 60
+                    self.mapsAPIController?.searchGMapsFor(term, textFieldTag: self.destinationTextField.tag)
+                }
+            }
+            else if textField == self.departureLocationTextField
+            {
+                //ORIGIN
+                
+                if let term = self.departureLocationTextField.text
+                {
+                    self.mapsAPIController = MapsAPIController(delegate: self)
+                    self.departureLocationTextField.tag = 61
+                    self.mapsAPIController?.searchGMapsFor(term, textFieldTag: self.departureLocationTextField.tag)
+                }
             }
         }
-        else if textField == departureLocationTextField
-        {
-            //ORIGIN
-            
-            if let term = departureLocationTextField.text
-            {
-                mapsAPIController = MapsAPIController(delegate: self)
-                departureLocationTextField.tag = 61
-                mapsAPIController?.searchGMapsFor(term, textFieldTag: departureLocationTextField.tag)
-            }
-        }
+
     }
     
     func didReceiveMapsAPIResults(results: NSDictionary, textFieldTag: Int)
@@ -707,5 +681,47 @@ class CreateTripTableViewController:
 //        //        switch trip.budgetRemaining
     }
     
+    // MARK: - Tap Gesture Recognizers
+    
+    func setupDismissTapGesture()
+    {
+        let tapOutsideTextField = UITapGestureRecognizer(target: self, action: "dismissKeyboardUponTouch")
+        tapOutsideTextField.delegate = self
+        
+        tableView.addGestureRecognizer(tapOutsideTextField)
+    }
+    
+    func dismissKeyboardUponTouch()
+    {
+        if shownTextField.isFirstResponder()
+        {
+            shownTextField.resignFirstResponder()
+        }
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
+    {
+        let legendView = self.childViewControllers[0] as! GraphLegendTableViewController
+        legendView.tableView.reloadData()
+        
+        let pointInView = touch.locationInView(legendView.tableView)
+        if CGRectContainsPoint(legendView.tableView.frame, pointInView)
+        {
+            return false
+        }
+        
+//        let cells = legendView.tableView.visibleCells
+//        for cell in cells
+//        {
+//            let pointInView = touch.locationInView(cell.contentView)
+//            
+//            if CGRectContainsPoint(cell.frame, pointInView)
+//            {
+//                return false
+//            }
+//        }
+        
+        return true
+    }
 }
 

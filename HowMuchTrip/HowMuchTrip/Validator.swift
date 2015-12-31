@@ -9,7 +9,7 @@
 import Foundation
 
 /// Class used to validate and format various text field entries.
-class Validator
+public class Validator
 {
     /**
      Function that validates various entries into text fields.
@@ -26,7 +26,7 @@ class Validator
      
      - Returns: True if 'string' passes the validation, false if the 'string' fails.
     */
-    func validate(var regEx: String, string: String) -> Bool
+    class func validate(var regEx: String, string: String) -> Bool
     {
         switch regEx
         {

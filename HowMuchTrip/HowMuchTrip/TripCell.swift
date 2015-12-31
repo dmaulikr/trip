@@ -16,15 +16,5 @@ class TripCell: UITableViewCell
     @IBOutlet weak var destinationLabel: UILabel!
     @IBOutlet weak var budgetLabel: UILabel!
     @IBOutlet weak var destinationImageView: UIImageView!
-
-    override func awakeFromNib()
-    {
-        super.awakeFromNib()
-    }
-
-    override func setSelected(selected: Bool, animated: Bool)
-    {
-        super.setSelected(selected, animated: animated)
-    }
-
+    @IBOutlet weak var overlayView: UIView!
 }
