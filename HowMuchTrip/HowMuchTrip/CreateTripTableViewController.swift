@@ -44,6 +44,8 @@ class CreateTripTableViewController:
     
     var buttons = [UIButton!]()
     
+    var pulseButtonTimer: NSTimer?
+    
     // MARK: - Text Fields
     
     @IBOutlet weak var budgetTextField: UITextField!
@@ -109,40 +111,11 @@ class CreateTripTableViewController:
         dateFromTextField.tag = 80
         dateToTextField.tag = 81
         
-        let tapOutsideTextField = UITapGestureRecognizer(target: self, action: "dismissKeyboardUponTouch")
-        tapOutsideTextField.delegate = self
+        tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
-        tableView.addGestureRecognizer(tapOutsideTextField)
-//        pieChartView.addGestureRecognizer(tapOutsideTextField)
+        setupDismissTapGesture()
         
         cycleToTextField(0)
-    }
-    
-    func dismissKeyboardUponTouch()
-    {
-        if shownTextField.isFirstResponder()
-        {
-            shownTextField.resignFirstResponder()
-        }
-    }
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
-    {
-        let legendView = self.childViewControllers[0] as! GraphLegendTableViewController
-        legendView.tableView.reloadData()
-        let cells = legendView.tableView.visibleCells
-        
-        for cell in cells
-        {
-            let pointInView = touch.locationInView(cell.contentView)
-            
-            if CGRectContainsPoint(cell.frame, pointInView)
-            {
-                return false
-            }
-        }
-        
-        return true
     }
     
     override func viewWillAppear(animated: Bool)
@@ -158,7 +131,6 @@ class CreateTripTableViewController:
         default:
             PFUser.logOut()
         }
-
     }
     
     // MARK: - UITextField Stuff
@@ -334,6 +306,9 @@ class CreateTripTableViewController:
             print("save button pressed")
             saveButtonPressed(sender)
         }
+        
+        let index = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Top, animated: true)
     }
     
     @IBAction func backButtonPressed(sender: UIButton)
@@ -422,28 +397,33 @@ class CreateTripTableViewController:
     
     func checkForLocation(textField: UITextField)
     {
-        if textField == destinationTextField
-        {
-            //DESTINATION
-            
-            if let term = destinationTextField.text
+        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+
+        dispatch_async(backgroundQueue) { () -> Void in
+            if textField == self.destinationTextField
             {
-                mapsAPIController = MapsAPIController(delegate: self)
-                destinationTextField.tag = 60
-                mapsAPIController?.searchGMapsFor(term, textFieldTag: destinationTextField.tag)
+                //DESTINATION
+                
+                if let term = self.destinationTextField.text
+                {
+                    self.mapsAPIController = MapsAPIController(delegate: self)
+                    self.destinationTextField.tag = 60
+                    self.mapsAPIController?.searchGMapsFor(term, textFieldTag: self.destinationTextField.tag)
+                }
+            }
+            else if textField == self.departureLocationTextField
+            {
+                //ORIGIN
+                
+                if let term = self.departureLocationTextField.text
+                {
+                    self.mapsAPIController = MapsAPIController(delegate: self)
+                    self.departureLocationTextField.tag = 61
+                    self.mapsAPIController?.searchGMapsFor(term, textFieldTag: self.departureLocationTextField.tag)
+                }
             }
         }
-        else if textField == departureLocationTextField
-        {
-            //ORIGIN
-            
-            if let term = departureLocationTextField.text
-            {
-                mapsAPIController = MapsAPIController(delegate: self)
-                departureLocationTextField.tag = 61
-                mapsAPIController?.searchGMapsFor(term, textFieldTag: departureLocationTextField.tag)
-            }
-        }
+
     }
     
     func didReceiveMapsAPIResults(results: NSDictionary, textFieldTag: Int)
@@ -673,39 +653,86 @@ class CreateTripTableViewController:
         dataSource.tripCreated = true
         
         nextButton.setTitle("S A V E  T R I P", forState: .Normal)
+        nextButton.appearWithFade(0.5)
+        nextButton.slideVerticallyToOrigin(0.5, fromPointY: nextButton.frame.size.height)
         
         dataSource.hideButtons(buttons)
-        
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.nextButton.frame = self.textFieldBGView.frame
-            }) { (_) -> Void in
-        }
         
         shownTextField.alpha = 0
         shownTextField.hidden = true
         textFieldBGView.alpha = 0
         
-//        dataSource.hideButtons(buttons)
+        if pulseButtonTimer != nil
+        {
+            pulseButtonTimer = nil
+        }
         
-//        UIView.animateWithDuration(1.0, animations: { () -> Void in
-//            let index = NSIndexPath(forRow: 0, inSection: 0)
-//            self.tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
-//            }) { (_) -> Void in
-//                
-////                self.saveTripButton.hidden = false
-////                self.saveTripButton.enabled = true
-////                self.saveTripButton.appearWithFade(0.25)
-////                self.saveTripButton.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
-//                
-//                self.budgetRemainingLabel.appearWithFade(0.25)
-////                self.budgetRemainingLabel.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
-//        }
-//        
-//        //        performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
-//        
-//        
-//        //        switch trip.budgetRemaining
+        pulseButtonTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseButton", userInfo: nil, repeats: true)
+        pulseButton()
     }
     
+    func pulseButton()
+    {
+        let nextColor: UIColor = {
+            if nextButton.tag == 999
+            {
+                nextButton.tag = 998
+                return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+            }
+            else
+            {
+                nextButton.tag = 999
+                return UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
+            }
+        }()
+        
+        UIView.animateWithDuration(1) { () -> Void in
+            self.nextButton.backgroundColor = nextColor
+        }
+    }
+    
+    // MARK: - Tap Gesture Recognizers
+    
+    func setupDismissTapGesture()
+    {
+        let tapOutsideTextField = UITapGestureRecognizer(target: self, action: "dismissKeyboardUponTouch")
+        tapOutsideTextField.delegate = self
+        
+        tableView.addGestureRecognizer(tapOutsideTextField)
+    }
+    
+    func dismissKeyboardUponTouch()
+    {
+        if shownTextField.isFirstResponder()
+        {
+            shownTextField.resignFirstResponder()
+        }
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
+    {
+        let legendView = self.childViewControllers[0] as! GraphLegendTableViewController
+        legendView.tableView.reloadData()
+        
+        let pointInView = touch.locationInView(legendView.tableView)
+        if CGRectContainsPoint(legendView.tableView.frame, pointInView)
+        {
+            return false
+        }
+        
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        if view.frame.size.height > 600
+        {
+            return view.frame.size.height - 96
+        }
+        else
+        {
+            return 600
+        }
+    }
 }
 

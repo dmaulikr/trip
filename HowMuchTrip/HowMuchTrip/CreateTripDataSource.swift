@@ -198,14 +198,22 @@ class CreateTripDataSource
         case 9:
             suffix = "Any one-time costs we should put down? (Show tickets, tour, etc)"
         case 10:
-            suffix = "What should we call this trip?"
+            suffix = "What should we name this trip?"
+            if aTrip.budgetRemaining > 100
+            {
+                prefixes = [
+                    "Nice!",
+                    "Great job!"
+                ]
+                suffix = "Looks like you've tallied everything and still have some breathing room. What should we name this trip?"
+            }
         default: print("no")
         }
         
-        let index_rand = Int(arc4random() % UInt32(prefixes.count))
+        let prefix = prefixes[Int(arc4random() % UInt32(prefixes.count))]
 //        let promptLabelText = "\(prefixes[index_rand])\(suffix)"
         
-        return (prefixes[index_rand], suffix)
+        return (prefix, suffix)
     }
     
     func getGraphValues(trip: Trip) -> [Double]
@@ -256,6 +264,7 @@ class CreateTripDataSource
 //        ]
         let colors = [
             UIColor(red: 0, green: 0.41, blue: 0.55, alpha: 0.6),
+//            UIColor(red: 1, green: 1, blue: 1, alpha: 0.2),
             UIColor(red: 0.5, green: 0.85, blue: 0.85, alpha: 1),
             UIColor(red: 0.14, green: 0.75, blue: 0.73, alpha: 1),
             UIColor(red: 0.41, green: 0.76, blue: 0.87, alpha: 1),

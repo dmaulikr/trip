@@ -60,8 +60,9 @@ class MapsAPIController
             {
                 if let resultsArr = results["results"] as? NSArray
                 {
-                    if results.count > 0, let result = resultsArr[0] as? NSDictionary
+                    if resultsArr.count > 0
                     {
+                        let result = resultsArr[0] as? NSDictionary ?? NSDictionary()
                         // Sends results back to the calling object via delegate
                         self.delegate!.didReceiveMapsAPIResults(result, textFieldTag: textFieldTag)
                     }

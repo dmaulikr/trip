@@ -38,7 +38,10 @@ class SettingsViewController: UIViewController
         userImage.layer.cornerRadius = userImage.frame.size.width / 2
         userImage.clipsToBounds = true
         userImage.layer.borderColor = UIColor.blackColor().CGColor
-        userImage.layer.borderWidth = 1
+        userImage.layer.borderWidth = 0.2
+        
+        view.appearWithFade(0.25)
+        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
         
         //If the user is not nil, run the switch statement below to determine how they logged in
         if PFUser.currentUser() != nil
