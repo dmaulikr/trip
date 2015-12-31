@@ -44,6 +44,8 @@ class CreateTripTableViewController:
     
     var buttons = [UIButton!]()
     
+    var pulseButtonTimer: NSTimer?
+    
     // MARK: - Text Fields
     
     @IBOutlet weak var budgetTextField: UITextField!
@@ -94,9 +96,6 @@ class CreateTripTableViewController:
     {
         super.viewDidLoad()
         
-        self.addDoneButtonOnKeyboard()
-
-        
         if let delegate = navigationController?.viewControllers[0] as? SuggestedTripsTableViewController
         {
             self.delegate = delegate
@@ -112,7 +111,11 @@ class CreateTripTableViewController:
         dateFromTextField.tag = 80
         dateToTextField.tag = 81
         
+        tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
+        
         setupDismissTapGesture()
+        
+        addDoneButtonOnKeyboard()
         
         cycleToTextField(0)
     }
@@ -652,18 +655,42 @@ class CreateTripTableViewController:
         dataSource.tripCreated = true
         
         nextButton.setTitle("S A V E  T R I P", forState: .Normal)
+        nextButton.appearWithFade(0.5)
+        nextButton.slideVerticallyToOrigin(0.5, fromPointY: nextButton.frame.size.height)
         
         dataSource.hideButtons(buttons)
-        
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
-            self.nextButton.frame = self.textFieldBGView.frame
-            }) { (_) -> Void in
-        }
         
         shownTextField.alpha = 0
         shownTextField.hidden = true
         textFieldBGView.alpha = 0
-
+        
+        if pulseButtonTimer != nil
+        {
+            pulseButtonTimer = nil
+        }
+        
+        pulseButtonTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseButton", userInfo: nil, repeats: true)
+        pulseButton()
+    }
+    
+    func pulseButton()
+    {
+        let nextColor: UIColor = {
+            if nextButton.tag == 999
+            {
+                nextButton.tag = 998
+                return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+            }
+            else
+            {
+                nextButton.tag = 999
+                return UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
+            }
+        }()
+        
+        UIView.animateWithDuration(1) { () -> Void in
+            self.nextButton.backgroundColor = nextColor
+        }
     }
     
     // MARK: - Tap Gesture Recognizers
@@ -694,17 +721,6 @@ class CreateTripTableViewController:
         {
             return false
         }
-        
-//        let cells = legendView.tableView.visibleCells
-//        for cell in cells
-//        {
-//            let pointInView = touch.locationInView(cell.contentView)
-//            
-//            if CGRectContainsPoint(cell.frame, pointInView)
-//            {
-//                return false
-//            }
-//        }
         
         return true
     }
@@ -737,16 +753,15 @@ class CreateTripTableViewController:
         doneToolbar.sizeToFit()
         
         // FIXME
-//        self.textView.inputAccessoryView = doneToolbar
-//        self.textField.inputAccessoryView = doneToolbar
+        //        self.textView.inputAccessoryView = doneToolbar
+        //        self.textField.inputAccessoryView = doneToolbar
         
     }
     
     func doneButtonAction()
     {
-//        self.textViewDescription.resignFirstResponder()
-//        self.textViewDescription.resignFirstResponder()
+        //        self.textViewDescription.resignFirstResponder()
+        //        self.textViewDescription.resignFirstResponder()
     }
-
 }
 

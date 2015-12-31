@@ -355,7 +355,7 @@
             <objects>
                 <tableViewController id="vB3-H4-gSE" customClass="GraphLegendTableViewController" customModule="HowMuchTrip" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="40" sectionHeaderHeight="28" sectionFooterHeight="28" id="xxF-nw-dWy">
-                        <rect key="frame" x="0.0" y="0.0" width="208" height="326"/>
+                        <rect key="frame" x="0.0" y="0.0" width="208" height="366"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -471,7 +471,7 @@
         <scene sceneID="aVf-ai-M0o">
             <objects>
                 <tableViewController id="C82-LT-sBx" customClass="CreateTripTableViewController" customModule="HowMuchTrip" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ooU-8V-9we">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" indicatorStyle="black" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ooU-8V-9we">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="710"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.1803921568627451" green="0.43529411764705883" blue="0.55294117647058827" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -486,7 +486,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="VkA-Dc-960">
-                                                    <rect key="frame" x="0.0" y="-55.5" width="400" height="711"/>
+                                                    <rect key="frame" x="0.0" y="-56" width="400" height="711"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="VkA-Dc-960" secondAttribute="height" multiplier="414:736" id="1pC-3L-2sJ"/>
                                                     </constraints>
@@ -530,8 +530,8 @@
                                                         <action selector="contextButtonPressed:" destination="C82-LT-sBx" eventType="touchUpInside" id="B0A-zT-8PV"/>
                                                     </connections>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3r5-gS-UH3">
-                                                    <rect key="frame" x="20" y="504" width="360" height="40"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3r5-gS-UH3">
+                                                    <rect key="frame" x="20" y="544" width="360" height="40"/>
                                                     <color key="backgroundColor" red="0.40784313725490196" green="0.75686274509803919" blue="0.87058823529411766" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="48" id="4Er-IA-B3x"/>
@@ -720,8 +720,8 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <containerView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="piM-EJ-Jdg">
-                                                    <rect key="frame" x="200" y="146" width="208" height="326"/>
+                                                <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="piM-EJ-Jdg">
+                                                    <rect key="frame" x="200" y="146" width="208" height="366"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="240" id="fsN-sv-wDP"/>
                                                     </constraints>
@@ -744,7 +744,7 @@
                                                             <nil key="highlightedColor"/>
                                                         </label>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="REMAINING" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P9m-i0-gkA">
-                                                            <rect key="frame" x="80" y="105" width="80" height="20"/>
+                                                            <rect key="frame" x="80" y="105" width="80" height="19.5"/>
                                                             <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
                                                             <color key="textColor" white="0.66666666666666663" alpha="0.5954617275280899" colorSpace="calibratedWhite"/>
                                                             <nil key="highlightedColor"/>
@@ -765,8 +765,8 @@
                                                         </mask>
                                                     </variation>
                                                 </view>
-                                                <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cXj-aK-rLm">
-                                                    <rect key="frame" x="20" y="456" width="360" height="40"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cXj-aK-rLm">
+                                                    <rect key="frame" x="20" y="496" width="360" height="40"/>
                                                     <color key="backgroundColor" red="0.40784313729999999" green="0.75686274509999996" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="e4H-Fz-RFS"/>
@@ -1103,6 +1103,6 @@
         <image name="suitcase_unselected" width="30" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="9C2-E2-FLu"/>
+        <segue reference="KJn-LN-HrG"/>
     </inferredMetricsTieBreakers>
 </document>

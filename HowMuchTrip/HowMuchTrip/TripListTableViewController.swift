@@ -14,8 +14,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     var trips = [Trip]()
     let settingsVC = SettingsViewController()
     
-    var flash = true
-    var flashTimer: NSTimer?
+    var pulseTimer: NSTimer?
 
     override func viewDidLoad()
     {
@@ -62,13 +61,14 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         refreshList()
         tableView.reloadData()
         
-        if flashTimer != nil
+        if pulseTimer != nil
         {
-            flashTimer = nil
+            pulseTimer = nil
         }
-        else if trips.count == 0 && flashTimer == nil
+        else if trips.count == 0 && pulseTimer == nil
         {
-            flashTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "flashAddButton", userInfo: nil, repeats: true)
+            pulseTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseAddButton", userInfo: nil, repeats: true)
+            pulseAddButton()
         }
     }
 
@@ -271,23 +271,25 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         refreshControl.endRefreshing()
     }
     
-    func flashAddButton()
+    func pulseAddButton()
     {
-        flash = !flash
+        let addButton = navigationItem.rightBarButtonItem!
         
-        let flashColor: UIColor = {
-            if flash
+        let pulseColor: UIColor = {
+            if addButton.tag == 1999
             {
-                return UIColor.whiteColor()
+                addButton.tag = 1998
+                return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
             }
             else
             {
-                return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+                addButton.tag = 1999
+                return UIColor.whiteColor()
             }
         }()
         
         UIView.animateWithDuration(1.0, animations: { () -> Void in
-            self.navigationItem.rightBarButtonItem?.tintColor = flashColor
+            self.navigationItem.rightBarButtonItem?.tintColor = pulseColor
             }, completion: nil)
     }
 }
