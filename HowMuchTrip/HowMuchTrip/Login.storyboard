@@ -331,6 +331,11 @@
                             <constraint firstItem="KwU-YM-WQ0" firstAttribute="height" secondItem="p5U-V5-jRO" secondAttribute="height" multiplier="0.5" id="yqM-ty-Il8"/>
                             <constraint firstItem="Oci-Rl-dxQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zjC-BX-35Y"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="WZr-OJ-2ig"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="u75-2O-26h"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
