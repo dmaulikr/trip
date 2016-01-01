@@ -55,7 +55,7 @@ class GraphLegendTableViewController:
         switch property
         {
         case "Budget Remaining"         :
-            shownProperty    = "Budget"
+            shownProperty    = "Budget Left"
         case "Plane Ticket"             :
             shownProperty    = "Transit"
         case "Total Lodging"            :
@@ -95,7 +95,7 @@ class GraphLegendTableViewController:
         switch property
         {
         case "Budget Remaining"         :
-            property    = "Budget"
+            property    = "Budget Left"
             value       = trip.budgetTotal
         case "Plane Ticket"             :
             property    = "Plane Ticket Cost"

@@ -270,7 +270,8 @@ class CreateTripDataSource
 //            UIColor(red:0.77, green:0.77, blue:0.77, alpha:1.0)
 //        ]
         let colors = [
-            UIColor(red: 0, green: 0.41, blue: 0.55, alpha: 0.6),
+//            UIColor(red: 0, green: 0.41, blue: 0.55, alpha: 0.6),
+            UIColor(red:0.028, green:0.275, blue:0.36, alpha: 1),
 //            UIColor(red: 1, green: 1, blue: 1, alpha: 0.2),
             UIColor(red: 0.5, green: 0.85, blue: 0.85, alpha: 1),
             UIColor(red: 0.14, green: 0.75, blue: 0.73, alpha: 1),
