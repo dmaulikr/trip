@@ -50,7 +50,26 @@ class GraphLegendTableViewController:
         let value     = values[indexPath.row]
         let color     = colors[indexPath.row]
         
-        cell.propertyLabel.text = property
+        var shownProperty: String!
+        
+        switch property
+        {
+        case "Budget Remaining"         :
+            shownProperty    = "Budget"
+        case "Plane Ticket"             :
+            shownProperty    = "Transit"
+        case "Total Lodging"            :
+            shownProperty    = "Lodging"
+        case "Total Daily Food Cost"    :
+            shownProperty    = "Food"
+        case "Total Daily Other Cost"   :
+            shownProperty    = "Daily Misc"
+        case "Total One Time Costs"     :
+            shownProperty    = "One-Time"
+        default: print(property)
+        }
+        
+        cell.propertyLabel.text = shownProperty
         cell.propertyCost.text  = value.formatCostAsUSD()
         cell.propertyColorView.backgroundColor = color
         

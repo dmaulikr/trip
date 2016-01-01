@@ -164,7 +164,8 @@ class CreateTripTableViewController:
         {
             nextButton.enabled = false
             dataSource.fadeButton(nextButton)
-            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "flashTextField", userInfo: nil, repeats: true)
+            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
+            pulseTextField()
         }
         
         return rc
@@ -557,7 +558,7 @@ class CreateTripTableViewController:
         
         if trip.budgetRemaining != lastBudget
         {
-            budgetRemainingLabel.text = "$\(String(format: "%.2f", trip.budgetRemaining))"
+            budgetRemainingLabel.text = trip.budgetRemaining.formatAsUSCurrency()
             budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
             budgetRemainingLabel.appearWithFade(0.25)
             
@@ -700,11 +701,12 @@ class CreateTripTableViewController:
 //        budgetRemainingBottomLabel.alpha = 0
         dataSource.tripCreated = true
         
+        dataSource.hideButtons(buttons)
+        
         nextButton.setTitle("S A V E  T R I P", forState: .Normal)
         nextButton.appearWithFade(0.5)
         nextButton.slideVerticallyToOrigin(0.5, fromPointY: nextButton.frame.size.height)
         
-        dataSource.hideButtons(buttons)
         
         shownTextField.alpha = 0
         shownTextField.hidden = true
@@ -717,6 +719,9 @@ class CreateTripTableViewController:
         
         pulseButtonTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseButton", userInfo: nil, repeats: true)
         pulseButton()
+        
+        let index = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
     }
     
     func pulseButton()
@@ -777,13 +782,13 @@ class CreateTripTableViewController:
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        if view.frame.size.height > 600
+        if view.frame.size.height > 540
         {
             return view.frame.size.height - 96
         }
         else
         {
-            return 600
+            return 540
         }
     }
     
