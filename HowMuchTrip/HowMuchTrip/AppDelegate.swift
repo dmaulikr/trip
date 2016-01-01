@@ -12,6 +12,8 @@ import Parse
 import ParseTwitterUtils
 import FBSDKCoreKit
 import ParseFacebookUtilsV4
+import Fabric
+import Crashlytics
 
 
 
@@ -22,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
+        Fabric.with([Crashlytics.self])
+
         // Override point for customization after application launch.
         
         // [Optional] Power your app with Local Datastore. For more info, go to
