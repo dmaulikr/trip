@@ -59,7 +59,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="How Much Trip?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pmd-QV-Ox9">
-                                <rect key="frame" x="112" y="124" width="175.5" height="33"/>
+                                <rect key="frame" x="112" y="124" width="176" height="33"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="24"/>
                                 <color key="textColor" red="0.35294117647058826" green="0.63921568627450975" blue="0.792156862745098" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -195,7 +195,7 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Need an account?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xs2-Am-qzk">
-                                        <rect key="frame" x="60" y="14" width="99.5" height="16.5"/>
+                                        <rect key="frame" x="60" y="14" width="100" height="17"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="FzX-0C-nh5"/>
                                             <constraint firstAttribute="width" constant="110" id="xhX-6k-OHX"/>
@@ -262,7 +262,7 @@
                                 </variation>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7MY-pP-vq2">
-                                <rect key="frame" x="40" y="403" width="147" height="44"/>
+                                <rect key="frame" x="40" y="403" width="156" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="4PH-4M-lDd"/>
                                     <constraint firstAttribute="width" constant="148" id="k0e-Gf-5bk"/>
@@ -279,7 +279,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQp-0E-HYD">
-                                <rect key="frame" x="213" y="403" width="147" height="44"/>
+                                <rect key="frame" x="204" y="403" width="156" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="148" id="SCD-d1-YQ7"/>
                                     <constraint firstAttribute="height" constant="44" id="t99-Tw-4g8"/>
@@ -300,6 +300,9 @@
                         <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailingMargin" secondItem="RXb-tc-tby" secondAttribute="trailing" id="0nt-6x-NL7"/>
+                            <constraint firstItem="7MY-pP-vq2" firstAttribute="height" secondItem="PQp-0E-HYD" secondAttribute="height" id="3ud-Sh-AhF"/>
+                            <constraint firstItem="PQp-0E-HYD" firstAttribute="width" secondItem="hZB-84-0zo" secondAttribute="width" multiplier="0.39" id="9tf-0X-Bgb"/>
+                            <constraint firstItem="7MY-pP-vq2" firstAttribute="width" secondItem="PQp-0E-HYD" secondAttribute="width" id="Bfv-He-t7F"/>
                             <constraint firstItem="RXb-tc-tby" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="BxL-4K-huk"/>
                             <constraint firstItem="p5U-V5-jRO" firstAttribute="centerX" secondItem="Pmd-QV-Ox9" secondAttribute="centerX" id="DZg-mu-oW9"/>
                             <constraint firstItem="Qjw-h3-WaI" firstAttribute="top" secondItem="KwU-YM-WQ0" secondAttribute="bottom" constant="8" id="EHA-s6-cBl"/>
@@ -321,6 +324,7 @@
                             <constraint firstItem="KwU-YM-WQ0" firstAttribute="width" secondItem="p5U-V5-jRO" secondAttribute="width" id="iv2-jy-HU1"/>
                             <constraint firstItem="p5U-V5-jRO" firstAttribute="top" secondItem="Pmd-QV-Ox9" secondAttribute="bottom" constant="40" id="nZh-Yw-FCm"/>
                             <constraint firstItem="Pmd-QV-Ox9" firstAttribute="top" secondItem="Oci-Rl-dxQ" secondAttribute="bottom" constant="4" id="oDy-hp-eBZ"/>
+                            <constraint firstItem="PQp-0E-HYD" firstAttribute="height" secondItem="KwU-YM-WQ0" secondAttribute="height" id="pqp-nf-XQZ"/>
                             <constraint firstItem="KwU-YM-WQ0" firstAttribute="top" secondItem="p5U-V5-jRO" secondAttribute="bottom" constant="16" id="tev-Tq-jwi"/>
                             <constraint firstItem="p5U-V5-jRO" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.8" id="tnq-gJ-axD"/>
                             <constraint firstItem="Qjw-h3-WaI" firstAttribute="centerX" secondItem="KwU-YM-WQ0" secondAttribute="centerX" id="www-8g-Ul2"/>
@@ -370,7 +374,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ruC-Zo-ObE">
-                                <rect key="frame" x="40" y="333" width="320" height="39.5"/>
+                                <rect key="frame" x="40" y="333" width="320" height="40"/>
                                 <color key="backgroundColor" red="0.41960784309999999" green="0.70196078429999997" blue="0.83137254900000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="12"/>
                                 <state key="normal" title="S I G N  U P">
@@ -393,15 +397,15 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZCN-0d-Nv1">
                                 <rect key="frame" x="40" y="197" width="320" height="120"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fy7-Hc-jhx">
-                                        <rect key="frame" x="8" y="0.0" width="304" height="39.5"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fy7-Hc-jhx">
+                                        <rect key="frame" x="8" y="-1" width="304" height="41"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                         <variation key="widthClass=compact" misplaced="YES">
                                             <rect key="frame" x="8" y="0.0" width="283" height="42"/>
                                         </variation>
                                     </textField>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQT-Fi-6Dd">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NQT-Fi-6Dd">
                                         <rect key="frame" x="0.0" y="38" width="320" height="1"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -422,7 +426,7 @@
                                         </variation>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TqU-cR-Vcm">
-                                        <rect key="frame" x="8" y="80" width="304" height="39.5"/>
+                                        <rect key="frame" x="8" y="80" width="304" height="40"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" secureTextEntry="YES"/>
                                         <variation key="widthClass=compact" misplaced="YES">
@@ -440,7 +444,7 @@
                                         </variation>
                                     </imageView>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OLC-ss-dPs">
-                                        <rect key="frame" x="8" y="40" width="304" height="39.5"/>
+                                        <rect key="frame" x="8" y="40" width="304" height="40"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                         <variation key="widthClass=compact" misplaced="YES">
@@ -448,7 +452,7 @@
                                         </variation>
                                     </textField>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lao-Pw-fYY">
-                                        <rect key="frame" x="0.0" y="78.5" width="320" height="1"/>
+                                        <rect key="frame" x="0.0" y="79" width="320" height="1"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="4Wc-wz-D0s"/>
@@ -575,7 +579,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reset Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O2i-3f-bgW">
-                                <rect key="frame" x="116" y="124" width="168.5" height="33"/>
+                                <rect key="frame" x="116" y="124" width="169" height="33"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="24"/>
                                 <color key="textColor" red="0.35294117650000001" green="0.63921568630000003" blue="0.79215686269999996" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -635,7 +639,7 @@
                                 </variation>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SOS-gu-g95">
-                                <rect key="frame" x="40" y="253" width="320" height="39.5"/>
+                                <rect key="frame" x="40" y="253" width="320" height="40"/>
                                 <color key="backgroundColor" red="0.41960784309999999" green="0.70196078429999997" blue="0.83137254900000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="12"/>
                                 <state key="normal" title="R E S E T  P A S S W O R D">
