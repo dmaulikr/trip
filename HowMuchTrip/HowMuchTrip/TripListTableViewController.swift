@@ -147,6 +147,8 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
         else
         {
+            self.navigationItem.leftBarButtonItem?.enabled = false
+
             cell.destinationImageView.image = UIImage(named: "notrips")
             cell.accessoryType = .None
             cell.overlayView.alpha = 0
@@ -157,7 +159,14 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
     {
-        return true
+        if trips.count != 0
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
     }
 
     // Override to support editing the table view.
