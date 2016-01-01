@@ -757,9 +757,17 @@ class CreateTripTableViewController:
         doneToolbar.backgroundColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
         doneToolbar.translucent = true
         
+        let confirmations = [
+            "Okay",
+            "All set",
+            "Looks good"
+        ]
+        let confirmation = confirmations[Int(arc4random() % 3)]
+        
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
-        let done: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("doneButtonAction"))
+        let done = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
+//        let done: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("doneButtonAction"))
         done.tintColor = UIColor.whiteColor()
         
         var items: [UIBarButtonItem] = []
