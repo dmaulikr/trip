@@ -23,7 +23,11 @@ class TripDetailViewController: UITableViewController
     
     @IBOutlet weak var backgroundImageView: UIImageView!
 
-    @IBOutlet weak var topLabel: UILabel!
+    @IBOutlet weak var tripNameLabel: UILabel!
+    @IBOutlet weak var tripDateLabel: UILabel!
+    @IBOutlet weak var tripDepartureAndDestinationLabel: UILabel!
+    @IBOutlet weak var tripDepatureTimeLabel: UILabel!
+    
     
     var calculator: Calculator!
     var propertyDictionary = [String : String]()
@@ -39,22 +43,12 @@ class TripDetailViewController: UITableViewController
         
         if trip.tripName != nil
         {
-            topLabel.text = trip.tripName
+            tripNameLabel.text = trip.tripName
         }
         else
         {
-            topLabel.text = trip.destination
+            tripNameLabel.text = trip.destination
         }
-        
-        setNavBarAttributes()
-    }
-    
-    func setNavBarAttributes()
-    {
-        navigationController?.navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
-        ]
     }
     
     override func viewWillAppear(animated: Bool)
