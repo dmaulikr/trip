@@ -707,7 +707,6 @@ class CreateTripTableViewController:
         nextButton.appearWithFade(0.5)
         nextButton.slideVerticallyToOrigin(0.5, fromPointY: nextButton.frame.size.height)
         
-        
         shownTextField.alpha = 0
         shownTextField.hidden = true
         textFieldBGView.alpha = 0
