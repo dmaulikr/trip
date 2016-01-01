@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import Charts
+import SwiftMoment
 
 class TripDetailViewController: UITableViewController
 {
@@ -49,6 +50,16 @@ class TripDetailViewController: UITableViewController
         {
             tripNameLabel.text = trip.destination
         }
+        
+        tripDepartureAndDestinationLabel.text = "\(trip.departureLocation) to \(trip.destination)"
+        
+        // FIXME: convert moment back to nsdate
+        let dateFrom = moment(trip.dateFrom, dateFormat: "MM/d/yy")
+        tripDateLabel.text = "\(dateFrom) - \(moment(trip.dateTo, dateFormat: "MM/d/yy"))"
+        print(trip.dateFrom)
+        print(dateFrom)
+        
+        tripDepatureTimeLabel.text = "Fix me"
     }
     
     override func viewWillAppear(animated: Bool)
