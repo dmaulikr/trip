@@ -27,12 +27,14 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         refreshControl?.layer.zPosition = self.tableView.backgroundView!.layer.zPosition + 1
 
         title = "Suggested Trips"
+        
+        loadTrips()
     }
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(true)
-        loadTrips()
+        
 //        trips.shuffleInPlace()
         if PFUser.currentUser() != nil
         {
