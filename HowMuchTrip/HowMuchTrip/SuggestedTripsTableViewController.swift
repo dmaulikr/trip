@@ -23,9 +23,10 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
         refreshControl?.tintColor = UIColor.whiteColor()
-        self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.layer.zPosition = self.tableView.backgroundView!.layer.zPosition + 1
 
-        title = "Suggested"
+        title = "Suggested Trips"
     }
     
     override func viewWillAppear(animated: Bool)

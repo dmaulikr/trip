@@ -62,7 +62,7 @@ class CreateTripDataSource
         superview.allProperties = allProperties
         
         let allButtons = [
-//            superview.nextButton,
+            superview.nextButton,
 //            superview.skipButton,
             superview.contextButton,
             superview.backButton
@@ -88,6 +88,12 @@ class CreateTripDataSource
         
         superview.budgetRemainingLabel.alpha = 0
         superview.budgetRemainingBottomLabel.alpha = 0
+        
+        superview.prefixPromptLabel.text = ""
+        superview.suffixPromptLabel.text = ""
+        
+        superview.textFieldBGView.alpha = 0
+        
 //        superview.saveTripButton.alpha = 0
 //        superview.saveTripButton.hidden = true
     }

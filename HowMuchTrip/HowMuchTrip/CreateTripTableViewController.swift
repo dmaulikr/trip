@@ -114,12 +114,22 @@ class CreateTripTableViewController:
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
         setupDismissTapGesture()
+        setNavBarAttributes()
         NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "initialCycle", userInfo: nil, repeats: false)
+    }
+    
+    func setNavBarAttributes()
+    {
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+        ]
     }
     
     func initialCycle()
     {
         cycleToTextField(0)
+        textFieldBGView.appearWithFade(0.25)
     }
     
     override func viewWillAppear(animated: Bool)
@@ -152,6 +162,9 @@ class CreateTripTableViewController:
             nextButton.enabled = true
             dataSource.appearButton(nextButton)
             selectedTextField.resignFirstResponder()
+            
+            let index = NSIndexPath(forRow: 0, inSection: 0)
+            tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
         }
         else
         {
@@ -586,8 +599,13 @@ class CreateTripTableViewController:
     
     func didGoOverBudget()
     {
-        prefixPromptLabel.text = ""
-        suffixPromptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
+        let prefixes = [
+            "Whoa there.",
+            "One sec.",
+            "Hold up."
+        ]
+        prefixPromptLabel.text = prefixes[Int(arc4random() % UInt32(prefixes.count))]
+        suffixPromptLabel.text = "Might have to plan a little smaller; looks like we're over budget."
         suffixPromptLabel.alpha = 0
         
         let viewColorBak = textFieldBGView.backgroundColor
@@ -601,8 +619,6 @@ class CreateTripTableViewController:
                 self.shownTextField.placeholder = self.shownTextField.text
                 self.shownTextField.text = ""
         })
-        
-//        NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "flashLabel: budgetRemainingLabel", userInfo: nil, repeats: true)
     }
     
     func clear()
@@ -753,9 +769,9 @@ class CreateTripTableViewController:
     func addDoneButtonOnKeyboard(textField: UITextField!)
     {
         let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
-        doneToolbar.barStyle = .Black
-        doneToolbar.backgroundColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
-        doneToolbar.translucent = true
+//        doneToolbar.barStyle = .Black
+        doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
+        doneToolbar.translucent = false
         
         let confirmations = [
             "Okay",
@@ -766,15 +782,10 @@ class CreateTripTableViewController:
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
-        let done = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
-//        let done: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: Selector("doneButtonAction"))
-        done.tintColor = UIColor.whiteColor()
+        let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
+        doneButton.tintColor = UIColor.whiteColor()
         
-        var items: [UIBarButtonItem] = []
-        items.append(flexSpace)
-        items.append(done)
-        
-        doneToolbar.items = items
+        doneToolbar.items = [flexSpace, doneButton]
         doneToolbar.sizeToFit()
         
         textField.inputAccessoryView = doneToolbar
@@ -782,7 +793,7 @@ class CreateTripTableViewController:
     
     func doneButtonAction()
     {
-        shownTextField.resignFirstResponder()
+        textFieldShouldReturn(shownTextField)
     }
 }
 

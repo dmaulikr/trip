@@ -22,10 +22,22 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
-        self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.tintColor = UIColor.whiteColor()
+        refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.layer.zPosition = self.tableView.backgroundView!.layer.zPosition + 1
         title = "My Trips"
+        
+        setNavBarAttributes()
 
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+    }
+    
+    func setNavBarAttributes()
+    {
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+        ]
     }
     
     override func viewWillAppear(animated: Bool)

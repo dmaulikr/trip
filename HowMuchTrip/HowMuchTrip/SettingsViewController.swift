@@ -24,6 +24,16 @@ class SettingsViewController: UIViewController
     {
         super.viewDidLoad()
         title = "Settings"
+        
+        setNavBarAttributes()
+    }
+    
+    func setNavBarAttributes()
+    {
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+        ]
     }
     
     override func didReceiveMemoryWarning()
