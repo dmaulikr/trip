@@ -130,14 +130,15 @@ class CreateTripDataSource
         {
         case 0:
             prefixes = [
-                "First of all, ",
-                "Let's get started: ",
-                "To begin with, ",
-                "Let's start: ",
-                "Let's kick it off: ",
-                "Square one: ",
+                "First of all;",
+                "Let's get started:",
+                "To begin with;",
+                "Let's start:",
+                "Let's kick it off:",
+                "Square one:",
                 "A journey of a thousand miles begins with a single budget.",
-                "Investment in travel is an investment in yourself."
+                "Investment in travel is an investment in yourself.",
+                "Let's begin."
             ]
             suffix = "What's your budget for this trip?"
         case 1:

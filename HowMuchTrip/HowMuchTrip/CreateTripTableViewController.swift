@@ -91,6 +91,8 @@ class CreateTripTableViewController:
     var mapsAPIController: MapsAPIController?
     
     var cycleCount = 0
+    var flashCount = 0
+    var flashTimer: NSTimer?
     
     override func viewDidLoad()
     {
@@ -114,21 +116,13 @@ class CreateTripTableViewController:
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
         setupDismissTapGesture()
-        setNavBarAttributes()
         NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "initialCycle", userInfo: nil, repeats: false)
-    }
-    
-    func setNavBarAttributes()
-    {
-        navigationController?.navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
-        ]
     }
     
     func initialCycle()
     {
         cycleToTextField(0)
+        textFieldBGView.alpha = 0
         textFieldBGView.appearWithFade(0.25)
     }
     
@@ -170,6 +164,7 @@ class CreateTripTableViewController:
         {
             nextButton.enabled = false
             dataSource.fadeButton(nextButton)
+            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "flashTextField", userInfo: nil, repeats: true)
         }
         
         return rc
@@ -333,6 +328,12 @@ class CreateTripTableViewController:
         {
             print("save button pressed")
             saveButtonPressed(sender)
+        }
+        
+        if flashTimer != nil
+        {
+            flashTimer = nil
+            textFieldBGView.backgroundColor = UIColor.whiteColor()
         }
         
         let index = NSIndexPath(forRow: 0, inSection: 0)
@@ -608,17 +609,17 @@ class CreateTripTableViewController:
         suffixPromptLabel.text = "Might have to plan a little smaller; looks like we're over budget."
         suffixPromptLabel.alpha = 0
         
-        let viewColorBak = textFieldBGView.backgroundColor
-        textFieldBGView.backgroundColor = UIColor.redColor()
         budgetRemainingLabel.textColor = UIColor.redColor()
         UIView.animateWithDuration(0.45, animations: { () -> Void in
             self.suffixPromptLabel.alpha = 1
-            self.textFieldBGView.backgroundColor = viewColorBak
             }, completion: { (_) -> Void in
                 self.shownTextField.becomeFirstResponder()
                 self.shownTextField.placeholder = self.shownTextField.text
                 self.shownTextField.text = ""
         })
+        
+        flashTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
+        pulseTextField()
     }
     
     func clear()
@@ -637,6 +638,21 @@ class CreateTripTableViewController:
         
         textFieldBGView.alpha = 1
         nextButton.setTitle("N E X T", forState: .Normal)
+        
+        if flashTimer != nil
+        {
+            flashTimer?.invalidate()
+            flashTimer = nil
+            textFieldBGView.backgroundColor = UIColor.whiteColor()
+        }
+        
+        if pulseButtonTimer != nil
+        {
+            pulseButtonTimer?.invalidate()
+            pulseButtonTimer = nil
+            nextButton.backgroundColor = UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
+        }
+        
 //        pieChartView.hideWithFade(0.25)
 //        legendContainerView.hideWithFade(0.25)
 //        promptLabel.hideWithFade(0.25)
@@ -652,7 +668,8 @@ class CreateTripTableViewController:
 //        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
 //        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         
-        cycleToTextField(0)
+        initialCycle()
+        
         tableView.reloadData()
     }
     
@@ -704,21 +721,25 @@ class CreateTripTableViewController:
     
     func pulseButton()
     {
-        let nextColor: UIColor = {
-            if nextButton.tag == 999
-            {
-                nextButton.tag = 998
-                return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+        //david fix this
+        if pulseButtonTimer != nil
+        {
+            let nextColor: UIColor = {
+                if nextButton.tag == 999
+                {
+                    nextButton.tag = 998
+                    return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+                }
+                else
+                {
+                    nextButton.tag = 999
+                    return UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
+                }
+            }()
+            
+            UIView.animateWithDuration(1) { () -> Void in
+                self.nextButton.backgroundColor = nextColor
             }
-            else
-            {
-                nextButton.tag = 999
-                return UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
-            }
-        }()
-        
-        UIView.animateWithDuration(1) { () -> Void in
-            self.nextButton.backgroundColor = nextColor
         }
     }
     
@@ -794,6 +815,29 @@ class CreateTripTableViewController:
     func doneButtonAction()
     {
         textFieldShouldReturn(shownTextField)
+    }
+    
+    func pulseTextField()
+    {
+        if flashTimer != nil
+        {
+            let nextColor: UIColor = {
+            if textFieldBGView.tag == 2999
+            {
+                textFieldBGView.tag = 2998
+                return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+            }
+            else
+            {
+                textFieldBGView.tag = 2999
+                return UIColor.whiteColor()
+            }
+            }()
+            
+            UIView.animateWithDuration(1) { () -> Void in
+                self.textFieldBGView.backgroundColor = nextColor
+            }
+        }
     }
 }
 

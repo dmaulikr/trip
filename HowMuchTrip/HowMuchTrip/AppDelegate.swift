@@ -48,6 +48,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
             NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
         ]
         
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().backgroundColor = UIColor.blackColor()
+        
         UIBarButtonItem.appearance()
             .setTitleTextAttributes(UINavigationBar.appearance().titleTextAttributes, forState: .Normal)
         

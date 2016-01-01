@@ -212,7 +212,6 @@
 				9A75AC5D1C1F54B700258473 /* Validator.swift */,
 				630B3B4C1C1F283C006F12D2 /* disclosure.png */,
 				9A8518C91C1E0632001046EA /* suggestedTrips.json */,
-				9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */,
 				9A8518C21C1DEF98001046EA /* Reachability.swift */,
 				63AE246C1C1E651B001ECCE9 /* Extensions.swift */,
 				9ADAAAC21C19C26100D26F79 /* Assets.xcassets */,
@@ -258,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				63E80D481C35D6930080D4C5 /* TabBarController.swift */,
+				9ADAAAB91C19C26100D26F79 /* AppDelegate.swift */,
 				63A70FCB1C29C2E4003FCB53 /* ContextPopovers */,
 				9AF548011C2488D100C8E7CE /* Storyboards */,
 				FE7F792A1C1F25E4001C6C14 /* Login ViewControllers */,
