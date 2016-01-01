@@ -44,6 +44,8 @@ class CreateTripTableViewController:
     
     var buttons = [UIButton!]()
     
+    var pulseButtonTimer: NSTimer?
+    
     // MARK: - Text Fields
     
     @IBOutlet weak var budgetTextField: UITextField!
@@ -89,6 +91,8 @@ class CreateTripTableViewController:
     var mapsAPIController: MapsAPIController?
     
     var cycleCount = 0
+    var flashCount = 0
+    var flashTimer: NSTimer?
     
     override func viewDidLoad()
     {
@@ -109,40 +113,17 @@ class CreateTripTableViewController:
         dateFromTextField.tag = 80
         dateToTextField.tag = 81
         
-        let tapOutsideTextField = UITapGestureRecognizer(target: self, action: "dismissKeyboardUponTouch")
-        tapOutsideTextField.delegate = self
+        tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
-        tableView.addGestureRecognizer(tapOutsideTextField)
-//        pieChartView.addGestureRecognizer(tapOutsideTextField)
-        
+        setupDismissTapGesture()
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "initialCycle", userInfo: nil, repeats: false)
+    }
+    
+    func initialCycle()
+    {
         cycleToTextField(0)
-    }
-    
-    func dismissKeyboardUponTouch()
-    {
-        if shownTextField.isFirstResponder()
-        {
-            shownTextField.resignFirstResponder()
-        }
-    }
-    
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
-    {
-        let legendView = self.childViewControllers[0] as! GraphLegendTableViewController
-        
-        let cells = legendView.tableView.visibleCells
-        
-        for cell in cells
-        {
-            let pointInView = touch.locationInView(cell.contentView)
-            
-            if CGRectContainsPoint(cell.frame, pointInView)
-            {
-                return false
-            }
-        }
-        
-        return true
+        textFieldBGView.alpha = 0
+        textFieldBGView.appearWithFade(0.25)
     }
     
     override func viewWillAppear(animated: Bool)
@@ -158,7 +139,6 @@ class CreateTripTableViewController:
         default:
             PFUser.logOut()
         }
-
     }
     
     // MARK: - UITextField Stuff
@@ -173,22 +153,18 @@ class CreateTripTableViewController:
         if shownTextField.text != ""
         {
             rc = true
+            nextButton.enabled = true
+            dataSource.appearButton(nextButton)
+            selectedTextField.resignFirstResponder()
             
-//            if nextButton.enabled == true && nextButton.alpha == 1
-//            {
-//                nextButtonPressed(nextButton)
-//            }
-//            else
-//            {
-                nextButton.enabled = true
-                dataSource.appearButton(nextButton)
-                selectedTextField.resignFirstResponder()
-//            }
+            let index = NSIndexPath(forRow: 0, inSection: 0)
+            tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
         }
         else
         {
             nextButton.enabled = false
             dataSource.fadeButton(nextButton)
+            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "flashTextField", userInfo: nil, repeats: true)
         }
         
         return rc
@@ -214,6 +190,22 @@ class CreateTripTableViewController:
 //            nextButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
 //            nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
         }
+    }
+    
+    func textFieldDidBeginEditing(textField: UITextField)
+    {
+        nextButton.enabled = false
+        dataSource.fadeButton(nextButton)
+    }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool
+    {
+        if textField.keyboardType != .Default
+        {
+            print("addDoneButton")
+            self.addDoneButtonOnKeyboard(self.shownTextField)
+        }
+        return true
     }
     
     func presentCalendar(textFieldTag: Int)
@@ -256,8 +248,6 @@ class CreateTripTableViewController:
                 self.shownTextField.frame.origin.y = 100
                 self.textFieldBGView.frame.origin.y = 100
                 
-//                self.promptLabel.alpha = 0
-                
                 self.prefixPromptLabel.alpha = 0
                 self.suffixPromptLabel.alpha = 0
                 
@@ -298,12 +288,14 @@ class CreateTripTableViewController:
                         else
                         {
                             self.shownTextField.becomeFirstResponder()
+                            
                         }
                 })
             })
         }
         else
         {
+            print("create trip complete")
             createTripComplete()
         }
         
@@ -317,6 +309,10 @@ class CreateTripTableViewController:
     {
         if !dataSource.tripCreated
         {
+            if shownTextField == tripNameTextField
+            {
+                nextButton.setTitle("S A V E  T R I P", forState: .Normal)
+            }
 //            textFieldShouldReturn(shownTextField)
             print(indexOfTextField, allProperties.count)
             let propertyKey = allProperties[indexOfTextField]
@@ -330,8 +326,18 @@ class CreateTripTableViewController:
         }
         else
         {
-            saveTrip(trip)
+            print("save button pressed")
+            saveButtonPressed(sender)
         }
+        
+        if flashTimer != nil
+        {
+            flashTimer = nil
+            textFieldBGView.backgroundColor = UIColor.whiteColor()
+        }
+        
+        let index = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Top, animated: true)
     }
     
     @IBAction func backButtonPressed(sender: UIButton)
@@ -342,7 +348,7 @@ class CreateTripTableViewController:
         nextButton.setTitle("N E X T", forState: .Normal)
     }
     
-    @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
+    @IBAction func clearButtonPressed(sender: UIBarButtonItem?)
     {
         clear()
     }
@@ -420,28 +426,33 @@ class CreateTripTableViewController:
     
     func checkForLocation(textField: UITextField)
     {
-        if textField == destinationTextField
-        {
-            //DESTINATION
-            
-            if let term = destinationTextField.text
+        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+
+        dispatch_async(backgroundQueue) { () -> Void in
+            if textField == self.destinationTextField
             {
-                mapsAPIController = MapsAPIController(delegate: self)
-                destinationTextField.tag = 60
-                mapsAPIController?.searchGMapsFor(term, textFieldTag: destinationTextField.tag)
+                //DESTINATION
+                
+                if let term = self.destinationTextField.text
+                {
+                    self.mapsAPIController = MapsAPIController(delegate: self)
+                    self.destinationTextField.tag = 60
+                    self.mapsAPIController?.searchGMapsFor(term, textFieldTag: self.destinationTextField.tag)
+                }
+            }
+            else if textField == self.departureLocationTextField
+            {
+                //ORIGIN
+                
+                if let term = self.departureLocationTextField.text
+                {
+                    self.mapsAPIController = MapsAPIController(delegate: self)
+                    self.departureLocationTextField.tag = 61
+                    self.mapsAPIController?.searchGMapsFor(term, textFieldTag: self.departureLocationTextField.tag)
+                }
             }
         }
-        else if textField == departureLocationTextField
-        {
-            //ORIGIN
-            
-            if let term = departureLocationTextField.text
-            {
-                mapsAPIController = MapsAPIController(delegate: self)
-                departureLocationTextField.tag = 61
-                mapsAPIController?.searchGMapsFor(term, textFieldTag: departureLocationTextField.tag)
-            }
-        }
+
     }
     
     func didReceiveMapsAPIResults(results: NSDictionary, textFieldTag: Int)
@@ -589,23 +600,26 @@ class CreateTripTableViewController:
     
     func didGoOverBudget()
     {
-        prefixPromptLabel.text = ""
-        suffixPromptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
+        let prefixes = [
+            "Whoa there.",
+            "One sec.",
+            "Hold up."
+        ]
+        prefixPromptLabel.text = prefixes[Int(arc4random() % UInt32(prefixes.count))]
+        suffixPromptLabel.text = "Might have to plan a little smaller; looks like we're over budget."
         suffixPromptLabel.alpha = 0
         
-        let viewColorBak = textFieldBGView.backgroundColor
-        textFieldBGView.backgroundColor = UIColor.redColor()
         budgetRemainingLabel.textColor = UIColor.redColor()
         UIView.animateWithDuration(0.45, animations: { () -> Void in
             self.suffixPromptLabel.alpha = 1
-            self.textFieldBGView.backgroundColor = viewColorBak
             }, completion: { (_) -> Void in
                 self.shownTextField.becomeFirstResponder()
                 self.shownTextField.placeholder = self.shownTextField.text
                 self.shownTextField.text = ""
         })
         
-//        NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "flashLabel: budgetRemainingLabel", userInfo: nil, repeats: true)
+        flashTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
+        pulseTextField()
     }
     
     func clear()
@@ -622,7 +636,23 @@ class CreateTripTableViewController:
         
         propertyDictionary.removeAll()
         
+        textFieldBGView.alpha = 1
         nextButton.setTitle("N E X T", forState: .Normal)
+        
+        if flashTimer != nil
+        {
+            flashTimer?.invalidate()
+            flashTimer = nil
+            textFieldBGView.backgroundColor = UIColor.whiteColor()
+        }
+        
+        if pulseButtonTimer != nil
+        {
+            pulseButtonTimer?.invalidate()
+            pulseButtonTimer = nil
+            nextButton.backgroundColor = UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
+        }
+        
 //        pieChartView.hideWithFade(0.25)
 //        legendContainerView.hideWithFade(0.25)
 //        promptLabel.hideWithFade(0.25)
@@ -638,7 +668,8 @@ class CreateTripTableViewController:
 //        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
 //        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         
-        cycleToTextField(0)
+        initialCycle()
+        
         tableView.reloadData()
     }
     
@@ -661,35 +692,152 @@ class CreateTripTableViewController:
     
     func createTripComplete()
     {
-        promptLabel.text = ""
-        budgetRemainingLabel.text = "Everything look good?"
-        budgetRemainingLabel.alpha = 0
-        budgetRemainingBottomLabel.alpha = 0
+        prefixPromptLabel.text = "Perfect."
+        suffixPromptLabel.text = "Everything look good?"
+        
+//        budgetRemainingLabel.text = "Everything look good?"
+//        budgetRemainingLabel.alpha = 0
+//        budgetRemainingBottomLabel.alpha = 0
         dataSource.tripCreated = true
         
         nextButton.setTitle("S A V E  T R I P", forState: .Normal)
+        nextButton.appearWithFade(0.5)
+        nextButton.slideVerticallyToOrigin(0.5, fromPointY: nextButton.frame.size.height)
         
         dataSource.hideButtons(buttons)
         
-        UIView.animateWithDuration(1.0, animations: { () -> Void in
-            let index = NSIndexPath(forRow: 0, inSection: 0)
-            self.tableView.reloadRowsAtIndexPaths([index], withRowAnimation: .Automatic)
-            }) { (_) -> Void in
-                
-                self.saveTripButton.hidden = false
-                self.saveTripButton.enabled = true
-                self.saveTripButton.appearWithFade(0.25)
-                self.saveTripButton.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
-                
-                self.budgetRemainingLabel.appearWithFade(0.25)
-                self.budgetRemainingLabel.slideVerticallyToOrigin(0.45, fromPointY: self.saveTripButton.frame.height)
+        shownTextField.alpha = 0
+        shownTextField.hidden = true
+        textFieldBGView.alpha = 0
+        
+        if pulseButtonTimer != nil
+        {
+            pulseButtonTimer = nil
         }
         
-        //        performSegueWithIdentifier(<#T##identifier: String##String#>, sender: <#T##AnyObject?#>)
-        
-        
-        //        switch trip.budgetRemaining
+        pulseButtonTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseButton", userInfo: nil, repeats: true)
+        pulseButton()
     }
     
+    func pulseButton()
+    {
+        //david fix this
+        if pulseButtonTimer != nil
+        {
+            let nextColor: UIColor = {
+                if nextButton.tag == 999
+                {
+                    nextButton.tag = 998
+                    return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+                }
+                else
+                {
+                    nextButton.tag = 999
+                    return UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
+                }
+            }()
+            
+            UIView.animateWithDuration(1) { () -> Void in
+                self.nextButton.backgroundColor = nextColor
+            }
+        }
+    }
+    
+    // MARK: - Tap Gesture Recognizers
+    
+    func setupDismissTapGesture()
+    {
+        let tapOutsideTextField = UITapGestureRecognizer(target: self, action: "dismissKeyboardUponTouch")
+        tapOutsideTextField.delegate = self
+        
+        tableView.addGestureRecognizer(tapOutsideTextField)
+    }
+    
+    func dismissKeyboardUponTouch()
+    {
+        if shownTextField.isFirstResponder()
+        {
+            shownTextField.resignFirstResponder()
+        }
+    }
+    
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool
+    {
+        let legendView = self.childViewControllers[0] as! GraphLegendTableViewController
+        legendView.tableView.reloadData()
+        
+        let pointInView = touch.locationInView(legendView.tableView)
+        if CGRectContainsPoint(legendView.tableView.frame, pointInView)
+        {
+            return false
+        }
+        
+        return true
+    }
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        if view.frame.size.height > 600
+        {
+            return view.frame.size.height - 96
+        }
+        else
+        {
+            return 600
+        }
+    }
+    
+    func addDoneButtonOnKeyboard(textField: UITextField!)
+    {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
+//        doneToolbar.barStyle = .Black
+        doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
+        doneToolbar.translucent = false
+        
+        let confirmations = [
+            "Okay",
+            "All set",
+            "Looks good"
+        ]
+        let confirmation = confirmations[Int(arc4random() % 3)]
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
+        let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
+        doneButton.tintColor = UIColor.whiteColor()
+        
+        doneToolbar.items = [flexSpace, doneButton]
+        doneToolbar.sizeToFit()
+        
+        textField.inputAccessoryView = doneToolbar
+    }
+    
+    func doneButtonAction()
+    {
+        textFieldShouldReturn(shownTextField)
+    }
+    
+    func pulseTextField()
+    {
+        if flashTimer != nil
+        {
+            let nextColor: UIColor = {
+            if textFieldBGView.tag == 2999
+            {
+                textFieldBGView.tag = 2998
+                return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+            }
+            else
+            {
+                textFieldBGView.tag = 2999
+                return UIColor.whiteColor()
+            }
+            }()
+            
+            UIView.animateWithDuration(1) { () -> Void in
+                self.textFieldBGView.backgroundColor = nextColor
+            }
+        }
+    }
 }
 

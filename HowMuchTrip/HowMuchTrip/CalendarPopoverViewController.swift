@@ -63,6 +63,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(true)
+
         monthLabel.text = ("\(moment().monthName) \(moment().year)")
     }
     

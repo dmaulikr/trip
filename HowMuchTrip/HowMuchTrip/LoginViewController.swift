@@ -16,7 +16,7 @@ var name = ""
 //Global variable that helps identify how a user is logged in
 var loggedInWith = ""
 
-class LoginViewController: UIViewController, UITextFieldDelegate
+class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWasSentProtocol
 {
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var passwordField: UITextField!
@@ -34,7 +34,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     }
 
     //If the X button is tapped on ResetPasswordVC or SignUpVC the user will return to LoginVC
-    @IBAction func unwindToLogInScreen(segue:UIStoryboardSegue){
+    @IBAction func unwindToLogInScreen(segue:UIStoryboardSegue) {
     }
     
     //If user presses return in the usernameField, cursor will move to the passwordField, then resign if return is tapped again
@@ -63,27 +63,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate
     {
         //Global variable that identifies how a user is logged in
         loggedInWith = "Username"
-        let username: String? = {
-            if let username = self.usernameField.text
-            {
-                return username
-            }
-            else
-            {
-                return nil
-            }
-        }()
-        
-        let password: String? = {
-            if let password = self.passwordField.text
-            {
-                return password
-            }
-            else
-            {
-                return nil
-            }
-        }()
+        let username = self.usernameField.text
+        let password = self.passwordField.text
         
         // Validate the text fields
         if username?.characters.count < 5
@@ -210,5 +191,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate
                 print("The user cancelled the Facebook login.")
             }
         }
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
+    {
+        if let resetPasswordVC = segue.destinationViewController as? ResetPasswordViewController
+        {
+            resetPasswordVC.delegate = self
+        }
+    }
+    
+    func resetRequestWasSent()
+    {
+        dismissViewControllerAnimated(true, completion: nil)
     }
 }

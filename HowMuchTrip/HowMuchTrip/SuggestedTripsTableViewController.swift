@@ -14,15 +14,19 @@ var userLocale = "en_US"
 class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDelegate
 {
     var trips = [Trip]()
-    var userDefinedBudget = 1000.0
     let settingsVC = SettingsViewController()
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        
+        tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
+        
+        refreshControl?.tintColor = UIColor.whiteColor()
+        refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.layer.zPosition = self.tableView.backgroundView!.layer.zPosition + 1
 
-        title = "Suggested"
+        title = "Suggested Trips"
     }
     
     override func viewWillAppear(animated: Bool)
@@ -45,6 +49,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             }
         }
 
+        view.appearWithFade(0.25)
+        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
     }
     
         
@@ -157,7 +163,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
 //        cell.departureLocationLabel.text = aTrip.departureLocation
         cell.destinationLabel.text = aTrip.destination
         cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
-        cell.imageView!.image = UIImage(named: "\(aTrip.destinationImage)")
+        cell.destinationImageView.image = UIImage(named: "\(aTrip.destinationImage)")
+//        cell.destinationImageView.addDimmedOverlayView()
 
         return cell
     }
@@ -175,7 +182,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
         
         let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
-        tripDetailVC.aTrip = selectedTrip
+        tripDetailVC.trip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
     

@@ -39,11 +39,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
         
-        window?.tintColor = UIColor(red:1, green:0.578, blue:0, alpha:1)
+        window?.tintColor = UIColor(red: 0.45, green: 0.8, blue: 0.9, alpha: 1)
+
+        UITabBar.appearance().translucent = true
         
+        UINavigationBar.appearance().titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+        ]
+        
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().backgroundColor = UIColor.blackColor()
+        
+        UIBarButtonItem.appearance()
+            .setTitleTextAttributes(UINavigationBar.appearance().titleTextAttributes, forState: .Normal)
+        
+//        window?.navigationController?.navigationBar.titleTextAttributes =
+//            [NSForegroundColorAttributeName: UIColor.redColor(),
+//                NSFontAttributeName: UIFont(name: "mplus-1c-regular", size: 21)!]
+        
+//        UITabBar.appearance().barColor = UIColor(red: 0.12, green: 0.30, blue: 0.43, alpha: 0.9)
 //        UITabBar.appearance().translucent = false
 //        UITabBar.appearance().barColor = UIColor(red:0.003, green:0.41, blue:0.544, alpha:1)
-        UITabBar.appearance().barTintColor = UIColor(red:0.003, green:0.41, blue:0.544, alpha:1)
+//        UITabBar.appearance().barTintColor = UIColor(red:0.003, green:0.41, blue:0.544, alpha:1)
         
         return true
     }

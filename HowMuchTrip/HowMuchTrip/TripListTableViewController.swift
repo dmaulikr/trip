@@ -13,14 +13,31 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 {
     var trips = [Trip]()
     let settingsVC = SettingsViewController()
+    
+    var pulseTimer: NSTimer?
 
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        
+        tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
+        
+        refreshControl?.tintColor = UIColor.whiteColor()
+        refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.layer.zPosition = self.tableView.backgroundView!.layer.zPosition + 1
         title = "My Trips"
+        
+        setNavBarAttributes()
 
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+    }
+    
+    func setNavBarAttributes()
+    {
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+        ]
     }
     
     override func viewWillAppear(animated: Bool)
@@ -42,6 +59,9 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             }
         }
         
+        view.appearWithFade(0.25)
+        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
+        
         refreshList()
         tableView.reloadData()
 
@@ -53,6 +73,15 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         refreshList()
         tableView.reloadData()
         
+        if pulseTimer != nil
+        {
+            pulseTimer = nil
+        }
+        else if trips.count == 0 && pulseTimer == nil
+        {
+            pulseTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseAddButton", userInfo: nil, repeats: true)
+            pulseAddButton()
+        }
     }
 
     override func didReceiveMemoryWarning()
@@ -77,32 +106,57 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
-        return trips.count
+        if trips.count != 0
+        {
+            return trips.count
+        }
+        else
+        {
+            return 1
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TripCell", forIndexPath: indexPath) as! TripCell
 
-        let aTrip = trips[indexPath.row]
-        
-        if aTrip.tripName != nil
+        if trips.count != 0
         {
-            cell.tripNameLabel.text = aTrip.tripName
+            let aTrip = trips[indexPath.row]
+            
+            if aTrip.tripName != nil
+            {
+                cell.tripNameLabel.text = aTrip.tripName
+            }
+            else
+            {
+                cell.tripNameLabel.text = aTrip.destination
+            }
+            
+//            cell.overlayView.alpha = 0.6
+
+    //        cell.departureLocationLabel.text = aTrip.departureLocation
+            cell.destinationLabel.text = aTrip.destination
+            cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
+            
+            
+            cell.destinationImageView.image = UIImage(named: "denver") //<<<<<<<<<
+
+            cell.overlayView.alpha = 0.6
+            
+            return cell
         }
         else
         {
-            cell.tripNameLabel.text = aTrip.destination
+            cell.destinationImageView.image = UIImage(named: "notrips")
+            cell.accessoryType = .None
+            cell.overlayView.alpha = 0
+            return cell
         }
-
-//        cell.departureLocationLabel.text = aTrip.departureLocation
-        cell.destinationLabel.text = aTrip.destination
-        cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
-
-        return cell
     }
     
     // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
+    {
         return true
     }
 
@@ -123,15 +177,36 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
     }
     
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
+    {
+        if trips.count == 0
+        {
+            return view.frame.height
+        }
+        else
+        {
+            return 125
+        }
+    }
+    
     func tripWasSaved(savedTrip: Trip)
     {
+        refreshList()
+        navigationController?.popToRootViewControllerAnimated(true)
         goToTripDetail(savedTrip)
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let selectedTrip = trips[indexPath.row]
-        goToTripDetail(selectedTrip)
+        if trips.count != 0
+        {
+            let selectedTrip = trips[indexPath.row]
+            goToTripDetail(selectedTrip)
+        }
+        else
+        {
+            performSegueWithIdentifier("createSegue", sender: self)
+        }
     }
     
     // MARK: - Shift View to TripDetailVC
@@ -142,7 +217,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
         
         let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
-        tripDetailVC.aTrip = selectedTrip
+        tripDetailVC.trip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
     
@@ -183,7 +258,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
         else
         {
-            let oldValues = self.tableView.visibleCells as! Array<TripCell>
+            let oldValues = tableView.visibleCells as! [TripCell]
             
             for cells in oldValues
             {
@@ -194,18 +269,10 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             }
             spinner.stopAnimating()
         }
-        
-        if trips.count == 0
-        {
-            tableView.backgroundView = UIImageView(image: UIImage(named: "emptyState2"))
-        }
-        else
-        {
-            tableView.backgroundView = UIImageView(image: UIImage(named: "blank-background"))
-        }
     }
     
-    func handleRefresh(refreshControl: UIRefreshControl) {
+    func handleRefresh(refreshControl: UIRefreshControl)
+    {
         // Do some reloading of data and update the table view's data source
         // Fetch more objects from a web service, for example...
         
@@ -216,4 +283,25 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         refreshControl.endRefreshing()
     }
     
+    func pulseAddButton()
+    {
+        let addButton = navigationItem.rightBarButtonItem!
+        
+        let pulseColor: UIColor = {
+            if addButton.tag == 1999
+            {
+                addButton.tag = 1998
+                return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+            }
+            else
+            {
+                addButton.tag = 1999
+                return UIColor.whiteColor()
+            }
+        }()
+        
+        UIView.animateWithDuration(1.0, animations: { () -> Void in
+            self.navigationItem.rightBarButtonItem?.tintColor = pulseColor
+            }, completion: nil)
+    }
 }
