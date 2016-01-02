@@ -33,6 +33,12 @@ class SettingsViewController: UIViewController
             NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
         ]
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+            ], forState: .Normal)
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+            ], forState: .Selected)
     }
     
     override func didReceiveMemoryWarning()
@@ -55,6 +61,8 @@ class SettingsViewController: UIViewController
         //If the user is not nil, run the switch statement below to determine how they logged in
         if PFUser.currentUser() != nil
         {
+            navigationItem.rightBarButtonItem?.title = "Logout"
+            
             switch loggedInWith
             {
             case "Twitter":
@@ -80,6 +88,7 @@ class SettingsViewController: UIViewController
             //loginLogoutButton.setTitle("Login", forState: .Normal)
             userImage.image = UIImage(named: "GenericUserImage")
             userNameLabel.text = nil
+            navigationItem.rightBarButtonItem?.title = "Login"
         }
     }
     
@@ -87,7 +96,6 @@ class SettingsViewController: UIViewController
     {
         if PFUser.currentUser() == nil
         {
-            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "pressedNavButtonRight:")
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 self.presentViewController(viewController, animated: true, completion: { () -> Void in
@@ -98,7 +106,6 @@ class SettingsViewController: UIViewController
         }
         else if PFUser.currentUser() != nil
         {
-            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Login", style: UIBarButtonItemStyle.Plain, target: self, action: "pressedNavButtonRight:")
             //Log the user out, set the name to nil, and set the generic image
             PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in if error != nil { print("logout fail"); print(error) } else { print("logout success") } }
             userNameLabel.text = nil

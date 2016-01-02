@@ -51,7 +51,14 @@ class TripDetailViewController: UITableViewController
             tripNameLabel.text = trip.destination
         }
         
-        tripDepartureAndDestinationLabel.text = "\(trip.departureLocation) to \(trip.destination)"
+        if trip.departureLocation != "" && trip.destination != ""
+        {
+            tripDepartureAndDestinationLabel.text = "\(trip.departureLocation) to \(trip.destination)"
+        }
+        else
+        {
+            tripDepartureAndDestinationLabel.text = "Here to somewhere else"
+        }
         
         if trip.dateFrom != "" && trip.dateTo != ""
         {
