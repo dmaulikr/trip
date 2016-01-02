@@ -30,14 +30,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         setNavBarAttributes()
 
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
-    }
-    
-    func setNavBarAttributes()
-    {
-        navigationController?.navigationBar.titleTextAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
-            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
-        ]
+        refreshList()
     }
     
     override func viewWillAppear(animated: Bool)
@@ -59,18 +52,18 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             }
         }
         
-        view.appearWithFade(0.25)
-        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
+        // removed - causing a flash of the emptyState cell
+//        view.appearWithFade(0.25)
+//        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
         
+        // refreshList here, to prevent flash of emptyState cell
+        refreshList()
     }
     
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(true)
-        refreshList()
-        tableView.reloadData()
-        
-        if pulseTimer != nil
+                if pulseTimer != nil
         {
             pulseTimer = nil
         }
@@ -79,6 +72,14 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             pulseTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseAddButton", userInfo: nil, repeats: true)
             pulseAddButton()
         }
+    }
+    
+    func setNavBarAttributes()
+    {
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+        ]
     }
 
     override func didReceiveMemoryWarning()
@@ -257,27 +258,23 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 }
                 else
                 {
-                    print("refreshList error: \(error?.localizedDescription)")
+                    self.presentErrorPopup("refreshList error: \(error?.localizedDescription)")
                     spinner.stopAnimating()
                 }
             }
         }
         else
         {
-            let oldValues = tableView.visibleCells as! [TripCell]
-            
-            for cells in oldValues
-            {
-                cells.destinationLabel.text = nil
-                cells.budgetLabel.text = nil
-                print("clear cell")
-                
-            }
+            clearTripsArray()
             spinner.stopAnimating()
         }
+        self.tableView.reloadData()
+
     }
     
-    func handleRefresh(refreshControl: UIRefreshControl)
+    // MARK: - Misc Functions
+    
+    private func handleRefresh(refreshControl: UIRefreshControl)
     {
         // Do some reloading of data and update the table view's data source
         // Fetch more objects from a web service, for example...
@@ -285,11 +282,25 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         // Simply adding an object to the data source for this example
         refreshList()
         
-        self.tableView.reloadData()
         refreshControl.endRefreshing()
     }
     
-    func pulseAddButton()
+    private func clearTripsArray()
+    {
+        trips.removeAll()
+        
+        let oldValues = tableView.visibleCells as! [TripCell]
+        
+        for cells in oldValues
+        {
+            cells.destinationLabel.text = nil
+            cells.budgetLabel.text = nil
+//            print("clear cell")
+        }
+
+    }
+    
+    private func pulseAddButton()
     {
         let addButton = navigationItem.rightBarButtonItem!
         

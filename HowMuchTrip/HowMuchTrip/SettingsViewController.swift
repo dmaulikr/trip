@@ -55,8 +55,9 @@ class SettingsViewController: UIViewController
         userImage.layer.borderColor = UIColor.blackColor().CGColor
         userImage.layer.borderWidth = 0.4
         
-        view.appearWithFade(0.25)
-        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
+        // removed - inconsistent with MyTrips
+//        view.appearWithFade(0.25)
+//        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
         
         //If the user is not nil, run the switch statement below to determine how they logged in
         if PFUser.currentUser() != nil
@@ -78,6 +79,7 @@ class SettingsViewController: UIViewController
                 PFUser.logOut()
                 //loginLogoutButton.setTitle("Login", forState: .Normal)
                 userImage.image = UIImage(named: "GenericUserImage")
+                navigationItem.rightBarButtonItem?.title = "Login"
                 userNameLabel.text = nil
             }
         }
@@ -91,6 +93,8 @@ class SettingsViewController: UIViewController
             navigationItem.rightBarButtonItem?.title = "Login"
         }
     }
+    
+    // MARK: - Action Handlers
     
     @IBAction func pressedNavButtonRight(sender: UIBarButtonItem) //Create an IBAction
     {
@@ -119,10 +123,12 @@ class SettingsViewController: UIViewController
                 else
                 {
                     print("logout success")
+                    
                 }
             }
             userNameLabel.text = ""
             userImage.image = UIImage(named: "GenericUserImage")
+            navigationItem.rightBarButtonItem?.title = "Login"
             
         }
         
@@ -163,7 +169,9 @@ class SettingsViewController: UIViewController
 //        }
 //    }
     
-    //This function will run if the user created a custom username and password and did not login with social media
+    // MARK: - Email Login/logout functions
+
+    /// This function will run if the user created a custom username and password and did not login with social media
     func processUsernameData()
     {
         if PFUser.currentUser() != nil
@@ -177,7 +185,9 @@ class SettingsViewController: UIViewController
         }
     }
     
-    //This function will run if the user signed in with their Facebook account
+    // MARK: - Facebook Login/logout functions
+
+    /// This function will run if the user signed in with their Facebook account
     func processFacebookData()
     {
         let requestParameters = ["fields": "id, email, first_name, last_name"]
@@ -268,7 +278,9 @@ class SettingsViewController: UIViewController
         }
     }
     
-    //This function will run if the user signed in with their Twitter account
+    // MARK: - Twitter Login/logout functions
+    
+    /// This function will run if the user signed in with their Twitter account
     func processTwitterData()
     {
         //Get username of currently logged in user
@@ -304,6 +316,7 @@ class SettingsViewController: UIViewController
                 
                 //Log the user out if there was an error
                 PFUser.logOut()
+                self.navigationItem.rightBarButtonItem?.title = "Login"
                 return
                 
             }
