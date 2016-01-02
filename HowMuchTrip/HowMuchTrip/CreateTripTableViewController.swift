@@ -175,8 +175,8 @@ class CreateTripTableViewController:
         {
             nextButton.enabled = false
             dataSource.fadeButton(nextButton)
-            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
-            pulseTextField()
+//            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
+//            pulseTextField()
         }
         
         return rc
@@ -606,8 +606,8 @@ class CreateTripTableViewController:
                 self.shownTextField.text = ""
         })
         
-        flashTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
-        pulseTextField()
+//        flashTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
+//        pulseTextField()
     }
     
     func clear()
@@ -807,7 +807,8 @@ class CreateTripTableViewController:
     
     func doneButtonAction()
     {
-        textFieldShouldReturn(shownTextField)
+//        textFieldShouldReturn(shownTextField)
+        shownTextField.resignFirstResponder()
     }
     
     func pulseTextField()
@@ -854,7 +855,7 @@ class CreateTripTableViewController:
         }
         else if !Reachability.isConnectedToNetwork()
         {
-            //error popup
+            presentErrorPopup("Couldn't access an active network connection. Please try again later. Sorry about that!")
         }
     }
 
@@ -862,7 +863,7 @@ class CreateTripTableViewController:
         didFailWithError error: NSError)
     {
         UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        //error popup
+        presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
     }
     
     func locationManager(manager: CLLocationManager,
@@ -877,8 +878,13 @@ class CreateTripTableViewController:
                     {
                         self.locationManager?.stopUpdatingLocation()
                         self.locationManager = nil
-                        let city = placemarks?.first?.locality
-                        print(city)
+                        let locality: String! = placemarks!.first!.locality // city
+//                        let region = placemarks?.first?.region
+                        let country: String! = placemarks!.first!.country
+                        let state: String! = placemarks!.first!.administrativeArea
+
+                        self.departureLocationTextField.text =
+                            "\(locality), \(state), \(country)"
                         
                         UIApplication
                             .sharedApplication()
@@ -890,7 +896,7 @@ class CreateTripTableViewController:
                         self.locationManager = nil
                         
                         print(error?.localizedDescription)
-                        //error popup
+                        self.presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
                     }
             })
         }
@@ -899,8 +905,21 @@ class CreateTripTableViewController:
             self.locationManager?.stopUpdatingLocation()
             self.locationManager = nil
             
-            //error popup
+            presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
         }
+    }
+    
+    func presentErrorPopup(errorMessage: String)
+    {
+        let alert = UIAlertController(
+            title: "Whoops",
+            message: errorMessage,
+            preferredStyle: .Alert
+        )
+        
+        let confirmAction = UIAlertAction(title: "Okay", style: .Default, handler: nil)
+        alert.addAction(confirmAction)
+        presentViewController(alert, animated: true, completion: nil)
     }
 }
 

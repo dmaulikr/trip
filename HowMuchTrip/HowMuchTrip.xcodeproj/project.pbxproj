@@ -404,7 +404,7 @@
 				TargetAttributes = {
 					9ADAAAB51C19C26100D26F79 = {
 						CreatedOnToolsVersion = 7.2;
-						DevelopmentTeam = B76T74698A;
+						DevelopmentTeam = 95P55J7Q5M;
 					};
 					9ADAAACB1C19C26100D26F79 = {
 						CreatedOnToolsVersion = 7.2;
@@ -747,7 +747,7 @@
 				INFOPLIST_FILE = HowMuchTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip3000;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HowMuchTrip/HowMuchTrip-Bridging-Header.h";
@@ -771,7 +771,7 @@
 				INFOPLIST_FILE = HowMuchTrip/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
+				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip3000;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HowMuchTrip/HowMuchTrip-Bridging-Header.h";
