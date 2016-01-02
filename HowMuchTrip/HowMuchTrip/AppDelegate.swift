@@ -15,8 +15,6 @@ import ParseFacebookUtilsV4
 import Fabric
 import Crashlytics
 
-
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate
 {

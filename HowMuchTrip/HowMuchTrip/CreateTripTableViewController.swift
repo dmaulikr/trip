@@ -10,6 +10,7 @@ import UIKit
 import Charts
 import SwiftMoment
 import Parse
+import CoreLocation
 
 protocol TripWasSavedDelegate
 {
@@ -23,7 +24,8 @@ class CreateTripTableViewController:
     DateWasChosenFromCalendarProtocol,
     CalculationFinishedDelegate,
     MapsAPIResultsProtocol,
-    UIGestureRecognizerDelegate
+    UIGestureRecognizerDelegate,
+    CLLocationManagerDelegate
 {
     
     // MARK: - Labels
@@ -72,8 +74,6 @@ class CreateTripTableViewController:
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var legendContainerView: UIView!
     
-    var childViewControler: UIViewController?
-    
     var contextPopover: UIViewController?
     
     // MARK: - Other Properties
@@ -89,23 +89,35 @@ class CreateTripTableViewController:
     var trips = [Trip]()
     
     var mapsAPIController: MapsAPIController?
+    var locationManager: CLLocationManager? {
+        willSet {
+            UIApplication
+                .sharedApplication()
+                .networkActivityIndicatorVisible =
+            !UIApplication
+                .sharedApplication()
+                .networkActivityIndicatorVisible
+        }
+    }
+    var geocoder: CLGeocoder? {
+        willSet {
+            UIApplication
+                .sharedApplication()
+                .networkActivityIndicatorVisible =
+            !UIApplication
+                .sharedApplication()
+                .networkActivityIndicatorVisible
+        }
+    }
     
-    var cycleCount = 0
-    var flashCount = 0
+//    var cycleCount = 0
+//    var flashCount = 0
+
     var flashTimer: NSTimer?
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        if let delegate = navigationController?.viewControllers[0] as? SuggestedTripsTableViewController
-        {
-            self.delegate = delegate
-        }
-        else if let delegate = navigationController?.viewControllers[0] as? TripListTableViewController
-        {
-            self.delegate = delegate
-        }
         
         dataSource.initialSetup(self) //allProperties and textFields assigned here
         dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
@@ -164,8 +176,10 @@ class CreateTripTableViewController:
         {
             nextButton.enabled = false
             dataSource.fadeButton(nextButton)
-            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
-            pulseTextField()
+            
+//            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
+//            pulseTextField()
+
         }
         
         return rc
@@ -299,9 +313,6 @@ class CreateTripTableViewController:
             print("create trip complete")
             createTripComplete()
         }
-        
-        print("text field index: \(indexOfTextField) should == cycle count: \(cycleCount)")
-        cycleCount++
     }
     
     // MARK: - Action Handlers
@@ -370,7 +381,7 @@ class CreateTripTableViewController:
     
     @IBAction func locationButtonPressed(sender: UIButton)
     {
-        
+        configureLocationManager()
     }
     
     @IBAction func flightButtonPressed(sender: UIButton)
@@ -524,21 +535,6 @@ class CreateTripTableViewController:
         }
     }
     
-    //MARK: - Pie Graph Legend
-    
-//    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
-//    {
-//        if indexPath.row == 1 && !dataSource.calculateFinished  { return 0 }
-//        else if indexPath.row == 1                              { return 440 }
-//        else if indexPath.row == 0 && !dataSource.tripCreated   { return 180 }
-//        else                                                    { return 0 }
-//    }
-//    
-//    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-//    {
-//        return 2
-//    }
-    
     // MARK: - Private Functions
     
     func calculate(cycle: Bool, property: String, value: String)
@@ -568,7 +564,6 @@ class CreateTripTableViewController:
                 self.dataSource.buildGraphAndLegend(self.trip, superview: self)
             }
         }
-//        dataSource.buildGraphAndLegend(trip, superview: self)
     }
     
     func calculationFinished(overBudget: Bool)
@@ -594,11 +589,6 @@ class CreateTripTableViewController:
         print(trip.destinationLng, trip.destinationLat)
     }
     
-    func flashLabel(label: UILabel!)
-    {
-        
-    }
-    
     func didGoOverBudget()
     {
         let prefixes = [
@@ -619,8 +609,8 @@ class CreateTripTableViewController:
                 self.shownTextField.text = ""
         })
         
-        flashTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
-        pulseTextField()
+//        flashTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
+//        pulseTextField()
     }
     
     func clear()
@@ -719,8 +709,8 @@ class CreateTripTableViewController:
         pulseButtonTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseButton", userInfo: nil, repeats: true)
         pulseButton()
         
-        let index = NSIndexPath(forRow: 0, inSection: 0)
-        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
+//        let index = NSIndexPath(forRow: 0, inSection: 0)
+//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
     }
     
     func pulseButton()
@@ -779,15 +769,17 @@ class CreateTripTableViewController:
         return true
     }
     
+    // MARK: - Misc UI
+    
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        if view.frame.size.height > 540
+        if view.frame.size.height > 580
         {
             return view.frame.size.height - 96
         }
         else
         {
-            return 540
+            return 580
         }
     }
     
@@ -818,7 +810,8 @@ class CreateTripTableViewController:
     
     func doneButtonAction()
     {
-        textFieldShouldReturn(shownTextField)
+//        textFieldShouldReturn(shownTextField)
+        shownTextField.resignFirstResponder()
     }
     
     func pulseTextField()
@@ -843,5 +836,94 @@ class CreateTripTableViewController:
             }
         }
     }
+    
+    // MARK: - Location Manager
+    
+    func configureLocationManager()
+    {
+        if CLLocationManager.authorizationStatus() != .Denied
+        && CLLocationManager.authorizationStatus() != .Restricted
+        && Reachability.isConnectedToNetwork()
+        {
+            locationManager = CLLocationManager()
+            locationManager?.delegate = self
+            locationManager?.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+            
+            if CLLocationManager.authorizationStatus() == .NotDetermined
+            {
+                locationManager?.requestWhenInUseAuthorization()
+            }
+            
+            locationManager?.startUpdatingLocation()
+        }
+        else if !Reachability.isConnectedToNetwork()
+        {
+            presentErrorPopup("Couldn't access an active network connection. Please try again later. Sorry about that!")
+        }
+    }
+
+    func locationManager(manager: CLLocationManager,
+        didFailWithError error: NSError)
+    {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
+    }
+    
+    func locationManager(manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation])
+    {
+        if let location = locations.last
+        {
+            geocoder = CLGeocoder()
+            geocoder?.reverseGeocodeLocation(location,
+                completionHandler: { (placemarks, error) -> Void in
+                    if error == nil
+                    {
+                        self.locationManager?.stopUpdatingLocation()
+                        self.locationManager = nil
+                        let locality: String! = placemarks!.first!.locality // city
+//                        let region = placemarks?.first?.region
+                        let country: String! = placemarks!.first!.country
+                        let state: String! = placemarks!.first!.administrativeArea
+
+                        self.departureLocationTextField.text =
+                            "\(locality), \(state), \(country)"
+                        
+                        UIApplication
+                            .sharedApplication()
+                            .networkActivityIndicatorVisible = false
+                    }
+                    else
+                    {
+                        self.locationManager?.stopUpdatingLocation()
+                        self.locationManager = nil
+                        
+                        print(error?.localizedDescription)
+                        self.presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
+                    }
+            })
+        }
+        else
+        {
+            self.locationManager?.stopUpdatingLocation()
+            self.locationManager = nil
+            
+            presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
+        }
+    }
+    
+    func presentErrorPopup(errorMessage: String)
+    {
+        let alert = UIAlertController(
+            title: "Whoops",
+            message: errorMessage,
+            preferredStyle: .Alert
+        )
+        
+        let confirmAction = UIAlertAction(title: "Okay", style: .Default, handler: nil)
+        alert.addAction(confirmAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+
 }
 

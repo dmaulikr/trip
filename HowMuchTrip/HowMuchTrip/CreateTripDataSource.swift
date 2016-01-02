@@ -18,6 +18,15 @@ class CreateTripDataSource
     // MARK: - Initial View Setup
     func initialSetup(superview: CreateTripTableViewController)
     {
+        
+        if let delegate = superview.navigationController?.viewControllers[0] as? SuggestedTripsTableViewController
+        {
+            superview.delegate = delegate
+        }
+        else if let delegate = superview.navigationController?.viewControllers[0] as? TripListTableViewController
+        {
+            superview.delegate = delegate
+        }
 //        self.superview = superview
         
         let textFields = [

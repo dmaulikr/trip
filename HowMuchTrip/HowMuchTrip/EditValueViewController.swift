@@ -41,12 +41,14 @@ class EditValueViewController: UIViewController, UITextFieldDelegate
     {
         if editTextField.text != ""
         {
+            editTextField.resignFirstResponder()
             delegate?.valueWasEdited(property, value: editTextField.text!)
         }
     }
     
     @IBAction func cancelButtonPressed(sender: UIButton)
     {
+        editTextField.resignFirstResponder()
         delegate?.valueWasEdited(property, value: nil)
     }
     
@@ -64,7 +66,7 @@ class EditValueViewController: UIViewController, UITextFieldDelegate
     {
         if textField.text != "" && confirmButton.alpha == 0 {
             confirmButton.appearWithFade(0.25)
-            textField.resignFirstResponder()
+//            textField.resignFirstResponder()
         }
         return testCharacters(textField, string: string)
     }
@@ -81,5 +83,41 @@ class EditValueViewController: UIViewController, UITextFieldDelegate
         }
         
         return true
+    }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool
+    {
+        addDoneButtonOnKeyboard(textField)
+        return true
+    }
+    
+    func addDoneButtonOnKeyboard(textField: UITextField!)
+    {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
+        //        doneToolbar.barStyle = .Black
+        doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
+        doneToolbar.translucent = false
+        
+        let confirmations = [
+            "Okay",
+            "All set",
+            "Looks good"
+        ]
+        let confirmation = confirmations[Int(arc4random() % 3)]
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
+        let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
+        doneButton.tintColor = UIColor.whiteColor()
+        
+        doneToolbar.items = [flexSpace, doneButton]
+        doneToolbar.sizeToFit()
+        
+        textField.inputAccessoryView = doneToolbar
+    }
+    
+    func doneButtonAction()
+    {
+        editTextField.resignFirstResponder()
     }
 }
