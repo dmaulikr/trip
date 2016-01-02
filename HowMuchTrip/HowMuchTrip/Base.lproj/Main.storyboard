@@ -846,7 +846,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="zen-ec-kHh"/>

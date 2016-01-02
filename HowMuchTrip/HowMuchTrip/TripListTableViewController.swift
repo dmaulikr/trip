@@ -119,6 +119,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 
         if trips.count != 0
         {
+            cell.accessoryType = .DisclosureIndicator
             let aTrip = trips[indexPath.row]
             
             if aTrip.tripName != nil
@@ -300,7 +301,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 
     }
     
-    private func pulseAddButton()
+    func pulseAddButton()
     {
         let addButton = navigationItem.rightBarButtonItem!
         
