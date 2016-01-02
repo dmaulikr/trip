@@ -128,6 +128,13 @@ class SettingsViewController: UIViewController
         
     }
     
+    @IBAction func emailTapped(sender: UIButton)
+    {
+        let email = "support@howmuctrip.com"
+        let url = NSURL(string: "mailto:\(email)")
+        UIApplication.sharedApplication().openURL(url!)
+    }
+    
 //    //Log the user in our out of the app
 //    @IBAction func logOutAction(sender: UIButton)
 //    {
