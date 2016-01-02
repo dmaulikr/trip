@@ -37,12 +37,6 @@ class TabBarController: UITabBarController
             tabBarItem.setTitleTextAttributes(unselectedTitleTextAttributes, forState: .Normal)
             tabBarItem.setTitleTextAttributes(titleTextAttributes, forState: .Selected)
         }
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     override func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem)

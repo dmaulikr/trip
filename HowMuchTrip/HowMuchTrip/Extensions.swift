@@ -156,6 +156,19 @@ extension UIView
 
 extension UIViewController
 {
+    func presentErrorPopup(errorMessage: String)
+    {
+        let alert = UIAlertController(
+            title: "Whoops",
+            message: errorMessage,
+            preferredStyle: .Alert
+        )
+        
+        let confirmAction = UIAlertAction(title: "Okay", style: .Default, handler: nil)
+        alert.addAction(confirmAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
     func addContextPopover(controllerToAdd: UIViewController)
     {
         let height = self.view.frame.width

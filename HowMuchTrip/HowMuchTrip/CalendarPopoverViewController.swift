@@ -50,8 +50,10 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         
         setCalendarPrefs()
 
-        leftArrow.alpha = 0
-        leftArrow.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.leftArrow.alpha = 0
+            self.leftArrow.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
+        }
         
         let confirmation = confirmations[Int(arc4random() % 3)]
         let cancellation = cancellations[Int(arc4random() % 3)]
@@ -64,7 +66,9 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     {
         super.viewDidAppear(true)
 
-        monthLabel.text = ("\(moment().monthName) \(moment().year)")
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.monthLabel.text = ("\(moment().monthName) \(moment().year)")
+        }
     }
     
     @IBAction func confirmButtonPressed(sender: UIButton)
@@ -104,6 +108,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     {
         monthLabel.hideWithFade(0.1)
         monthLabel.text = ("\(date.monthName) \(date.year)")
+        monthLabel.hidden = false
         UIView.animateWithDuration(0.1) { () -> Void in
             self.monthLabel.alpha = 1
         }
@@ -114,6 +119,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         }
         else if leftArrow.alpha == 0
         {
+            leftArrow.hidden = false
             UIView.animateWithDuration(0.25, animations: { () -> Void in
                 self.leftArrow.alpha = 0.5
             })

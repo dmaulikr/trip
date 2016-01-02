@@ -115,6 +115,9 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             trip.destinationLng         = suggestedTrip["destinationLng"]       as? String ?? ""
             trip.destinationImage       = suggestedTrip["destinationImage"]     as? String ?? ""
             
+            trip.dateFrom               = suggestedTrip["dateFrom"]             as? String ?? ""
+            trip.dateTo                 = suggestedTrip["dateTo"]               as? String ?? ""
+            
             let calculator = Calculator(delegate: nil)
             (trip, _) = calculator.getTotals(trip)
                 
