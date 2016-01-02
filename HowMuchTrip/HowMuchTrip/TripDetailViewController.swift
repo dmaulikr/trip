@@ -53,13 +53,33 @@ class TripDetailViewController: UITableViewController
         
         tripDepartureAndDestinationLabel.text = "\(trip.departureLocation) to \(trip.destination)"
         
-        // FIXME: convert moment back to nsdate
-        let dateFrom = moment(trip.dateFrom, dateFormat: "MM/d/yy")
-        tripDateLabel.text = "\(dateFrom) - \(moment(trip.dateTo, dateFormat: "MM/d/yy"))"
-        print(trip.dateFrom)
-        print(dateFrom)
+        if trip.dateFrom != "" && trip.dateTo != ""
+        {
+            tripDateLabel.text = "\(trip.dateFrom) - \(trip.dateTo)"
+            if let dateFrom    = moment(trip.dateFrom, dateFormat: "MM/d/yy")
+            {
+                let interval    = moment().intervalSince(dateFrom).days
+                var formattedInterval = String(interval).componentsSeparatedByString(".")[0] + " day until this trip!"
+                if interval > 1.9
+                {
+                    formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("day", withString: "days")
+                }
+//                var formattedInterval = interval.componentsSeparatedByString(" ")[0] + interval.componentsSeparatedByString(" ")[1]
+//                formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("d", withString: " day")
+//                formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("w", withString: " week, ")
+//                formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("m", withString: " month, ")
+                
+                tripDepatureTimeLabel.text = formattedInterval
+            }
+            
+        }
+        else
+        {
+            tripDateLabel.text = ""
+            tripDepatureTimeLabel.text = ""
+        }
         
-        tripDepatureTimeLabel.text = "Fix me"
+
     }
     
     override func viewWillAppear(animated: Bool)
