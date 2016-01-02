@@ -911,19 +911,5 @@ class CreateTripTableViewController:
             presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
         }
     }
-    
-    func presentErrorPopup(errorMessage: String)
-    {
-        let alert = UIAlertController(
-            title: "Whoops",
-            message: errorMessage,
-            preferredStyle: .Alert
-        )
-        
-        let confirmAction = UIAlertAction(title: "Okay", style: .Default, handler: nil)
-        alert.addAction(confirmAction)
-        presentViewController(alert, animated: true, completion: nil)
-    }
-
 }
 

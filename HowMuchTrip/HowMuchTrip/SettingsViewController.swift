@@ -38,7 +38,7 @@ class SettingsViewController: UIViewController
             ], forState: .Normal)
         navigationItem.rightBarButtonItem?.setTitleTextAttributes([
             NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
-            ], forState: .Selected)
+            ], forState: .Highlighted)
     }
     
     override func didReceiveMemoryWarning()
@@ -96,6 +96,7 @@ class SettingsViewController: UIViewController
     {
         if PFUser.currentUser() == nil
         {
+            //setting the button title here was unncecessary because viewWillAppear will get called when the login view controller is dismissed, and the button title will get set during viewWillAppear
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 self.presentViewController(viewController, animated: true, completion: { () -> Void in
@@ -107,8 +108,20 @@ class SettingsViewController: UIViewController
         else if PFUser.currentUser() != nil
         {
             //Log the user out, set the name to nil, and set the generic image
-            PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in if error != nil { print("logout fail"); print(error) } else { print("logout success") } }
-            userNameLabel.text = nil
+            PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in
+                if error != nil
+                {
+                    print("logout fail");
+                    print(error)
+                    
+                    self.presentErrorPopup("Whoa, sorry. Looks like there was an issue logging you out.")
+                }
+                else
+                {
+                    print("logout success")
+                }
+            }
+            userNameLabel.text = ""
             userImage.image = UIImage(named: "GenericUserImage")
             
         }
