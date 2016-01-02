@@ -18,6 +18,25 @@ class TabBarController: UITabBarController
         
         tabBar.autoresizesSubviews = false
         tabBar.clipsToBounds = true
+        
+        let titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Medium", size: 10)!
+        ]
+        
+        let unselectedTitleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor(red: 0.5, green: 0.5, blue: 0.5, alpha: 1),
+            NSFontAttributeName: UIFont(name: "Avenir-Medium", size: 10)!
+        ]
+        //        UITabBar.appearance().barTintColor = UIColor.whiteColor()
+        
+        let tabBarItems = tabBar.items
+        
+        for tabBarItem in tabBarItems!
+        {
+            tabBarItem.setTitleTextAttributes(unselectedTitleTextAttributes, forState: .Normal)
+            tabBarItem.setTitleTextAttributes(titleTextAttributes, forState: .Selected)
+        }
         // Do any additional setup after loading the view.
     }
 

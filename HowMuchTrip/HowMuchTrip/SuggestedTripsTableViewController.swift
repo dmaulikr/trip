@@ -23,15 +23,18 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
         refreshControl?.tintColor = UIColor.whiteColor()
-        self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.layer.zPosition = self.tableView.backgroundView!.layer.zPosition + 1
 
-        title = "Suggested"
+        title = "Suggested Trips"
+        
+        loadTrips()
     }
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(true)
-        loadTrips()
+        
 //        trips.shuffleInPlace()
         if PFUser.currentUser() != nil
         {
@@ -87,45 +90,30 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     
     func suggestedTripFromJSON(suggestedTrip: NSDictionary) -> Trip
     {
-        let budgetTotal             = suggestedTrip["budgetTotal"]          as? Double ?? 0.0
-        let subtotalOfProperties    = suggestedTrip["subtotalOfProperties"] as? Double ?? 0.0
-        let budgetRemaining         = suggestedTrip["budgetRemaining"]      as? Double ?? 0.0
-        let departureLocation       = suggestedTrip["departureLocation"]    as? String ?? ""
-        let destination             = suggestedTrip["destination"]          as? String ?? ""
-        let tripName                = suggestedTrip["tripName"]             as? String ?? ""
-        let numberOfDays            = suggestedTrip["numberOfDays"]         as? Double ?? 0.0
-        let numberOfNights          = suggestedTrip["numberOfNights"]       as? Double ?? 0.0
-        let planeTicketCost         = suggestedTrip["planeTicketCost"]      as? Double ?? 0.0
-        let dailyLodgingCost        = suggestedTrip["dailyLodgingCost"]     as? Double ?? 0.0
-        let dailyFoodCost           = suggestedTrip["dailyFoodCost"]        as? Double ?? 0.0
-        let dailyOtherCost          = suggestedTrip["dailyOtherCost"]       as? Double ?? 0.0
-        let oneTimeCost             = suggestedTrip["oneTimeCost"]          as? Double ?? 0.0
-        let totalLodgingCosts       = suggestedTrip["totalLodgingCosts"]    as? Double ?? 0.0
-        let totalFoodCosts          = suggestedTrip["totalFoodCosts"]       as? Double ?? 0.0
-        let totalOtherDailyCosts    = suggestedTrip["totalOtherDailyCosts"] as? Double ?? 0.0
-        let destinationImage        = suggestedTrip["destinationImage"]     as? String ?? ""
-        
         let trip: Trip = {
     
             var trip = Trip()
-            trip.budgetTotal            = budgetTotal
-            trip.subtotalOfProperties   = subtotalOfProperties
-            trip.budgetRemaining        = budgetRemaining
-            trip.departureLocation      = departureLocation
-            trip.destination            = destination
-            trip.tripName               = tripName
-            trip.numberOfDays           = numberOfDays
-            trip.numberOfNights         = numberOfNights
-            trip.planeTicketCost        = planeTicketCost
-            trip.dailyLodgingCost       = dailyLodgingCost
-            trip.dailyFoodCost          = dailyFoodCost
-            trip.dailyOtherCost         = dailyOtherCost
-            trip.oneTimeCost            = oneTimeCost
-            trip.totalLodgingCosts      = totalLodgingCosts
-            trip.totalFoodCosts         = totalFoodCosts
-            trip.totalOtherDailyCosts   = totalOtherDailyCosts
-            trip.destinationImage       = destinationImage
-            
+            trip.budgetTotal            = suggestedTrip["budgetTotal"]          as? Double ?? 0.0
+            trip.subtotalOfProperties   = suggestedTrip["subtotalOfProperties"] as? Double ?? 0.0
+            trip.budgetRemaining        = suggestedTrip["budgetRemaining"]      as? Double ?? 0.0
+            trip.departureLocation      = suggestedTrip["departureLocation"]    as? String ?? ""
+            trip.destination            = suggestedTrip["destination"]          as? String ?? ""
+            trip.tripName               = suggestedTrip["tripName"]             as? String ?? ""
+            trip.numberOfDays           = suggestedTrip["numberOfDays"]         as? Double ?? 0.0
+            trip.numberOfNights         = suggestedTrip["numberOfNights"]       as? Double ?? 0.0
+            trip.planeTicketCost        = suggestedTrip["planeTicketCost"]      as? Double ?? 0.0
+            trip.dailyLodgingCost       = suggestedTrip["dailyLodgingCost"]     as? Double ?? 0.0
+            trip.dailyFoodCost          = suggestedTrip["dailyFoodCost"]        as? Double ?? 0.0
+            trip.dailyOtherCost         = suggestedTrip["dailyOtherCost"]       as? Double ?? 0.0
+            trip.oneTimeCost            = suggestedTrip["oneTimeCost"]          as? Double ?? 0.0
+            trip.totalLodgingCosts      = suggestedTrip["totalLodgingCosts"]    as? Double ?? 0.0
+            trip.totalFoodCosts         = suggestedTrip["totalFoodCosts"]       as? Double ?? 0.0
+            trip.totalOtherDailyCosts   = suggestedTrip["totalOtherDailyCosts"] as? Double ?? 0.0
+            trip.departureLat           = suggestedTrip["departureLat"]         as? String ?? ""
+            trip.departureLng           = suggestedTrip["departureLng"]         as? String ?? ""
+            trip.destinationLat         = suggestedTrip["destinationLat"]       as? String ?? ""
+            trip.destinationLng         = suggestedTrip["destinationLng"]       as? String ?? ""
+            trip.destinationImage       = suggestedTrip["destinationImage"]     as? String ?? ""
             
             let calculator = Calculator(delegate: nil)
             (trip, _) = calculator.getTotals(trip)

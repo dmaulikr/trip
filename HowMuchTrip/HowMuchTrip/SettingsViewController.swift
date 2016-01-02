@@ -19,11 +19,20 @@ class SettingsViewController: UIViewController
     @IBOutlet weak var loginLogoutButton: UIButton!
     
     let aParseUser = ParseUser()
-    
+        
     override func viewDidLoad()
     {
         super.viewDidLoad()
         title = "Settings"
+        setNavBarAttributes()
+    }
+    
+    func setNavBarAttributes()
+    {
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+        ]
     }
     
     override func didReceiveMemoryWarning()
@@ -38,7 +47,7 @@ class SettingsViewController: UIViewController
         userImage.layer.cornerRadius = userImage.frame.size.width / 2
         userImage.clipsToBounds = true
         userImage.layer.borderColor = UIColor.blackColor().CGColor
-        userImage.layer.borderWidth = 0.2
+        userImage.layer.borderWidth = 0.4
         
         view.appearWithFade(0.25)
         view.slideVerticallyToOrigin(0.25, fromPointY: 200)
@@ -50,16 +59,16 @@ class SettingsViewController: UIViewController
             {
             case "Twitter":
                 processTwitterData()
-                loginLogoutButton.setTitle("Logout", forState: .Normal)
+                //loginLogoutButton.setTitle("Logout", forState: .Normal)
             case "Facebook":
                 processFacebookData()
-                loginLogoutButton.setTitle("Logout", forState: .Normal)
+                //loginLogoutButton.setTitle("Logout", forState: .Normal)
             case "Username":
                 processUsernameData()
-                loginLogoutButton.setTitle("Logout", forState: .Normal)
+                //loginLogoutButton.setTitle("Logout", forState: .Normal)
             default:
                 PFUser.logOut()
-                loginLogoutButton.setTitle("Login", forState: .Normal)
+                //loginLogoutButton.setTitle("Login", forState: .Normal)
                 userImage.image = UIImage(named: "GenericUserImage")
                 userNameLabel.text = nil
             }
@@ -68,39 +77,64 @@ class SettingsViewController: UIViewController
         {
             //If the user is nil, make sure to end the login session and clear out any data left behind
             PFUser.logOut()
-            loginLogoutButton.setTitle("Login", forState: .Normal)
+            //loginLogoutButton.setTitle("Login", forState: .Normal)
             userImage.image = UIImage(named: "GenericUserImage")
             userNameLabel.text = nil
         }
     }
     
-    //Log the user in our out of the app
-    @IBAction func logOutAction(sender: UIButton)
+    @IBAction func pressedNavButtonRight(sender: UIBarButtonItem) //Create an IBAction
     {
-        
         if PFUser.currentUser() == nil
         {
-            //If the user is nil, set the title of the button to "Logout", and send the user to the login view, before leaving set the tab bar back to position 0 so after logging in the user is directed back to the main view of the app
-            sender.setTitle("Logout", forState: .Normal)
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "pressedNavButtonRight:")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 self.presentViewController(viewController, animated: true, completion: { () -> Void in
                     self.tabBarController?.selectedIndex = 0
                 })
             })
-            
+
         }
         else if PFUser.currentUser() != nil
         {
-            // Send a request to log out a user
-            sender.setTitle(("Login"), forState: .Normal)
-            
+            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Login", style: UIBarButtonItemStyle.Plain, target: self, action: "pressedNavButtonRight:")
             //Log the user out, set the name to nil, and set the generic image
             PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in if error != nil { print("logout fail"); print(error) } else { print("logout success") } }
             userNameLabel.text = nil
             userImage.image = UIImage(named: "GenericUserImage")
+            
         }
+        
     }
+    
+//    //Log the user in our out of the app
+//    @IBAction func logOutAction(sender: UIButton)
+//    {
+//        
+//        if PFUser.currentUser() == nil
+//        {
+//            //If the user is nil, set the title of the button to "Logout", and send the user to the login view, before leaving set the tab bar back to position 0 so after logging in the user is directed back to the main view of the app
+//            sender.setTitle("Logout", forState: .Normal)
+//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+//                self.presentViewController(viewController, animated: true, completion: { () -> Void in
+//                    self.tabBarController?.selectedIndex = 0
+//                })
+//            })
+//            
+//        }
+//        else if PFUser.currentUser() != nil
+//        {
+//            // Send a request to log out a user
+//            sender.setTitle(("Login"), forState: .Normal)
+//            
+//            //Log the user out, set the name to nil, and set the generic image
+//            PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in if error != nil { print("logout fail"); print(error) } else { print("logout success") } }
+//            userNameLabel.text = nil
+//            userImage.image = UIImage(named: "GenericUserImage")
+//        }
+//    }
     
     //This function will run if the user created a custom username and password and did not login with social media
     func processUsernameData()

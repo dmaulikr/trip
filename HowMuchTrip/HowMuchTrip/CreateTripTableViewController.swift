@@ -10,6 +10,7 @@ import UIKit
 import Charts
 import SwiftMoment
 import Parse
+import CoreLocation
 
 protocol TripWasSavedDelegate
 {
@@ -23,7 +24,8 @@ class CreateTripTableViewController:
     DateWasChosenFromCalendarProtocol,
     CalculationFinishedDelegate,
     MapsAPIResultsProtocol,
-    UIGestureRecognizerDelegate
+    UIGestureRecognizerDelegate,
+    CLLocationManagerDelegate
 {
     
     // MARK: - Labels
@@ -72,8 +74,6 @@ class CreateTripTableViewController:
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var legendContainerView: UIView!
     
-    var childViewControler: UIViewController?
-    
     var contextPopover: UIViewController?
     
     // MARK: - Other Properties
@@ -89,21 +89,34 @@ class CreateTripTableViewController:
     var trips = [Trip]()
     
     var mapsAPIController: MapsAPIController?
+    var locationManager: CLLocationManager? {
+        willSet {
+            UIApplication
+                .sharedApplication()
+                .networkActivityIndicatorVisible =
+            !UIApplication
+                .sharedApplication()
+                .networkActivityIndicatorVisible
+        }
+    }
+    var geocoder: CLGeocoder? {
+        willSet {
+            UIApplication
+                .sharedApplication()
+                .networkActivityIndicatorVisible =
+            !UIApplication
+                .sharedApplication()
+                .networkActivityIndicatorVisible
+        }
+    }
     
-    var cycleCount = 0
+//    var cycleCount = 0
+//    var flashCount = 0
+    var flashTimer: NSTimer?
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        if let delegate = navigationController?.viewControllers[0] as? SuggestedTripsTableViewController
-        {
-            self.delegate = delegate
-        }
-        else if let delegate = navigationController?.viewControllers[0] as? TripListTableViewController
-        {
-            self.delegate = delegate
-        }
         
         dataSource.initialSetup(self) //allProperties and textFields assigned here
         dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
@@ -114,8 +127,14 @@ class CreateTripTableViewController:
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
         setupDismissTapGesture()
-        
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "initialCycle", userInfo: nil, repeats: false)
+    }
+    
+    func initialCycle()
+    {
         cycleToTextField(0)
+        textFieldBGView.alpha = 0
+        textFieldBGView.appearWithFade(0.25)
     }
     
     override func viewWillAppear(animated: Bool)
@@ -148,11 +167,16 @@ class CreateTripTableViewController:
             nextButton.enabled = true
             dataSource.appearButton(nextButton)
             selectedTextField.resignFirstResponder()
+            
+            let index = NSIndexPath(forRow: 0, inSection: 0)
+            tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
         }
         else
         {
             nextButton.enabled = false
             dataSource.fadeButton(nextButton)
+            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
+            pulseTextField()
         }
         
         return rc
@@ -184,6 +208,16 @@ class CreateTripTableViewController:
     {
         nextButton.enabled = false
         dataSource.fadeButton(nextButton)
+    }
+    
+    func textFieldShouldBeginEditing(textField: UITextField) -> Bool
+    {
+        if textField.keyboardType != .Default
+        {
+            print("addDoneButton")
+            self.addDoneButtonOnKeyboard(self.shownTextField)
+        }
+        return true
     }
     
     func presentCalendar(textFieldTag: Int)
@@ -266,6 +300,7 @@ class CreateTripTableViewController:
                         else
                         {
                             self.shownTextField.becomeFirstResponder()
+                            
                         }
                 })
             })
@@ -275,9 +310,6 @@ class CreateTripTableViewController:
             print("create trip complete")
             createTripComplete()
         }
-        
-        print("text field index: \(indexOfTextField) should == cycle count: \(cycleCount)")
-        cycleCount++
     }
     
     // MARK: - Action Handlers
@@ -307,6 +339,12 @@ class CreateTripTableViewController:
             saveButtonPressed(sender)
         }
         
+        if flashTimer != nil
+        {
+            flashTimer = nil
+            textFieldBGView.backgroundColor = UIColor.whiteColor()
+        }
+        
         let index = NSIndexPath(forRow: 0, inSection: 0)
         tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Top, animated: true)
     }
@@ -319,7 +357,7 @@ class CreateTripTableViewController:
         nextButton.setTitle("N E X T", forState: .Normal)
     }
     
-    @IBAction func clearButtonPressed(sender: UIBarButtonItem!)
+    @IBAction func clearButtonPressed(sender: UIBarButtonItem?)
     {
         clear()
     }
@@ -340,7 +378,7 @@ class CreateTripTableViewController:
     
     @IBAction func locationButtonPressed(sender: UIButton)
     {
-        
+        configureLocationManager()
     }
     
     @IBAction func flightButtonPressed(sender: UIButton)
@@ -494,21 +532,6 @@ class CreateTripTableViewController:
         }
     }
     
-    //MARK: - Pie Graph Legend
-    
-//    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
-//    {
-//        if indexPath.row == 1 && !dataSource.calculateFinished  { return 0 }
-//        else if indexPath.row == 1                              { return 440 }
-//        else if indexPath.row == 0 && !dataSource.tripCreated   { return 180 }
-//        else                                                    { return 0 }
-//    }
-//    
-//    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
-//    {
-//        return 2
-//    }
-    
     // MARK: - Private Functions
     
     func calculate(cycle: Bool, property: String, value: String)
@@ -528,7 +551,7 @@ class CreateTripTableViewController:
         
         if trip.budgetRemaining != lastBudget
         {
-            budgetRemainingLabel.text = "$\(String(format: "%.2f", trip.budgetRemaining))"
+            budgetRemainingLabel.text = trip.budgetRemaining.formatAsUSCurrency()
             budgetRemainingLabel.slideVerticallyToOrigin(0.25, fromPointY: -100)
             budgetRemainingLabel.appearWithFade(0.25)
             
@@ -538,7 +561,6 @@ class CreateTripTableViewController:
                 self.dataSource.buildGraphAndLegend(self.trip, superview: self)
             }
         }
-//        dataSource.buildGraphAndLegend(trip, superview: self)
     }
     
     func calculationFinished(overBudget: Bool)
@@ -564,30 +586,28 @@ class CreateTripTableViewController:
         print(trip.destinationLng, trip.destinationLat)
     }
     
-    func flashLabel(label: UILabel!)
-    {
-        
-    }
-    
     func didGoOverBudget()
     {
-        prefixPromptLabel.text = ""
-        suffixPromptLabel.text = "Whoa there! Might have to plan a little smaller; looks like we're over budget."
+        let prefixes = [
+            "Whoa there.",
+            "One sec.",
+            "Hold up."
+        ]
+        prefixPromptLabel.text = prefixes[Int(arc4random() % UInt32(prefixes.count))]
+        suffixPromptLabel.text = "Might have to plan a little smaller; looks like we're over budget."
         suffixPromptLabel.alpha = 0
         
-        let viewColorBak = textFieldBGView.backgroundColor
-        textFieldBGView.backgroundColor = UIColor.redColor()
         budgetRemainingLabel.textColor = UIColor.redColor()
         UIView.animateWithDuration(0.45, animations: { () -> Void in
             self.suffixPromptLabel.alpha = 1
-            self.textFieldBGView.backgroundColor = viewColorBak
             }, completion: { (_) -> Void in
                 self.shownTextField.becomeFirstResponder()
                 self.shownTextField.placeholder = self.shownTextField.text
                 self.shownTextField.text = ""
         })
         
-//        NSTimer.scheduledTimerWithTimeInterval(0.2, target: self, selector: "flashLabel: budgetRemainingLabel", userInfo: nil, repeats: true)
+        flashTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
+        pulseTextField()
     }
     
     func clear()
@@ -606,6 +626,21 @@ class CreateTripTableViewController:
         
         textFieldBGView.alpha = 1
         nextButton.setTitle("N E X T", forState: .Normal)
+        
+        if flashTimer != nil
+        {
+            flashTimer?.invalidate()
+            flashTimer = nil
+            textFieldBGView.backgroundColor = UIColor.whiteColor()
+        }
+        
+        if pulseButtonTimer != nil
+        {
+            pulseButtonTimer?.invalidate()
+            pulseButtonTimer = nil
+            nextButton.backgroundColor = UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
+        }
+        
 //        pieChartView.hideWithFade(0.25)
 //        legendContainerView.hideWithFade(0.25)
 //        promptLabel.hideWithFade(0.25)
@@ -621,7 +656,8 @@ class CreateTripTableViewController:
 //        let indexPath = NSIndexPath(forRow: 1, inSection: 0)
 //        tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
         
-        cycleToTextField(0)
+        initialCycle()
+        
         tableView.reloadData()
     }
     
@@ -652,11 +688,11 @@ class CreateTripTableViewController:
 //        budgetRemainingBottomLabel.alpha = 0
         dataSource.tripCreated = true
         
+        dataSource.hideButtons(buttons)
+        
         nextButton.setTitle("S A V E  T R I P", forState: .Normal)
         nextButton.appearWithFade(0.5)
         nextButton.slideVerticallyToOrigin(0.5, fromPointY: nextButton.frame.size.height)
-        
-        dataSource.hideButtons(buttons)
         
         shownTextField.alpha = 0
         shownTextField.hidden = true
@@ -669,25 +705,32 @@ class CreateTripTableViewController:
         
         pulseButtonTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseButton", userInfo: nil, repeats: true)
         pulseButton()
+        
+//        let index = NSIndexPath(forRow: 0, inSection: 0)
+//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
     }
     
     func pulseButton()
     {
-        let nextColor: UIColor = {
-            if nextButton.tag == 999
-            {
-                nextButton.tag = 998
-                return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+        //david fix this
+        if pulseButtonTimer != nil
+        {
+            let nextColor: UIColor = {
+                if nextButton.tag == 999
+                {
+                    nextButton.tag = 998
+                    return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+                }
+                else
+                {
+                    nextButton.tag = 999
+                    return UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
+                }
+            }()
+            
+            UIView.animateWithDuration(1) { () -> Void in
+                self.nextButton.backgroundColor = nextColor
             }
-            else
-            {
-                nextButton.tag = 999
-                return UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
-            }
-        }()
-        
-        UIView.animateWithDuration(1) { () -> Void in
-            self.nextButton.backgroundColor = nextColor
         }
     }
     
@@ -723,15 +766,140 @@ class CreateTripTableViewController:
         return true
     }
     
+    // MARK: - Misc UI
+    
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        if view.frame.size.height > 600
+        if view.frame.size.height > 580
         {
             return view.frame.size.height - 96
         }
         else
         {
-            return 600
+            return 580
+        }
+    }
+    
+    func addDoneButtonOnKeyboard(textField: UITextField!)
+    {
+        let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
+//        doneToolbar.barStyle = .Black
+        doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
+        doneToolbar.translucent = false
+        
+        let confirmations = [
+            "Okay",
+            "All set",
+            "Looks good"
+        ]
+        let confirmation = confirmations[Int(arc4random() % 3)]
+        
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+        flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
+        let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
+        doneButton.tintColor = UIColor.whiteColor()
+        
+        doneToolbar.items = [flexSpace, doneButton]
+        doneToolbar.sizeToFit()
+        
+        textField.inputAccessoryView = doneToolbar
+    }
+    
+    func doneButtonAction()
+    {
+        textFieldShouldReturn(shownTextField)
+    }
+    
+    func pulseTextField()
+    {
+        if flashTimer != nil
+        {
+            let nextColor: UIColor = {
+            if textFieldBGView.tag == 2999
+            {
+                textFieldBGView.tag = 2998
+                return UIColor(red: 0.95, green: 0.71, blue: 0.31, alpha: 1)
+            }
+            else
+            {
+                textFieldBGView.tag = 2999
+                return UIColor.whiteColor()
+            }
+            }()
+            
+            UIView.animateWithDuration(1) { () -> Void in
+                self.textFieldBGView.backgroundColor = nextColor
+            }
+        }
+    }
+    
+    // MARK: - Location Manager
+    
+    func configureLocationManager()
+    {
+        if CLLocationManager.authorizationStatus() != .Denied
+        && CLLocationManager.authorizationStatus() != .Restricted
+        && Reachability.isConnectedToNetwork()
+        {
+            locationManager = CLLocationManager()
+            locationManager?.delegate = self
+            locationManager?.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+            
+            if CLLocationManager.authorizationStatus() == .NotDetermined
+            {
+                locationManager?.requestWhenInUseAuthorization()
+            }
+            
+            locationManager?.startUpdatingLocation()
+        }
+        else if !Reachability.isConnectedToNetwork()
+        {
+            //error popup
+        }
+    }
+
+    func locationManager(manager: CLLocationManager,
+        didFailWithError error: NSError)
+    {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        //error popup
+    }
+    
+    func locationManager(manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation])
+    {
+        if let location = locations.last
+        {
+            geocoder = CLGeocoder()
+            geocoder?.reverseGeocodeLocation(location,
+                completionHandler: { (placemarks, error) -> Void in
+                    if error == nil
+                    {
+                        self.locationManager?.stopUpdatingLocation()
+                        self.locationManager = nil
+                        let city = placemarks?.first?.locality
+                        print(city)
+                        
+                        UIApplication
+                            .sharedApplication()
+                            .networkActivityIndicatorVisible = false
+                    }
+                    else
+                    {
+                        self.locationManager?.stopUpdatingLocation()
+                        self.locationManager = nil
+                        
+                        print(error?.localizedDescription)
+                        //error popup
+                    }
+            })
+        }
+        else
+        {
+            self.locationManager?.stopUpdatingLocation()
+            self.locationManager = nil
+            
+            //error popup
         }
     }
 }

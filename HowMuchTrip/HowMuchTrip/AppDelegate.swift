@@ -12,8 +12,8 @@ import Parse
 import ParseTwitterUtils
 import FBSDKCoreKit
 import ParseFacebookUtilsV4
-
-
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate
@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
+        Fabric.with([Crashlytics.self])
+
         // Override point for customization after application launch.
         
         // [Optional] Power your app with Local Datastore. For more info, go to
@@ -40,8 +42,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
         
         window?.tintColor = UIColor(red: 0.45, green: 0.8, blue: 0.9, alpha: 1)
-//        UITabBar.appearance().barTintColor = UIColor.whiteColor()
+
         UITabBar.appearance().translucent = true
+        
+        UINavigationBar.appearance().titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+        ]
+        
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().backgroundColor = UIColor.blackColor()
+        
+        UIBarButtonItem.appearance()
+            .setTitleTextAttributes(UINavigationBar.appearance().titleTextAttributes, forState: .Normal)
+        
+//        window?.navigationController?.navigationBar.titleTextAttributes =
+//            [NSForegroundColorAttributeName: UIColor.redColor(),
+//                NSFontAttributeName: UIFont(name: "mplus-1c-regular", size: 21)!]
         
 //        UITabBar.appearance().barColor = UIColor(red: 0.12, green: 0.30, blue: 0.43, alpha: 0.9)
 //        UITabBar.appearance().translucent = false

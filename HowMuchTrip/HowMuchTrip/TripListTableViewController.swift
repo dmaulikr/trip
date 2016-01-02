@@ -22,10 +22,22 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
-        self.refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.tintColor = UIColor.whiteColor()
+        refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
+        refreshControl?.layer.zPosition = self.tableView.backgroundView!.layer.zPosition + 1
         title = "My Trips"
+        
+        setNavBarAttributes()
 
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+    }
+    
+    func setNavBarAttributes()
+    {
+        navigationController?.navigationBar.titleTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+        ]
     }
     
     override func viewWillAppear(animated: Bool)
@@ -135,6 +147,8 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
         else
         {
+            self.navigationItem.leftBarButtonItem?.enabled = false
+
             cell.destinationImageView.image = UIImage(named: "notrips")
             cell.accessoryType = .None
             cell.overlayView.alpha = 0
@@ -145,7 +159,14 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
     {
-        return true
+        if trips.count != 0
+        {
+            return true
+        }
+        else
+        {
+            return false
+        }
     }
 
     // Override to support editing the table view.

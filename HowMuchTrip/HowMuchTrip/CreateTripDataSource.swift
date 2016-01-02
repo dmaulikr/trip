@@ -18,6 +18,15 @@ class CreateTripDataSource
     // MARK: - Initial View Setup
     func initialSetup(superview: CreateTripTableViewController)
     {
+        
+        if let delegate = superview.navigationController?.viewControllers[0] as? SuggestedTripsTableViewController
+        {
+            superview.delegate = delegate
+        }
+        else if let delegate = superview.navigationController?.viewControllers[0] as? TripListTableViewController
+        {
+            superview.delegate = delegate
+        }
 //        self.superview = superview
         
         let textFields = [
@@ -62,7 +71,7 @@ class CreateTripDataSource
         superview.allProperties = allProperties
         
         let allButtons = [
-//            superview.nextButton,
+            superview.nextButton,
 //            superview.skipButton,
             superview.contextButton,
             superview.backButton
@@ -88,6 +97,12 @@ class CreateTripDataSource
         
         superview.budgetRemainingLabel.alpha = 0
         superview.budgetRemainingBottomLabel.alpha = 0
+        
+        superview.prefixPromptLabel.text = ""
+        superview.suffixPromptLabel.text = ""
+        
+        superview.textFieldBGView.alpha = 0
+        
 //        superview.saveTripButton.alpha = 0
 //        superview.saveTripButton.hidden = true
     }
@@ -124,14 +139,15 @@ class CreateTripDataSource
         {
         case 0:
             prefixes = [
-                "First of all, ",
-                "Let's get started: ",
-                "To begin with, ",
-                "Let's start: ",
-                "Let's kick it off: ",
-                "Square one: ",
+                "First of all;",
+                "Let's get started:",
+                "To begin with;",
+                "Let's start:",
+                "Let's kick it off:",
+                "Square one:",
                 "A journey of a thousand miles begins with a single budget.",
-                "Investment in travel is an investment in yourself."
+                "Investment in travel is an investment in yourself.",
+                "Let's begin."
             ]
             suffix = "What's your budget for this trip?"
         case 1:
@@ -263,7 +279,8 @@ class CreateTripDataSource
 //            UIColor(red:0.77, green:0.77, blue:0.77, alpha:1.0)
 //        ]
         let colors = [
-            UIColor(red: 0, green: 0.41, blue: 0.55, alpha: 0.6),
+//            UIColor(red: 0, green: 0.41, blue: 0.55, alpha: 0.6),
+            UIColor(red:0.028, green:0.275, blue:0.36, alpha: 1),
 //            UIColor(red: 1, green: 1, blue: 1, alpha: 0.2),
             UIColor(red: 0.5, green: 0.85, blue: 0.85, alpha: 1),
             UIColor(red: 0.14, green: 0.75, blue: 0.73, alpha: 1),
