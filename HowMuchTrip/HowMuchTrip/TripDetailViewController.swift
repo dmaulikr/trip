@@ -65,7 +65,7 @@ class TripDetailViewController: UITableViewController
             tripDateLabel.text = "\(trip.dateFrom) - \(trip.dateTo)"
             if let dateFrom    = moment(trip.dateFrom, dateFormat: "MM/d/yy")
             {
-                let interval    = moment().intervalSince(dateFrom).days
+                let interval    = moment().intervalSince(dateFrom).days * -1
                 var formattedInterval = String(interval).componentsSeparatedByString(".")[0] + " day until this trip!"
                 if interval > 1.9
                 {
