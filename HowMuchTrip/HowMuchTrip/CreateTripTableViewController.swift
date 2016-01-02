@@ -112,6 +112,7 @@ class CreateTripTableViewController:
     
 //    var cycleCount = 0
 //    var flashCount = 0
+
     var flashTimer: NSTimer?
     
     override func viewDidLoad()
@@ -175,8 +176,10 @@ class CreateTripTableViewController:
         {
             nextButton.enabled = false
             dataSource.fadeButton(nextButton)
+            
 //            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
 //            pulseTextField()
+
         }
         
         return rc
@@ -921,5 +924,6 @@ class CreateTripTableViewController:
         alert.addAction(confirmAction)
         presentViewController(alert, animated: true, completion: nil)
     }
+
 }
 
