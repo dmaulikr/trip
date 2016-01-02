@@ -42,7 +42,7 @@ class TripDetailViewController: UITableViewController
         dataSource.initialSetupPieChart(pieChartView)
 //        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
         
-        if trip.tripName != nil
+        if trip.tripName != nil || trip.tripName != ""
         {
             tripNameLabel.text = trip.tripName
         }
@@ -78,8 +78,6 @@ class TripDetailViewController: UITableViewController
             tripDateLabel.text = ""
             tripDepatureTimeLabel.text = ""
         }
-        
-
     }
     
     override func viewWillAppear(animated: Bool)
@@ -286,8 +284,6 @@ class TripDetailViewController: UITableViewController
         trip.pinInBackground()
     }
 }
-
-
 
 // MARK: - Detail View Cells
 
