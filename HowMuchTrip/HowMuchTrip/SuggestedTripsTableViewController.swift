@@ -35,7 +35,6 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     {
         super.viewWillAppear(true)
         
-//        trips.shuffleInPlace()
         if PFUser.currentUser() != nil
         {
             switch loggedInWith
@@ -51,8 +50,9 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             }
         }
 
-        view.appearWithFade(0.25)
-        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
+        // removed - inconsistent with MyTrips
+//        view.appearWithFade(0.25)
+//        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
     }
     
         
@@ -66,6 +66,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     
     // MARK: - Load Suggested Trips JSON
     
+    /// Load SuggestedTrips from JSON
     func loadTrips()
     {
         if let path = NSBundle.mainBundle().pathForResource("suggestedTrips", ofType: "json"), let data = NSData(contentsOfFile: path)
@@ -82,12 +83,14 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             }
             catch
             {
-                print("loadTrips error: \(error)")
+                self.presentErrorPopup("loadTrips error: \(error)")
             }
         }
 
     }
     
+    /// Recieves JSON data from loadTrips function, then creates a Trip object with that data
+    /// - Returns: a Trip object populated from JSON data, for trips array
     func suggestedTripFromJSON(suggestedTrip: NSDictionary) -> Trip
     {
         let trip: Trip = {
@@ -114,6 +117,9 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             trip.destinationLat         = suggestedTrip["destinationLat"]       as? String ?? ""
             trip.destinationLng         = suggestedTrip["destinationLng"]       as? String ?? ""
             trip.destinationImage       = suggestedTrip["destinationImage"]     as? String ?? ""
+            
+            trip.dateFrom               = suggestedTrip["dateFrom"]             as? String ?? ""
+            trip.dateTo                 = suggestedTrip["dateTo"]               as? String ?? ""
             
             let calculator = Calculator(delegate: nil)
             (trip, _) = calculator.getTotals(trip)
@@ -173,7 +179,10 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
     
-    func handleRefresh(refreshControl: UIRefreshControl) {
+    // MARK: - Private Functions
+    
+    func handleRefresh(refreshControl: UIRefreshControl)
+    {
         // Do some reloading of data and update the table view's data source
         // Fetch more objects from a web service, for example...
         

@@ -51,17 +51,22 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
             print("data could not be parsed \(error)")
         }
         
-        session.dataTaskWithRequest(request) { (data, _, error) -> Void in
+        session.dataTaskWithRequest(request) { (data, response, error) -> Void in
                 if data != nil
                 {
                     if let parsedJSON = self.parseJSON(data!)
                     {
                         self.delegate?.didReceiveQPXResults(parsedJSON)
                     }
+                    else
+                    {
+                        self.delegate?.didReceiveQPXResults(nil)
+                    }
                 }
                 else
                 {
                     print(error?.localizedDescription)
+                    self.delegate?.didReceiveQPXResults(nil)
                 }
             }.resume()
     }
@@ -77,42 +82,45 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
         catch let error as NSError
         {
             print(error)
+            self.delegate?.didReceiveQPXResults(nil)
             return nil
         }
     }
     
     func getRequestJSON(flightSearch: FlightSearch) -> NSDictionary
     {
-        let request = [
+        let request : NSDictionary = [
             "request":
                 [
                     "slice":
-                        [
+                    [
                             [
                                 "origin"        : flightSearch.origin,
                                 "destination"   : flightSearch.destination,
                                 "date"          : flightSearch.date,
                                 //                                "maxStops"      : flightSearch.maxStops,
-                                "preferredCabin": flightSearch.preferredCabin
+//                                "preferredCabin": flightSearch.preferredCabin
                             ]
                     ],
                     "passengers":
                         [
-                            "adultCount"        : flightSearch.adultCount,
-                            "infantInLapCount"  : flightSearch.infantInLapCount,
-                            "infantInSeatCount" : flightSearch.infantInSeatCount,
-                            "childCount"        : flightSearch.childCount,
-                            "seniorCount"       : flightSearch.seniorCount
+                            "adultCount"        : 1,//flightSearch.adultCount,
+                            "infantInLapCount"  : 0,//flightSearch.infantInLapCount,
+                            "infantInSeatCount" : 0,//flightSearch.infantInSeatCount,
+                            "childCount"        : 0,//flightSearch.childCount,
+                            "seniorCount"       : 0,//flightSearch.seniorCount
                     ],
-                    "solutions"     : flightSearch.numberOfResults,
-                    "maxPrice"      : flightSearch.maxPrice,
-                    "saleCountry"   : flightSearch.saleCountry,
-                    "refundable"    : flightSearch.refundable
+                    "solutions"     : 10,//flightSearch.numberOfResults,
+//                    "maxPrice"      : flightSearch.maxPrice,
+//                    "saleCountry"   : flightSearch.saleCountry,
+                    "refundable"    : false//flightSearch.refundable
             ]
 
         ]
-        let requestJSON : NSDictionary = request
+//        let requestJSON : NSDictionary = request
+//        print(requestJSON)
         
-        return requestJSON
+        print(request)
+        return request
     }
 }

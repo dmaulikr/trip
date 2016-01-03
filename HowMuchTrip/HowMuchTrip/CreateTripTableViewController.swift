@@ -25,7 +25,8 @@ class CreateTripTableViewController:
     CalculationFinishedDelegate,
     MapsAPIResultsProtocol,
     UIGestureRecognizerDelegate,
-    CLLocationManagerDelegate
+    CLLocationManagerDelegate,
+    FlightTicketPriceWasChosenProtocol
 {
     
     // MARK: - Labels
@@ -174,15 +175,31 @@ class CreateTripTableViewController:
         }
         else
         {
-            nextButton.enabled = false
+            shakeTextField(shownTextField)
             dataSource.fadeButton(nextButton)
-            
-//            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
-//            pulseTextField()
-
         }
         
         return rc
+    }
+    
+    func shakeTextField(textField: UITextField)
+    {
+        let leftWobble = CGAffineTransformRotate(CGAffineTransformIdentity, -0.01)
+        let rightWobble = CGAffineTransformRotate(CGAffineTransformIdentity, 0.01)
+        
+        textField.transform = leftWobble
+        textFieldBGView.transform = leftWobble
+        
+        UIView.animateWithDuration(0.15, delay: 0,
+            options: [.Repeat, .Autoreverse],
+            animations: { () -> Void in
+            UIView.setAnimationRepeatCount(1)
+            textField.transform = rightWobble
+            self.textFieldBGView.transform = rightWobble
+            }) { (_) -> Void in
+                textField.transform = CGAffineTransformIdentity
+                self.textFieldBGView.transform = CGAffineTransformIdentity
+        }
     }
     
     func textFieldDidEndEditing(textField: UITextField)
@@ -321,10 +338,14 @@ class CreateTripTableViewController:
     {
         if !dataSource.tripCreated
         {
-            if shownTextField == tripNameTextField
+            switch shownTextField
             {
-                nextButton.setTitle("S A V E  T R I P", forState: .Normal)
+            case tripNameTextField: nextButton.setTitle("S A V E  T R I P", forState: .Normal)
+            case dateToTextField: textFieldShouldReturn(dateToTextField)
+            case dateFromTextField: textFieldShouldReturn(dateFromTextField)
+            default: break
             }
+            
 //            textFieldShouldReturn(shownTextField)
             print(indexOfTextField, allProperties.count)
             let propertyKey = allProperties[indexOfTextField]
@@ -334,7 +355,15 @@ class CreateTripTableViewController:
             
             let property = allProperties[indexOfTextField]
             
+            print(property)
+            
             calculate(true, property: property, value: shownTextField.text!)
+            
+            UIView.animateWithDuration(0.50, animations: { () -> Void in
+                self.textFieldBGView.hideWithFade(0.5)
+                }, completion: { (_) -> Void in
+                    self.textFieldBGView.appearWithFade(0.5)
+            })
         }
         else
         {
@@ -386,10 +415,18 @@ class CreateTripTableViewController:
     
     @IBAction func flightButtonPressed(sender: UIButton)
     {
-        let flightStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
-        let contextPopover = flightStoryboard.instantiateViewControllerWithIdentifier("FlightPopover") as! FlightPopoverViewController
-        contextPopover.trip = trip
-        self.addContextPopover(contextPopover)
+        if trip.dateFrom != ""
+        {
+            let flightStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
+            let contextPopover = flightStoryboard.instantiateViewControllerWithIdentifier("FlightPopover") as! FlightPopoverViewController
+            contextPopover.trip = trip
+            contextPopover.delegate = self
+            self.addContextPopover(contextPopover)
+        }
+        else
+        {
+            presentErrorPopup("Please go back and specify a date range if you'd like to look up flights! :)")
+        }
     }
     
     @IBAction func hotelButtonPressed(sender: UIButton)
@@ -418,7 +455,13 @@ class CreateTripTableViewController:
             presentViewController(alert, animated: true, completion: nil)
             
         }
-        saveTrip(trip)
+        else
+        {
+            saveTrip(trip)
+        }
+        
+        
+//        saveTrip(trip)
         switch loggedInWith
         {
             case "Twitter":
@@ -500,7 +543,7 @@ class CreateTripTableViewController:
         print("didReceiveMapsAPIResults")
     }
     
-    // MARK: - Graph Functions
+    // MARK: - Context Popover Delegate Functions
     
     func dateWasChosen(date: Moment?, textFieldTag: Int)
     {
@@ -533,6 +576,34 @@ class CreateTripTableViewController:
                 }
             }
         }
+        else
+        {
+            switch textFieldTag
+            {
+            case dateFromTextField.tag:
+                dateFromTextField.becomeFirstResponder()
+                dateFromTextField.text = " "
+                textFieldShouldReturn(dateFromTextField)
+            case dateToTextField.tag:
+                dateToTextField.becomeFirstResponder()
+                dateToTextField.text = " "
+                textFieldShouldReturn(dateToTextField)
+            default: print("default error in dateWasChosen -- unknown textField: \(textFieldTag)")
+            }
+        }
+    }
+    
+    func flightTicketPriceWasChosen(price: String)
+    {
+        dismissContextPopover(FlightPopoverViewController)
+        planeTicketTextField.becomeFirstResponder()
+        if price != ""
+        {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.planeTicketTextField.text = price
+                self.textFieldShouldReturn(self.planeTicketTextField)
+            })
+        }
     }
     
     // MARK: - Private Functions
@@ -564,6 +635,12 @@ class CreateTripTableViewController:
                 self.dataSource.buildGraphAndLegend(self.trip, superview: self)
             }
         }
+        
+        print(trip.departureLocation)
+        
+        let genericImages = ["country-road","fancy-bar","fancy-dinner","fine-dining","fruit-market","hotel-room-service","outside-cafe","pond-cannonball", "tulips"]
+        
+        trip.destinationImage = genericImages[Int(arc4random() % UInt32(genericImages.count))]
     }
     
     func calculationFinished(overBudget: Bool)
@@ -585,8 +662,6 @@ class CreateTripTableViewController:
         {
             didGoOverBudget()
         }
-        
-        print(trip.destinationLng, trip.destinationLat)
     }
     
     func didGoOverBudget()
@@ -743,7 +818,7 @@ class CreateTripTableViewController:
     {
         let tapOutsideTextField = UITapGestureRecognizer(target: self, action: "dismissKeyboardUponTouch")
         tapOutsideTextField.delegate = self
-        
+        tapOutsideTextField.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapOutsideTextField)
     }
     
@@ -865,7 +940,9 @@ class CreateTripTableViewController:
     func locationManager(manager: CLLocationManager,
         didFailWithError error: NSError)
     {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        locationManager?.stopUpdatingLocation()
+        locationManager = nil
+//        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
     }
     
@@ -881,13 +958,14 @@ class CreateTripTableViewController:
                     {
                         self.locationManager?.stopUpdatingLocation()
                         self.locationManager = nil
-                        let locality: String! = placemarks!.first!.locality // city
-//                        let region = placemarks?.first?.region
+                        
+                        let locality: String! = placemarks!.first!.locality
                         let country: String! = placemarks!.first!.country
                         let state: String! = placemarks!.first!.administrativeArea
-
+                        
                         self.departureLocationTextField.text =
-                            "\(locality), \(state), \(country)"
+                        "\(locality), \(state), \(country)"
+                        self.textFieldShouldReturn(self.departureLocationTextField)
                         
                         UIApplication
                             .sharedApplication()
@@ -911,19 +989,5 @@ class CreateTripTableViewController:
             presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
         }
     }
-    
-    func presentErrorPopup(errorMessage: String)
-    {
-        let alert = UIAlertController(
-            title: "Whoops",
-            message: errorMessage,
-            preferredStyle: .Alert
-        )
-        
-        let confirmAction = UIAlertAction(title: "Okay", style: .Default, handler: nil)
-        alert.addAction(confirmAction)
-        presentViewController(alert, animated: true, completion: nil)
-    }
-
 }
 

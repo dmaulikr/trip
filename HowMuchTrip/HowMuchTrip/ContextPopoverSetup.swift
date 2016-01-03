@@ -8,18 +8,21 @@
 
 import Foundation
 
+/// Class  used to create a standard context popover used during the CreateTrip process
 class ContextPopoverSetup
 {
     class func setup(confirmButton: UIButton, cancelButton: UIButton)
     {
         confirmButton.alpha = 0
         
+        /// Options to confirm context popover selection
         let confirmations = [
             "Okay",
             "All set",
             "Looks good"
         ]
         
+        /// Options to cancel context popover selection
         let cancellations = [
             "Never mind",
             "Just kidding",

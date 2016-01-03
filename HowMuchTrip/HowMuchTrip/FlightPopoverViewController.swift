@@ -14,6 +14,7 @@ class FlightPopoverViewController: UIViewController
     @IBOutlet weak var cancelButton: UIButton!
     
     var trip: Trip!
+    var delegate: FlightTicketPriceWasChosenProtocol?
     
     override func viewDidLoad()
     {
@@ -22,6 +23,7 @@ class FlightPopoverViewController: UIViewController
         
         let childViewController = childViewControllers.first as! FlightPopoverTableViewController
         childViewController.trip = trip
+        childViewController.delegate = delegate
     }
     
     @IBAction func confirmButtonPressed(sender: UIButton)

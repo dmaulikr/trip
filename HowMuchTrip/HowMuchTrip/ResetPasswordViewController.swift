@@ -14,6 +14,7 @@ protocol ResetRequestWasSentProtocol
     func resetRequestWasSent()
 }
 
+/// Resets password for email/username accounts
 class ResetPasswordViewController: UIViewController
 {
     @IBOutlet weak var emailField: UITextField!
@@ -26,10 +27,10 @@ class ResetPasswordViewController: UIViewController
         emailField.becomeFirstResponder()
     }
     
-    //Resets the users password via email
+    // Resets the users password via email
     @IBAction func passwordReset(sender: AnyObject)
     {
-        //Remove any whitespaces added to the beginning or end of an email entry
+        // Remove any whitespaces added to the beginning or end of an email entry
         let email: String = {
             if let email = emailField.text
             {
@@ -41,7 +42,7 @@ class ResetPasswordViewController: UIViewController
             }
         }()
         
-        //Validates that the entered email is in the correct format
+        // Validates that the entered email is in the correct format
         if Validator.validate("email", string: email)
         {
             //Send a request to reset a password

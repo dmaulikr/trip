@@ -17,8 +17,6 @@ class SettingsViewController: UIViewController
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var loginLogoutButton: UIButton!
-    
-    let aParseUser = ParseUser()
         
     override func viewDidLoad()
     {
@@ -33,6 +31,12 @@ class SettingsViewController: UIViewController
             NSForegroundColorAttributeName: UIColor.whiteColor(),
             NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
         ]
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+            ], forState: .Normal)
+        navigationItem.rightBarButtonItem?.setTitleTextAttributes([
+            NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
+            ], forState: .Highlighted)
     }
     
     override func didReceiveMemoryWarning()
@@ -49,12 +53,15 @@ class SettingsViewController: UIViewController
         userImage.layer.borderColor = UIColor.blackColor().CGColor
         userImage.layer.borderWidth = 0.4
         
-        view.appearWithFade(0.25)
-        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
+        // removed - inconsistent with MyTrips
+//        view.appearWithFade(0.25)
+//        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
         
         //If the user is not nil, run the switch statement below to determine how they logged in
         if PFUser.currentUser() != nil
         {
+            navigationItem.rightBarButtonItem?.title = "Logout"
+            
             switch loggedInWith
             {
             case "Twitter":
@@ -70,6 +77,7 @@ class SettingsViewController: UIViewController
                 PFUser.logOut()
                 //loginLogoutButton.setTitle("Login", forState: .Normal)
                 userImage.image = UIImage(named: "GenericUserImage")
+                navigationItem.rightBarButtonItem?.title = "Login"
                 userNameLabel.text = nil
             }
         }
@@ -80,14 +88,17 @@ class SettingsViewController: UIViewController
             //loginLogoutButton.setTitle("Login", forState: .Normal)
             userImage.image = UIImage(named: "GenericUserImage")
             userNameLabel.text = nil
+            navigationItem.rightBarButtonItem?.title = "Login"
         }
     }
+    
+    // MARK: - Action Handlers
     
     @IBAction func pressedNavButtonRight(sender: UIBarButtonItem) //Create an IBAction
     {
         if PFUser.currentUser() == nil
         {
-            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Logout", style: UIBarButtonItemStyle.Plain, target: self, action: "pressedNavButtonRight:")
+            //setting the button title here was unncecessary because viewWillAppear will get called when the login view controller is dismissed, and the button title will get set during viewWillAppear
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 self.presentViewController(viewController, animated: true, completion: { () -> Void in
@@ -98,14 +109,34 @@ class SettingsViewController: UIViewController
         }
         else if PFUser.currentUser() != nil
         {
-            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "Login", style: UIBarButtonItemStyle.Plain, target: self, action: "pressedNavButtonRight:")
             //Log the user out, set the name to nil, and set the generic image
-            PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in if error != nil { print("logout fail"); print(error) } else { print("logout success") } }
-            userNameLabel.text = nil
+            PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in
+                if error != nil
+                {
+                    print("logout fail");
+                    print(error)
+                    
+                    self.presentErrorPopup("Whoa, sorry. Looks like there was an issue logging you out.")
+                }
+                else
+                {
+                    print("logout success")
+                    
+                }
+            }
+            userNameLabel.text = ""
             userImage.image = UIImage(named: "GenericUserImage")
+            navigationItem.rightBarButtonItem?.title = "Login"
             
         }
         
+    }
+    
+    @IBAction func emailTapped(sender: UIButton)
+    {
+        let email = "support@howmuctrip.com"
+        let url = NSURL(string: "mailto:\(email)")
+        UIApplication.sharedApplication().openURL(url!)
     }
     
 //    //Log the user in our out of the app
@@ -136,7 +167,9 @@ class SettingsViewController: UIViewController
 //        }
 //    }
     
-    //This function will run if the user created a custom username and password and did not login with social media
+    // MARK: - Email Login/logout functions
+
+    /// This function will run if the user created a custom username and password and did not login with social media
     func processUsernameData()
     {
         if PFUser.currentUser() != nil
@@ -150,7 +183,9 @@ class SettingsViewController: UIViewController
         }
     }
     
-    //This function will run if the user signed in with their Facebook account
+    // MARK: - Facebook Login/logout functions
+
+    /// This function will run if the user signed in with their Facebook account
     func processFacebookData()
     {
         let requestParameters = ["fields": "id, email, first_name, last_name"]
@@ -241,7 +276,9 @@ class SettingsViewController: UIViewController
         }
     }
     
-    //This function will run if the user signed in with their Twitter account
+    // MARK: - Twitter Login/logout functions
+    
+    /// This function will run if the user signed in with their Twitter account
     func processTwitterData()
     {
         //Get username of currently logged in user
@@ -277,6 +314,7 @@ class SettingsViewController: UIViewController
                 
                 //Log the user out if there was an error
                 PFUser.logOut()
+                self.navigationItem.rightBarButtonItem?.title = "Login"
                 return
                 
             }

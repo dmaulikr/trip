@@ -294,7 +294,7 @@ class CreateTripDataSource
     
     func getGraphValuesAndProperties(aTrip: Trip) -> ([Double], [String])
     {
-        var values = [
+        let values = [
             aTrip.budgetRemaining,
             aTrip.planeTicketCost,
             aTrip.totalLodgingCosts,
@@ -303,7 +303,7 @@ class CreateTripDataSource
             aTrip.oneTimeCost
         ]
         
-        var graphProperties = [
+        let graphProperties = [
             "Budget Remaining",
             "Plane Ticket",
             "Total Lodging",
@@ -311,17 +311,6 @@ class CreateTripDataSource
             "Total Daily Other Cost",
             "Total One Time Costs"
         ]
-        
-        // Remove '0' value entries for graphing
-        for x in values
-        {
-            if x == 0
-            {
-                let index = values.indexOf(x)
-                values.removeAtIndex(index!)
-                graphProperties.removeAtIndex(index!)
-            }
-        }
         
         return (values, graphProperties)
     }
@@ -530,7 +519,7 @@ class CreateTripDataSource
         }
         else
         {
-            invalidCharacters = NSCharacterSet(charactersInString: "0123456789.").invertedSet //only includes 0-9
+            invalidCharacters = NSCharacterSet(charactersInString: "0123456789./").invertedSet //only includes 0-9
         }
         
         if let _ = string

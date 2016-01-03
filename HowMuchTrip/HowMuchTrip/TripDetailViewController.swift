@@ -17,6 +17,7 @@ class TripDetailViewController: UITableViewController
     let dataSource = CreateTripDataSource()
     var viewAppeared = false
     
+    @IBOutlet weak var backupImageView: UIImageView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var legendContainerView: UIView!
     @IBOutlet weak var pieChartView: PieChartView!
@@ -42,7 +43,7 @@ class TripDetailViewController: UITableViewController
         dataSource.initialSetupPieChart(pieChartView)
 //        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
         
-        if trip.tripName != nil
+        if trip.tripName != nil || trip.tripName != ""
         {
             tripNameLabel.text = trip.tripName
         }
@@ -51,15 +52,40 @@ class TripDetailViewController: UITableViewController
             tripNameLabel.text = trip.destination
         }
         
-        tripDepartureAndDestinationLabel.text = "\(trip.departureLocation) to \(trip.destination)"
+        if trip.departureLocation != "" && trip.destination != ""
+        {
+            tripDepartureAndDestinationLabel.text = "\(trip.departureLocation) to \(trip.destination)"
+        }
+        else
+        {
+            tripDepartureAndDestinationLabel.text = "Here to Somewhere Else"
+        }
         
-        // FIXME: convert moment back to nsdate
-        let dateFrom = moment(trip.dateFrom, dateFormat: "MM/d/yy")
-        tripDateLabel.text = "\(dateFrom) - \(moment(trip.dateTo, dateFormat: "MM/d/yy"))"
-        print(trip.dateFrom)
-        print(dateFrom)
-        
-        tripDepatureTimeLabel.text = "Fix me"
+        if trip.dateFrom != "" && trip.dateTo != ""
+        {
+            tripDateLabel.text = "\(trip.dateFrom) - \(trip.dateTo)"
+            if let dateFrom    = moment(trip.dateFrom, dateFormat: "MM/d/yy")
+            {
+                let interval    = dateFrom.intervalSince(moment()).days
+                var formattedInterval = String(interval).componentsSeparatedByString(".")[0] + " day until this trip!"
+                if interval > 1.9
+                {
+                    formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("day", withString: "days")
+                }
+//                var formattedInterval = interval.componentsSeparatedByString(" ")[0] + interval.componentsSeparatedByString(" ")[1]
+//                formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("d", withString: " day")
+//                formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("w", withString: " week, ")
+//                formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("m", withString: " month, ")
+                
+                tripDepatureTimeLabel.text = formattedInterval
+            }
+            
+        }
+        else
+        {
+            tripDateLabel.text = ""
+            tripDepatureTimeLabel.text = ""
+        }
     }
     
     override func viewWillAppear(animated: Bool)
@@ -111,22 +137,24 @@ class TripDetailViewController: UITableViewController
         {
             lat = Double(trip.destinationLat)
             lng = Double(trip.destinationLng)
+            
+            mapView.mapType = MKMapType.Standard
+            let annotation = MKPointAnnotation()
+            
+            annotation.coordinate.latitude = lat
+            annotation.coordinate.longitude = lng
+            let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
+            
+            mapView.setRegion(region, animated: true)
         }
         else
         {
             // TODO: - set generic vacation image in place of mapView if there is no lat and lng for location
-            lat = 28.538336
-            lng = -81.379234
+            mapView.hidden = true
+            backupImageView.hidden = false
+            backupImageView.image = UIImage(named: trip.destinationImage)
         }
         
-        mapView.mapType = MKMapType.Standard
-        let annotation = MKPointAnnotation()
-        
-        annotation.coordinate.latitude = lat
-        annotation.coordinate.longitude = lng
-        let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
-
-        mapView.setRegion(region, animated: true)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
@@ -266,8 +294,6 @@ class TripDetailViewController: UITableViewController
         trip.pinInBackground()
     }
 }
-
-
 
 // MARK: - Detail View Cells
 

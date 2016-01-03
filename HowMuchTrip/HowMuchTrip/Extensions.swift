@@ -156,6 +156,21 @@ extension UIView
 
 extension UIViewController
 {
+    /// Presents a uninform error alert message for error handling
+    func presentErrorPopup(errorMessage: String)
+    {
+        let alert = UIAlertController(
+            title: "Whoops",
+            message: errorMessage,
+            preferredStyle: .Alert
+        )
+        
+        let confirmAction = UIAlertAction(title: "Okay", style: .Default, handler: nil)
+        alert.addAction(confirmAction)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    /// Presents a uniform context popover throughout the application
     func addContextPopover(controllerToAdd: UIViewController)
     {
         let height = self.view.frame.width
@@ -189,6 +204,7 @@ extension UIViewController
         }
     }
     
+    /// Dismisses the custom context popover
     func dismissContextPopover(contextPopover: AnyClass) -> Bool
     {
         self.view.removeDimmedOverlayView()
@@ -215,6 +231,8 @@ extension UIViewController
 
 extension Double
 {
+    /// Function to format a Double into a String in a consistent, US Dollar format
+    /// - Returns: A String in the "$1234" format
     func formatCostAsUSD() -> String
     {
         let formatter = NSNumberFormatter()
