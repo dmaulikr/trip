@@ -58,7 +58,7 @@ class Calculator
             case "Destination"          : trip.destination          = value
             case "Date From"            : trip.dateFrom             = value
             case "Date To"              : trip.dateTo               = value
-            case "Plane Ticket Cost"    : trip.planeTicketCost      = Double(value)!
+            case "Plane Ticket Cost"    : print(value) ; trip.planeTicketCost      = Double(value)!
             case "Daily Lodging Cost"   : trip.dailyLodgingCost     = Double(value)!
             case "Daily Food Cost"      : trip.dailyFoodCost        = Double(value)!
             case "Daily Other Cost"     : trip.dailyOtherCost       = Double(value)!
