@@ -321,10 +321,14 @@ class CreateTripTableViewController:
     {
         if !dataSource.tripCreated
         {
-            if shownTextField == tripNameTextField
+            switch shownTextField
             {
-                nextButton.setTitle("S A V E  T R I P", forState: .Normal)
+            case tripNameTextField: nextButton.setTitle("S A V E  T R I P", forState: .Normal)
+            case dateToTextField: textFieldShouldReturn(dateToTextField)
+            case dateFromTextField: textFieldShouldReturn(dateFromTextField)
+            default: break
             }
+            
 //            textFieldShouldReturn(shownTextField)
             print(indexOfTextField, allProperties.count)
             let propertyKey = allProperties[indexOfTextField]
@@ -333,6 +337,8 @@ class CreateTripTableViewController:
             checkForLocation(shownTextField)
             
             let property = allProperties[indexOfTextField]
+            
+            print(property)
             
             calculate(true, property: property, value: shownTextField.text!)
         }
@@ -565,6 +571,7 @@ class CreateTripTableViewController:
             }
         }
         
+        print(trip.departureLocation)
         
         let genericImages = ["country-road","fancy-bar","fancy-dinner","fine-dining","fruit-market","hotel-room-service","outside-cafe","pond-cannonball", "tulips"]
         
@@ -870,7 +877,9 @@ class CreateTripTableViewController:
     func locationManager(manager: CLLocationManager,
         didFailWithError error: NSError)
     {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+        locationManager?.stopUpdatingLocation()
+        locationManager = nil
+//        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
     }
     
@@ -886,13 +895,13 @@ class CreateTripTableViewController:
                     {
                         self.locationManager?.stopUpdatingLocation()
                         self.locationManager = nil
-                        let locality: String! = placemarks!.first!.locality // city
-//                        let region = placemarks?.first?.region
+                        
+                        let locality: String! = placemarks!.first!.locality
                         let country: String! = placemarks!.first!.country
                         let state: String! = placemarks!.first!.administrativeArea
-
+                        
                         self.departureLocationTextField.text =
-                            "\(locality), \(state), \(country)"
+                        "\(locality), \(state), \(country)"
                         
                         UIApplication
                             .sharedApplication()

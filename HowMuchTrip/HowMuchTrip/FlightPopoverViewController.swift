@@ -22,6 +22,7 @@ class FlightPopoverViewController: UIViewController
         
         let childViewController = childViewControllers.first as! FlightPopoverTableViewController
         childViewController.trip = trip
+        print("set trip")
     }
     
     @IBAction func confirmButtonPressed(sender: UIButton)

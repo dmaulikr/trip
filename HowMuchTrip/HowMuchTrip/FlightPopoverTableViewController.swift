@@ -14,7 +14,11 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     var trip: Trip! {
         didSet {
-            loadAirports(trip.departureLocation)
+            searchBar.delegate = self
+            searchBar.text = trip.departureLocation
+            searchBarSearchButtonClicked(searchBar)
+            print(searchBar.text!)
+//            loadAirports(trip.departureLocation)
         }
     }
     
@@ -68,6 +72,12 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
         searchBar.delegate = self
 //        searchParameters = FlightSearch()
         apiController = QPX_EX_APIController(delegate: self)
+    }
+    
+    override func viewDidAppear(animated: Bool)
+    {
+        print(trip)
+        searchBar.text = trip.departureLocation
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar)
