@@ -17,6 +17,7 @@ class TripDetailViewController: UITableViewController
     let dataSource = CreateTripDataSource()
     var viewAppeared = false
     
+    @IBOutlet weak var backupImageView: UIImageView!
     @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var legendContainerView: UIView!
     @IBOutlet weak var pieChartView: PieChartView!
@@ -57,7 +58,7 @@ class TripDetailViewController: UITableViewController
         }
         else
         {
-            tripDepartureAndDestinationLabel.text = "Here to somewhere else"
+            tripDepartureAndDestinationLabel.text = "Here to Somewhere Else"
         }
         
         if trip.dateFrom != "" && trip.dateTo != ""
@@ -65,7 +66,7 @@ class TripDetailViewController: UITableViewController
             tripDateLabel.text = "\(trip.dateFrom) - \(trip.dateTo)"
             if let dateFrom    = moment(trip.dateFrom, dateFormat: "MM/d/yy")
             {
-                let interval    = moment().intervalSince(dateFrom).days * -1
+                let interval    = dateFrom.intervalSince(moment()).days
                 var formattedInterval = String(interval).componentsSeparatedByString(".")[0] + " day until this trip!"
                 if interval > 1.9
                 {
@@ -136,22 +137,24 @@ class TripDetailViewController: UITableViewController
         {
             lat = Double(trip.destinationLat)
             lng = Double(trip.destinationLng)
+            
+            mapView.mapType = MKMapType.Standard
+            let annotation = MKPointAnnotation()
+            
+            annotation.coordinate.latitude = lat
+            annotation.coordinate.longitude = lng
+            let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
+            
+            mapView.setRegion(region, animated: true)
         }
         else
         {
             // TODO: - set generic vacation image in place of mapView if there is no lat and lng for location
-            lat = 28.538336
-            lng = -81.379234
+            mapView.hidden = true
+            backupImageView.hidden = false
+            backupImageView.image = UIImage(named: trip.destinationImage)
         }
         
-        mapView.mapType = MKMapType.Standard
-        let annotation = MKPointAnnotation()
-        
-        annotation.coordinate.latitude = lat
-        annotation.coordinate.longitude = lng
-        let region = MKCoordinateRegionMakeWithDistance(annotation.coordinate, 15000, 15000)
-
-        mapView.setRegion(region, animated: true)
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat

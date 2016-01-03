@@ -174,7 +174,7 @@ class CreateTripTableViewController:
         }
         else
         {
-            nextButton.enabled = false
+//            nextButton.enabled = false
             dataSource.fadeButton(nextButton)
             
 //            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
@@ -424,7 +424,13 @@ class CreateTripTableViewController:
             presentViewController(alert, animated: true, completion: nil)
             
         }
-        saveTrip(trip)
+        else
+        {
+            saveTrip(trip)
+        }
+        
+        
+//        saveTrip(trip)
         switch loggedInWith
         {
             case "Twitter":
@@ -597,8 +603,6 @@ class CreateTripTableViewController:
         {
             didGoOverBudget()
         }
-        
-        print(trip.destinationLng, trip.destinationLat)
     }
     
     func didGoOverBudget()
