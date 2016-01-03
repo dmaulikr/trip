@@ -140,7 +140,7 @@ class SettingsViewController: UIViewController
     //Set the email text to a link that will open the users email app
     @IBAction func emailTapped(sender: UIButton)
     {
-        let email = "support@howmuctrip.com"
+        let email = "support@howmuchtrip.com"
         let url = NSURL(string: "mailto:\(email)")
         UIApplication.sharedApplication().openURL(url!)
     }
