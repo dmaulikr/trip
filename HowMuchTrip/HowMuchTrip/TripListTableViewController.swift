@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 
+/// View Controller for table of user's saved trips. User must be logged in to save a trip.
 class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 {
     var trips = [Trip]()
@@ -296,7 +297,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     // MARK: - Misc Functions
     
 
-    /// Refresh the list and stop the activity indicator
+    /// Pull to Refresh the list and stop the activity indicator
     func handleRefresh(refreshControl: UIRefreshControl)
     {
         refreshList()

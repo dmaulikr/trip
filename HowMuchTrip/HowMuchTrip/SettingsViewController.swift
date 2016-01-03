@@ -52,6 +52,7 @@ class SettingsViewController: UIViewController
         userImage.clipsToBounds = true
         userImage.layer.borderColor = UIColor.blackColor().CGColor
         userImage.layer.borderWidth = 0.4
+        //userImage.image?.circleMask
         
         // removed - inconsistent with MyTrips
 //        view.appearWithFade(0.25)
@@ -76,7 +77,7 @@ class SettingsViewController: UIViewController
             default:
                 PFUser.logOut()
                 //loginLogoutButton.setTitle("Login", forState: .Normal)
-                userImage.image = UIImage(named: "GenericUserImage")
+                userImage.image = UIImage(named: "UserIcon")
                 navigationItem.rightBarButtonItem?.title = "Login"
                 userNameLabel.text = nil
             }
@@ -86,7 +87,7 @@ class SettingsViewController: UIViewController
             //If the user is nil, make sure to end the login session and clear out any data left behind
             PFUser.logOut()
             //loginLogoutButton.setTitle("Login", forState: .Normal)
-            userImage.image = UIImage(named: "GenericUserImage")
+            userImage.image = UIImage(named: "UserIcon")
             userNameLabel.text = nil
             navigationItem.rightBarButtonItem?.title = "Login"
         }
@@ -125,7 +126,7 @@ class SettingsViewController: UIViewController
                 }
             }
             userNameLabel.text = ""
-            userImage.image = UIImage(named: "GenericUserImage")
+            userImage.image = UIImage(named: "UserIcon")
             navigationItem.rightBarButtonItem?.title = "Login"
             
         }
@@ -179,7 +180,7 @@ class SettingsViewController: UIViewController
         
             //Set the nameLabel and image on the SettingsVC
             self.userNameLabel?.text = "@" + pUserName
-            self.userImage?.image = UIImage(named: "GenericUserImage")
+            self.userImage?.image = UIImage(named: "UserIcon")
         }
     }
     
@@ -369,4 +370,23 @@ class SettingsViewController: UIViewController
     }
     
 }
+
+extension UIImage {
+    var circleMask: UIImage {
+        let square = size.width < size.height ? CGSize(width: size.width, height: size.width) : CGSize(width: size.height, height: size.height)
+        let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: square))
+        imageView.contentMode = UIViewContentMode.ScaleAspectFill
+        imageView.image = self
+        imageView.layer.cornerRadius = square.width/2
+        imageView.layer.borderColor = UIColor.whiteColor().CGColor
+        imageView.layer.borderWidth = 4
+        imageView.layer.masksToBounds = true
+        UIGraphicsBeginImageContext(imageView.bounds.size)
+        imageView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
+        let result = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return result
+    }
+}
+
 
