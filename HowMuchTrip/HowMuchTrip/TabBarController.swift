@@ -10,9 +10,11 @@ import UIKit
 
 class TabBarController: UITabBarController
 {
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
         
+        // Set universal application navigation bar attributes
         tabBar.backgroundImage = UIImage(named: "background")
         tabBar.contentMode = .Bottom
         
@@ -39,6 +41,7 @@ class TabBarController: UITabBarController
         }
     }
     
+    /// Adds animation to the navigation tab bar
     override func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem)
     {
         let button = tabBar.preferredFocusedView!

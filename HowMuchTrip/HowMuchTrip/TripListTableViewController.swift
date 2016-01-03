@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 
+/// View Controller for table of user's saved trips. User must be logged in to save a trip.
 class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 {
     var trips = [Trip]()
@@ -22,22 +23,25 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
+        // Set up activity indicator for Pull to Refresh action
         refreshControl?.tintColor = UIColor.whiteColor()
         refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
         refreshControl?.layer.zPosition = self.tableView.backgroundView!.layer.zPosition + 1
         
         title = "My Trips"
         
+        // Set up Navigation Bar attributes
         setNavBarAttributes()
 
+        // Set up bar button to allow editing of the Trip List
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
-//        refreshList()
     }
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(true)
         
+        // If the user is not currently logged, send user to the Settings View Controller to log in
         if PFUser.currentUser() != nil
         {
             switch loggedInWith
@@ -52,10 +56,6 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 PFUser.logOut()
             }
         }
-        
-        // removed - causing a flash of the emptyState cell
-//        view.appearWithFade(0.25)
-//        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
         
         // refreshList here, to prevent flash of emptyState cell
         refreshList()
@@ -75,6 +75,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
     }
     
+    /// Sets attributes for the Navigation Tab Bar
     func setNavBarAttributes()
     {
         navigationController?.navigationBar.titleTextAttributes = [
@@ -87,6 +88,8 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     {
         super.didReceiveMemoryWarning()
     }
+    
+    // MARK: - Navigation
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)
     {
@@ -105,10 +108,12 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
     {
+        // Show list of trips if there are trips in the trips array
         if trips.count != 0
         {
             return trips.count
         }
+        // Show one cell for the empty state image
         else
         {
             return 1
@@ -118,12 +123,14 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("TripCell", forIndexPath: indexPath) as! TripCell
 
+        // If trips array is not empty, display Trip objects
         if trips.count != 0
         {
             self.navigationItem.leftBarButtonItem?.enabled = true
             cell.accessoryType = .DisclosureIndicator
             let aTrip = trips[indexPath.row]
             
+            // If Trip does not have a Name, set label to Destination
             if aTrip.tripName != nil
             {
                 cell.tripNameLabel.text = aTrip.tripName
@@ -133,23 +140,19 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
                 cell.tripNameLabel.text = aTrip.destination
             }
             
-//            cell.overlayView.alpha = 0.6
-
-    //        cell.departureLocationLabel.text = aTrip.departureLocation
             cell.destinationLabel.text = aTrip.destination
             cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
-            
-            
             cell.destinationImageView.image = UIImage(named: aTrip.destinationImage)
-
             cell.overlayView.alpha = 0.6
             
             return cell
         }
         else
         {
+            // Turn off ability to delete empty state image
             self.navigationItem.leftBarButtonItem?.enabled = false
-
+            
+            // When trips array is empty, display the empty state image
             cell.destinationImageView.image = UIImage(named: "notrips")
             cell.accessoryType = .None
             cell.overlayView.alpha = 0
@@ -160,6 +163,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool
     {
+        // If trips array is not empty, allow editing. Otherwise, do not allow editing.
         if trips.count != 0
         {
             return true
@@ -176,19 +180,26 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         if editingStyle == .Delete
         {
             let aTrip = trips[indexPath.row]
+            
+            // Remove from trips array
             trips.removeAtIndex(indexPath.row)
+            
             // Remove from local datastore
             aTrip.unpinInBackground()
+            
             // Remove from Parse cloud
             aTrip.deleteEventually()
+            
             // Delete row in table
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            
             tableView.reloadData()
         }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
+        // Set height for displaying the empty state image in a single cell
         if trips.count == 0
         {
             return view.frame.height
@@ -199,21 +210,16 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
     }
     
-    func tripWasSaved(savedTrip: Trip)
-    {
-        refreshList()
-        navigationController?.popToRootViewControllerAnimated(true)
-        goToTripDetail(savedTrip)
-    }
-    
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
+        // If the trips array is not empty, go to the Trip Detail of the selected trip
         if trips.count != 0
         {
             let selectedTrip = trips[indexPath.row]
             goToTripDetail(selectedTrip)
         }
         else
+        // If trips array is empty, go to the Create Trip view controller
         {
             performSegueWithIdentifier("createSegue", sender: self)
         }
@@ -221,7 +227,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     
     // MARK: - Shift View to TripDetailVC
     
-    /// Function to segue to newly instantiated view controller on different storyboard
+    /// Function to segue to newly instantiated view controller on different storyboard, passing selected Trip object
     func goToTripDetail(selectedTrip: Trip)
     {
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
@@ -229,6 +235,15 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
         tripDetailVC.trip = selectedTrip
         navigationController?.pushViewController(tripDetailVC, animated: true)
+    }
+    
+    /// Function to move the view from Create Trip to Trip Detail
+    func tripWasSaved(savedTrip: Trip)
+    {
+        // Refresh the Parse driven trips array, then move to the detail view of the newly created Trip
+        refreshList()
+        navigationController?.popToRootViewControllerAnimated(true)
+        goToTripDetail(savedTrip)
     }
     
     // MARK: - Parse Queries
@@ -267,6 +282,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             }
         }
         else
+        // User is nil, clear the the trips array and Trip List
         {
             clearTripsArray()
             spinner.stopAnimating()
@@ -277,12 +293,14 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     
     // MARK: - Misc Functions
     
+    /// Pull to Refresh the list and stop the activity indicator
     func handleRefresh(refreshControl: UIRefreshControl)
     {
         refreshList()
         refreshControl.endRefreshing()
     }
     
+    /// Clear the trips array and the cells of old data
     func clearTripsArray()
     {
         trips.removeAll()
@@ -296,6 +314,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
     }
     
+    /// Function to add a pulsing animation to the '+' Add Trip button
     func pulseAddButton()
     {
         let addButton = navigationItem.rightBarButtonItem!

@@ -175,15 +175,31 @@ class CreateTripTableViewController:
         }
         else
         {
-//            nextButton.enabled = false
+            shakeTextField(shownTextField)
             dataSource.fadeButton(nextButton)
-            
-//            flashTimer = NSTimer.scheduledTimerWithTimeInterval(0.025, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
-//            pulseTextField()
-
         }
         
         return rc
+    }
+    
+    func shakeTextField(textField: UITextField)
+    {
+        let leftWobble = CGAffineTransformRotate(CGAffineTransformIdentity, -0.01)
+        let rightWobble = CGAffineTransformRotate(CGAffineTransformIdentity, 0.01)
+        
+        textField.transform = leftWobble
+        textFieldBGView.transform = leftWobble
+        
+        UIView.animateWithDuration(0.15, delay: 0,
+            options: [.Repeat, .Autoreverse],
+            animations: { () -> Void in
+            UIView.setAnimationRepeatCount(1)
+            textField.transform = rightWobble
+            self.textFieldBGView.transform = rightWobble
+            }) { (_) -> Void in
+                textField.transform = CGAffineTransformIdentity
+                self.textFieldBGView.transform = CGAffineTransformIdentity
+        }
     }
     
     func textFieldDidEndEditing(textField: UITextField)
@@ -580,15 +596,14 @@ class CreateTripTableViewController:
     func flightTicketPriceWasChosen(price: String)
     {
         dismissContextPopover(FlightPopoverViewController)
+        planeTicketTextField.becomeFirstResponder()
         if price != ""
         {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.planeTicketTextField.text = price
+                self.textFieldShouldReturn(self.planeTicketTextField)
             })
         }
-        
-        planeTicketTextField.becomeFirstResponder()
-        textFieldShouldReturn(planeTicketTextField)
     }
     
     // MARK: - Private Functions

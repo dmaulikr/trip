@@ -140,17 +140,25 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
                     {
                         self.flights.append(flight)
                     }
+                    
+                    if flights.count == 0
+                    {
+                        self.presentErrorPopup("Couldn't find any results matching your search. Sorry about that!")
+                        self.delegate?.flightTicketPriceWasChosen("")
+                    }
                 }
                 else
                 {
                     print("no dice")
                     self.presentErrorPopup("Looks like there was an issue pulling your flight results from the QPX Express flight search service. Please try again later. Sorry about that!")
+                    self.delegate?.flightTicketPriceWasChosen("")
                 }
             }
             else
             {
                 print("results were nil")
                 self.presentErrorPopup("Looks like there was an issue contacting the QPX Express flight search service. Please try again later. Sorry about that!")
+                self.delegate?.flightTicketPriceWasChosen("")
             }
             
             self.apiController = nil
@@ -231,7 +239,9 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
         {
             animateSelection()
             let selectedFlight = flights[indexPath.row]
-            let formattedPrice = selectedFlight.saleTotal.stringByReplacingOccurrencesOfString("$", withString: "")
+            let formattedPrice = selectedFlight.saleTotal
+                .stringByReplacingOccurrencesOfString("$", withString: "")
+                .stringByReplacingOccurrencesOfString(" ", withString: "")
             delegate?.flightTicketPriceWasChosen(formattedPrice)
         }
 

@@ -48,6 +48,7 @@ class Calculator
         
         var trip = trip!
         
+        // Set values in dictionary to Trip properties
         for (property, value) in propertyAndValue
         {
             switch property
@@ -57,7 +58,7 @@ class Calculator
             case "Destination"          : trip.destination          = value
             case "Date From"            : trip.dateFrom             = value
             case "Date To"              : trip.dateTo               = value
-            case "Plane Ticket Cost"    : trip.planeTicketCost      = Double(value)!
+            case "Plane Ticket Cost"    : print(value) ; trip.planeTicketCost      = Double(value)!
             case "Daily Lodging Cost"   : trip.dailyLodgingCost     = Double(value)!
             case "Daily Food Cost"      : trip.dailyFoodCost        = Double(value)!
             case "Daily Other Cost"     : trip.dailyOtherCost       = Double(value)!
@@ -74,11 +75,14 @@ class Calculator
         var overBudget: Bool
         (trip, overBudget) = getTotals(trip)
         
+        // Check to see if calculation is finished, and if new entry has pushed Trip over the budget
         delegate?.calculationFinished(overBudget)
         
         return trip
     }
     
+    /// Function to get Trip totals, and determine if trip is over budget
+    /// - Returns: a Trip object, and Bool stating whether trip is overBudget
     func getTotals(trip: Trip) -> (Trip, Bool)
     {
         trip.totalLodgingCosts =
@@ -104,6 +108,7 @@ class Calculator
             trip.budgetTotal -
             trip.subtotalOfProperties
         
+        // Sets dates into Moment objects if dateTo and dateFrom exists
         if let dateFrom = moment(trip.dateFrom, dateFormat: "MM/d/yy"),
             let dateTo = moment(trip.dateTo, dateFormat: "MM/d/yy")
         {
@@ -113,10 +118,12 @@ class Calculator
         }
         else
         {
+            // Sets Trip to a default of 1 day and 1 night duration
             trip.numberOfDays = 1
             trip.numberOfNights = 1
         }
         
+        // If Budget Remaining for Trip is over budget, return true
         var overBudget: Bool {
             if trip.budgetRemaining >= -5.0 { return false }
             return true

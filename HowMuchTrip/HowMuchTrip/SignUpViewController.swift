@@ -9,6 +9,7 @@
 import UIKit
 import Parse
 
+/// Signs the user up with an email and password
 class SignUpViewController: UIViewController
 {
     @IBOutlet weak var emailField: UITextField!
@@ -21,15 +22,15 @@ class SignUpViewController: UIViewController
         usernameField.becomeFirstResponder()
     }
     
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    //Signs the user up if they dont already have an account
+    /// Signs the user up with an email and password, if they dont already have an account
     @IBAction func signUpAction(sender: UIButton)
     {
-        //Global variable that identifies how the user logged in
+        // Global variable that identifies how the user logged in
         loggedInWith = "Username"
         let username = self.usernameField.text
         let password = self.passwordField.text
@@ -44,13 +45,11 @@ class SignUpViewController: UIViewController
                 return ""
             }
         }()
-        
-        //Eliminates any white spaces on the beginning or end of email entered
-        
+                
         // Validate the text fields
         if username?.characters.count < 6
         {
-            //Verify that the username meets the minimum length requirements
+            // Verify that the username meets the minimum length requirements
             let alert = UIAlertController(title: "Invalid", message: "Username must be at least 6 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
@@ -59,7 +58,7 @@ class SignUpViewController: UIViewController
         }
         else if password?.characters.count < 7
         {
-            //Verify that the password meets the minimum length requirements
+            // Verify that the password meets the minimum length requirements
             let alert = UIAlertController(title: "Invalid", message: "Password must be at least 7 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
@@ -68,7 +67,7 @@ class SignUpViewController: UIViewController
         }
         else if email.characters.count < 5 && Validator.validate("email", string: email) //addition
         {
-            //Verify that the email meets the minimum length requirements
+            // Verify that the email meets the minimum length requirements
             let alert = UIAlertController(title: "Invalid", message: "Please enter a valid email address", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
@@ -83,7 +82,7 @@ class SignUpViewController: UIViewController
             
             let newUser = PFUser()
             
-            //Create new entries in Parse for the user
+            // Create new entries in Parse for the user
             newUser.username = username
             newUser.password = password
             newUser.email = email
@@ -95,7 +94,7 @@ class SignUpViewController: UIViewController
                 spinner.stopAnimating()
                 if ((error) != nil)
                 {
-                    //Display the localized error and capitalize the first letter of the error string
+                    // Display the localized error and capitalize the first letter of the error string
                     let description = error!.localizedDescription
                     let first = description.startIndex
                     let rest = first.advancedBy(1)..<description.endIndex
@@ -116,11 +115,11 @@ class SignUpViewController: UIViewController
                 }
                 else
                 {
-                    //Create AlertController to notify the user they have successfully signed up
+                    // Create AlertController to notify the user they have successfully signed up
                     let alert = UIAlertController(title: "Success", message: "Signed up and logged in.", preferredStyle: .Alert)
                     let confirmAction = UIAlertAction(title: "Okay", style: .Default) {(action) in
                         
-                        //Dismiss the previous two VCs on the stack
+                        // Dismiss the previous two VCs on the stack
                         self.presentingViewController!.presentingViewController!.dismissViewControllerAnimated(true, completion: {})
                     }
                     alert.addAction(confirmAction)
