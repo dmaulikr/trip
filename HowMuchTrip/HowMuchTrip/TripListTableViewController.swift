@@ -35,6 +35,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 
         // Set up bar button to allow editing of the Trip List
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
+
     }
     
     override func viewWillAppear(animated: Bool)
@@ -75,6 +76,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
     }
     
+
     /// Sets attributes for the Navigation Tab Bar
     func setNavBarAttributes()
     {
@@ -142,6 +144,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             
             cell.destinationLabel.text = aTrip.destination
             cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
+
             cell.destinationImageView.image = UIImage(named: aTrip.destinationImage)
             cell.overlayView.alpha = 0.6
             
@@ -293,6 +296,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     
     // MARK: - Misc Functions
     
+
     /// Pull to Refresh the list and stop the activity indicator
     func handleRefresh(refreshControl: UIRefreshControl)
     {
