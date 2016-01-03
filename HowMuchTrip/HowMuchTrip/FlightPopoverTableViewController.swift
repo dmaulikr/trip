@@ -8,9 +8,16 @@
 
 import UIKit
 
+protocol FlightTicketPriceWasChosenProtocol
+{
+    func flightTicketPriceWasChosen(price: String)
+}
+
 class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControllerDelegate, UISearchBarDelegate
 {
     @IBOutlet weak var searchBar: UISearchBar!
+    
+    var delegate: FlightTicketPriceWasChosenProtocol?
     
     var trip: Trip! {
         didSet {
@@ -24,23 +31,18 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     var flights = [FullFlight]()
     var airportCodes = [String]()
-    var airportCities = [String]()
+    var airportLocation = [String]()
     var allAirports: NSArray!
     
     var originAirportCode: String!
     var destinationAirportCode: String!
     
-    
-    var airports: NSDictionary! {
-        return [airportCities : airportCodes]
-    }
-    
     var flightSearchParameters: FlightSearch!
     
     var apiController: QPX_EX_APIController? {
         didSet {
-//            apiController!.search(searchParameters)
-//            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            UIApplication.sharedApplication().networkActivityIndicatorVisible =
+            !UIApplication.sharedApplication().networkActivityIndicatorVisible
         }
     }
     
@@ -68,15 +70,19 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
         
         allAirports = loadJSON()
         
+        tableView.separatorColor = UIColor.whiteColor()
+        
         searchingForAirports = true
         searchBar.delegate = self
+        let searchBarTextField = searchBar.valueForKey("searchField") as! UITextField
+        searchBarTextField.textColor = UIColor(red:0.003, green:0.41, blue:0.544, alpha:1)
+        
+        
 //        searchParameters = FlightSearch()
-        apiController = QPX_EX_APIController(delegate: self)
     }
     
     override func viewDidAppear(animated: Bool)
     {
-        print(trip)
         searchBar.text = trip.departureLocation
     }
     
@@ -90,18 +96,32 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     func loadAirports(searchParameters: String)
     {
-        airportCities.removeAll()
+        airportLocation.removeAll()
         airportCodes.removeAll()
         
         for airport in allAirports
         {
-            let airportCity = airport["CITY_NAME"] as? String ?? ""
+            let cityName = airport["CITY_NAME"] as? String ?? ""
+            let stateCode = airport["STATE_CODE"] as? String ?? ""
+            let countryCode = airport["COUNTRY_CODE"] as? String ?? ""
+            
+            let airportLocation: String! = {
+                if stateCode != ""
+                {
+                    return "\(cityName), \(stateCode), \(countryCode)"
+                }
+                else
+                {
+                    return "\(cityName), \(countryCode)"
+                }
+            }()
+            
             let airportCode = airport["VENDOR_CODE"] as? String ?? ""
                     
-            if searchParameters.containsString(airportCity) && airportCity != "" && airportCode != ""
+            if searchParameters.containsString(cityName) && airportCode != ""
             {
                 print("contains")
-                self.airportCities.append(airportCity)
+                self.airportLocation.append(airportLocation)
                 self.airportCodes.append(airportCode)
             }
 
@@ -111,8 +131,6 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     func didReceiveQPXResults(results: NSDictionary?)
     {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             if results != nil
             {
@@ -126,13 +144,16 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
                 else
                 {
                     print("no dice")
+                    self.presentErrorPopup("Looks like there was an issue pulling your flight results from the QPX Express flight search service. Please try again later. Sorry about that!")
                 }
             }
             else
             {
                 print("results were nil")
+                self.presentErrorPopup("Looks like there was an issue contacting the QPX Express flight search service. Please try again later. Sorry about that!")
             }
             
+            self.apiController = nil
             self.tableView.reloadData()
         }
     }
@@ -156,7 +177,7 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
             let cell = tableView.dequeueReusableCellWithIdentifier("FlightSearchResultCell", forIndexPath: indexPath)
             
             let airportCode = airportCodes[indexPath.row]
-            let airportCity = airportCities[indexPath.row]
+            let airportCity = airportLocation[indexPath.row]
             
             cell.detailTextLabel?.text = airportCode
             cell.textLabel?.text = airportCity
@@ -177,18 +198,52 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
-        let selectedAirportCode = airportCodes[indexPath.row]
-        if originAirportCode == nil || originAirportCode == ""
+        if searchingForAirports == true
         {
-            originAirportCode = selectedAirportCode
-        }
-        else if destinationAirportCode == nil || destinationAirportCode == ""
-        {
-            destinationAirportCode = selectedAirportCode
+            let selectedAirportCode = airportCodes[indexPath.row]
+            if originAirportCode == nil || originAirportCode == ""
+            {
+                animateSelection()
+                originAirportCode = selectedAirportCode
+                searchBar.text = trip.destination
+                searchBarSearchButtonClicked(searchBar)
+                
+            }
+            else if destinationAirportCode == nil || destinationAirportCode == ""
+            {
+                animateSelection()
+                destinationAirportCode = selectedAirportCode
+                searchingForAirports = false
+                
+                let flightSearch = FlightSearch(origin: originAirportCode, destination: destinationAirportCode, date: trip.dateFrom)
+                
+                apiController = QPX_EX_APIController(delegate: self)
+                apiController?.search(flightSearch)
+                
+                tableView.reloadData()
+            }
+            else
+            {
+                print("problem assigning airport codes to variables")
+            }
         }
         else
         {
-            print("problem assigning airport codes to variables")
+            animateSelection()
+            let selectedFlight = flights[indexPath.row]
+            let formattedPrice = selectedFlight.saleTotal.stringByReplacingOccurrencesOfString("$", withString: "")
+            delegate?.flightTicketPriceWasChosen(formattedPrice)
+        }
+
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    }
+    
+    func animateSelection()
+    {
+        UIView.animateWithDuration(0.75, animations: { () -> Void in
+            self.tableView.hideWithFade(0.75)
+            }) { (_) -> Void in
+                self.tableView.appearWithFade(0.75)
         }
     }
     

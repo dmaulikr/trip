@@ -25,7 +25,8 @@ class CreateTripTableViewController:
     CalculationFinishedDelegate,
     MapsAPIResultsProtocol,
     UIGestureRecognizerDelegate,
-    CLLocationManagerDelegate
+    CLLocationManagerDelegate,
+    FlightTicketPriceWasChosenProtocol
 {
     
     // MARK: - Labels
@@ -341,6 +342,12 @@ class CreateTripTableViewController:
             print(property)
             
             calculate(true, property: property, value: shownTextField.text!)
+            
+            UIView.animateWithDuration(0.50, animations: { () -> Void in
+                self.textFieldBGView.hideWithFade(0.5)
+                }, completion: { (_) -> Void in
+                    self.textFieldBGView.appearWithFade(0.5)
+            })
         }
         else
         {
@@ -392,10 +399,18 @@ class CreateTripTableViewController:
     
     @IBAction func flightButtonPressed(sender: UIButton)
     {
-        let flightStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
-        let contextPopover = flightStoryboard.instantiateViewControllerWithIdentifier("FlightPopover") as! FlightPopoverViewController
-        contextPopover.trip = trip
-        self.addContextPopover(contextPopover)
+        if trip.dateFrom != ""
+        {
+            let flightStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
+            let contextPopover = flightStoryboard.instantiateViewControllerWithIdentifier("FlightPopover") as! FlightPopoverViewController
+            contextPopover.trip = trip
+            contextPopover.delegate = self
+            self.addContextPopover(contextPopover)
+        }
+        else
+        {
+            presentErrorPopup("Please go back and specify a date range if you'd like to look up flights! :)")
+        }
     }
     
     @IBAction func hotelButtonPressed(sender: UIButton)
@@ -512,7 +527,7 @@ class CreateTripTableViewController:
         print("didReceiveMapsAPIResults")
     }
     
-    // MARK: - Graph Functions
+    // MARK: - Context Popover Delegate Functions
     
     func dateWasChosen(date: Moment?, textFieldTag: Int)
     {
@@ -545,6 +560,35 @@ class CreateTripTableViewController:
                 }
             }
         }
+        else
+        {
+            switch textFieldTag
+            {
+            case dateFromTextField.tag:
+                dateFromTextField.becomeFirstResponder()
+                dateFromTextField.text = " "
+                textFieldShouldReturn(dateFromTextField)
+            case dateToTextField.tag:
+                dateToTextField.becomeFirstResponder()
+                dateToTextField.text = " "
+                textFieldShouldReturn(dateToTextField)
+            default: print("default error in dateWasChosen -- unknown textField: \(textFieldTag)")
+            }
+        }
+    }
+    
+    func flightTicketPriceWasChosen(price: String)
+    {
+        dismissContextPopover(FlightPopoverViewController)
+        if price != ""
+        {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                self.planeTicketTextField.text = price
+            })
+        }
+        
+        planeTicketTextField.becomeFirstResponder()
+        textFieldShouldReturn(planeTicketTextField)
     }
     
     // MARK: - Private Functions
@@ -759,7 +803,7 @@ class CreateTripTableViewController:
     {
         let tapOutsideTextField = UITapGestureRecognizer(target: self, action: "dismissKeyboardUponTouch")
         tapOutsideTextField.delegate = self
-        
+        tapOutsideTextField.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapOutsideTextField)
     }
     
@@ -906,6 +950,7 @@ class CreateTripTableViewController:
                         
                         self.departureLocationTextField.text =
                         "\(locality), \(state), \(country)"
+                        self.textFieldShouldReturn(self.departureLocationTextField)
                         
                         UIApplication
                             .sharedApplication()
