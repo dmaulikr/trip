@@ -93,8 +93,19 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         calendar.delegate = self
         calendar.selectedDayOnPaged = nil
         
-        CalendarView.daySelectedBackgroundColor = UIColor(red:0.011, green:0.694, blue:0.921, alpha:1)
-        CalendarView.daySelectedTextColor = UIColor.whiteColor()
+//        CalendarView.daySelectedBackgroundColor = UIColor(red:0.011, green:0.694, blue:0.921, alpha:1)
+//        CalendarView.daySelectedTextColor = UIColor.whiteColor()
+//        CalendarView.todayBackgroundColor = UIColor(white: 0.0, alpha: 0.3)
+//        CalendarView.todayTextColor = UIColor.whiteColor()
+//        CalendarView.otherMonthBackgroundColor = UIColor.clearColor()
+//        CalendarView.otherMonthTextColor = UIColor(white: 1.0, alpha: 0.3)
+//        CalendarView.dayTextColor = UIColor(white: 1.0, alpha: 0.6)
+//        CalendarView.dayBackgroundColor = UIColor.clearColor()
+//        CalendarView.weekLabelTextColor = UIColor(white: 1.0, alpha: 0.3)
+        
+        CalendarView.daySelectedBackgroundColor = UIColor.whiteColor()
+        CalendarView.daySelectedTextColor = UIColor(red:0.028, green:0.275, blue:0.36, alpha: 1)
+
         CalendarView.todayBackgroundColor = UIColor(white: 0.0, alpha: 0.3)
         CalendarView.todayTextColor = UIColor.whiteColor()
         CalendarView.otherMonthBackgroundColor = UIColor.clearColor()
@@ -102,6 +113,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         CalendarView.dayTextColor = UIColor(white: 1.0, alpha: 0.6)
         CalendarView.dayBackgroundColor = UIColor.clearColor()
         CalendarView.weekLabelTextColor = UIColor(white: 1.0, alpha: 0.3)
+
     }
     
     func calendarDidPageToDate(date: Moment)
