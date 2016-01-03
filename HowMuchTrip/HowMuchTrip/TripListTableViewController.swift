@@ -57,13 +57,6 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             }
         }
         
-<<<<<<< HEAD
-        // removed - causing a flash of the emptyState cell
-//        view.appearWithFade(0.25)
-//        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
-        
-=======
->>>>>>> master
         // refreshList here, to prevent flash of emptyState cell
         refreshList()
     }
@@ -82,10 +75,8 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
     }
     
-<<<<<<< HEAD
-=======
+
     /// Sets attributes for the Navigation Tab Bar
->>>>>>> master
     func setNavBarAttributes()
     {
         navigationController?.navigationBar.titleTextAttributes = [
@@ -152,14 +143,8 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             
             cell.destinationLabel.text = aTrip.destination
             cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
-<<<<<<< HEAD
-            
-            
-            cell.destinationImageView.image = UIImage(named: aTrip.destinationImage)
 
-=======
             cell.destinationImageView.image = UIImage(named: aTrip.destinationImage)
->>>>>>> master
             cell.overlayView.alpha = 0.6
             
             return cell
@@ -310,20 +295,15 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     
     // MARK: - Misc Functions
     
-<<<<<<< HEAD
-=======
+
     /// Refresh the list and stop the activity indicator
->>>>>>> master
     func handleRefresh(refreshControl: UIRefreshControl)
     {
         refreshList()
         refreshControl.endRefreshing()
     }
     
-<<<<<<< HEAD
-=======
     /// Clear the trips array and the cells of old data
->>>>>>> master
     func clearTripsArray()
     {
         trips.removeAll()
@@ -337,10 +317,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
     }
     
-<<<<<<< HEAD
-=======
     /// Function to add a pulsing animation to the '+' Add Trip button
->>>>>>> master
     func pulseAddButton()
     {
         let addButton = navigationItem.rightBarButtonItem!
