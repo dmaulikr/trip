@@ -531,6 +531,4 @@ class CreateTripDataSource
         
         return true
     }
-    
-
 }
