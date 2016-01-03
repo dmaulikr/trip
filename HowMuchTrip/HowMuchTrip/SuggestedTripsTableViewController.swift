@@ -11,6 +11,7 @@ import Parse
 
 var userLocale = "en_US"
 
+/// Table view controller showing a list of static, Suggested Trips. Trip data sourced from a JSON file.
 class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDelegate
 {
     var trips = [Trip]()
@@ -22,12 +23,14 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
+        // Set up activity indicator for Pull to Refresh function
         refreshControl?.tintColor = UIColor.whiteColor()
         refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
         refreshControl?.layer.zPosition = self.tableView.backgroundView!.layer.zPosition + 1
 
         title = "Suggested Trips"
         
+        // Load trips from JSON and display in table view
         loadTrips()
     }
     
@@ -35,6 +38,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     {
         super.viewWillAppear(true)
         
+        // Switch user to Settings view controller if they are not currently logged in.
         if PFUser.currentUser() != nil
         {
             switch loggedInWith
@@ -49,15 +53,11 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
                 PFUser.logOut()
             }
         }
-
-        // removed - inconsistent with MyTrips
-//        view.appearWithFade(0.25)
-//        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
     }
-    
         
     // MARK: - TripSaved Delegate
     
+    /// When a Trip is saved, move to the Trip Detail view controller
     func tripWasSaved(savedTrip: Trip)
     {
         navigationController?.popToRootViewControllerAnimated(true)
@@ -77,6 +77,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
                     .JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments) as! [NSDictionary]
                 for tripDict in tripsJSON
                 {
+                    // Send JSON results to the suggestedTripFromJSON function to assign the results to a Trip object
                     let aTrip = suggestedTripFromJSON(tripDict)
                     trips.append(aTrip)
                 }
@@ -121,6 +122,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             trip.dateFrom               = suggestedTrip["dateFrom"]             as? String ?? ""
             trip.dateTo                 = suggestedTrip["dateTo"]               as? String ?? ""
             
+            // Send trip properties to the Calculator to get the trip totals
             let calculator = Calculator(delegate: nil)
             (trip, _) = calculator.getTotals(trip)
                 
@@ -153,11 +155,9 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
             cell.tripNameLabel.text = aTrip.destination
         }
         
-//        cell.departureLocationLabel.text = aTrip.departureLocation
         cell.destinationLabel.text = aTrip.destination
         cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
         cell.destinationImageView.image = UIImage(named: "\(aTrip.destinationImage)")
-//        cell.destinationImageView.addDimmedOverlayView()
 
         return cell
     }
@@ -169,7 +169,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     }
     
     // MARK: - Shift View to TripDetailVC
-
+    
+    /// Function to segue to newly instantiated view controller on different storyboard, passing selected Trip object
     func goToTripDetail(selectedTrip: Trip)
     {
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)
@@ -181,6 +182,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     
     // MARK: - Private Functions
     
+    /// Function to handle Pull to Refresh action. Shuffles the order of the trips array when called.
     func handleRefresh(refreshControl: UIRefreshControl)
     {
         // Do some reloading of data and update the table view's data source
