@@ -596,15 +596,14 @@ class CreateTripTableViewController:
     func flightTicketPriceWasChosen(price: String)
     {
         dismissContextPopover(FlightPopoverViewController)
+        planeTicketTextField.becomeFirstResponder()
         if price != ""
         {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 self.planeTicketTextField.text = price
+                self.textFieldShouldReturn(self.planeTicketTextField)
             })
         }
-        
-        planeTicketTextField.becomeFirstResponder()
-        textFieldShouldReturn(planeTicketTextField)
     }
     
     // MARK: - Private Functions
