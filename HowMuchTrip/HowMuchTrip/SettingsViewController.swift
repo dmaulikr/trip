@@ -260,6 +260,8 @@ class SettingsViewController: UIViewController
     /// This function will run if the user signed in with their Twitter account
     func processTwitterData()
     {
+        if PFUser.currentUser() != nil
+        {
         //Get username of currently logged in user
         let pfTwitter = PFTwitterUtils.twitter()
         let twitterUsername = pfTwitter?.screenName
@@ -274,6 +276,7 @@ class SettingsViewController: UIViewController
         
         //Request the Twitter API
         pfTwitter?.signRequest(request)
+        
         
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
             
@@ -345,6 +348,7 @@ class SettingsViewController: UIViewController
         
         }
          task.resume()
+      }
     }
     
 }
