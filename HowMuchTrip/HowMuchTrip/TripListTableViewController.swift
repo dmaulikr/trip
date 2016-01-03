@@ -25,12 +25,13 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         refreshControl?.tintColor = UIColor.whiteColor()
         refreshControl?.addTarget(self, action: "handleRefresh:", forControlEvents: UIControlEvents.ValueChanged)
         refreshControl?.layer.zPosition = self.tableView.backgroundView!.layer.zPosition + 1
+        
         title = "My Trips"
         
         setNavBarAttributes()
 
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
-        refreshList()
+//        refreshList()
     }
     
     override func viewWillAppear(animated: Bool)
@@ -119,6 +120,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 
         if trips.count != 0
         {
+            self.navigationItem.leftBarButtonItem?.enabled = true
             cell.accessoryType = .DisclosureIndicator
             let aTrip = trips[indexPath.row]
             
@@ -138,7 +140,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
             
             
-            cell.destinationImageView.image = UIImage(named: "denver") //<<<<<<<<<
+            cell.destinationImageView.image = UIImage(named: aTrip.destinationImage)
 
             cell.overlayView.alpha = 0.6
             
@@ -275,18 +277,13 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     
     // MARK: - Misc Functions
     
-    private func handleRefresh(refreshControl: UIRefreshControl)
+    func handleRefresh(refreshControl: UIRefreshControl)
     {
-        // Do some reloading of data and update the table view's data source
-        // Fetch more objects from a web service, for example...
-        
-        // Simply adding an object to the data source for this example
         refreshList()
-        
         refreshControl.endRefreshing()
     }
     
-    private func clearTripsArray()
+    func clearTripsArray()
     {
         trips.removeAll()
         
@@ -296,9 +293,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         {
             cells.destinationLabel.text = nil
             cells.budgetLabel.text = nil
-//            print("clear cell")
         }
-
     }
     
     func pulseAddButton()

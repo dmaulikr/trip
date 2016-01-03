@@ -181,7 +181,7 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
     
     // MARK: - Private Functions
     
-    private func handleRefresh(refreshControl: UIRefreshControl)
+    func handleRefresh(refreshControl: UIRefreshControl)
     {
         // Do some reloading of data and update the table view's data source
         // Fetch more objects from a web service, for example...

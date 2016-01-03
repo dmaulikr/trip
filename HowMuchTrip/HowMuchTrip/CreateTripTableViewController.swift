@@ -564,6 +564,11 @@ class CreateTripTableViewController:
                 self.dataSource.buildGraphAndLegend(self.trip, superview: self)
             }
         }
+        
+        
+        let genericImages = ["country-road","fancy-bar","fancy-dinner","fine-dining","fruit-market","hotel-room-service","outside-cafe","pond-cannonball", "tulips"]
+        
+        trip.destinationImage = genericImages[Int(arc4random() % UInt32(genericImages.count))]
     }
     
     func calculationFinished(overBudget: Bool)
