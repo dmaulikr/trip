@@ -22,27 +22,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool
     {
+        // Adds Fabric Pod, with Crashlytics, Answers and Beta kits
         Fabric.with([Crashlytics.self])
-
-        // Override point for customization after application launch.
         
-        // [Optional] Power your app with Local Datastore. For more info, go to
-        // https://parse.com/docs/ios/guide#local-datastore
+        // Adds Parse Local Datastore capabilities
         Parse.enableLocalDatastore()
         
         // Initialize Parse.
         Parse.setApplicationId("iTbTjpq7M0vfed6Axq9D8Hi9EmBsIkpLy4krP7Tq",
             clientKey: "olFFyKQE7RoCTjssTFx3l885RrJd2Yml14wyv0DZ")
         
-        // [Optional] Track statistics around application opens.
+        // Parse: Track statistics around application opens.
         PFAnalytics.trackAppOpenedWithLaunchOptions(launchOptions)
         
+        // Set Twitter application consumer key
         PFTwitterUtils.initializeWithConsumerKey("kk94RLfsKXk48oJVYS8Cu9oMU",  consumerSecret:"yrPyx1iVNWq1jIDaMSQrRGVKofg8eoRuJhqEvQPbERTXkDUBvG")
         
+        // Add Facebook Utilities for login
         PFFacebookUtils.initializeFacebookWithApplicationLaunchOptions(launchOptions)
         
         window?.tintColor = UIColor(red: 0.45, green: 0.8, blue: 0.9, alpha: 1)
 
+        // Adds navigation tab bar attributes
         UITabBar.appearance().translucent = true
         
         UINavigationBar.appearance().titleTextAttributes = [
@@ -55,15 +56,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         
         UIBarButtonItem.appearance()
             .setTitleTextAttributes(UINavigationBar.appearance().titleTextAttributes, forState: .Normal)
-        
-//        window?.navigationController?.navigationBar.titleTextAttributes =
-//            [NSForegroundColorAttributeName: UIColor.redColor(),
-//                NSFontAttributeName: UIFont(name: "mplus-1c-regular", size: 21)!]
-        
-//        UITabBar.appearance().barColor = UIColor(red: 0.12, green: 0.30, blue: 0.43, alpha: 0.9)
-//        UITabBar.appearance().translucent = false
-//        UITabBar.appearance().barColor = UIColor(red:0.003, green:0.41, blue:0.544, alpha:1)
-//        UITabBar.appearance().barTintColor = UIColor(red:0.003, green:0.41, blue:0.544, alpha:1)
         
         return true
     }
@@ -84,6 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate
 
     func applicationDidBecomeActive(application: UIApplication)
     {
+        // Required for Facebook login functions
         FBSDKAppEvents.activateApp()
     }
 
@@ -92,14 +85,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
     
-    func application(application: UIApplication,
-        openURL url: NSURL,
-        sourceApplication: String?,
-        annotation: AnyObject) -> Bool {
-            return FBSDKApplicationDelegate.sharedInstance().application(application,
-                openURL: url,
-                sourceApplication: sourceApplication,
-                annotation: annotation)
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool
+    {
+        // Required for Facebook login functions
+        return FBSDKApplicationDelegate.sharedInstance().application(application, openURL: url, sourceApplication: sourceApplication, annotation: annotation)
     }
 
 }

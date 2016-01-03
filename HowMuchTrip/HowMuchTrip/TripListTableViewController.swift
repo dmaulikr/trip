@@ -221,7 +221,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     
     // MARK: - Shift View to TripDetailVC
     
-    /// Function to segue to newly instantiated view controller on different storyboard
+    /// Function to segue to newly instantiated view controller on different storyboard, passing selected Trip object
     func goToTripDetail(selectedTrip: Trip)
     {
         let tripDetailStoryBoard = UIStoryboard(name: "TripDetail", bundle: nil)

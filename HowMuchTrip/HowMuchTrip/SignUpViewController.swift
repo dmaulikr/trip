@@ -21,9 +21,9 @@ class SignUpViewController: UIViewController
         usernameField.becomeFirstResponder()
     }
     
-    override func didReceiveMemoryWarning() {
+    override func didReceiveMemoryWarning()
+    {
         super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
     //Signs the user up if they dont already have an account

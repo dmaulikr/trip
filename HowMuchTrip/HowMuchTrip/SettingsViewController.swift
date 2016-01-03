@@ -17,8 +17,6 @@ class SettingsViewController: UIViewController
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var loginLogoutButton: UIButton!
-    
-    let aParseUser = ParseUser()
         
     override func viewDidLoad()
     {
