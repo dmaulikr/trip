@@ -336,7 +336,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             }
         }()
         
-        UIView.animateWithDuration(1.0, animations: { () -> Void in
+        UIView.animateWithDuration(1.0, delay: 0, options: [.AllowUserInteraction], animations: { () -> Void in
             self.navigationItem.rightBarButtonItem?.tintColor = pulseColor
             }, completion: nil)
     }
