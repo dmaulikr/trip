@@ -27,7 +27,8 @@ class CreateTripTableViewController:
     MapsAPIResultsProtocol,
     UIGestureRecognizerDelegate,
     CLLocationManagerDelegate,
-    FlightTicketPriceWasChosenProtocol
+    FlightTicketPriceWasChosenProtocol,
+    GooglePlacesAPIProtocol
 {
     
     // MARK: - Labels
@@ -91,6 +92,8 @@ class CreateTripTableViewController:
     var trips = [Trip]()
     
     var mapsAPIController: MapsAPIController?
+    var googlePlacesAPIController: GooglePlacesAPIController?
+    
     var locationManager: CLLocationManager? {
         willSet {
             UIApplication
@@ -561,6 +564,19 @@ class CreateTripTableViewController:
         
         print("didReceiveMapsAPIResults")
     }
+    
+    func didReceiveGooglePlacesAPIResults(description: NSDictionary)
+    
+    {
+        dispatch_async(dispatch_get_main_queue(),
+            {
+                
+                
+                
+                
+        })
+    }
+
     
     // MARK: - Context Popover Delegate Functions
     
