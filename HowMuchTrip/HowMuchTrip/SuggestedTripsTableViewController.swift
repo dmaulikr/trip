@@ -53,6 +53,15 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
                 PFUser.logOut()
             }
         }
+        
+        if trips.count == 0
+        {
+            navigationItem.leftBarButtonItem?.title = ""
+        }
+        else
+        {
+            navigationItem.leftBarButtonItem?.title = "Edit"
+        }
     }
         
     // MARK: - TripSaved Delegate
@@ -145,27 +154,39 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         let cell = tableView.dequeueReusableCellWithIdentifier("SuggestedTripCell", forIndexPath: indexPath) as! SuggestedTripCell
 
         let aTrip = trips[indexPath.row]
+
+//        cell.tripNameLabel.text = aTrip.tripName
         
-        if aTrip.tripName != nil
-        {
-            cell.tripNameLabel.text = aTrip.tripName
-        }
-        else
-        {
-            cell.tripNameLabel.text = aTrip.destination
-        }
-        
+        cell.tripNameLabel.text = aTrip.destination
         cell.destinationLabel.text = aTrip.destination
         cell.budgetLabel.text = aTrip.budgetTotal.formatAsUSCurrency()
-        cell.destinationImageView.image = UIImage(named: "\(aTrip.destinationImage)")
+        cell.destinationImageView.image = UIImage(named: aTrip.destinationImage)
 
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        
         let selectedTrip = trips[indexPath.row]
         goToTripDetail(selectedTrip)
+    }
+    
+    override func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! SuggestedTripCell
+        UIView.animateWithDuration(0.25) { () -> Void in
+            cell.overlayView.alpha = 0.2
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath)
+    {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as! SuggestedTripCell
+        UIView.animateWithDuration(0.25) { () -> Void in
+            cell.overlayView.alpha = 0.6
+        }
     }
     
     // MARK: - Shift View to TripDetailVC

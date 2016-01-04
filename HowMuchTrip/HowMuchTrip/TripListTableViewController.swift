@@ -32,10 +32,6 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         
         // Set up Navigation Bar attributes
         setNavBarAttributes()
-
-        // Set up bar button to allow editing of the Trip List
-        self.navigationItem.leftBarButtonItem = self.editButtonItem()
-
     }
     
     override func viewWillAppear(animated: Bool)
@@ -65,15 +61,8 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(true)
-                if pulseTimer != nil
-        {
-            pulseTimer = nil
-        }
-        else if trips.count == 0 && pulseTimer == nil
-        {
-            pulseTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseAddButton", userInfo: nil, repeats: true)
-            pulseAddButton()
-        }
+        
+
     }
     
 
@@ -122,12 +111,12 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         }
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("TripCell", forIndexPath: indexPath) as! TripCell
-
+    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
+    {
         // If trips array is not empty, display Trip objects
         if trips.count != 0
         {
+            let cell = tableView.dequeueReusableCellWithIdentifier("TripCell", forIndexPath: indexPath) as! TripCell
             self.navigationItem.leftBarButtonItem?.enabled = true
             cell.accessoryType = .DisclosureIndicator
             let aTrip = trips[indexPath.row]
@@ -148,19 +137,47 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             cell.destinationImageView.image = UIImage(named: aTrip.destinationImage)
             cell.overlayView.alpha = 0.6
             
+            
+            // Set up bar button to allow editing of the Trip List
+            navigationItem.leftBarButtonItem = editButtonItem()
+            
             return cell
         }
         else
         {
+            let cell = tableView.dequeueReusableCellWithIdentifier("EmptyStateCell") as! EmptyStateCell
             // Turn off ability to delete empty state image
             self.navigationItem.leftBarButtonItem?.enabled = false
+
+            cell.createTripButton.addTarget(self, action: Selector("createSegue"), forControlEvents: .TouchUpInside)
+            cell.loginButton.addTarget(self, action: Selector("presentLogin"), forControlEvents: .TouchUpInside)
             
-            // When trips array is empty, display the empty state image
-            cell.destinationImageView.image = UIImage(named: "notrips")
-            cell.accessoryType = .None
-            cell.overlayView.alpha = 0
+            if PFUser.currentUser() != nil
+            {
+                cell.loginView.hidden = true
+            }
+            
+            navigationItem.leftBarButtonItem = nil
+            pulseTimer?.invalidate()
+            pulseTimer = nil
+            pulseTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseAddButton", userInfo: nil, repeats: true)
+            pulseAddButton()
+            
+            cell.contentView.appearWithFade(0.5)
+            
             return cell
         }
+    }
+    
+    func presentLogin()
+    {
+        let loginViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+        presentViewController(loginViewController, animated: true, completion: nil)
+    }
+    
+    func createSegue()
+    {
+        performSegueWithIdentifier("createSegue", sender: nil)
     }
     
     // Override to support conditional editing of the table view.
@@ -202,7 +219,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         // Set height for displaying the empty state image in a single cell
         if trips.count == 0
         {
-            return view.frame.height
+            return view.frame.height - (tabBarController!.tabBar.frame.height + navigationController!.navigationBar.frame.height)
         }
         else
         {
@@ -221,7 +238,27 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         else
         // If trips array is empty, go to the Create Trip view controller
         {
-            performSegueWithIdentifier("createSegue", sender: self)
+//            performSegueWithIdentifier("createSegue", sender: self)
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didHighlightRowAtIndexPath indexPath: NSIndexPath)
+    {
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TripCell
+        {
+            UIView.animateWithDuration(0.25) { () -> Void in
+                cell.overlayView.alpha = 0.2
+            }
+        }
+    }
+    
+    override func tableView(tableView: UITableView, didUnhighlightRowAtIndexPath indexPath: NSIndexPath)
+    {
+        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? TripCell
+        {
+            UIView.animateWithDuration(0.25) { () -> Void in
+                cell.overlayView.alpha = 0.6
+            }
         }
     }
     
@@ -306,12 +343,13 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     {
         trips.removeAll()
         
-        let oldValues = tableView.visibleCells as! [TripCell]
-        
-        for cells in oldValues
+        if let oldValues = tableView.visibleCells as? [TripCell]
         {
-            cells.destinationLabel.text = nil
-            cells.budgetLabel.text = nil
+            for cells in oldValues
+            {
+                cells.destinationLabel.text = nil
+                cells.budgetLabel.text = nil
+            }
         }
     }
     
@@ -335,6 +373,22 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
         
         UIView.animateWithDuration(1.0, delay: 0, options: [.AllowUserInteraction], animations: { () -> Void in
             self.navigationItem.rightBarButtonItem?.tintColor = pulseColor
+            
+            let index = NSIndexPath(forRow: 0, inSection: 0)
+            if let cell = self.tableView.cellForRowAtIndexPath(index) as? EmptyStateCell
+            {
+                cell.createTripButton.backgroundColor = {
+                    if pulseColor == UIColor.whiteColor()
+                    {
+                        return cell.loginButton.backgroundColor
+                    }
+                    else
+                    {
+                        return pulseColor
+                    }
+                }()
+            }
+            
             }, completion: nil)
     }
 }
