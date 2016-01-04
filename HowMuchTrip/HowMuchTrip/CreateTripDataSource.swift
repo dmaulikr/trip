@@ -517,9 +517,13 @@ class CreateTripDataSource
         {
             invalidCharacters = NSCharacterSet(charactersInString: "")
         }
-        else
+        else if textField == superview.dateToTextField || textField == superview.dateFromTextField
         {
             invalidCharacters = NSCharacterSet(charactersInString: "0123456789./").invertedSet //only includes 0-9
+        }
+        else
+        {
+            invalidCharacters = NSCharacterSet(charactersInString: "0123456789.").invertedSet //only includes 0-9
         }
         
         if let _ = string

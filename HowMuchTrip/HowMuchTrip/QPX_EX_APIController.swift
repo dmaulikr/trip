@@ -13,6 +13,7 @@ protocol QPX_EX_APIControllerDelegate
     func didReceiveQPXResults(results: NSDictionary?)
 }
 
+/// Class that requests, recieves and returns flight data from Google QPX
 class QPX_EX_APIController: NSObject, NSURLSessionDelegate
 {
     var delegate: QPX_EX_APIControllerDelegate?
@@ -22,6 +23,7 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
         self.delegate = delegate
     }
     
+    /// Function to search using flight information from 
     func search(flightSearch: FlightSearch)
     {
         let defaultSession = NSURLSessionConfiguration.defaultSessionConfiguration()

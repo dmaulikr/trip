@@ -257,9 +257,7 @@ class CreateTripTableViewController:
             self.addContextPopover(contextPopover)
             contextPopover.delegate = self
             contextPopover.textFieldTag = textFieldTag
-//                
-//                contextPopover.view.appearWithFade(0.25)
-//                contextPopover.view.slideVerticallyToOrigin(0.25, fromPointY: self.view.frame.height / 2)
+            contextPopover.trip = trip
             
             self.contextPopover = contextPopover
         }
@@ -460,26 +458,13 @@ class CreateTripTableViewController:
     {
         if PFUser.currentUser()?.username == nil
         {
-            
-            let alert = UIAlertController(title: "Login", message: "Please login to save your trip.", preferredStyle: .Alert)
-            let confirmAction = UIAlertAction(title: "OK", style: .Default){ (action) in
-                let loginViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
-                self.presentViewController(loginViewController, animated: true, completion: nil)
-            }
-            let cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
-            
-            alert.addAction(confirmAction)
-            alert.addAction(cancelAction)
-            presentViewController(alert, animated: true, completion: nil)
-            
+            presentLoginPopup()
         }
         else
         {
             saveTrip(trip)
         }
         
-        
-//        saveTrip(trip)
         switch loggedInWith
         {
             case "Twitter":
@@ -785,6 +770,9 @@ class CreateTripTableViewController:
         prefixPromptLabel.text = "Perfect."
         suffixPromptLabel.text = "Everything look good?"
         
+        prefixPromptLabel.appearWithFade(0.25)
+        suffixPromptLabel.appearWithFade(0.25)
+        
         dataSource.tripCreated = true
         
         dataSource.hideButtons(buttons)
@@ -805,8 +793,7 @@ class CreateTripTableViewController:
         pulseButton()
         pulseButtonTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseButton", userInfo: nil, repeats: true)
         
-//        let index = NSIndexPath(forRow: 0, inSection: 0)
-//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
+        shownTextField.resignFirstResponder()
     }
     
     /// Pulses the save button orange and blue to inform user of completion and to encourage pressing
@@ -889,18 +876,28 @@ class CreateTripTableViewController:
         doneToolbar.translucent = false
         
         let confirmations = [
-            "Okay",
-            "All set",
-            "Looks good"
+            "Okay  ",
+            "All set  ",
+            "Looks good  "
         ]
+        
+        let cancellations = [
+            "  Never mind",
+            "  Just kidding",
+            "  Forget it"
+        ]
+        
         let confirmation = confirmations[Int(arc4random() % 3)]
+        let cancellation = cancellations[Int(arc4random() % 3)]
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
         let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
+        let dismissButton = UIBarButtonItem(title: cancellation, style: .Plain, target: self, action: Selector("dismissButtonAction"))
         doneButton.tintColor = UIColor.whiteColor()
+        dismissButton.tintColor = UIColor.whiteColor()
         
-        doneToolbar.items = [flexSpace, doneButton]
+        doneToolbar.items = [dismissButton, flexSpace, doneButton]
         doneToolbar.sizeToFit()
         
         textField.inputAccessoryView = doneToolbar
@@ -909,7 +906,13 @@ class CreateTripTableViewController:
     /// Handles the above return button press. Dismisses the current text fields keyboard.
     func doneButtonAction()
     {
-//        textFieldShouldReturn(shownTextField)
+        textFieldShouldReturn(shownTextField)
+//        shownTextField.resignFirstResponder()
+        nextButtonPressed(nextButton)
+    }
+    
+    func dismissButtonAction()
+    {
         shownTextField.resignFirstResponder()
     }
     

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1F6E07523962B9CB266839BF /* Pods_HowMuchTripTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7DAEF72538D7A4153A6670 /* Pods_HowMuchTripTests.framework */; };
+		630096F21C3ACDD00092F261 /* EmptyStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630096F11C3ACDD00092F261 /* EmptyStateCell.swift */; };
 		630B3B4D1C1F283C006F12D2 /* disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B3B4C1C1F283C006F12D2 /* disclosure.png */; };
 		630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */; };
 		63400F981C20917000D5F29C /* GraphLegendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */; };
@@ -73,6 +74,7 @@
 
 /* Begin PBXFileReference section */
 		384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HowMuchTrip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		630096F11C3ACDD00092F261 /* EmptyStateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateCell.swift; sourceTree = "<group>"; };
 		630B3B4C1C1F283C006F12D2 /* disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disclosure.png; sourceTree = "<group>"; };
 		630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPopoverViewController.swift; sourceTree = "<group>"; };
 		63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLegendTableViewController.swift; sourceTree = "<group>"; };
@@ -309,6 +311,7 @@
 				9ADAAAEE1C19D82200D26F79 /* TripCell.swift */,
 				9A8518C41C1DFB9C001046EA /* SuggestedTripCell.swift */,
 				639FA4811C208C0000FBA7E6 /* GraphLegendCell.swift */,
+				630096F11C3ACDD00092F261 /* EmptyStateCell.swift */,
 			);
 			name = "Table Cells";
 			sourceTree = "<group>";
@@ -357,7 +360,8 @@
 				9ADAAAB41C19C26100D26F79 /* Resources */,
 				D465474133B59110B8D69CCA /* Embed Pods Frameworks */,
 				97C63DADDC93CC50A0C4F250 /* Copy Pods Resources */,
-				9A3E83871C36FC070081FFDA /* ShellScript */,
+				9A3E83871C36FC070081FFDA /* Fabric/Crashlytics */,
+				9ACDE6AA1C3AD98800DE6736 /* Increment Build Number */,
 			);
 			buildRules = (
 			);
@@ -501,18 +505,33 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		9A3E83871C36FC070081FFDA /* ShellScript */ = {
+		9A3E83871C36FC070081FFDA /* Fabric/Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = Fabric/Crashlytics;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 5168260609b7da444ae8bbf360961cc59859dca0 db9c1c1b556a2fe8bbe14c674d4d96be00971b76e05b2ad59c4324e434b7ca8f";
+		};
+		9ACDE6AA1C3AD98800DE6736 /* Increment Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Increment Build Number";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
 		};
 		A4D235C446A28086CBA28A98 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -585,6 +604,7 @@
 				9ADAAABA1C19C26100D26F79 /* AppDelegate.swift in Sources */,
 				FE7F792E1C1F2620001C6C14 /* SignUpViewController.swift in Sources */,
 				9ADAAAEF1C19D82200D26F79 /* TripCell.swift in Sources */,
+				630096F21C3ACDD00092F261 /* EmptyStateCell.swift in Sources */,
 				9ADAAAED1C19D7ED00D26F79 /* TripDetailViewController.swift in Sources */,
 				9A93D2F71C23399A00496FE1 /* Location.swift in Sources */,
 				9ADAAAE31C19CDE300D26F79 /* Calculator.swift in Sources */,
@@ -681,7 +701,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -721,7 +741,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -747,7 +767,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "00453bf2-289a-4cf6-ba5b-2f1903df95a1";
 				SWIFT_OBJC_BRIDGING_HEADER = "HowMuchTrip/HowMuchTrip-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -771,7 +791,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "00453bf2-289a-4cf6-ba5b-2f1903df95a1";
 				SWIFT_OBJC_BRIDGING_HEADER = "HowMuchTrip/HowMuchTrip-Bridging-Header.h";
 			};
 			name = Release;
