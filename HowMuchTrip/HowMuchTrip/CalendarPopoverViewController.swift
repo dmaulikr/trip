@@ -27,6 +27,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     
     var textFieldTag: Int!
     var selectedDate: Moment!
+    var trip: Trip!
     
     var delegate: DateWasChosenFromCalendarProtocol?
     
@@ -83,25 +84,42 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     
     func calendarDidSelectDate(date: Moment)
     {
+        if date.intervalSince(moment()).days < 0
+        {
+            confirmButton.hideWithFade(0.25)
+            parentViewController?.presentErrorPopup("Looks like you're trying to pick a date ealier than the current date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
+        }
+        else
+        {
+            if let departure = moment(trip.dateFrom, dateFormat: "MM/d/yy")
+            {
+                if date.intervalSince(departure).days < 0
+                {
+                    confirmButton.hideWithFade(0.25)
+                    parentViewController?.presentErrorPopup("Looks like you're trying to choose a return date that's earlier than your departure date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
+                }
+                else
+                {
+                    validEntry(date)
+                }
+            }
+            else
+            {
+                validEntry(date)
+            }
+        }
+    }
+    
+    func validEntry(date: Moment)
+    {
         selectedDate = date
         confirmButton.appearWithFade(0.25)
-        monthLabel.text = ("\(moment().monthName) \(moment().year)")
     }
     
     func setCalendarPrefs()
     {
         calendar.delegate = self
         calendar.selectedDayOnPaged = nil
-        
-//        CalendarView.daySelectedBackgroundColor = UIColor(red:0.011, green:0.694, blue:0.921, alpha:1)
-//        CalendarView.daySelectedTextColor = UIColor.whiteColor()
-//        CalendarView.todayBackgroundColor = UIColor(white: 0.0, alpha: 0.3)
-//        CalendarView.todayTextColor = UIColor.whiteColor()
-//        CalendarView.otherMonthBackgroundColor = UIColor.clearColor()
-//        CalendarView.otherMonthTextColor = UIColor(white: 1.0, alpha: 0.3)
-//        CalendarView.dayTextColor = UIColor(white: 1.0, alpha: 0.6)
-//        CalendarView.dayBackgroundColor = UIColor.clearColor()
-//        CalendarView.weekLabelTextColor = UIColor(white: 1.0, alpha: 0.3)
         
         CalendarView.daySelectedBackgroundColor = UIColor.whiteColor()
         CalendarView.daySelectedTextColor = UIColor(red:0.028, green:0.275, blue:0.36, alpha: 1)

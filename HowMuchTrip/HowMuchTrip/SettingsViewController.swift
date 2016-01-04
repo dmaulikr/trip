@@ -16,7 +16,9 @@ class SettingsViewController: UIViewController
 {
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
-    @IBOutlet weak var loginLogoutButton: UIButton!
+    @IBOutlet weak var usernameCheckbox: UIImageView!
+    @IBOutlet weak var facebookCheckbox: UIImageView!
+    @IBOutlet weak var twitterCheckbox: UIImageView!
         
     override func viewDidLoad()
     {
@@ -51,12 +53,7 @@ class SettingsViewController: UIViewController
         userImage.layer.cornerRadius = userImage.frame.size.width / 2
         userImage.clipsToBounds = true
         userImage.layer.borderColor = UIColor.blackColor().CGColor
-        userImage.layer.borderWidth = 0.4
-        //userImage.image?.circleMask
-        
-        // removed - inconsistent with MyTrips
-//        view.appearWithFade(0.25)
-//        view.slideVerticallyToOrigin(0.25, fromPointY: 200)
+//        userImage.layer.borderWidth = 0.4
         
         //If the user is not nil, run the switch statement below to determine how they logged in
         if PFUser.currentUser() != nil
@@ -67,26 +64,27 @@ class SettingsViewController: UIViewController
             {
             case "Twitter":
                 processTwitterData()
-                //loginLogoutButton.setTitle("Logout", forState: .Normal)
+                twitterCheckbox.image = UIImage(named: "Switch_on")
             case "Facebook":
                 processFacebookData()
-                //loginLogoutButton.setTitle("Logout", forState: .Normal)
+                facebookCheckbox.image = UIImage(named: "Switch_on")
             case "Username":
                 processUsernameData()
-                //loginLogoutButton.setTitle("Logout", forState: .Normal)
+                usernameCheckbox.image = UIImage(named: "Switch_on")
             default:
                 PFUser.logOut()
-                //loginLogoutButton.setTitle("Login", forState: .Normal)
                 userImage.image = UIImage(named: "UserIcon")
                 navigationItem.rightBarButtonItem?.title = "Login"
                 userNameLabel.text = nil
+                usernameCheckbox.image = UIImage(named: "Switch_on")
+                facebookCheckbox.image = UIImage(named: "Switch_on")
+                twitterCheckbox.image = UIImage(named: "Switch_on")
             }
         }
         else
         {
             //If the user is nil, make sure to end the login session and clear out any data left behind
             PFUser.logOut()
-            //loginLogoutButton.setTitle("Login", forState: .Normal)
             userImage.image = UIImage(named: "UserIcon")
             userNameLabel.text = nil
             navigationItem.rightBarButtonItem?.title = "Login"
@@ -111,6 +109,9 @@ class SettingsViewController: UIViewController
         else if PFUser.currentUser() != nil
         {
             //Log the user out, set the name to nil, and set the generic image
+            usernameCheckbox.image = UIImage(named: "Switch_off")
+            twitterCheckbox.image = UIImage(named: "Switch_off")
+            facebookCheckbox.image = UIImage(named: "Switch_off")
             PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in
                 if error != nil
                 {
@@ -132,41 +133,14 @@ class SettingsViewController: UIViewController
         }
         
     }
-    
+    //Set the email text to a link that will open the users email app
     @IBAction func emailTapped(sender: UIButton)
     {
-        let email = "support@howmuctrip.com"
+        let email = "support@howmuchtrip.com"
         let url = NSURL(string: "mailto:\(email)")
         UIApplication.sharedApplication().openURL(url!)
     }
     
-//    //Log the user in our out of the app
-//    @IBAction func logOutAction(sender: UIButton)
-//    {
-//        
-//        if PFUser.currentUser() == nil
-//        {
-//            //If the user is nil, set the title of the button to "Logout", and send the user to the login view, before leaving set the tab bar back to position 0 so after logging in the user is directed back to the main view of the app
-//            sender.setTitle("Logout", forState: .Normal)
-//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-//                let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
-//                self.presentViewController(viewController, animated: true, completion: { () -> Void in
-//                    self.tabBarController?.selectedIndex = 0
-//                })
-//            })
-//            
-//        }
-//        else if PFUser.currentUser() != nil
-//        {
-//            // Send a request to log out a user
-//            sender.setTitle(("Login"), forState: .Normal)
-//            
-//            //Log the user out, set the name to nil, and set the generic image
-//            PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in if error != nil { print("logout fail"); print(error) } else { print("logout success") } }
-//            userNameLabel.text = nil
-//            userImage.image = UIImage(named: "GenericUserImage")
-//        }
-//    }
     
     // MARK: - Email Login/logout functions
 
@@ -282,6 +256,8 @@ class SettingsViewController: UIViewController
     /// This function will run if the user signed in with their Twitter account
     func processTwitterData()
     {
+        if PFUser.currentUser() != nil
+        {
         //Get username of currently logged in user
         let pfTwitter = PFTwitterUtils.twitter()
         let twitterUsername = pfTwitter?.screenName
@@ -296,6 +272,7 @@ class SettingsViewController: UIViewController
         
         //Request the Twitter API
         pfTwitter?.signRequest(request)
+        
         
         let task = NSURLSession.sharedSession().dataTaskWithRequest(request) {data, response, error in
             
@@ -367,26 +344,10 @@ class SettingsViewController: UIViewController
         
         }
          task.resume()
+      }
     }
     
 }
 
-extension UIImage {
-    var circleMask: UIImage {
-        let square = size.width < size.height ? CGSize(width: size.width, height: size.width) : CGSize(width: size.height, height: size.height)
-        let imageView = UIImageView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: square))
-        imageView.contentMode = UIViewContentMode.ScaleAspectFill
-        imageView.image = self
-        imageView.layer.cornerRadius = square.width/2
-        imageView.layer.borderColor = UIColor.whiteColor().CGColor
-        imageView.layer.borderWidth = 4
-        imageView.layer.masksToBounds = true
-        UIGraphicsBeginImageContext(imageView.bounds.size)
-        imageView.layer.renderInContext(UIGraphicsGetCurrentContext()!)
-        let result = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return result
-    }
-}
 
 
