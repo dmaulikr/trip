@@ -37,3 +37,5 @@ CreateTrip.xcscheme
 project.pbxproj
 
 HowMuchTrip/HowMuchTrip/Info.plist
+
+*.plist
