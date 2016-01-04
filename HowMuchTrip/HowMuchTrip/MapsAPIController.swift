@@ -13,6 +13,11 @@ protocol MapsAPIResultsProtocol
     func didReceiveMapsAPIResults(results: NSDictionary, textFieldTag: Int)
 }
 
+protocol GooglePlacesAPIProtocol
+{
+    func didReceiveGooglePlacesAPIResults(description: NSDictionary)
+}
+
 /// MapsAPIController allows user to find the Google Maps API data for a location
 class MapsAPIController
 {
@@ -33,7 +38,7 @@ class MapsAPIController
         self.delegate = delegate
     }
     
-    /**
+        /**
      Uses the user-entered data to search Google Maps for location information
      
      - Parameters: 
@@ -94,4 +99,54 @@ class MapsAPIController
             return nil
         }
     }
+}
+
+class GooglePlacesAPIController
+{
+    var delegate: GooglePlacesAPIProtocol?
+    
+    init(delegate: GooglePlacesAPIProtocol)
+    {
+        self.delegate = delegate
+    }
+    
+    func searchGooglePlacesFor(keyboardEntry: String)
+    {
+        let urlPath = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=\(keyboardEntry)&types=(cities)&key=AIzaSyDTPgYOHM31jzVcZFV-wdg2RmdleSkAF-4"
+        let url = NSURL(string: urlPath)
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
+            if error != nil
+            {
+                print(error!.localizedDescription)
+            }
+            else
+            {
+                if let dictionary = self.parseJSON(data!)
+                {
+                    if let description : NSDictionary = dictionary["description"] as? NSDictionary
+                    {
+                        self.delegate!.didReceiveGooglePlacesAPIResults(description)
+                        print(data)
+                    }
+                    
+                }
+            }
+        })
+        task.resume()
+    }
+    func parseJSON(data: NSData) -> NSDictionary?
+    {
+        do
+        {
+            let dictionary: NSDictionary! = try NSJSONSerialization.JSONObjectWithData(data, options: []) as! NSDictionary
+            return dictionary
+        }
+        catch let error as NSError
+        {
+            print(error)
+            return nil
+        }
+    }
+
 }

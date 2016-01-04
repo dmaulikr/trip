@@ -76,19 +76,19 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
         let password = self.passwordField.text
         
         // Validate the text fields
-        if username?.characters.count < 5
+        if username?.characters.count < 6
         {
             // Verify that the username meets the minimum length requirements
-            let alert = UIAlertController(title: "Invalid", message: "Username must be greater than 5 characters", preferredStyle: .Alert)
+            let alert = UIAlertController(title: "Invalid", message: "Username must be at least 6 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
             presentViewController(alert, animated: true, completion: nil)
             
         }
-        else if password?.characters.count < 8
+        else if password?.characters.count < 7
         {
             // Verify that the password meets the minimum length requirements
-            let alert = UIAlertController(title: "Invalid", message: "Password must be greater than 7 characters", preferredStyle: .Alert)
+            let alert = UIAlertController(title: "Invalid", message: "Password must be at least 7 characters", preferredStyle: .Alert)
             let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
             alert.addAction(confirmAction)
             presentViewController(alert, animated: true, completion: nil)
