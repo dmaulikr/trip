@@ -227,10 +227,18 @@
 			children = (
 				63A70FD41C29C312003FCB53 /* QPX_EX_APIController.swift */,
 				9AF91D8C1C2455DF0044D57C /* MapsAPIController.swift */,
+			);
+			name = "API Controllers";
+			sourceTree = "<group>";
+		};
+		9ACDE6AB1C3AEC8400DE6736 /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				9A93D2F61C23399A00496FE1 /* Location.swift */,
 				9AF91D8E1C246A330044D57C /* AFAverageCostsAPIController.swift */,
 				9AF91D8A1C2455AF0044D57C /* AverageCostsAPIController.swift */,
 			);
-			name = "API Controllers";
+			name = Unused;
 			sourceTree = "<group>";
 		};
 		9ADAAAAD1C19C26100D26F79 = {
@@ -266,6 +274,7 @@
 				9A93D2F81C233A0100496FE1 /* API Controllers */,
 				9ADAAAF61C19E4C300D26F79 /* Table Cells */,
 				9A8518C81C1E057A001046EA /* Misc */,
+				9ACDE6AB1C3AEC8400DE6736 /* Unused */,
 			);
 			path = HowMuchTrip;
 			sourceTree = "<group>";
@@ -298,7 +307,6 @@
 			children = (
 				9ADAAAE01C19CDD200D26F79 /* Trip.swift */,
 				9ADAAAE21C19CDE300D26F79 /* Calculator.swift */,
-				9A93D2F61C23399A00496FE1 /* Location.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -767,7 +775,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "00453bf2-289a-4cf6-ba5b-2f1903df95a1";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HowMuchTrip/HowMuchTrip-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -791,7 +799,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "00453bf2-289a-4cf6-ba5b-2f1903df95a1";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "HowMuchTrip/HowMuchTrip-Bridging-Header.h";
 			};
 			name = Release;
