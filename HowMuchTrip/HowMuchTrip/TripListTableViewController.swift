@@ -38,7 +38,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     {
         super.viewWillAppear(true)
         
-        // If the user is not currently logged, send user to the Settings View Controller to log in
+        // Determine how the user logged in
         if PFUser.currentUser() != nil
         {
             switch loggedInWith
