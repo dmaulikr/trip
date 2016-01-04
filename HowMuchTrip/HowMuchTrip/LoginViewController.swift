@@ -24,6 +24,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        usernameField.becomeFirstResponder()
+        usernameField.layer.zPosition = 1
+        passwordField.layer.zPosition = 1
     }
     
     override func didReceiveMemoryWarning()

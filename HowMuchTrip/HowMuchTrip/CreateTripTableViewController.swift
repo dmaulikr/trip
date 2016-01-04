@@ -282,6 +282,8 @@ class CreateTripTableViewController:
                 
                 self.shownTextField = nextTextField
                 self.shownTextField.hidden = false
+                self.shownTextField.layer.zPosition =
+                    self.textFieldBGView.layer.zPosition + 1
                 self.shownTextField.alpha = 0
                 self.shownTextField.text = ""
                 self.shownTextField.frame.origin.y = 100
@@ -646,9 +648,40 @@ class CreateTripTableViewController:
         
         print(trip.departureLocation)
         
-        let genericImages = ["country-road","fancy-bar","fancy-dinner","fine-dining","fruit-market","hotel-room-service","outside-cafe","pond-cannonball", "tulips"]
+        let genericImages = ["country-road","fancy-bar","fancy-dinner","fine-dining","fruit-market","hotel-room-service","mojito","outside-cafe","pond-cannonball", "tulips"]
         
-        trip.destinationImage = genericImages[Int(arc4random() % UInt32(genericImages.count))]
+        // Customizing the image set for user created trips
+        trip.destinationImage =
+        {
+            switch trip.destination
+            {
+            case "Reno, NV", "Las Vegas, NV", "Atlantic City, NJ":
+                return "slot-machines"
+            case "New York, NY":
+                return "brooklyn-bridge"
+            case "San Francisco, CA":
+                return "golden-gate-bridge"
+            case "Miami, FL":
+                return "miami-hotel"
+            case "Denver, CO":
+                return "denver"
+            default:
+                if (trip.destination.rangeOfString("beach") != nil)
+                {
+                    return "beach-jetty"
+                }
+                else if (trip.destination.rangeOfString("japan") != nil)
+                {
+                    return "japan-boat-market"
+                }
+                else
+                {
+                    return genericImages[Int(arc4random() % UInt32(genericImages.count))]
+                }
+            }
+        
+        }()
+        
     }
     
     /// Function called when the trip calculator is finished assigning trip values. 'didGoOverBudget' is called here if the trip budget remaining falls below 0.
