@@ -91,6 +91,8 @@ class CreateTripTableViewController:
     var trips = [Trip]()
     
     var mapsAPIController: MapsAPIController?
+    var googlePlacesAPIController: GooglePlacesAPIController?
+    
     var locationManager: CLLocationManager? {
         willSet {
             UIApplication
@@ -546,6 +548,7 @@ class CreateTripTableViewController:
         
         print("didReceiveMapsAPIResults")
     }
+    
     
     // MARK: - Context Popover Delegate Functions
     
