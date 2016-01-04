@@ -105,6 +105,7 @@ class TripDetailViewController: UITableViewController
     override func viewWillDisappear(animated: Bool)
     {
         updateTrip(trip)
+        self.navigationController!.popToRootViewControllerAnimated(false)
     }
     
     // MARK: - Initial View Setup
