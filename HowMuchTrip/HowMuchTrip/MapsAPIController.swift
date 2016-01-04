@@ -15,7 +15,7 @@ protocol MapsAPIResultsProtocol
 
 protocol GooglePlacesAPIProtocol
 {
-    func didReceiveGooglePlacesAPIResults(description: NSDictionary)
+    func didReceiveGooglePlacesAPIResults(predictions: [NSDictionary])
 }
 
 /// MapsAPIController allows user to find the Google Maps API data for a location
@@ -110,30 +110,37 @@ class GooglePlacesAPIController
         self.delegate = delegate
     }
     
-    func searchGooglePlacesFor(keyboardEntry: String)
+    func searchGooglePlacesFor(var keyboardEntry: String)
     {
+        keyboardEntry = keyboardEntry.stringByReplacingOccurrencesOfString(" ", withString: "%20")
         let urlPath = "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=\(keyboardEntry)&types=(cities)&key=AIzaSyDTPgYOHM31jzVcZFV-wdg2RmdleSkAF-4"
-        let url = NSURL(string: urlPath)
         let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithURL(url!, completionHandler: {data, response, error -> Void in
-            if error != nil
-            {
-                print(error!.localizedDescription)
-            }
-            else
-            {
-                if let dictionary = self.parseJSON(data!)
+        if let url = NSURL(string: urlPath)
+        {
+            session.dataTaskWithURL(url, completionHandler: {data, response, error -> Void in
+                if error != nil
                 {
-                    if let description : NSDictionary = dictionary["description"] as? NSDictionary
-                    {
-                        self.delegate!.didReceiveGooglePlacesAPIResults(description)
-                        print(data)
-                    }
-                    
+                    print(error!.localizedDescription)
                 }
-            }
-        })
-        task.resume()
+                else
+                {
+                    if let dictionary = self.parseJSON(data!)
+                    {
+                        //                    if let description: NSDictionary = dictionary["description"] as? NSDictionary
+                        //                    {
+                        //                        self.delegate!.didReceiveGooglePlacesAPIResults(description)
+                        //                        print(data)
+                        //                    }
+                        if let predictions = dictionary["predictions"] as? [NSDictionary]
+                        {
+                            self.delegate?.didReceiveGooglePlacesAPIResults(predictions)
+                        }
+                        
+                    }
+                }
+            }).resume()
+        }
+
     }
     func parseJSON(data: NSData) -> NSDictionary?
     {

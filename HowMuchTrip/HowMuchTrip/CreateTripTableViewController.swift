@@ -27,7 +27,8 @@ class CreateTripTableViewController:
     MapsAPIResultsProtocol,
     UIGestureRecognizerDelegate,
     CLLocationManagerDelegate,
-    FlightTicketPriceWasChosenProtocol
+    FlightTicketPriceWasChosenProtocol,
+    LocationWasChosenProtocol
 {
     
     // MARK: - Labels
@@ -75,6 +76,7 @@ class CreateTripTableViewController:
     
     @IBOutlet weak var pieChartView: PieChartView!
     @IBOutlet weak var legendContainerView: UIView!
+    @IBOutlet weak var locationSearchResultsContainerView: UIView!
     
     var contextPopover: UIViewController?
     
@@ -163,6 +165,8 @@ class CreateTripTableViewController:
     {
         var rc = false
         
+        animateTextFieldBGSizeToDefault(nil)
+        
         let (selectedTextField, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
         self.indexOfTextField = indexOfTextField
         
@@ -209,6 +213,7 @@ class CreateTripTableViewController:
     /// Determines the index of the current text field. Disables the next button if there is no input or enables it if there is input.
     func textFieldDidEndEditing(textField: UITextField)
     {
+        animateTextFieldBGSizeToDefault(nil)
         let (_, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
         self.indexOfTextField = indexOfTextField
         
@@ -216,16 +221,11 @@ class CreateTripTableViewController:
         {
             nextButton.enabled = true
             dataSource.appearButton(nextButton)
-//            
-//            nextButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-//            nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:1)
         }
         else
         {
             nextButton.enabled = false
             dataSource.fadeButton(nextButton)
-//            nextButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-//            nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
         }
     }
     
@@ -236,37 +236,98 @@ class CreateTripTableViewController:
         dataSource.fadeButton(nextButton)
     }
     
+    func animateTextFieldBGSizeToDefault(textField: UITextField?)
+    {
+        locationSearchResultsContainerView.hideWithFade(0.15)
+        if textFieldBGView.frame.size.height != 40
+        {
+            UIView.animateWithDuration(0.5) { () -> Void in
+                self.textFieldBGView.frame = CGRectMake(
+                    self.textFieldBGView.frame.origin.x,
+                    self.textFieldBGView.frame.origin.y,
+                    self.textFieldBGView.frame.size.width,
+                    40)
+            }
+        }
+        
+        if textField != nil
+        {
+            textFieldShouldReturn(textField!)
+        }
+    }
+    
     /// Checks the keyboard type and adds a done button to the keyboard if there is no built in return key on the current keyboard type.
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool
     {
-//        if textField.keyboardType != .Default
-//        {
-            addDoneButtonOnKeyboard(self.shownTextField)
-//        }
+        addDoneButtonOnKeyboard(self.shownTextField)
         return true
     }
     
     /// Presents an interactive calendar popup to allow the user to choose their trip dates.
     func presentCalendar(textFieldTag: Int)
     {
-        if self.childViewControllers.count == 1
-        {
-            let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
-            let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
-            self.addContextPopover(contextPopover)
-            contextPopover.delegate = self
-            contextPopover.textFieldTag = textFieldTag
-            contextPopover.trip = trip
-            
-            self.contextPopover = contextPopover
-        }
+        let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
+        let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
+        self.addContextPopover(contextPopover)
+        contextPopover.delegate = self
+        contextPopover.textFieldTag = textFieldTag
+        contextPopover.trip = trip
+        
+        self.contextPopover = contextPopover
         nextButton.enabled = true//textField.text?.characters.count > 0
     }
     
     /// Limts the user input to the appropriate characters in order to reduce error.
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
+        if shownTextField.text == "" && textFieldBGView.frame.size.height != 40
+        {
+            animateTextFieldBGSizeToDefault(nil)
+        }
+        else if shownTextField.text != ""
+            && textField == departureLocationTextField
+            || textField == destinationTextField
+        {
+            print("searchForLocation")
+            searchForLocation(textField)
+        }
+        
         return dataSource.testCharacters(textField, string: string, superview: self)
+    }
+    
+    func searchForLocation(textField: UITextField)
+    {
+        if Reachability.isConnectedToNetwork()
+        {
+            if textFieldBGView.frame.size.height != 240
+            {
+                let newFrame = CGRectMake(
+                    self.textFieldBGView.frame.origin.x,
+                    self.textFieldBGView.frame.origin.y,
+                    self.textFieldBGView.frame.size.width,
+                    240)
+                
+                UIView.animateWithDuration(0.5, animations: { () -> Void in
+                    self.textFieldBGView.frame = newFrame
+                    }, completion: { (_) -> Void in
+
+                        self.locationSearchResultsContainerView.hidden = false
+                        self.locationSearchResultsContainerView.appearWithFade(0.15)
+                        
+                        for childVC in self.childViewControllers
+                        {
+                            if let locationSearchTableVC = childVC as? LocationSearchTableViewController
+                            {
+                                locationSearchTableVC.delegate = self
+                                locationSearchTableVC.textField = textField
+                                locationSearchTableVC.searchForLocation()
+                            }
+                        }
+                })
+            }
+            
+
+        }
     }
     
     /// Determines the current textfield and cycles to the next one. Handles the cycling animation and assigns the prompt text. Presents the calendar if the appropriate text field is currently displayed. Also determines if the user has cycled through all available text fields and calls the createTripComplete function in this event.
