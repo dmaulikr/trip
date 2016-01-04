@@ -84,7 +84,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     
     func calendarDidSelectDate(date: Moment)
     {
-        if date.intervalSince(moment()).days < 0
+        if date.intervalSince(moment()).days < -1
         {
             confirmButton.hideWithFade(0.25)
             parentViewController?.presentErrorPopup("Looks like you're trying to pick a date ealier than the current date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
@@ -93,7 +93,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         {
             if let departure = moment(trip.dateFrom, dateFormat: "MM/d/yy")
             {
-                if date.intervalSince(departure).days < 0
+                if date.intervalSince(departure).days < -1
                 {
                     confirmButton.hideWithFade(0.25)
                     parentViewController?.presentErrorPopup("Looks like you're trying to choose a return date that's earlier than your departure date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")

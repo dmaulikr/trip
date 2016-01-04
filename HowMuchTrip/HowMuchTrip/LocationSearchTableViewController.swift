@@ -46,7 +46,6 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
             let result = results[indexPath.row]
             
             cell.textLabel?.text = result
-            print("assign cell", result)
         }
         
         return cell
@@ -56,7 +55,7 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     {
         let result = results[indexPath.row]
         
-        if let parentVC = self.parentViewController as? CreateTripTableViewController
+        if let parentVC = parentViewController as? CreateTripTableViewController
         {
             switch textField
             {
@@ -71,6 +70,17 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
         return 44.0
+    }
+    
+    override func scrollViewDidScroll(scrollView: UIScrollView)
+    {
+        if let parentVC = parentViewController as? CreateTripTableViewController
+        {
+            if parentVC.shownTextField.isFirstResponder()
+            {
+                parentVC.shownTextField.resignFirstResponder()
+            }
+        }
     }
     
     func searchForLocation()

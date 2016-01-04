@@ -53,16 +53,16 @@ class Calculator
         {
             switch property
             {
-            case "Budget"               : trip.budgetTotal          = Double(value)!
+            case "Budget"               : trip.budgetTotal          = Double(value) ?? 0.0
             case "Departure Location"   : trip.departureLocation    = value
             case "Destination"          : trip.destination          = value
             case "Date From"            : trip.dateFrom             = value
             case "Date To"              : trip.dateTo               = value
-            case "Plane Ticket Cost"    : print(value) ; trip.planeTicketCost      = Double(value)!
-            case "Daily Lodging Cost"   : trip.dailyLodgingCost     = Double(value)!
-            case "Daily Food Cost"      : trip.dailyFoodCost        = Double(value)!
-            case "Daily Other Cost"     : trip.dailyOtherCost       = Double(value)!
-            case "One Time Cost"        : trip.oneTimeCost          = Double(value)!
+            case "Plane Ticket Cost"    : trip.planeTicketCost      = Double(value) ?? 0.0
+            case "Daily Lodging Cost"   : trip.dailyLodgingCost     = Double(value) ?? 0.0
+            case "Daily Food Cost"      : trip.dailyFoodCost        = Double(value) ?? 0.0
+            case "Daily Other Cost"     : trip.dailyOtherCost       = Double(value) ?? 0.0
+            case "One Time Cost"        : trip.oneTimeCost          = Double(value) ?? 0.0
             case "destinationLat"       : trip.destinationLat       = value
             case "destinationLng"       : trip.destinationLng       = value
             case "departureLat"         : trip.departureLat         = value

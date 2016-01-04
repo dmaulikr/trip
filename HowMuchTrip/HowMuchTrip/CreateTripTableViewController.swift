@@ -213,7 +213,6 @@ class CreateTripTableViewController:
     /// Determines the index of the current text field. Disables the next button if there is no input or enables it if there is input.
     func textFieldDidEndEditing(textField: UITextField)
     {
-        animateTextFieldBGSizeToDefault(nil)
         let (_, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
         self.indexOfTextField = indexOfTextField
         
@@ -238,7 +237,11 @@ class CreateTripTableViewController:
     
     func animateTextFieldBGSizeToDefault(textField: UITextField?)
     {
-        locationSearchResultsContainerView.hideWithFade(0.15)
+        if locationSearchResultsContainerView.alpha != 0
+        || locationSearchResultsContainerView.hidden == false
+        {
+            locationSearchResultsContainerView.hideWithFade(0.15)
+        }
         if textFieldBGView.frame.size.height != 40
         {
             UIView.animateWithDuration(0.5) { () -> Void in
@@ -313,19 +316,18 @@ class CreateTripTableViewController:
 
                         self.locationSearchResultsContainerView.hidden = false
                         self.locationSearchResultsContainerView.appearWithFade(0.15)
-                        
-                        for childVC in self.childViewControllers
-                        {
-                            if let locationSearchTableVC = childVC as? LocationSearchTableViewController
-                            {
-                                locationSearchTableVC.delegate = self
-                                locationSearchTableVC.textField = textField
-                                locationSearchTableVC.searchForLocation()
-                            }
-                        }
                 })
             }
             
+            for childVC in self.childViewControllers
+            {
+                if let locationSearchTableVC = childVC as? LocationSearchTableViewController
+                {
+                    locationSearchTableVC.delegate = self
+                    locationSearchTableVC.textField = textField
+                    locationSearchTableVC.searchForLocation()
+                }
+            }
 
         }
     }
@@ -957,6 +959,7 @@ class CreateTripTableViewController:
     func doneButtonAction()
     {
         textFieldShouldReturn(shownTextField)
+        animateTextFieldBGSizeToDefault(nil)
 //        shownTextField.resignFirstResponder()
         nextButtonPressed(nextButton)
     }
