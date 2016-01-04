@@ -282,6 +282,8 @@ class CreateTripTableViewController:
                 
                 self.shownTextField = nextTextField
                 self.shownTextField.hidden = false
+                self.shownTextField.layer.zPosition =
+                    self.textFieldBGView.layer.zPosition + 1
                 self.shownTextField.alpha = 0
                 self.shownTextField.text = ""
                 self.shownTextField.frame.origin.y = 100
