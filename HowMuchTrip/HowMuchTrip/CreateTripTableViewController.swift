@@ -473,6 +473,7 @@ class CreateTripTableViewController:
     /// Called when the context button is pressed. Determines which state the context button is in, and forwards it to the appropriate below function.
     @IBAction func contextButtonPressed(sender: UIButton)
     {
+        shownTextField.resignFirstResponder()
         switch sender.tag
         {
         case 70: //location
@@ -708,43 +709,6 @@ class CreateTripTableViewController:
                 self.dataSource.buildGraphAndLegend(self.trip, superview: self)
             }
         }
-        
-        print(trip.departureLocation)
-        
-        let genericImages = ["country-road","fancy-bar","fancy-dinner","fine-dining","fruit-market","hotel-room-service","mojito","outside-cafe","pond-cannonball", "tulips"]
-        
-        // Customizing the image set for user created trips
-        trip.destinationImage =
-        {
-            switch trip.destination
-            {
-            case "Reno, NV", "Las Vegas, NV", "Atlantic City, NJ":
-                return "slot-machines"
-            case "New York, NY":
-                return "brooklyn-bridge"
-            case "San Francisco, CA":
-                return "golden-gate-bridge"
-            case "Miami, FL":
-                return "miami-hotel"
-            case "Denver, CO":
-                return "denver"
-            default:
-                if (trip.destination.rangeOfString("beach") != nil)
-                {
-                    return "beach-jetty"
-                }
-                else if (trip.destination.rangeOfString("japan") != nil)
-                {
-                    return "japan-boat-market"
-                }
-                else
-                {
-                    return genericImages[Int(arc4random() % UInt32(genericImages.count))]
-                }
-            }
-        
-        }()
-        
     }
     
     /// Function called when the trip calculator is finished assigning trip values. 'didGoOverBudget' is called here if the trip budget remaining falls below 0.
@@ -806,6 +770,8 @@ class CreateTripTableViewController:
         dismissContextPopover(FlightPopoverViewController)
         dismissContextPopover(CalendarPopoverViewController)
         dismissContextPopover(EditValueViewController)
+        
+        animateTextFieldBGSizeToDefault(nil)
         
         propertyDictionary.removeAll()
         

@@ -72,6 +72,62 @@ class Calculator
             }
         }
         
+        // Customizing the image set for user created trips
+        trip.destinationImage = {
+            var destination: String!
+            if trip.destination.containsString(",")
+            {
+                let destinationComponents = trip.destination.componentsSeparatedByString(",")
+                if destinationComponents.count > 1
+                {
+                    let shortDestination = destinationComponents[1] + ", " + destinationComponents[2]
+                    destination = shortDestination
+                }
+            }
+            else
+            {
+                destination = trip.destination
+            }
+            switch destination
+            {
+            case "Reno, NV", "Las Vegas, NV", "Atlantic City, NJ":
+                return "slot-machines"
+            case "New York, NY":
+                return "brooklyn-bridge"
+            case "San Francisco, CA", "San Jose, CA":
+                return "golden-gate-bridge"
+            case "Miami, FL", "Orlando, FL":
+                return "miami-hotel"
+            case "Denver, CO":
+                return "denver"
+            default:
+                if (trip.destination.rangeOfString("beach") != nil)
+                {
+                    return "beach-jetty"
+                }
+                else if (trip.destination.rangeOfString("japan") != nil)
+                {
+                    return "japan-boat-market"
+                }
+                else
+                {
+                    let genericImages = [
+                        "country-road",
+                        "fancy-bar",
+                        "fancy-dinner",
+                        "fine-dining",
+                        "fruit-market",
+                        "hotel-room-service",
+                        "mojito",
+                        "outside-cafe",
+                        "pond-cannonball",
+                        "tulips"
+                    ]
+                    return genericImages[Int(arc4random() % UInt32(genericImages.count))]
+                }
+            }
+        }()
+        
         var overBudget: Bool
         (trip, overBudget) = getTotals(trip)
         
