@@ -193,9 +193,6 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             // Remove from Parse cloud
             aTrip.deleteEventually()
             
-            // Delete row in table
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-            
             tableView.reloadData()
         }
     }
