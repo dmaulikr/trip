@@ -150,7 +150,7 @@
                                     <outlet property="prefixPromptLabel" destination="skT-aN-PPm" id="SdN-IX-huU"/>
                                 </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TripCell" rowHeight="125" id="4AG-Ek-XZp" customClass="TripCell" customModule="HowMuchTrip" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="TripCell" rowHeight="125" id="4AG-Ek-XZp" customClass="TripCell" customModule="HowMuchTrip" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="492" width="400" height="125"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4AG-Ek-XZp" id="2LS-j7-UC5">
@@ -212,11 +212,11 @@
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
-                                            <exclude reference="oTh-Pu-J2F"/>
-                                            <exclude reference="gRo-Uh-83V"/>
+                                            <exclude reference="33d-ww-ke7"/>
                                             <exclude reference="c70-ZS-Zyd"/>
                                             <exclude reference="crz-xo-xpK"/>
-                                            <exclude reference="33d-ww-ke7"/>
+                                            <exclude reference="gRo-Uh-83V"/>
+                                            <exclude reference="oTh-Pu-J2F"/>
                                             <exclude reference="PKy-6w-jkT"/>
                                             <exclude reference="7N7-92-Hwc"/>
                                         </mask>
@@ -763,7 +763,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="tintColor" red="0.86274509799999999" green="0.86274509799999999" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="0.0" green="0.40784313725490196" blue="0.5490196078431373" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.40456187725067139" blue="0.55535918474197388" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -1416,7 +1416,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="086-Li-aFJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.27058823529999998" green="0.48627450979999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="0.0" green="0.40456187725067139" blue="0.55535918474197388" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -1445,6 +1445,6 @@
         <image name="twitter" width="40" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="KJn-LN-HrG"/>
+        <segue reference="9C2-E2-FLu"/>
     </inferredMetricsTieBreakers>
 </document>

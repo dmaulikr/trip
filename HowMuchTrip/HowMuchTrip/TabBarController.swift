@@ -39,7 +39,11 @@ class TabBarController: UITabBarController
             tabBarItem.setTitleTextAttributes(unselectedTitleTextAttributes, forState: .Normal)
             tabBarItem.setTitleTextAttributes(titleTextAttributes, forState: .Selected)
         }
+        
+        tabBarController?.selectedIndex = 0
     }
+    
+
     
     /// Adds animation to the navigation tab bar
     override func tabBar(tabBar: UITabBar, didSelectItem item: UITabBarItem)
