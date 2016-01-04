@@ -357,7 +357,8 @@
 				9ADAAAB41C19C26100D26F79 /* Resources */,
 				D465474133B59110B8D69CCA /* Embed Pods Frameworks */,
 				97C63DADDC93CC50A0C4F250 /* Copy Pods Resources */,
-				9A3E83871C36FC070081FFDA /* ShellScript */,
+				9A3E83871C36FC070081FFDA /* Fabric/Crashlytics */,
+				9ACDE6AA1C3AD98800DE6736 /* Increment Build Number */,
 			);
 			buildRules = (
 			);
@@ -501,18 +502,33 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		9A3E83871C36FC070081FFDA /* ShellScript */ = {
+		9A3E83871C36FC070081FFDA /* Fabric/Crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = Fabric/Crashlytics;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 5168260609b7da444ae8bbf360961cc59859dca0 db9c1c1b556a2fe8bbe14c674d4d96be00971b76e05b2ad59c4324e434b7ca8f";
+		};
+		9ACDE6AA1C3AD98800DE6736 /* Increment Build Number */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Increment Build Number";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"";
 		};
 		A4D235C446A28086CBA28A98 /* Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -747,7 +763,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "00453bf2-289a-4cf6-ba5b-2f1903df95a1";
 				SWIFT_OBJC_BRIDGING_HEADER = "HowMuchTrip/HowMuchTrip-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -771,7 +787,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "00453bf2-289a-4cf6-ba5b-2f1903df95a1";
 				SWIFT_OBJC_BRIDGING_HEADER = "HowMuchTrip/HowMuchTrip-Bridging-Header.h";
 			};
 			name = Release;
