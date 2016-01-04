@@ -113,6 +113,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell
     {
+        
         // If trips array is not empty, display Trip objects
         if trips.count != 0
         {
@@ -155,6 +156,10 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             if PFUser.currentUser() != nil
             {
                 cell.loginView.hidden = true
+            }
+            else
+            {
+                cell.loginView.hidden = false
             }
             
             navigationItem.leftBarButtonItem = nil
