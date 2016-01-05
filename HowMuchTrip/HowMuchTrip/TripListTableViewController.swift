@@ -61,10 +61,7 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(true)
-        
-
     }
-    
 
     /// Sets attributes for the Navigation Tab Bar
     func setNavBarAttributes()

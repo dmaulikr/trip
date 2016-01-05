@@ -32,6 +32,10 @@ class EditValueViewController: UIViewController, UITextFieldDelegate
         ContextPopoverSetup.setup(confirmButton, cancelButton: cancelButton)
         
         topLabel.text = "Editing \(property)"
+        if property == "Plane Ticket Cost"
+        {
+            topLabel.text = "Editing Transit Cost"
+        }
         
         editTextField.delegate = self
         editTextField.placeholder = value.formatCostAsUSD()

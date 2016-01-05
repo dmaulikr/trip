@@ -808,7 +808,7 @@ class CreateTripTableViewController:
             "Hold up."
         ]
         prefixPromptLabel.text = prefixes[Int(arc4random() % UInt32(prefixes.count))]
-        suffixPromptLabel.text = "Might have to plan a little smaller; looks like we're over budget."
+        suffixPromptLabel.text = "Might have to plan a little smaller; looks like we're over budget. Let's enter a cost that's in budget, or you can edit your budget using the pie chart legend."
         suffixPromptLabel.alpha = 0
         
         budgetRemainingLabel.textColor = UIColor.redColor()

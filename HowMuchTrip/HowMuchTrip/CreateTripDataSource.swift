@@ -186,18 +186,18 @@ class CreateTripDataSource
         case 4:
             suffix = "When are you planning on going back home?"
         case 5:
-            suffix = "How about the price for the plane ticket?"
+            suffix = "How much do you think transit will cost? (Plane ticket, gas costs, etc.)"
             //TODO:
             //subtitleLabel.text = "Press the PLANE button if you want to look up some prices.
         case 6:
-            switch aTrip.planeTicketCost
-            {
-            case 0.0           : prefixes = [""]
-            case 0.1 ... 300.0 : prefixes = ["Pretty cheap! "]
-            case 300.0...600.0 : prefixes = ["Not bad. "]
-            default            : prefixes = ["Ticket prices, am I right? "]
-            }
-            suffix = "How much is lodging going to cost?"
+//            switch aTrip.planeTicketCost
+//            {
+//            case 0.0           : prefixes = [""]
+//            case 0.1 ... 300.0 : prefixes = ["Pretty cheap! "]
+//            case 300.0...600.0 : prefixes = ["Not bad. "]
+//            default            : prefixes = ["Ticket prices, am I right? "]
+//            }
+            suffix = "How much do you think lodging will cost?"
             //TODO:
             //subtitleLabel.text = "Press the HOTEL button if you want to look up some prices.
         case 7:
@@ -296,7 +296,7 @@ class CreateTripDataSource
         
         let graphProperties = [
             "Budget Remaining",
-            "Plane Ticket",
+            "Transit",
             "Total Lodging",
             "Total Daily Food Cost",
             "Total Daily Other Cost",
