@@ -87,6 +87,10 @@ class SettingsViewController: UIViewController
             userImage.image = UIImage(named: "UserIcon")
             userNameLabel.text = nil
             navigationItem.rightBarButtonItem?.title = "Login"
+            usernameCheckbox.image = UIImage(named: "CheckBox_unselected")
+            facebookCheckbox.image = UIImage(named: "CheckBox_unselected")
+            twitterCheckbox.image = UIImage(named: "CheckBox_unselected")
+
         }
     }
     
