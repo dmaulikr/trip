@@ -94,6 +94,14 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
         }
     }
     
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
+    {
+        if searchBar.text != ""
+        {
+            loadAirports(searchBar.text!)
+        }
+    }
+    
     func loadAirports(searchParameters: String)
     {
         airportLocation.removeAll()
@@ -117,8 +125,9 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
             }()
             
             let airportCode = airport["VENDOR_CODE"] as? String ?? ""
-                    
-            if searchParameters.containsString(cityName) && airportCode != ""
+
+            if searchParameters.lowercaseString.rangeOfString(cityName.lowercaseString) != nil
+            && airportCode != ""
             {
                 print("contains")
                 self.airportLocation.append(airportLocation)

@@ -39,12 +39,11 @@ class CreateTripTableViewController:
     @IBOutlet weak var prefixPromptLabel: UILabel!
     @IBOutlet weak var suffixPromptLabel: UILabel!
     
-    @IBOutlet weak var promptLabel: UILabel!
-    @IBOutlet weak var saveTripButton: UIButton!
     @IBOutlet weak var nextButton: UIButton!
-    @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
-    @IBOutlet weak var contextButton: UIButton!
+    
+    @IBOutlet weak var locationButton: UIButton!
+    @IBOutlet weak var flightButton: UIButton!
     
     var buttons = [UIButton!]()
     
@@ -128,8 +127,7 @@ class CreateTripTableViewController:
         dateToTextField.tag = 81
         
         tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
-        
-    //    setupDismissTapGesture()
+
         NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "initialCycle", userInfo: nil, repeats: false)
     }
     
@@ -196,6 +194,7 @@ class CreateTripTableViewController:
         
         textField.transform = leftWobble
         textFieldBGView.transform = leftWobble
+//        contextButton.transform = leftWobble
         
         UIView.animateWithDuration(0.15, delay: 0,
             options: [.Repeat, .Autoreverse],
@@ -203,9 +202,12 @@ class CreateTripTableViewController:
             UIView.setAnimationRepeatCount(1)
             textField.transform = rightWobble
             self.textFieldBGView.transform = rightWobble
+//            self.contextButton.transform = rightWobble
+                
             }) { (_) -> Void in
                 textField.transform = CGAffineTransformIdentity
                 self.textFieldBGView.transform = CGAffineTransformIdentity
+//                self.contextButton.transform = CGAffineTransformIdentity
         }
     }
     
@@ -502,7 +504,6 @@ class CreateTripTableViewController:
     /// Called when the context button is pressed. Determines which state the context button is in, and forwards it to the appropriate below function.
     @IBAction func contextButtonPressed(sender: UIButton)
     {
-        shownTextField.resignFirstResponder()
         switch sender.tag
         {
         case 70: //location
@@ -518,12 +519,14 @@ class CreateTripTableViewController:
     /// Called when the context button is pressed while in the location button state. Configures the location manager and requests permission to use location services; if this request is granted, the location search will start automatically.
     @IBAction func locationButtonPressed(sender: UIButton)
     {
+        shownTextField.resignFirstResponder()
         configureLocationManager()
     }
     
     /// Called when the context button is pressed while in the flight button state. If trip dates have been chosen, presents a pop up to allow the user to search for ticket prices. If trip dates have not been chosen, presents an error popup to inform the user of this issue and prompts them to enter a date range.
     @IBAction func flightButtonPressed(sender: UIButton)
     {
+        shownTextField.resignFirstResponder()
         if trip.dateFrom != ""
         {
             let flightStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)

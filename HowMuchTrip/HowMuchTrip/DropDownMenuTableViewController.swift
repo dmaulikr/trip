@@ -110,7 +110,10 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     
     func searchForLocation()
     {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        if !UIApplication.sharedApplication().networkActivityIndicatorVisible
+        {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+        }
         searchingForCost = false
         apiController = GooglePlacesAPIController(delegate: self)
         apiController?.searchGooglePlacesFor(textField.text!)

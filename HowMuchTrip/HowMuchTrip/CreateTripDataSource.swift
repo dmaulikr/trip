@@ -72,8 +72,8 @@ class CreateTripDataSource
         
         let allButtons = [
             superview.nextButton,
-//            superview.skipButton,
-            superview.contextButton,
+            superview.locationButton,
+            superview.flightButton,
             superview.backButton
         ]
         
@@ -339,9 +339,14 @@ class CreateTripDataSource
             }
         }
         
-        if superview.contextButton.alpha != 0
+        if superview.flightButton.alpha != 0
         {
-            superview.contextButton.hideWithFade(0.25)
+            superview.flightButton.hideWithFade(0.25)
+        }
+        
+        if superview.locationButton.alpha != 0
+        {
+            superview.locationButton.hideWithFade(0.25)
         }
         
         switch superview.shownTextField
@@ -361,57 +366,49 @@ class CreateTripDataSource
             
             if Reachability.isConnectedToNetwork()
             {
-                let pin = UIImage(named: "pin")
-                superview.contextButton.setImage(pin, forState: .Normal)
-                
-                superview.contextButton.tag = 70
-                superview.contextButton.appearWithFade(0.25)
-                shakeButton(superview.contextButton)
+                superview.locationButton.appearWithFade(0.25)
+                shakeButton(superview.locationButton)
             }
             
         case superview.planeTicketTextField:
             
             if Reachability.isConnectedToNetwork()
             {
-                let plane = UIImage(named: "plane")
-                superview.contextButton.setImage(plane, forState: .Normal)
-                
-                superview.contextButton.tag = 71
-                superview.contextButton.appearWithFade(0.25)
-                shakeButton(superview.contextButton)
+                superview.flightButton.appearWithFade(0.25)
+                shakeButton(superview.flightButton)
             }
             
-        case superview.dailyLodgingTextField:
+        case superview.dailyLodgingTextField: print("deprecated")
             
-            if superview.trip.destinationLat != "" && superview.trip.destinationLng != "" && Reachability.isConnectedToNetwork()
-            {
-                let hotel = UIImage(named: "hotel")
-                superview.contextButton.setImage(hotel, forState: .Normal)
-                
-                superview.contextButton.tag = 72
-                superview.contextButton.appearWithFade(0.25)
-                shakeButton(superview.contextButton)
-            }
+//            if superview.trip.destinationLat != "" && superview.trip.destinationLng != "" && Reachability.isConnectedToNetwork()
+//            {
+//                let hotel = UIImage(named: "hotel")
+//                print(hotel)
+//                superview.contextButton.setImage(hotel, forState: .Normal)
+//                
+//                superview.contextButton.tag = 72
+//                superview.contextButton.appearWithFade(0.25)
+//                shakeButton(superview.contextButton)
+//            }
             
-        default: break;
+        default: break
         }
     }
     
     func shakeButton(button: UIButton!)
     {
-//        let spin = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI_2))
-        let grow = CGAffineTransformMakeScale(1.2, 1.2)
-//        let rightWobble = CGAffineTransformRotate(CGAffineTransformIdentity, 0.01)
+
+        let leftWobble = CGAffineTransformRotate(CGAffineTransformIdentity, -0.05)
+        let rightWobble = CGAffineTransformRotate(CGAffineTransformIdentity, 0.05)
         
-//        button.transform = leftWobble
+        button.transform = leftWobble
         
         UIView.animateWithDuration(0.15, delay: 0,
             options: [.Repeat, .Autoreverse],
             animations: { () -> Void in
-                UIView.setAnimationRepeatCount(1)
-//                button.transform = rightWobble
-//                button.transform = spin
-                button.transform = grow
+                UIView.setAnimationRepeatCount(2)
+                button.transform = rightWobble
+                
             }) { (_) -> Void in
                 button.transform = CGAffineTransformIdentity
         }
