@@ -40,7 +40,7 @@ class ContentView: UIScrollView {
     months = []
     let date = selectedDate ?? moment()
     selectedDate = date
-    var currentDate = date.substract(1, .Months)
+    var currentDate = date.subtract(1, .Months)
     for _ in 1...numMonthsLoaded {
       let month = MonthView(frame: CGRectZero)
       month.date = currentDate
