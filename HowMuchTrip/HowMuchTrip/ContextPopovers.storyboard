@@ -98,8 +98,6 @@
                                         <exclude reference="3rf-sa-puf"/>
                                         <exclude reference="kkz-Ws-8u9"/>
                                         <exclude reference="p40-N5-vkh"/>
-                                        <exclude reference="3rf-sa-puf"/>
-                                        <exclude reference="kkz-Ws-8u9"/>
                                     </mask>
                                 </variation>
                             </view>

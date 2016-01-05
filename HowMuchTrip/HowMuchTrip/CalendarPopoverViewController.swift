@@ -54,8 +54,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         
         confirmButton.alpha = 0
         
-        let frame = CGRectMake(calendarFrame.frame.origin.x, calendarFrame.frame.origin.y, calendarFrame.frame.size.width * 1.1, calendarFrame.frame.size.width * 1.1)
-        calendar = CalendarView(frame: frame)
+        calendar = CalendarView()
         calendarFrame.addSubview(calendar)
 
         monthLabel.text = ("\(moment().monthName) \(moment().year)")
@@ -70,6 +69,8 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(true)
+        
+        calendar.frame = CGRectMake(calendarFrame.frame.origin.x, calendarFrame.frame.origin.y, calendarFrame.frame.size.width * 1.01, calendarFrame.frame.size.width * 1.01)
     }
     
     @IBAction func confirmButtonPressed(sender: UIButton)
@@ -136,16 +137,18 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     
     func calendarDidPageToDate(date: Moment)
     {
-//        monthLabel.hideWithFade(0.1)
-//        monthLabel.text = ("\(date.monthName) \(date.year)")
-//        monthLabel.hidden = false
-//        UIView.animateWithDuration(0.1) { () -> Void in
-//            self.monthLabel.alpha = 1
-//        }
-//        
+        monthLabel.hideWithFade(0.1)
+        monthLabel.text = ("\(date.monthName) \(date.year)")
+        monthLabel.hidden = false
+        UIView.animateWithDuration(0.1) { () -> Void in
+            self.monthLabel.alpha = 1
+        }
+        
+        print(calendarFrame.frame.size.width)
+        print(calendar.frame.size.width)
+        
 //        if date.monthName == moment().monthName && date.year == moment().year
 //        {
-//            leftArrow.hideWithFade(0.25)
 //        }
 //        else if leftArrow.alpha == 0
 //        {
