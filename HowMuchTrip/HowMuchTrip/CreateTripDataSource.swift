@@ -342,7 +342,6 @@ class CreateTripDataSource
         if superview.contextButton.alpha != 0
         {
             superview.contextButton.hideWithFade(0.25)
-            superview.contextButtonImg.hideWithFade(0.25)
         }
         
         switch superview.shownTextField
@@ -400,7 +399,8 @@ class CreateTripDataSource
     
     func shakeButton(button: UIButton!)
     {
-        let spin = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI_2))
+//        let spin = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI_2))
+        let grow = CGAffineTransformMakeScale(1.2, 1.2)
 //        let rightWobble = CGAffineTransformRotate(CGAffineTransformIdentity, 0.01)
         
 //        button.transform = leftWobble
@@ -410,7 +410,8 @@ class CreateTripDataSource
             animations: { () -> Void in
                 UIView.setAnimationRepeatCount(1)
 //                button.transform = rightWobble
-                button.transform = spin
+//                button.transform = spin
+                button.transform = grow
             }) { (_) -> Void in
                 button.transform = CGAffineTransformIdentity
         }
