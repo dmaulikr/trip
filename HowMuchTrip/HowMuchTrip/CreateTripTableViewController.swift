@@ -44,6 +44,7 @@ class CreateTripTableViewController:
     
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var flightButton: UIButton!
+    @IBOutlet weak var calendarButton: UIButton!
     
     var buttons = [UIButton!]()
     
@@ -160,30 +161,61 @@ class CreateTripTableViewController:
     /// Determines if the current input is valid. If so, dismisses the keyboard and scrolls the view to the bottom to prompt user to press the next button. If not, calls shakeTextField to inform user of incorrect or empty input.
     func textFieldShouldReturn(textField: UITextField) -> Bool
     {
-        var rc = false
-        
         let (selectedTextField, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
         self.indexOfTextField = indexOfTextField
         
         if shownTextField.text != ""
+        && shownTextField != dateFromTextField
+        || shownTextField != dateToTextField
         {
-            rc = true
-            nextButton.enabled = true
-            dataSource.appearButton(nextButton)
-            selectedTextField.resignFirstResponder()
+            validTextFieldEntry(selectedTextField)
             
-            let index = NSIndexPath(forRow: 0, inSection: 0)
-            tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
+            return true
+        }
+        else if shownTextField == dateFromTextField
+        || shownTextField == dateToTextField
+        {
+            print("date should return")
+            if shownTextField.text == ""
+            {
+                print("date should return 2")
+                validTextFieldEntry(selectedTextField)
+            }
+            else if Validator.validate("date", string: shownTextField.text!)
+            {
+                validTextFieldEntry(selectedTextField)
+            }
+            else
+            {
+                invalidTextFieldEntry()
+            }
         }
         else
         {
-            shakeTextField(shownTextField)
-            dataSource.fadeButton(nextButton)
+            invalidTextFieldEntry()
         }
         
-        animateTextFieldBGSizeToDefault(nil)
+        return false
+    }
+    
+    func validTextFieldEntry(selectedTextField: UITextField)
+    {
+        nextButton.enabled = true
+        dataSource.appearButton(nextButton)
+        selectedTextField.resignFirstResponder()
         
-        return rc
+        let index = NSIndexPath(forRow: 0, inSection: 0)
+        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
+        
+        animateTextFieldBGSizeToDefault(nil)
+    }
+    
+    func invalidTextFieldEntry()
+    {
+        shakeTextField(shownTextField)
+        dataSource.fadeButton(nextButton)
+        
+        animateTextFieldBGSizeToDefault(nil)
     }
     
     /// Shakes the text field and text field background view to inform the user of incorrect or empty input.
@@ -217,7 +249,12 @@ class CreateTripTableViewController:
         let (_, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
         self.indexOfTextField = indexOfTextField
         
-        if shownTextField.text != ""
+        if shownTextField.text != "" && textField != dateFromTextField || textField != dateToTextField
+        {
+            nextButton.enabled = true
+            dataSource.appearButton(nextButton)
+        }
+        else if textField == dateFromTextField || textField == dateToTextField
         {
             nextButton.enabled = true
             dataSource.appearButton(nextButton)
@@ -287,8 +324,12 @@ class CreateTripTableViewController:
     /// Presents an interactive calendar popup to allow the user to choose their trip dates.
     func presentCalendar(textFieldTag: Int)
     {
+        animateTextFieldBGSizeToDefault(nil)
+        
         let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
         let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
+//        navigationController?.pushViewController(contextPopover, animated: true)
+        
         self.addContextPopover(contextPopover)
         contextPopover.delegate = self
         contextPopover.textFieldTag = textFieldTag
@@ -411,12 +452,12 @@ class CreateTripTableViewController:
                         if self.shownTextField.tag == 81
                         {
 //                            self.dateToTextField.tag = 80
-                            self.presentCalendar(self.dateToTextField.tag)
+//                            self.presentCalendar(self.dateToTextField.tag)
                         }
                         else if self.shownTextField.tag == 80
                         {
 //                            self.dateFromTextField.tag = 81
-                            self.presentCalendar(self.dateFromTextField.tag)
+//                            self.presentCalendar(self.dateFromTextField.tag)
                         }
                         else
                         {
@@ -490,6 +531,7 @@ class CreateTripTableViewController:
     @IBAction func backButtonPressed(sender: UIButton)
     {
         let previousTextFieldIndex = textFields.indexOf(shownTextField)! - 1
+        animateTextFieldBGSizeToDefault(nil)
         self.cycleToTextField(previousTextFieldIndex)
         
         nextButton.setTitle("N E X T", forState: .Normal)
@@ -501,25 +543,11 @@ class CreateTripTableViewController:
         clear()
     }
     
-    /// Called when the context button is pressed. Determines which state the context button is in, and forwards it to the appropriate below function.
-    @IBAction func contextButtonPressed(sender: UIButton)
-    {
-        switch sender.tag
-        {
-        case 70: //location
-            locationButtonPressed(sender)
-        case 71: //flight
-            flightButtonPressed(sender)
-        case 72: //hotel
-            hotelButtonPressed(sender)
-        default: print("context button unknown tag: \(sender.tag)")
-        }
-    }
-    
     /// Called when the context button is pressed while in the location button state. Configures the location manager and requests permission to use location services; if this request is granted, the location search will start automatically.
     @IBAction func locationButtonPressed(sender: UIButton)
     {
         shownTextField.resignFirstResponder()
+        animateTextFieldBGSizeToDefault(nil)
         configureLocationManager()
     }
     
@@ -527,6 +555,7 @@ class CreateTripTableViewController:
     @IBAction func flightButtonPressed(sender: UIButton)
     {
         shownTextField.resignFirstResponder()
+        animateTextFieldBGSizeToDefault(nil)
         if trip.dateFrom != ""
         {
             let flightStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
@@ -539,6 +568,11 @@ class CreateTripTableViewController:
         {
             presentErrorPopup("Please go back and specify a date range if you'd like to look up flights! :)")
         }
+    }
+    
+    @IBAction func calendarButtonPressed(sender: UIButton)
+    {
+        presentCalendar(shownTextField.tag)
     }
     
     /// Called when the context button is pressed while in the hotel button state. This function has not been implemented.
@@ -684,11 +718,11 @@ class CreateTripTableViewController:
             {
             case dateFromTextField.tag:
                 dateFromTextField.becomeFirstResponder()
-                dateFromTextField.text = " "
+                dateFromTextField.text = ""
                 textFieldShouldReturn(dateFromTextField)
             case dateToTextField.tag:
                 dateToTextField.becomeFirstResponder()
-                dateToTextField.text = " "
+                dateToTextField.text = ""
                 textFieldShouldReturn(dateToTextField)
             default: print("default error in dateWasChosen -- unknown textField: \(textFieldTag)")
             }

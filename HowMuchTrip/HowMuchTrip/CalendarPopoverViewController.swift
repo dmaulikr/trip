@@ -17,7 +17,12 @@ protocol DateWasChosenFromCalendarProtocol
 
 class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
 {
-    @IBOutlet weak var calendar: CalendarView!
+    @IBOutlet weak var calendarFrame: UIView!
+    var calendar: CalendarView! {
+        didSet {
+            setCalendarPrefs()
+        }
+    }
     
     @IBOutlet weak var monthLabel: UILabel!
     @IBOutlet weak var leftArrow: UIImageView!
@@ -28,9 +33,9 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     var textFieldTag: Int!
     var selectedDate: Moment!
     var trip: Trip!
-    
+
     var delegate: DateWasChosenFromCalendarProtocol?
-    
+
     let confirmations = [
         "Okay",
         "All set",
@@ -49,12 +54,11 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         
         confirmButton.alpha = 0
         
-        setCalendarPrefs()
+        let frame = CGRectMake(calendarFrame.frame.origin.x, calendarFrame.frame.origin.y, calendarFrame.frame.size.width * 1.2, calendarFrame.frame.size.width * 1.2)
+        calendar = CalendarView(frame: frame)
+        calendarFrame.addSubview(calendar)
 
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.leftArrow.alpha = 0
-            self.leftArrow.transform = CGAffineTransformMakeRotation(CGFloat(M_PI))
-        }
+        monthLabel.text = ("\(moment().monthName) \(moment().year)")
         
         let confirmation = confirmations[Int(arc4random() % 3)]
         let cancellation = cancellations[Int(arc4random() % 3)]
@@ -66,10 +70,6 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(true)
-
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.monthLabel.text = ("\(moment().monthName) \(moment().year)")
-        }
     }
     
     @IBAction func confirmButtonPressed(sender: UIButton)
@@ -81,7 +81,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     {
         delegate?.dateWasChosen(nil, textFieldTag: textFieldTag)
     }
-    
+
     func calendarDidSelectDate(date: Moment)
     {
         if date.intervalSince(moment()).days < -1
@@ -93,7 +93,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         {
             if let departure = moment(trip.dateFrom, dateFormat: "MM/d/yy")
             {
-                if date.intervalSince(departure).days < -1
+                if date.intervalSince(departure).days < -1 && textFieldTag != 80
                 {
                     confirmButton.hideWithFade(0.25)
                     parentViewController?.presentErrorPopup("Looks like you're trying to choose a return date that's earlier than your departure date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
@@ -136,23 +136,23 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     
     func calendarDidPageToDate(date: Moment)
     {
-        monthLabel.hideWithFade(0.1)
-        monthLabel.text = ("\(date.monthName) \(date.year)")
-        monthLabel.hidden = false
-        UIView.animateWithDuration(0.1) { () -> Void in
-            self.monthLabel.alpha = 1
-        }
-        
-        if date.monthName == moment().monthName && date.year == moment().year
-        {
-            leftArrow.hideWithFade(0.25)
-        }
-        else if leftArrow.alpha == 0
-        {
-            leftArrow.hidden = false
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.leftArrow.alpha = 0.5
-            })
-        }
+//        monthLabel.hideWithFade(0.1)
+//        monthLabel.text = ("\(date.monthName) \(date.year)")
+//        monthLabel.hidden = false
+//        UIView.animateWithDuration(0.1) { () -> Void in
+//            self.monthLabel.alpha = 1
+//        }
+//        
+//        if date.monthName == moment().monthName && date.year == moment().year
+//        {
+//            leftArrow.hideWithFade(0.25)
+//        }
+//        else if leftArrow.alpha == 0
+//        {
+//            leftArrow.hidden = false
+//            UIView.animateWithDuration(0.25, animations: { () -> Void in
+//                self.leftArrow.alpha = 0.5
+//            })
+//        }
     }
 }

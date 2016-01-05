@@ -76,7 +76,7 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
         searchBar.delegate = self
         let searchBarTextField = searchBar.valueForKey("searchField") as! UITextField
         searchBarTextField.textColor = UIColor(red:0.003, green:0.41, blue:0.544, alpha:1)
-        
+        searchBar.placeholder = "Origin Airport City"
         
 //        searchParameters = FlightSearch()
     }
@@ -139,10 +139,13 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     }
     
     func didReceiveQPXResults(results: NSDictionary?)
-    {
+    {        
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             if results != nil
             {
+                let parentVC = self.parentViewController as! FlightPopoverViewController
+                parentVC.activityView.hidden = true
+                
                 if let flights = FullFlight.fullFlightsFromJSON(results!)
                 {
                     for flight in flights
@@ -225,10 +228,16 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
                 searchBar.text = trip.destination
                 searchBarSearchButtonClicked(searchBar)
                 
+                searchBar.placeholder = "Destination Airport City"
+                
             }
             else if destinationAirportCode == nil || destinationAirportCode == ""
             {
                 animateSelection()
+                
+                let parentVC = self.parentViewController as! FlightPopoverViewController
+                parentVC.activityView.hidden = false
+                
                 destinationAirportCode = selectedAirportCode
                 searchingForAirports = false
                 
@@ -236,6 +245,9 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
                 
                 apiController = QPX_EX_APIController(delegate: self)
                 apiController?.search(flightSearch)
+                
+                searchBar.placeholder = "Searching for flights"
+                searchBar.text = ""
                 
                 tableView.reloadData()
             }
@@ -259,10 +271,10 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     func animateSelection()
     {
-        UIView.animateWithDuration(0.75, animations: { () -> Void in
-            self.tableView.hideWithFade(0.75)
+        UIView.animateWithDuration(0.25, animations: { () -> Void in
+            self.tableView.hideWithFade(0.25)
             }) { (_) -> Void in
-                self.tableView.appearWithFade(0.75)
+                self.tableView.appearWithFade(0.25)
         }
     }
     

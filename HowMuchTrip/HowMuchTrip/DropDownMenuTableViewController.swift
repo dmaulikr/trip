@@ -114,6 +114,7 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
         {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         }
+        
         searchingForCost = false
         apiController = GooglePlacesAPIController(delegate: self)
         apiController?.searchGooglePlacesFor(textField.text!)
@@ -121,8 +122,6 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     
     func didReceiveGooglePlacesAPIResults(predictions: [NSDictionary]?)
     {
-        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        
         if predictions != nil
         {
             results.removeAll()
@@ -140,5 +139,7 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
         {
             parentViewController?.presentErrorPopup("Looks like there was an issue retrieving your location results. Sorry about that!")
         }
+        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
     }
 }
