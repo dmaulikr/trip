@@ -353,17 +353,18 @@ class CreateTripTableViewController:
                 animateTextFieldBGSizeToDefault(nil)
             }
             else if shownTextField.text != ""
-                && textField == departureLocationTextField
-                || textField == destinationTextField
+            && textField == departureLocationTextField
+            || textField == destinationTextField
             {
                 searchForLocation(textField)
             }
             else if shownTextField.text != ""
-                && textField == budgetTextField
-                || textField == dailyLodgingTextField
-                || textField == dailyFoodTextField
-                || textField == dailyOtherTextField
-                || textField == oneTimeCostTextField
+            && textField == budgetTextField
+            || textField == dailyLodgingTextField
+            || textField == dailyFoodTextField
+            || textField == dailyOtherTextField
+            || textField == oneTimeCostTextField
+            || textField == planeTicketTextField
             {
                 searchForCost(textField)
             }
@@ -456,12 +457,12 @@ class CreateTripTableViewController:
                         if self.shownTextField.tag == 81
                         {
 //                            self.dateToTextField.tag = 80
-//                            self.presentCalendar(self.dateToTextField.tag)
+                            self.presentCalendar(self.dateToTextField.tag)
                         }
                         else if self.shownTextField.tag == 80
                         {
 //                            self.dateFromTextField.tag = 81
-//                            self.presentCalendar(self.dateFromTextField.tag)
+                            self.presentCalendar(self.dateFromTextField.tag)
                         }
                         else
                         {

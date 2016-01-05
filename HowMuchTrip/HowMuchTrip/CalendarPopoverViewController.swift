@@ -98,7 +98,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         if date.intervalSince(moment()).days < -1
         {
             confirmButton.hideWithFade(0.25)
-            parentViewController?.presentErrorPopup("Looks like you're trying to pick a date ealier than the current date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
+            presentErrorPopup("Looks like you're trying to pick a date ealier than the current date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
         }
         else
         {
@@ -107,7 +107,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
                 if date.intervalSince(departure).days < -1 && textFieldTag != 80
                 {
                     confirmButton.hideWithFade(0.25)
-                    parentViewController?.presentErrorPopup("Looks like you're trying to choose a return date that's earlier than your departure date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
+                    presentErrorPopup("Looks like you're trying to choose a return date that's earlier than your departure date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
                 }
                 else
                 {
