@@ -95,7 +95,7 @@ class ContentView: UIScrollView {
         print("something weird happened")
       }
       else if page1FrameMatched {
-        page3.date = page1.date.substract(1, .Months)
+        page3.date = page1.date.subtract(1, .Months)
         page1.frame = frameCurrent
         page2.frame = frameRight
         page3.frame = frameLeft
