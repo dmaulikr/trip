@@ -985,37 +985,42 @@ class CreateTripTableViewController:
     /// Adds a return button to the top of number pad keyboard.
     func addDoneButtonOnKeyboard(textField: UITextField!)
     {
-        let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
-//        doneToolbar.barStyle = .Black
-        doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
-        doneToolbar.translucent = false
-        
-        let confirmations = [
-            "Okay  ",
-            "All set  ",
-            "Looks good  "
-        ]
-        
-        let cancellations = [
-            "  Never mind",
-            "  Just kidding",
-            "  Forget it"
-        ]
-        
-        let confirmation = confirmations[Int(arc4random() % 3)]
-        let cancellation = cancellations[Int(arc4random() % 3)]
-        
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
-        let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
-        let dismissButton = UIBarButtonItem(title: cancellation, style: .Plain, target: self, action: Selector("dismissButtonAction"))
-        doneButton.tintColor = UIColor.whiteColor()
-        dismissButton.tintColor = UIColor.whiteColor()
-        
-        doneToolbar.items = [dismissButton, flexSpace, doneButton]
-        doneToolbar.sizeToFit()
-        
-        textField.inputAccessoryView = doneToolbar
+        if textField.keyboardType != .Default
+        || textField.keyboardType != .NumbersAndPunctuation
+        {
+            
+            let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
+            //        doneToolbar.barStyle = .Black
+            doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
+            doneToolbar.translucent = false
+            
+            let confirmations = [
+                "Okay  ",
+                "All set  ",
+                "Looks good  "
+            ]
+            
+            let cancellations = [
+                "  Never mind",
+                "  Just kidding",
+                "  Forget it"
+            ]
+            
+            let confirmation = confirmations[Int(arc4random() % 3)]
+            let cancellation = cancellations[Int(arc4random() % 3)]
+            
+            let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+            flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
+            let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
+            let dismissButton = UIBarButtonItem(title: cancellation, style: .Plain, target: self, action: Selector("dismissButtonAction"))
+            doneButton.tintColor = UIColor.whiteColor()
+            dismissButton.tintColor = UIColor.whiteColor()
+            
+            doneToolbar.items = [dismissButton, flexSpace, doneButton]
+            doneToolbar.sizeToFit()
+            
+            textField.inputAccessoryView = doneToolbar
+        }
     }
     
     /// Handles the above return button press. Dismisses the current text fields keyboard.
