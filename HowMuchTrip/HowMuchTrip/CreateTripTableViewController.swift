@@ -526,6 +526,7 @@ class CreateTripTableViewController:
     @IBAction func backButtonPressed(sender: UIButton)
     {
         let previousTextFieldIndex = textFields.indexOf(shownTextField)! - 1
+        animateTextFieldBGSizeToDefault(nil)
         self.cycleToTextField(previousTextFieldIndex)
         
         nextButton.setTitle("N E X T", forState: .Normal)

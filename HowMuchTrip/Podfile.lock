@@ -33,7 +33,7 @@ PODS:
   - ParseTwitterUtils (1.9.1):
     - Bolts/Tasks (~> 1.5)
     - Parse (~> 1.9)
-  - SwiftMoment (0.2)
+  - SwiftMoment (0.3)
   - SwiftyJSON (2.3.2)
 
 DEPENDENCIES:
@@ -59,7 +59,7 @@ SPEC CHECKSUMS:
   Parse: 90b2544822200f84b18bfacc4e8b0a3a6c3584a2
   ParseFacebookUtilsV4: eab9b4ade12f0800b4d30f6b808bca55ce17a0e9
   ParseTwitterUtils: 41e8849e37db471e874c6e515190ded19e043dc8
-  SwiftMoment: b1bf1b5708b4bc99db47697e32683430d7c19759
+  SwiftMoment: 79f924ccf5450a5406b00eaebe5bfb248cc5e33d
   SwiftyJSON: 04ccea08915aa0109039157c7974cf0298da292a
 
 COCOAPODS: 0.39.0
