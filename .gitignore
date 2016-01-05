@@ -35,3 +35,9 @@ jenhamilton.xcuserdatad
 contents.xcworkspacedata
 CreateTrip.xcscheme
 project.pbxproj
+
+HowMuchTrip/HowMuchTrip/Info.plist
+
+*.plist
+
+*.plist
