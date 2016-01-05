@@ -74,6 +74,7 @@ class CreateTripDataSource
             superview.nextButton,
             superview.locationButton,
             superview.flightButton,
+            superview.calendarButton,
             superview.backButton
         ]
         
@@ -349,6 +350,11 @@ class CreateTripDataSource
             superview.locationButton.hideWithFade(0.25)
         }
         
+        if superview.calendarButton.alpha != 0
+        {
+            superview.calendarButton.hideWithFade(0.25)
+        }
+        
         switch superview.shownTextField
         {
         case superview.budgetTextField:
@@ -378,6 +384,11 @@ class CreateTripDataSource
                 shakeButton(superview.flightButton)
             }
             
+        case superview.dateToTextField, superview.dateFromTextField:
+            
+            superview.calendarButton.appearWithFade(0.25)
+            shakeButton(superview.calendarButton)
+            
         case superview.dailyLodgingTextField: print("deprecated")
             
 //            if superview.trip.destinationLat != "" && superview.trip.destinationLng != "" && Reachability.isConnectedToNetwork()
@@ -406,7 +417,7 @@ class CreateTripDataSource
         UIView.animateWithDuration(0.15, delay: 0,
             options: [.Repeat, .Autoreverse],
             animations: { () -> Void in
-                UIView.setAnimationRepeatCount(2)
+                UIView.setAnimationRepeatCount(3)
                 button.transform = rightWobble
                 
             }) { (_) -> Void in

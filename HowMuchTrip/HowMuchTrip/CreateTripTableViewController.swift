@@ -44,6 +44,7 @@ class CreateTripTableViewController:
     
     @IBOutlet weak var locationButton: UIButton!
     @IBOutlet weak var flightButton: UIButton!
+    @IBOutlet weak var calendarButton: UIButton!
     
     var buttons = [UIButton!]()
     
@@ -323,8 +324,12 @@ class CreateTripTableViewController:
     /// Presents an interactive calendar popup to allow the user to choose their trip dates.
     func presentCalendar(textFieldTag: Int)
     {
+        animateTextFieldBGSizeToDefault(nil)
+        
         let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
         let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
+//        navigationController?.pushViewController(contextPopover, animated: true)
+        
         self.addContextPopover(contextPopover)
         contextPopover.delegate = self
         contextPopover.textFieldTag = textFieldTag
@@ -447,12 +452,12 @@ class CreateTripTableViewController:
                         if self.shownTextField.tag == 81
                         {
 //                            self.dateToTextField.tag = 80
-                            self.presentCalendar(self.dateToTextField.tag)
+//                            self.presentCalendar(self.dateToTextField.tag)
                         }
                         else if self.shownTextField.tag == 80
                         {
 //                            self.dateFromTextField.tag = 81
-                            self.presentCalendar(self.dateFromTextField.tag)
+//                            self.presentCalendar(self.dateFromTextField.tag)
                         }
                         else
                         {
@@ -563,6 +568,11 @@ class CreateTripTableViewController:
         {
             presentErrorPopup("Please go back and specify a date range if you'd like to look up flights! :)")
         }
+    }
+    
+    @IBAction func calendarButtonPressed(sender: UIButton)
+    {
+        presentCalendar(shownTextField.tag)
     }
     
     /// Called when the context button is pressed while in the hotel button state. This function has not been implemented.

@@ -205,6 +205,7 @@ extension UIViewController
         controllerToAdd.view.alpha = 0
         
         self.view.addDimmedOverlayView()
+        controllerToAdd.view.layer.zPosition = self.view.layer.zPosition + 10
         
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.addChildViewController(controllerToAdd)
