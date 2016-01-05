@@ -37,7 +37,7 @@ public class Validator
             // Allow only 1-20 letters
             case "name": regEx = "^[A-Za-z]{1,20}$"
             // Allow only numbers in xx/xx/(19|20)xx format
-            case "birthday": regEx = "^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\\d\\d$"
+            case "date": regEx = "^(0[1-9]|1[012])[/](0[1-9]|[12][0-9]|3[01])[/](19|20)\\d\\d$"
             default: print("unknown regEx: " + regEx)
         }
         

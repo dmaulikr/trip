@@ -58,19 +58,34 @@
                                             <action selector="confirmButtonPressed:" destination="G95-wV-kPw" eventType="touchUpInside" id="KPz-Gl-wVq"/>
                                         </connections>
                                     </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DJI-lA-MJe">
+                                        <rect key="frame" x="0.0" y="39" width="320" height="1"/>
+                                        <color key="backgroundColor" red="0.40784313729999999" green="0.75686274509999996" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="kFd-Zw-Y6x"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="DJI-lA-MJe" firstAttribute="centerX" secondItem="vLe-9n-hpV" secondAttribute="centerX" id="2Tx-Fp-nRv"/>
+                                    <constraint firstItem="DJI-lA-MJe" firstAttribute="trailing" secondItem="0rY-RW-MOE" secondAttribute="trailing" id="3rf-sa-puf"/>
                                     <constraint firstItem="yMc-YG-Dw7" firstAttribute="top" secondItem="vLe-9n-hpV" secondAttribute="top" id="4z8-Jo-ueG"/>
                                     <constraint firstItem="yMc-YG-Dw7" firstAttribute="width" secondItem="vLe-9n-hpV" secondAttribute="width" multiplier="0.499" id="76Z-kR-sMv"/>
                                     <constraint firstItem="Yzx-Bb-ttW" firstAttribute="leading" secondItem="yMc-YG-Dw7" secondAttribute="trailing" id="HOk-am-3Yf"/>
                                     <constraint firstAttribute="height" constant="40" id="L9S-Ny-Tpp"/>
                                     <constraint firstItem="yMc-YG-Dw7" firstAttribute="height" secondItem="vLe-9n-hpV" secondAttribute="height" id="PnL-ro-p7j"/>
+                                    <constraint firstItem="DJI-lA-MJe" firstAttribute="width" secondItem="vLe-9n-hpV" secondAttribute="width" id="XdV-og-WqD"/>
                                     <constraint firstAttribute="bottom" secondItem="Yzx-Bb-ttW" secondAttribute="bottom" id="YGP-E9-5KU"/>
                                     <constraint firstItem="0rY-RW-MOE" firstAttribute="top" secondItem="vLe-9n-hpV" secondAttribute="top" id="ahZ-xI-9pi"/>
                                     <constraint firstItem="0rY-RW-MOE" firstAttribute="width" secondItem="yMc-YG-Dw7" secondAttribute="width" id="coq-mK-3XG"/>
                                     <constraint firstItem="yMc-YG-Dw7" firstAttribute="centerY" secondItem="vLe-9n-hpV" secondAttribute="centerY" id="dST-K1-uo6"/>
+                                    <constraint firstAttribute="bottom" secondItem="DJI-lA-MJe" secondAttribute="bottom" id="eSO-Wc-ceJ"/>
                                     <constraint firstItem="yMc-YG-Dw7" firstAttribute="leading" secondItem="vLe-9n-hpV" secondAttribute="leading" id="hwV-O0-hcx"/>
+                                    <constraint firstItem="DJI-lA-MJe" firstAttribute="leading" secondItem="yMc-YG-Dw7" secondAttribute="leading" id="kkz-Ws-8u9"/>
                                     <constraint firstItem="yMc-YG-Dw7" firstAttribute="leading" secondItem="vLe-9n-hpV" secondAttribute="leading" id="kvn-FI-fT6"/>
                                     <constraint firstItem="0rY-RW-MOE" firstAttribute="height" secondItem="vLe-9n-hpV" secondAttribute="height" id="ndK-4L-RwP"/>
                                     <constraint firstItem="0rY-RW-MOE" firstAttribute="leading" secondItem="Yzx-Bb-ttW" secondAttribute="trailing" id="oQk-i8-n54"/>
@@ -83,26 +98,60 @@
                                     <mask key="constraints">
                                         <exclude reference="dST-K1-uo6"/>
                                         <exclude reference="p40-N5-vkh"/>
+                                        <exclude reference="3rf-sa-puf"/>
+                                        <exclude reference="kkz-Ws-8u9"/>
                                     </mask>
                                 </variation>
+                            </view>
+                            <view alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VHO-V0-gKY">
+                                <rect key="frame" x="0.0" y="40" width="320" height="280"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Searching for flights" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cqH-ta-dHm">
+                                        <rect key="frame" x="69" y="155" width="182" height="28"/>
+                                        <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
+                                        <color key="textColor" white="0.79950799510000004" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="Ldv-GW-T6w">
+                                        <rect key="frame" x="150" y="130" width="20" height="20"/>
+                                    </activityIndicatorView>
+                                </subviews>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Ldv-GW-T6w" firstAttribute="centerY" secondItem="VHO-V0-gKY" secondAttribute="centerY" id="cPq-0n-R1T"/>
+                                    <constraint firstItem="Ldv-GW-T6w" firstAttribute="centerX" secondItem="VHO-V0-gKY" secondAttribute="centerX" id="fPC-sS-HNK"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="im9-Tu-wto" firstAttribute="top" secondItem="CKD-8N-K9e" secondAttribute="bottom" id="08x-Wa-0UW"/>
+                            <constraint firstItem="VHO-V0-gKY" firstAttribute="height" secondItem="CKD-8N-K9e" secondAttribute="height" id="2H2-gt-Ggx"/>
+                            <constraint firstItem="VHO-V0-gKY" firstAttribute="top" secondItem="vLe-9n-hpV" secondAttribute="bottom" id="2hw-yp-Rxo"/>
                             <constraint firstAttribute="trailing" secondItem="CKD-8N-K9e" secondAttribute="trailing" id="3GK-mC-wsM"/>
+                            <constraint firstItem="VHO-V0-gKY" firstAttribute="width" secondItem="CKD-8N-K9e" secondAttribute="width" id="BML-Wx-ltZ"/>
                             <constraint firstItem="CKD-8N-K9e" firstAttribute="leading" secondItem="6sc-02-sEI" secondAttribute="leading" id="Dnv-yC-L3r"/>
+                            <constraint firstItem="VHO-V0-gKY" firstAttribute="centerY" secondItem="CKD-8N-K9e" secondAttribute="centerY" id="Pqs-xj-BZv"/>
+                            <constraint firstItem="VHO-V0-gKY" firstAttribute="centerX" secondItem="CKD-8N-K9e" secondAttribute="centerX" id="VhH-7H-ece"/>
                             <constraint firstItem="vLe-9n-hpV" firstAttribute="leading" secondItem="6sc-02-sEI" secondAttribute="leading" id="Y88-cT-LDB"/>
                             <constraint firstItem="vLe-9n-hpV" firstAttribute="top" secondItem="izu-xU-icl" secondAttribute="bottom" id="ZQo-wj-Qdg"/>
+                            <constraint firstItem="im9-Tu-wto" firstAttribute="top" secondItem="VHO-V0-gKY" secondAttribute="bottom" id="j1G-Xx-Vud"/>
                             <constraint firstAttribute="trailing" secondItem="vLe-9n-hpV" secondAttribute="trailing" id="kWr-DE-pco"/>
                             <constraint firstItem="CKD-8N-K9e" firstAttribute="top" secondItem="vLe-9n-hpV" secondAttribute="bottom" id="mCH-v9-otz"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="2H2-gt-Ggx"/>
+                                <exclude reference="Pqs-xj-BZv"/>
+                            </mask>
+                        </variation>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="320"/>
                     <connections>
+                        <outlet property="activityView" destination="VHO-V0-gKY" id="lq3-oK-1v1"/>
                         <outlet property="cancelButton" destination="yMc-YG-Dw7" id="UYt-oM-Qcq"/>
                         <outlet property="confirmButton" destination="0rY-RW-MOE" id="ngK-t3-UtZ"/>
                     </connections>
@@ -393,13 +442,13 @@
                                 </variation>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Editing Budget" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MlW-kn-SZc">
-                                <rect key="frame" x="101" y="48" width="118" height="24"/>
-                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
+                                <rect key="frame" x="91" y="48" width="138" height="28"/>
+                                <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="20"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="$7000" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="yqs-UO-AJ6">
-                                <rect key="frame" x="64" y="79" width="192" height="30"/>
+                                <rect key="frame" x="64" y="84" width="192" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                             </textField>

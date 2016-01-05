@@ -122,7 +122,6 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
 //        let requestJSON : NSDictionary = request
 //        print(requestJSON)
         
-        print(request)
         return request
     }
 }

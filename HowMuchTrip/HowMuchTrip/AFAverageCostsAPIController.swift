@@ -45,6 +45,7 @@ class AFAverageCostsAPIController
                     {
                         if let innerResultDictionary = dataArray[0] as? NSDictionary
                         {
+                            print(innerResultDictionary)
                             //                            self.averageCostsDelegate!.didReceiveAverageCostsAPIResults(innerResultDictionary)
                         }
                     }
@@ -103,6 +104,7 @@ class AFAverageCostsAPIController
                     {
                         if let innerResultDictionary = dataArray[0] as? NSDictionary
                         {
+                            print(innerResultDictionary)
                             //                            self.averageCostsDelegate!.didReceiveAverageCostsAPIResults(innerResultDictionary)
                         }
                     }

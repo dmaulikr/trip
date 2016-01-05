@@ -22,7 +22,7 @@ public class PieChartRenderer: ChartDataRendererBase
     public var drawHoleEnabled = true
     public var holeTransparent = true
     public var holeColor: UIColor? = UIColor.whiteColor()
-    public var holeRadiusPercent = CGFloat(0.75)
+    public var holeRadiusPercent = CGFloat(0.85)
     public var holeAlpha = CGFloat(0.41)
     public var transparentCircleRadiusPercent = CGFloat(0.55)
     public var drawXLabelsEnabled = true
