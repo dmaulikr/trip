@@ -992,8 +992,9 @@ class CreateTripTableViewController:
     /// Adds a return button to the top of number pad keyboard.
     func addDoneButtonOnKeyboard(textField: UITextField!)
     {
-        if textField.keyboardType != .Default
-        || textField.keyboardType != .NumbersAndPunctuation
+//        if textField.keyboardType != .Default
+//        || textField.keyboardType != .NumbersAndPunctuation
+        if textField.keyboardType == .NumberPad
         {
             
             let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))

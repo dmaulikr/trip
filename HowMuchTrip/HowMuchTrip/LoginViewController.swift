@@ -26,14 +26,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
         super.viewDidLoad()
         usernameField.layer.zPosition = 1
         passwordField.layer.zPosition = 1
+        
+        usernameField.delegate = self
+        passwordField.delegate = self
     }
     
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        
-    }
-
     
     // MARK: - UITextField Delegate
     
@@ -58,6 +55,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
     /// If the X button is tapped on ResetPasswordVC or SignUpVC the user will return to LoginVC
     @IBAction func unwindToLogInScreen(segue:UIStoryboardSegue)
     {
+        
     }
     
     /// Dismisses the login screen if you choose not to login
@@ -115,7 +113,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                     // If user is nil, create an alert controller that displays an error message
                     let alert = UIAlertController(title: "Error", message: "Username or Password is Invalid", preferredStyle: .Alert)
                     let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
-                        self.usernameField.text = ""
+//                        self.usernameField.text = ""
                         self.passwordField.text = ""
                         self.usernameField.becomeFirstResponder()
                     

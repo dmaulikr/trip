@@ -29,6 +29,14 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
         }
     }
     
+    let isOldDevice: Bool = {
+        if UIScreen.mainScreen().bounds.size.height < 568
+        {
+            return true
+        }
+        return false
+    }()
+    
     var flights = [FullFlight]()
     var airportCodes = [String]()
     var airportLocation = [String]()
@@ -88,19 +96,19 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar)
     {
-        if searchBar.text != ""
+        if !isOldDevice && searchBar.text != ""
         {
             loadAirports(searchBar.text!)
         }
     }
     
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
-    {
-        if searchBar.text != ""
-        {
-            loadAirports(searchBar.text!)
-        }
-    }
+//    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
+//    {
+//        if searchBar.text != ""
+//        {
+//            loadAirports(searchBar.text!)
+//        }
+//    }
     
     func loadAirports(searchParameters: String)
     {
