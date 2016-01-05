@@ -88,7 +88,7 @@ class CreateTripDataSource
         nextButton.enabled = false
         fadeButton(nextButton)
         
-        superview.contextButtonImg.image = nil
+//        superview.contextButtonImg.image = nil
         
         let pieChartView = superview.pieChartView
         initialSetupPieChart(pieChartView)
@@ -268,16 +268,6 @@ class CreateTripDataSource
     
     func getGraphColors() -> [UIColor]
     {
-//        let colors = [
-//            UIColor(red:0.51, green:0.65, blue:0.65, alpha:1.0),
-//            UIColor(red:0.00, green:0.20, blue:0.35, alpha:1.0),
-//            UIColor(red:0.53, green:0.59, blue:0.70, alpha:1.0),
-//            UIColor(red:0.04, green:0.32, blue:0.34, alpha:1.0),
-//            UIColor(red:0.32, green:0.54, blue:0.79, alpha:1.0),
-//            UIColor(red:0.92, green:0.82, blue:0.67, alpha:1.0),
-//            UIColor(red:0.36, green:0.33, blue:0.42, alpha:1.0),
-//            UIColor(red:0.77, green:0.77, blue:0.77, alpha:1.0)
-//        ]
         let colors = [
 //            UIColor(red: 0, green: 0.41, blue: 0.55, alpha: 0.6),
             UIColor(red:0.028, green:0.275, blue:0.36, alpha: 1),
@@ -348,18 +338,6 @@ class CreateTripDataSource
                 superview.backButton.appearWithFade(0.25)
             }
         }
-        //        let textFields = [
-        //            superview.budgetTextField!,
-        //            superview.destinationTextField!,
-        //            superview.departureLocationTextField!,
-        //            superview.dateFromTextField!,
-        //            superview.dateToTextField!,
-        //            superview.planeTicketTextField!,
-        //            superview.dailyLodgingTextField!,
-        //            superview.dailyFoodTextField!,
-        //            superview.dailyOtherTextField!,
-        //            superview.oneTimeCostTextField!
-        //        ]
         
         if superview.contextButton.alpha != 0
         {
@@ -384,13 +362,12 @@ class CreateTripDataSource
             
             if Reachability.isConnectedToNetwork()
             {
-                if let pin = UIImage(named: "pin")
-                {
-                    superview.contextButtonImg.image = pin
-                }
-                superview.contextButton.setTitle(" Tap to get your current location", forState: .Normal)
+                let pin = UIImage(named: "pin")
+                superview.contextButton.setImage(pin, forState: .Normal)
+                
                 superview.contextButton.tag = 70
                 superview.contextButton.appearWithFade(0.25)
+                shakeButton(superview.contextButton)
             }
             
         case superview.planeTicketTextField:
@@ -398,11 +375,11 @@ class CreateTripDataSource
             if Reachability.isConnectedToNetwork()
             {
                 let plane = UIImage(named: "plane")
-                superview.contextButtonImg.image = plane
+                superview.contextButton.setImage(plane, forState: .Normal)
                 
-                superview.contextButton.setTitle(" Tap to get average ticket prices", forState: .Normal)
                 superview.contextButton.tag = 71
                 superview.contextButton.appearWithFade(0.25)
+                shakeButton(superview.contextButton)
             }
             
         case superview.dailyLodgingTextField:
@@ -410,14 +387,32 @@ class CreateTripDataSource
             if superview.trip.destinationLat != "" && superview.trip.destinationLng != "" && Reachability.isConnectedToNetwork()
             {
                 let hotel = UIImage(named: "hotel")
-                superview.contextButtonImg.image = hotel
+                superview.contextButton.setImage(hotel, forState: .Normal)
                 
-                superview.contextButton.setTitle(" Tap to get average hotel prices", forState: .Normal)
                 superview.contextButton.tag = 72
                 superview.contextButton.appearWithFade(0.25)
+                shakeButton(superview.contextButton)
             }
             
         default: break;
+        }
+    }
+    
+    func shakeButton(button: UIButton!)
+    {
+        let spin = CGAffineTransformRotate(CGAffineTransformIdentity, CGFloat(M_PI_2))
+//        let rightWobble = CGAffineTransformRotate(CGAffineTransformIdentity, 0.01)
+        
+//        button.transform = leftWobble
+        
+        UIView.animateWithDuration(0.15, delay: 0,
+            options: [.Repeat, .Autoreverse],
+            animations: { () -> Void in
+                UIView.setAnimationRepeatCount(1)
+//                button.transform = rightWobble
+                button.transform = spin
+            }) { (_) -> Void in
+                button.transform = CGAffineTransformIdentity
         }
     }
     

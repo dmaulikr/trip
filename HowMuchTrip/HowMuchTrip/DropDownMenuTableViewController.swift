@@ -95,6 +95,7 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
         if let digit = textField.text
         {
             results = [
+                (digit),
                 (digit + "0"),
                 (digit + "5"),
                 (digit + "00"),
