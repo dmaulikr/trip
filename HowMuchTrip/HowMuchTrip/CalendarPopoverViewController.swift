@@ -54,7 +54,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         
         confirmButton.alpha = 0
         
-        let frame = CGRectMake(calendarFrame.frame.origin.x, calendarFrame.frame.origin.y, calendarFrame.frame.size.width * 1.2, calendarFrame.frame.size.width * 1.2)
+        let frame = CGRectMake(calendarFrame.frame.origin.x, calendarFrame.frame.origin.y, calendarFrame.frame.size.width * 1.1, calendarFrame.frame.size.width * 1.1)
         calendar = CalendarView(frame: frame)
         calendarFrame.addSubview(calendar)
 
