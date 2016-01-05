@@ -23,7 +23,6 @@ PODS:
     - FBSDKCoreKit/arc
   - FBSDKLoginKit (4.8.0):
     - FBSDKCoreKit
-  - MBProgressHUD (0.9.1)
   - Parse (1.10.0):
     - Bolts/Tasks (~> 1.5)
   - ParseFacebookUtilsV4 (1.9.1):
@@ -43,7 +42,6 @@ DEPENDENCIES:
   - Charts
   - Crashlytics
   - Fabric
-  - MBProgressHUD (~> 0.9.0)
   - Parse
   - ParseFacebookUtilsV4
   - ParseTwitterUtils
@@ -58,7 +56,6 @@ SPEC CHECKSUMS:
   Fabric: bf0ceb04e7c924090efc5f8c55e4fbcca189e0a0
   FBSDKCoreKit: 66a935d17b6e00b6b64e604f2eb9b72c9ab7deb8
   FBSDKLoginKit: d893fcbb98d854496925e9ff73c67b896982d3c4
-  MBProgressHUD: c47f2c166c126cf2ce36498d80f33e754d4e93ad
   Parse: 90b2544822200f84b18bfacc4e8b0a3a6c3584a2
   ParseFacebookUtilsV4: eab9b4ade12f0800b4d30f6b808bca55ce17a0e9
   ParseTwitterUtils: 41e8849e37db471e874c6e515190ded19e043dc8
