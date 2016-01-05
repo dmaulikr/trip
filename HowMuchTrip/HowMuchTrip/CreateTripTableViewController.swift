@@ -328,15 +328,19 @@ class CreateTripTableViewController:
         
         let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
         let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
-//        navigationController?.pushViewController(contextPopover, animated: true)
+        contextPopover.modalPresentationStyle = .OverFullScreen
         
-        self.addContextPopover(contextPopover)
+        //self.addContextPopover(contextPopover)
         contextPopover.delegate = self
         contextPopover.textFieldTag = textFieldTag
         contextPopover.trip = trip
         
         self.contextPopover = contextPopover
         nextButton.enabled = true//textField.text?.characters.count > 0
+        
+        view.addDimmedOverlayView()
+        
+        navigationController?.presentViewController(contextPopover, animated: true, completion: nil)
     }
     
     /// Limts the user input to the appropriate characters in order to reduce error.
@@ -687,7 +691,9 @@ class CreateTripTableViewController:
     /// Date was chosen from calendar popup, dismisses calendar and fills dateFrom or dateTo textField with chosen date
     func dateWasChosen(date: Moment?, textFieldTag: Int)
     {
-        dismissContextPopover(CalendarPopoverViewController)
+//        dismissContextPopover(CalendarPopoverViewController)
+        view.removeDimmedOverlayView()
+        dismissViewControllerAnimated(true, completion: nil)
         
         if date != nil
         {
