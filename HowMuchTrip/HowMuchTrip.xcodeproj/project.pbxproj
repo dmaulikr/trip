@@ -24,7 +24,7 @@
 		63A70FDA1C29C3A5003FCB53 /* IndividualFlight.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A70FD91C29C3A5003FCB53 /* IndividualFlight.swift */; };
 		63A70FDC1C29F355003FCB53 /* HotelPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A70FDB1C29F355003FCB53 /* HotelPopoverViewController.swift */; };
 		63A70FDE1C29F378003FCB53 /* HotelPopoverTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A70FDD1C29F378003FCB53 /* HotelPopoverTableViewController.swift */; };
-		63AC8B861C3B00D700F2B41C /* LocationSearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AC8B851C3B00D700F2B41C /* LocationSearchTableViewController.swift */; };
+		63AC8B861C3B00D700F2B41C /* DropDownMenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AC8B851C3B00D700F2B41C /* DropDownMenuTableViewController.swift */; };
 		63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AE246C1C1E651B001ECCE9 /* Extensions.swift */; };
 		63E80D471C35C90F0080D4C5 /* notrips.png in Resources */ = {isa = PBXBuildFile; fileRef = 63E80D461C35C90F0080D4C5 /* notrips.png */; };
 		63E80D491C35D6930080D4C5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E80D481C35D6930080D4C5 /* TabBarController.swift */; };
@@ -91,7 +91,7 @@
 		63A70FD91C29C3A5003FCB53 /* IndividualFlight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndividualFlight.swift; sourceTree = "<group>"; };
 		63A70FDB1C29F355003FCB53 /* HotelPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelPopoverViewController.swift; sourceTree = "<group>"; };
 		63A70FDD1C29F378003FCB53 /* HotelPopoverTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotelPopoverTableViewController.swift; sourceTree = "<group>"; };
-		63AC8B851C3B00D700F2B41C /* LocationSearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSearchTableViewController.swift; sourceTree = "<group>"; };
+		63AC8B851C3B00D700F2B41C /* DropDownMenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DropDownMenuTableViewController.swift; sourceTree = "<group>"; };
 		63AE246C1C1E651B001ECCE9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		63E80D461C35C90F0080D4C5 /* notrips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notrips.png; sourceTree = "<group>"; };
 		63E80D481C35D6930080D4C5 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
@@ -211,7 +211,7 @@
 			children = (
 				9ADAAAF71C19E51F00D26F79 /* CreateTripTableViewController.swift */,
 				63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */,
-				63AC8B851C3B00D700F2B41C /* LocationSearchTableViewController.swift */,
+				63AC8B851C3B00D700F2B41C /* DropDownMenuTableViewController.swift */,
 			);
 			name = CreateTripViewController;
 			sourceTree = "<group>";
@@ -617,7 +617,7 @@
 				9ADAAAEB1C19D72C00D26F79 /* TripListTableViewController.swift in Sources */,
 				63A70FD81C29C383003FCB53 /* FullFlight.swift in Sources */,
 				63A70FDC1C29F355003FCB53 /* HotelPopoverViewController.swift in Sources */,
-				63AC8B861C3B00D700F2B41C /* LocationSearchTableViewController.swift in Sources */,
+				63AC8B861C3B00D700F2B41C /* DropDownMenuTableViewController.swift in Sources */,
 				63A70FD31C29C303003FCB53 /* FlightPopoverViewController.swift in Sources */,
 				63A70FD21C29C303003FCB53 /* FlightPopoverTableViewController.swift in Sources */,
 				63628DD91C2A1FD400B36D0A /* ContextPopoverSetup.swift in Sources */,

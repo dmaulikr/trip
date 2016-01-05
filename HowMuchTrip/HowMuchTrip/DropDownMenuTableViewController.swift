@@ -8,7 +8,7 @@
 
 import UIKit
 
-protocol LocationWasChosenProtocol
+protocol DropDownMenuOptionWasChosenProtocol
 {
     func animateTextFieldBGSizeToDefault(textField: UITextField?)
 }
@@ -18,7 +18,8 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     var results = [String]()
     var textField: UITextField!
     var apiController: GooglePlacesAPIController?
-    var delegate: LocationWasChosenProtocol?
+    var delegate: DropDownMenuOptionWasChosenProtocol?
+    var searchingForCost = false
     
     override func viewDidLoad()
     {
@@ -45,7 +46,16 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
         {
             let result = results[indexPath.row]
             
-            cell.textLabel?.text = result
+            cell.textLabel?.text = {
+                if searchingForCost
+                {
+                    return "$" + result
+                }
+                else
+                {
+                    return result
+                }
+            }()
         }
         
         return cell
@@ -57,12 +67,13 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
         
         if let parentVC = parentViewController as? CreateTripTableViewController
         {
-            switch textField
-            {
-            case parentVC.destinationTextField: parentVC.destinationTextField.text = result
-            case parentVC.departureLocationTextField: parentVC.departureLocationTextField.text = result
-            default: print(textField)
-            }
+            parentVC.shownTextField.text = result
+//            switch textField
+//            {
+//            case parentVC.destinationTextField: parentVC.destinationTextField.text = result
+//            case parentVC.departureLocationTextField: parentVC.departureLocationTextField.text = result
+//            default: print(textField)
+//            }
             delegate?.animateTextFieldBGSizeToDefault(textField)
         }
     }
@@ -83,8 +94,23 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
         }
     }
     
+    func searchForCost()
+    {
+        searchingForCost = true
+        results = [
+            (textField.text! + "0"),
+            (textField.text! + "5"),
+            (textField.text! + "00"),
+            (textField.text! + "50"),
+            (textField.text! + "000"),
+            (textField.text! + "500")
+        ]
+        tableView.reloadData()
+    }
+    
     func searchForLocation()
     {
+        searchingForCost = false
         apiController = GooglePlacesAPIController(delegate: self)
         apiController?.searchGooglePlacesFor(textField.text!)
     }

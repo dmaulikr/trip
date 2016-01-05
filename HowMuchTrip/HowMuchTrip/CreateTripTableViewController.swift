@@ -28,7 +28,7 @@ class CreateTripTableViewController:
     UIGestureRecognizerDelegate,
     CLLocationManagerDelegate,
     FlightTicketPriceWasChosenProtocol,
-    LocationWasChosenProtocol
+    DropDownMenuOptionWasChosenProtocol
 {
     
     // MARK: - Labels
@@ -259,6 +259,26 @@ class CreateTripTableViewController:
         }
     }
     
+    func animateTextFieldBGSizeToSearch()
+    {
+        if textFieldBGView.frame.size.height != 240
+        {
+            let newFrame = CGRectMake(
+                self.textFieldBGView.frame.origin.x,
+                self.textFieldBGView.frame.origin.y,
+                self.textFieldBGView.frame.size.width,
+                240)
+            
+            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.textFieldBGView.frame = newFrame
+                }, completion: { (_) -> Void in
+                    
+                    self.locationSearchResultsContainerView.hidden = false
+                    self.locationSearchResultsContainerView.appearWithFade(0.15)
+            })
+        }
+    }
+    
     /// Checks the keyboard type and adds a done button to the keyboard if there is no built in return key on the current keyboard type.
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool
     {
@@ -288,11 +308,19 @@ class CreateTripTableViewController:
             animateTextFieldBGSizeToDefault(nil)
         }
         else if shownTextField.text != ""
-            && textField == departureLocationTextField
-            || textField == destinationTextField
+        && textField == departureLocationTextField
+        || textField == destinationTextField
         {
-            print("searchForLocation")
             searchForLocation(textField)
+        }
+        else if shownTextField.text != ""
+        && textField == budgetTextField
+        || textField == dailyLodgingTextField
+        || textField == dailyFoodTextField
+        || textField == dailyOtherTextField
+        || textField == oneTimeCostTextField
+        {
+            searchForCost(textField)
         }
         
         return dataSource.testCharacters(textField, string: string, superview: self)
@@ -302,22 +330,7 @@ class CreateTripTableViewController:
     {
         if Reachability.isConnectedToNetwork()
         {
-            if textFieldBGView.frame.size.height != 240
-            {
-                let newFrame = CGRectMake(
-                    self.textFieldBGView.frame.origin.x,
-                    self.textFieldBGView.frame.origin.y,
-                    self.textFieldBGView.frame.size.width,
-                    240)
-                
-                UIView.animateWithDuration(0.5, animations: { () -> Void in
-                    self.textFieldBGView.frame = newFrame
-                    }, completion: { (_) -> Void in
-
-                        self.locationSearchResultsContainerView.hidden = false
-                        self.locationSearchResultsContainerView.appearWithFade(0.15)
-                })
-            }
+            animateTextFieldBGSizeToSearch()
             
             for childVC in self.childViewControllers
             {
@@ -329,6 +342,21 @@ class CreateTripTableViewController:
                 }
             }
 
+        }
+    }
+    
+    func searchForCost(textField: UITextField)
+    {
+        animateTextFieldBGSizeToSearch()
+        
+        for childVC in self.childViewControllers
+        {
+            if let locationSearchTableVC = childVC as? LocationSearchTableViewController
+            {
+                locationSearchTableVC.delegate = self
+                locationSearchTableVC.textField = textField
+                locationSearchTableVC.searchForCost()
+            }
         }
     }
     
