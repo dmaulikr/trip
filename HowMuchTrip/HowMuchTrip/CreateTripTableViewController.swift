@@ -165,8 +165,6 @@ class CreateTripTableViewController:
     {
         var rc = false
         
-        animateTextFieldBGSizeToDefault(nil)
-        
         let (selectedTextField, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
         self.indexOfTextField = indexOfTextField
         
@@ -185,6 +183,8 @@ class CreateTripTableViewController:
             shakeTextField(shownTextField)
             dataSource.fadeButton(nextButton)
         }
+        
+        animateTextFieldBGSizeToDefault(nil)
         
         return rc
     }
@@ -237,14 +237,10 @@ class CreateTripTableViewController:
     
     func animateTextFieldBGSizeToDefault(textField: UITextField?)
     {
-        if locationSearchResultsContainerView.alpha != 0
-        || locationSearchResultsContainerView.hidden == false
-        {
-            locationSearchResultsContainerView.hideWithFade(0.15)
-        }
+        locationSearchResultsContainerView.hideWithFade(0.10)
         if textFieldBGView.frame.size.height != 40
         {
-            UIView.animateWithDuration(0.5) { () -> Void in
+            UIView.animateWithDuration(0.25) { () -> Void in
                 self.textFieldBGView.frame = CGRectMake(
                     self.textFieldBGView.frame.origin.x,
                     self.textFieldBGView.frame.origin.y,
@@ -253,6 +249,7 @@ class CreateTripTableViewController:
             }
         }
         
+        //function was called from the drop down menu
         if textField != nil
         {
             textFieldShouldReturn(textField!)
@@ -268,13 +265,13 @@ class CreateTripTableViewController:
                 self.textFieldBGView.frame.origin.y,
                 self.textFieldBGView.frame.size.width,
                 240)
-            
-            UIView.animateWithDuration(0.5, animations: { () -> Void in
+                self.locationSearchResultsContainerView.alpha = 0
+                self.locationSearchResultsContainerView.hidden = false
+            UIView.animateWithDuration(0.25, animations: { () -> Void in
                 self.textFieldBGView.frame = newFrame
                 }, completion: { (_) -> Void in
                     
-                    self.locationSearchResultsContainerView.hidden = false
-                    self.locationSearchResultsContainerView.appearWithFade(0.15)
+                    self.locationSearchResultsContainerView.appearWithFade(0.10)
             })
         }
     }
@@ -303,26 +300,29 @@ class CreateTripTableViewController:
     /// Limts the user input to the appropriate characters in order to reduce error.
     func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool
     {
-        if shownTextField.text == "" && textFieldBGView.frame.size.height != 40
+        if textField.text?.characters.count >= 1
         {
-            animateTextFieldBGSizeToDefault(nil)
+            if shownTextField.text == "" && textFieldBGView.frame.size.height != 40
+            {
+                animateTextFieldBGSizeToDefault(nil)
+            }
+            else if shownTextField.text != ""
+                && textField == departureLocationTextField
+                || textField == destinationTextField
+            {
+                searchForLocation(textField)
+            }
+            else if shownTextField.text != ""
+                && textField == budgetTextField
+                || textField == dailyLodgingTextField
+                || textField == dailyFoodTextField
+                || textField == dailyOtherTextField
+                || textField == oneTimeCostTextField
+            {
+                searchForCost(textField)
+            }
         }
-        else if shownTextField.text != ""
-        && textField == departureLocationTextField
-        || textField == destinationTextField
-        {
-            searchForLocation(textField)
-        }
-        else if shownTextField.text != ""
-        && textField == budgetTextField
-        || textField == dailyLodgingTextField
-        || textField == dailyFoodTextField
-        || textField == dailyOtherTextField
-        || textField == oneTimeCostTextField
-        {
-            searchForCost(textField)
-        }
-        
+
         return dataSource.testCharacters(textField, string: string, superview: self)
     }
     
@@ -438,6 +438,8 @@ class CreateTripTableViewController:
     /// Called when the next button is pressed. Starts the calculation with the current value from the shown textfield and the corresponding property. Scrolls back to the top of the view for ease of use for the user and to prepare them to enter in the next value.
     @IBAction func nextButtonPressed(sender: UIButton)
     {
+        animateTextFieldBGSizeToDefault(shownTextField)
+        
         if !dataSource.tripCreated
         {
             switch shownTextField
@@ -992,6 +994,7 @@ class CreateTripTableViewController:
     func dismissButtonAction()
     {
         shownTextField.resignFirstResponder()
+        animateTextFieldBGSizeToDefault(nil)
     }
     
     // MARK: - Location Manager

@@ -24,6 +24,7 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        tableView.separatorStyle = .None
     }
 
     // MARK: - Table view data source
@@ -68,12 +69,6 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
         if let parentVC = parentViewController as? CreateTripTableViewController
         {
             parentVC.shownTextField.text = result
-//            switch textField
-//            {
-//            case parentVC.destinationTextField: parentVC.destinationTextField.text = result
-//            case parentVC.departureLocationTextField: parentVC.departureLocationTextField.text = result
-//            default: print(textField)
-//            }
             delegate?.animateTextFieldBGSizeToDefault(textField)
         }
     }
@@ -97,36 +92,49 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     func searchForCost()
     {
         searchingForCost = true
-        results = [
-            (textField.text! + "0"),
-            (textField.text! + "5"),
-            (textField.text! + "00"),
-            (textField.text! + "50"),
-            (textField.text! + "000"),
-            (textField.text! + "500")
-        ]
+        if let digit = textField.text
+        {
+            results = [
+                (digit + "0"),
+                (digit + "5"),
+                (digit + "00"),
+                (digit + "50"),
+                (digit + "000"),
+                (digit + "500")
+            ]
+        }
+
         tableView.reloadData()
     }
     
     func searchForLocation()
     {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         searchingForCost = false
         apiController = GooglePlacesAPIController(delegate: self)
         apiController?.searchGooglePlacesFor(textField.text!)
     }
     
-    func didReceiveGooglePlacesAPIResults(predictions: [NSDictionary])
+    func didReceiveGooglePlacesAPIResults(predictions: [NSDictionary]?)
     {
-        results.removeAll()
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            for prediction in predictions
-            {
-                let description = prediction["description"] as? String ?? ""
-                self.results.append(description)
-                self.tableView.reloadData()
+        if predictions != nil
+        {
+            results.removeAll()
+            
+            dispatch_async(dispatch_get_main_queue()) { () -> Void in
+                for prediction in predictions!
+                {
+                    let description = prediction["description"] as? String ?? ""
+                    self.results.append(description)
+                    self.tableView.reloadData()
+                }
             }
         }
-
+        else
+        {
+            parentViewController?.presentErrorPopup("Looks like there was an issue retrieving your location results. Sorry about that!")
+        }
     }
 }

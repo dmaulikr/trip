@@ -15,7 +15,7 @@ protocol MapsAPIResultsProtocol
 
 protocol GooglePlacesAPIProtocol
 {
-    func didReceiveGooglePlacesAPIResults(predictions: [NSDictionary])
+    func didReceiveGooglePlacesAPIResults(predictions: [NSDictionary]?)
 }
 
 /// MapsAPIController allows user to find the Google Maps API data for a location
@@ -126,16 +126,18 @@ class GooglePlacesAPIController
                 {
                     if let dictionary = self.parseJSON(data!)
                     {
-                        //                    if let description: NSDictionary = dictionary["description"] as? NSDictionary
-                        //                    {
-                        //                        self.delegate!.didReceiveGooglePlacesAPIResults(description)
-                        //                        print(data)
-                        //                    }
                         if let predictions = dictionary["predictions"] as? [NSDictionary]
                         {
                             self.delegate?.didReceiveGooglePlacesAPIResults(predictions)
                         }
-                        
+                        else
+                        {
+                            self.delegate?.didReceiveGooglePlacesAPIResults(nil)
+                        }
+                    }
+                    else
+                    {
+                        self.delegate?.didReceiveGooglePlacesAPIResults(nil)
                     }
                 }
             }).resume()
@@ -152,6 +154,7 @@ class GooglePlacesAPIController
         catch let error as NSError
         {
             print(error)
+            self.delegate?.didReceiveGooglePlacesAPIResults(nil)
             return nil
         }
     }

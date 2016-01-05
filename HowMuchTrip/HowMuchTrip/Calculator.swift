@@ -80,7 +80,7 @@ class Calculator
                 let destinationComponents = trip.destination.componentsSeparatedByString(",")
                 if destinationComponents.count > 1
                 {
-                    let shortDestination = destinationComponents[1] + ", " + destinationComponents[2]
+                    let shortDestination = destinationComponents[0] + ", " + destinationComponents[1]
                     destination = shortDestination
                 }
             }
