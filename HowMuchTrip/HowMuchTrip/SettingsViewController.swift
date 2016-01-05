@@ -64,21 +64,21 @@ class SettingsViewController: UIViewController
             {
             case "Twitter":
                 processTwitterData()
-                twitterCheckbox.image = UIImage(named: "Switch_on")
+                twitterCheckbox.image = UIImage(named: "CheckBox_selected")
             case "Facebook":
                 processFacebookData()
-                facebookCheckbox.image = UIImage(named: "Switch_on")
+                facebookCheckbox.image = UIImage(named: "CheckBox_selected")
             case "Username":
                 processUsernameData()
-                usernameCheckbox.image = UIImage(named: "Switch_on")
+                usernameCheckbox.image = UIImage(named: "CheckBox_selected")
             default:
                 PFUser.logOut()
                 userImage.image = UIImage(named: "UserIcon")
                 navigationItem.rightBarButtonItem?.title = "Login"
                 userNameLabel.text = nil
-                usernameCheckbox.image = UIImage(named: "Switch_on")
-                facebookCheckbox.image = UIImage(named: "Switch_on")
-                twitterCheckbox.image = UIImage(named: "Switch_on")
+                usernameCheckbox.image = UIImage(named: "CheckBox_unselected")
+                facebookCheckbox.image = UIImage(named: "CheckBox_unselected")
+                twitterCheckbox.image = UIImage(named: "CheckBox_unselected")
             }
         }
         else
@@ -109,9 +109,9 @@ class SettingsViewController: UIViewController
         else if PFUser.currentUser() != nil
         {
             //Log the user out, set the name to nil, and set the generic image
-            usernameCheckbox.image = UIImage(named: "Switch_off")
-            twitterCheckbox.image = UIImage(named: "Switch_off")
-            facebookCheckbox.image = UIImage(named: "Switch_off")
+            usernameCheckbox.image = UIImage(named: "CheckBox_unselected")
+            twitterCheckbox.image = UIImage(named: "CheckBox_unselected")
+            facebookCheckbox.image = UIImage(named: "CheckBox_unselected")
             PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in
                 if error != nil
                 {
