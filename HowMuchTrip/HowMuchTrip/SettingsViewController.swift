@@ -8,7 +8,6 @@
 
 import UIKit
 import Parse
-import MBProgressHUD
 import ParseTwitterUtils
 
 class SettingsViewController: UIViewController
