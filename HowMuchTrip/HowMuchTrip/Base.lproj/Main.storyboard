@@ -25,7 +25,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin " translatesAutoresizingMaskIntoConstraints="NO" id="Pqh-7y-V52">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1024x1024 transparent" translatesAutoresizingMaskIntoConstraints="NO" id="Pqh-7y-V52">
                                             <rect key="frame" x="152" y="24" width="96" height="96"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="Pqh-7y-V52" secondAttribute="height" multiplier="1:1" id="YpI-HU-VtV"/>
@@ -954,7 +954,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="5Ev-Ke-bvt"/>
@@ -968,7 +968,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="yge-32-dqM"/>
@@ -982,7 +982,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="xp8-fW-hCZ"/>
@@ -996,7 +996,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="wSe-hj-UON"/>
@@ -1010,7 +1010,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="6jI-Ca-miM"/>
@@ -1024,7 +1024,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="kn8-dk-QQQ"/>
@@ -1038,7 +1038,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="Srd-cR-L03"/>
@@ -1052,7 +1052,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="wha-gU-CaT"/>
@@ -1066,7 +1066,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="lKv-dw-pRO"/>
@@ -1080,7 +1080,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="zen-ec-kHh"/>
@@ -1094,7 +1094,7 @@
                                                     </constraints>
                                                     <color key="textColor" red="0.0094847613945603371" green="0.57929623126983643" blue="0.72496503591537476" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="AZ0-7q-Z8Y"/>
@@ -1529,6 +1529,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="1024x1024 transparent" width="1024" height="1024"/>
         <image name="CheckBox_unselected" width="26" height="26"/>
         <image name="UserIcon" width="462" height="462"/>
         <image name="UserImage" width="200" height="200"/>
