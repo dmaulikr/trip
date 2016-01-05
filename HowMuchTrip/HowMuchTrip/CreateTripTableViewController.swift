@@ -45,7 +45,6 @@ class CreateTripTableViewController:
     @IBOutlet weak var skipButton: UIButton!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var contextButton: UIButton!
-    @IBOutlet weak var contextButtonImg: UIImageView!
     
     var buttons = [UIButton!]()
     
