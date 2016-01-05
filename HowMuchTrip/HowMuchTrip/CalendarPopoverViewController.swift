@@ -53,9 +53,6 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         super.viewDidLoad()
         
         confirmButton.alpha = 0
-        
-        calendar = CalendarView()
-        calendarFrame.addSubview(calendar)
 
         monthLabel.text = ("\(moment().monthName) \(moment().year)")
         
@@ -69,8 +66,16 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(true)
-        
-        calendar.frame = CGRectMake(calendarFrame.frame.origin.x, calendarFrame.frame.origin.y, calendarFrame.frame.size.width * 1.01, calendarFrame.frame.size.width * 1.01)
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("delayedCalendarSetup"), userInfo: nil, repeats: false)
+    }
+    
+    func delayedCalendarSetup()
+    {
+        calendar = CalendarView()
+        calendarFrame.addSubview(calendar)
+        calendar.frame = CGRectMake(calendarFrame.frame.origin.x, calendarFrame.frame.origin.y, calendarFrame.frame.size.width * 0.9, calendarFrame.frame.size.width * 0.9)
+        calendar.center = calendarFrame.center
+        calendar.appearWithFade(0.25)
     }
     
     @IBAction func confirmButtonPressed(sender: UIButton)
