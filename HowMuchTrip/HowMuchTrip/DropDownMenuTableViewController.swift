@@ -76,7 +76,7 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        return 44.0
+        return 46.0
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView)

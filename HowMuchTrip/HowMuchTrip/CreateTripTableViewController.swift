@@ -954,25 +954,25 @@ class CreateTripTableViewController:
             doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
             doneToolbar.translucent = false
             
-            let confirmations = [
-                "Okay  ",
-                "All set  ",
-                "Looks good  "
-            ]
-            
-            let cancellations = [
-                "  Never mind",
-                "  Just kidding",
-                "  Forget it"
-            ]
-            
-            let confirmation = confirmations[Int(arc4random() % 3)]
-            let cancellation = cancellations[Int(arc4random() % 3)]
+//            let confirmations = [
+//                "Okay  ",
+//                "All set  ",
+//                "Looks good  "
+//            ]
+//            
+//            let cancellations = [
+//                "  Never mind",
+//                "  Just kidding",
+//                "  Forget it"
+//            ]
+//            
+//            let confirmation = confirmations[Int(arc4random() % 3)]
+//            let cancellation = cancellations[Int(arc4random() % 3)]
             
             let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
             flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
-            let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
-            let dismissButton = UIBarButtonItem(title: cancellation, style: .Plain, target: self, action: Selector("dismissButtonAction"))
+            let doneButton = UIBarButtonItem(title: "Next", style: .Done, target: self, action: Selector("doneButtonAction"))
+            let dismissButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: Selector("dismissButtonAction"))
             doneButton.tintColor = UIColor.whiteColor()
             dismissButton.tintColor = UIColor.whiteColor()
             

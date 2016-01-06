@@ -37,17 +37,17 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
 
     var delegate: DateWasChosenFromCalendarProtocol?
 
-    let confirmations = [
-        "Okay",
-        "All set",
-        "Looks good"
-    ]
-    
-    let cancellations = [
-        "Never mind",
-        "Just kidding",
-        "Forget it"
-    ]
+//    let confirmations = [
+//        "Okay",
+//        "All set",
+//        "Looks good"
+//    ]
+//    
+//    let cancellations = [
+//        "Never mind",
+//        "Just kidding",
+//        "Forget it"
+//    ]
     
     override func viewDidLoad()
     {
@@ -59,11 +59,11 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
 
         monthLabel.text = ("\(moment().monthName) \(moment().year)")
         
-        let confirmation = confirmations[Int(arc4random() % 3)]
-        let cancellation = cancellations[Int(arc4random() % 3)]
+//        let confirmation = confirmations[Int(arc4random() % 3)]
+//        let cancellation = cancellations[Int(arc4random() % 3)]
         
-        confirmButton.setTitle(confirmation, forState: .Normal)
-        cancelButton.setTitle(cancellation, forState: .Normal)
+        confirmButton.setTitle("Next", forState: .Normal)
+        cancelButton.setTitle("Cancel", forState: .Normal)
         
         setCalendarPrefs()
     }
