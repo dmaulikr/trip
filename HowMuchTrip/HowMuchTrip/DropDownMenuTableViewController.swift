@@ -89,15 +89,13 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
         searchingForCost = {
             switch textField
             {
-            case parent.departureLocationTextField,
-            parent.destinationTextField             : return false
-            case parent.budgetTextField,
-            parent.dailyLodgingTextField,
-            parent.dailyFoodTextField,
-            parent.dailyOtherTextField,
-            parent.oneTimeCostTextField,
-            parent.planeTicketTextField             : return true
-            default: return nil
+            case parent.departureLocationTextField, parent.destinationTextField:
+                return false
+            case parent.budgetTextField, parent.dailyLodgingTextField, parent.dailyFoodTextField,
+            parent.dailyOtherTextField, parent.oneTimeCostTextField, parent.planeTicketTextField:
+                return true
+            default:
+                return nil
             }
         }()
         
@@ -105,7 +103,7 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
         {
             if searchingForCost == true
             {
-                searchForCost()
+//                searchForCost()
             }
             else
             {

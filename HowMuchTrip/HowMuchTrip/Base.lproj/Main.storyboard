@@ -947,7 +947,7 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Home, FL, United States" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5eN-fC-4zd">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter city or get current location -&gt;" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5eN-fC-4zd">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="5Ev-Ke-bvt"/>
@@ -961,7 +961,7 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Far Away, AK, United States" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oXt-W0-7Z6">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter city..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oXt-W0-7Z6">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="yge-32-dqM"/>
@@ -975,7 +975,7 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="02/10/16" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aVI-2F-ksD">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter date..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aVI-2F-ksD">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="xp8-fW-hCZ"/>
@@ -989,7 +989,7 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="02/18/16" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A6Q-VT-YzF">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter date..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A6Q-VT-YzF">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="wSe-hj-UON"/>
@@ -1003,7 +1003,7 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fhF-er-Znd">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter $ or get current ticket costs -&gt;" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="fhF-er-Znd">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="6jI-Ca-miM"/>
@@ -1017,7 +1017,7 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GPC-0Q-SWs">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter $ per day..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GPC-0Q-SWs">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="kn8-dk-QQQ"/>
@@ -1031,7 +1031,7 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GUU-t2-Ax5">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter $..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GUU-t2-Ax5">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="Srd-cR-L03"/>
@@ -1045,7 +1045,7 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Emb-yk-60i">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter $ per day..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Emb-yk-60i">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="wha-gU-CaT"/>
@@ -1059,7 +1059,7 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wni-g5-QB5">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter $ per day..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wni-g5-QB5">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="lKv-dw-pRO"/>
@@ -1073,7 +1073,7 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Family Reunion" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pw6-uf-e0d">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter trip name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pw6-uf-e0d">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="zen-ec-kHh"/>
@@ -1087,7 +1087,7 @@
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$500" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Me-om-YV9">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter trip budget..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Me-om-YV9">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="AZ0-7q-Z8Y"/>
