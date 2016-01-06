@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1F6E07523962B9CB266839BF /* Pods_HowMuchTripTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF7DAEF72538D7A4153A6670 /* Pods_HowMuchTripTests.framework */; };
 		630096F21C3ACDD00092F261 /* EmptyStateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630096F11C3ACDD00092F261 /* EmptyStateCell.swift */; };
+		63080F391C3D88DE00E07DDA /* AnimationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63080F381C3D88DE00E07DDA /* AnimationManager.swift */; };
+		63080F3B1C3D952800E07DDA /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63080F3A1C3D952800E07DDA /* LocationManager.swift */; };
+		63080F3D1C3D9E2700E07DDA /* ContextPopoverManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63080F3C1C3D9E2700E07DDA /* ContextPopoverManager.swift */; };
 		630B3B4D1C1F283C006F12D2 /* disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = 630B3B4C1C1F283C006F12D2 /* disclosure.png */; };
 		630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */; };
 		63400F981C20917000D5F29C /* GraphLegendTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */; };
@@ -28,7 +31,7 @@
 		63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63AE246C1C1E651B001ECCE9 /* Extensions.swift */; };
 		63E80D471C35C90F0080D4C5 /* notrips.png in Resources */ = {isa = PBXBuildFile; fileRef = 63E80D461C35C90F0080D4C5 /* notrips.png */; };
 		63E80D491C35D6930080D4C5 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63E80D481C35D6930080D4C5 /* TabBarController.swift */; };
-		63F4E6CE1C23051F0040CFC4 /* CreateTripDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */; };
+		63F4E6CE1C23051F0040CFC4 /* DataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63F4E6CD1C23051F0040CFC4 /* DataSource.swift */; };
 		86C4D9728457428FD35D8DBB /* Pods_HowMuchTrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */; };
 		9A75AC5E1C1F54B700258473 /* Validator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A75AC5D1C1F54B700258473 /* Validator.swift */; };
 		9A8518C31C1DEF98001046EA /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A8518C21C1DEF98001046EA /* Reachability.swift */; };
@@ -76,6 +79,9 @@
 /* Begin PBXFileReference section */
 		384CB41D2D5FB0031FA17855 /* Pods_HowMuchTrip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HowMuchTrip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		630096F11C3ACDD00092F261 /* EmptyStateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyStateCell.swift; sourceTree = "<group>"; };
+		63080F381C3D88DE00E07DDA /* AnimationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimationManager.swift; sourceTree = "<group>"; };
+		63080F3A1C3D952800E07DDA /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		63080F3C1C3D9E2700E07DDA /* ContextPopoverManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContextPopoverManager.swift; sourceTree = "<group>"; };
 		630B3B4C1C1F283C006F12D2 /* disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disclosure.png; sourceTree = "<group>"; };
 		630B3B4E1C1F2869006F12D2 /* CalendarPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarPopoverViewController.swift; sourceTree = "<group>"; };
 		63400F971C20917000D5F29C /* GraphLegendTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphLegendTableViewController.swift; sourceTree = "<group>"; };
@@ -95,7 +101,7 @@
 		63AE246C1C1E651B001ECCE9 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		63E80D461C35C90F0080D4C5 /* notrips.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = notrips.png; sourceTree = "<group>"; };
 		63E80D481C35D6930080D4C5 /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
-		63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateTripDataSource.swift; sourceTree = "<group>"; };
+		63F4E6CD1C23051F0040CFC4 /* DataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSource.swift; sourceTree = "<group>"; };
 		79B012481EE474F4FCFC105E /* Pods-HowMuchTrip.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HowMuchTrip.release.xcconfig"; path = "Pods/Target Support Files/Pods-HowMuchTrip/Pods-HowMuchTrip.release.xcconfig"; sourceTree = "<group>"; };
 		9A75AC5D1C1F54B700258473 /* Validator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Validator.swift; sourceTree = "<group>"; };
 		9A8518C21C1DEF98001046EA /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
@@ -210,7 +216,10 @@
 			isa = PBXGroup;
 			children = (
 				9ADAAAF71C19E51F00D26F79 /* CreateTripTableViewController.swift */,
-				63F4E6CD1C23051F0040CFC4 /* CreateTripDataSource.swift */,
+				63080F3C1C3D9E2700E07DDA /* ContextPopoverManager.swift */,
+				63080F3A1C3D952800E07DDA /* LocationManager.swift */,
+				63080F381C3D88DE00E07DDA /* AnimationManager.swift */,
+				63F4E6CD1C23051F0040CFC4 /* DataSource.swift */,
 				63AC8B851C3B00D700F2B41C /* DropDownMenuTableViewController.swift */,
 			);
 			name = CreateTripViewController;
@@ -607,12 +616,13 @@
 				9AF91D8D1C2455DF0044D57C /* MapsAPIController.swift in Sources */,
 				9ADAAAE11C19CDD200D26F79 /* Trip.swift in Sources */,
 				63400F981C20917000D5F29C /* GraphLegendTableViewController.swift in Sources */,
+				63080F391C3D88DE00E07DDA /* AnimationManager.swift in Sources */,
 				9ADAAAE51C19CE0000D26F79 /* FlightSearch.swift in Sources */,
 				9AF91D8B1C2455AF0044D57C /* AverageCostsAPIController.swift in Sources */,
 				630B3B4F1C1F2869006F12D2 /* CalendarPopoverViewController.swift in Sources */,
 				9A8518C51C1DFB9C001046EA /* SuggestedTripCell.swift in Sources */,
 				63A70FDA1C29C3A5003FCB53 /* IndividualFlight.swift in Sources */,
-				63F4E6CE1C23051F0040CFC4 /* CreateTripDataSource.swift in Sources */,
+				63F4E6CE1C23051F0040CFC4 /* DataSource.swift in Sources */,
 				9AF91D8F1C246A330044D57C /* AFAverageCostsAPIController.swift in Sources */,
 				9ADAAAEB1C19D72C00D26F79 /* TripListTableViewController.swift in Sources */,
 				63A70FD81C29C383003FCB53 /* FullFlight.swift in Sources */,
@@ -634,6 +644,7 @@
 				9A75AC5E1C1F54B700258473 /* Validator.swift in Sources */,
 				9ADAAAE91C19D65500D26F79 /* SettingsViewController.swift in Sources */,
 				63AE246D1C1E651B001ECCE9 /* Extensions.swift in Sources */,
+				63080F3D1C3D9E2700E07DDA /* ContextPopoverManager.swift in Sources */,
 				63E80D491C35D6930080D4C5 /* TabBarController.swift in Sources */,
 				63A70FCF1C29C2FA003FCB53 /* EditValueViewController.swift in Sources */,
 				9ADAAAF31C19E4A000D26F79 /* TripPropertyCell.swift in Sources */,
@@ -641,6 +652,7 @@
 				9ADAAAF51C19E4AE00D26F79 /* TripGraphCell.swift in Sources */,
 				63A70FDE1C29F378003FCB53 /* HotelPopoverTableViewController.swift in Sources */,
 				9ADAAAF81C19E51F00D26F79 /* CreateTripTableViewController.swift in Sources */,
+				63080F3B1C3D952800E07DDA /* LocationManager.swift in Sources */,
 				9A8518C31C1DEF98001046EA /* Reachability.swift in Sources */,
 				63A70FD51C29C312003FCB53 /* QPX_EX_APIController.swift in Sources */,
 			);
@@ -783,7 +795,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = HowMuchTrip/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -807,7 +819,7 @@
 					"$(PROJECT_DIR)",
 				);
 				INFOPLIST_FILE = HowMuchTrip/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.HowMuchTrip;
 				PRODUCT_NAME = "$(TARGET_NAME)";

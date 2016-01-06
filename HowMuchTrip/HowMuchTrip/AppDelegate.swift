@@ -57,6 +57,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate
         UIBarButtonItem.appearance()
             .setTitleTextAttributes(UINavigationBar.appearance().titleTextAttributes, forState: .Normal)
         
+        let tabBar = window?.rootViewController as! UITabBarController
+        tabBar.selectedIndex = 1
+        
         return true
     }
 

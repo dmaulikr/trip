@@ -19,7 +19,8 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     var textField: UITextField!
     var apiController: GooglePlacesAPIController?
     var delegate: DropDownMenuOptionWasChosenProtocol?
-    var searchingForCost = false
+    var parent: CreateTripTableViewController!
+    var searchingForCost: Bool?
     
     override func viewDidLoad()
     {
@@ -48,7 +49,7 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
             let result = results[indexPath.row]
             
             cell.textLabel?.text = {
-                if searchingForCost
+                if searchingForCost == true
                 {
                     return "$" + result
                 }
@@ -75,22 +76,46 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat
     {
-        return 44.0
+        return 46.0
     }
     
     override func scrollViewDidScroll(scrollView: UIScrollView)
     {
-        if let parentVC = parentViewController as? CreateTripTableViewController
-        {
-            if parentVC.shownTextField.isFirstResponder()
+        parent.shownTextField.resignFirstResponder()
+    }
+    
+    func search()
+    {
+        searchingForCost = {
+            switch textField
             {
-                parentVC.shownTextField.resignFirstResponder()
+            case parent.departureLocationTextField, parent.destinationTextField:
+                return false
+            case parent.budgetTextField, parent.dailyLodgingTextField, parent.dailyFoodTextField,
+            parent.dailyOtherTextField, parent.oneTimeCostTextField, parent.planeTicketTextField:
+                return true
+            default:
+                return nil
+            }
+        }()
+        
+        if searchingForCost != nil
+        {
+            if searchingForCost == true
+            {
+//                searchForCost()
+            }
+            else
+            {
+                searchForLocation()
             }
         }
     }
     
     func searchForCost()
     {
+        parent?.animator.animateTextFieldBGSizeToSearch()
+        
         searchingForCost = true
         if let digit = textField.text
         {
@@ -110,6 +135,8 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     
     func searchForLocation()
     {
+        parent?.animator.animateTextFieldBGSizeToSearch()
+        
         if !UIApplication.sharedApplication().networkActivityIndicatorVisible
         {
             UIApplication.sharedApplication().networkActivityIndicatorVisible = true

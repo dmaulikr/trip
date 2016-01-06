@@ -24,72 +24,72 @@ class CreateTripTableViewController:
     UIPopoverPresentationControllerDelegate,
     DateWasChosenFromCalendarProtocol,
     CalculationFinishedDelegate,
-    MapsAPIResultsProtocol,
     UIGestureRecognizerDelegate,
     CLLocationManagerDelegate,
-    FlightTicketPriceWasChosenProtocol,
-    DropDownMenuOptionWasChosenProtocol
+    FlightTicketPriceWasChosenProtocol
 {
     
     // MARK: - Labels
     
-    @IBOutlet weak var budgetRemainingLabel: UILabel!
-    @IBOutlet weak var budgetRemainingBottomLabel: UILabel!
+    @IBOutlet weak var budgetRemainingLabel         : UILabel!
+    @IBOutlet weak var budgetRemainingBottomLabel   : UILabel!
     
-    @IBOutlet weak var prefixPromptLabel: UILabel!
-    @IBOutlet weak var suffixPromptLabel: UILabel!
+    @IBOutlet weak var prefixPromptLabel            : UILabel!
+    @IBOutlet weak var suffixPromptLabel            : UILabel!
     
-    @IBOutlet weak var nextButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var nextButton                   : UIButton!
+    @IBOutlet weak var backButton                   : UIButton!
     
-    @IBOutlet weak var locationButton: UIButton!
-    @IBOutlet weak var flightButton: UIButton!
-    @IBOutlet weak var calendarButton: UIButton!
+    @IBOutlet weak var locationButton               : UIButton!
+    @IBOutlet weak var flightButton                 : UIButton!
+    @IBOutlet weak var calendarButton               : UIButton!
     
-    var buttons = [UIButton!]()
-    
-    var pulseButtonTimer: NSTimer?
+    var buttons                                     = [UIButton!]()
     
     // MARK: - Text Fields
     
-    @IBOutlet weak var budgetTextField: UITextField!
-    @IBOutlet weak var departureLocationTextField: UITextField!
-    @IBOutlet weak var destinationTextField: UITextField!
-    @IBOutlet weak var dateFromTextField: UITextField!
-    @IBOutlet weak var dateToTextField: UITextField!
-    @IBOutlet weak var planeTicketTextField: UITextField!
-    @IBOutlet weak var dailyLodgingTextField: UITextField!
-    @IBOutlet weak var dailyFoodTextField: UITextField!
-    @IBOutlet weak var dailyOtherTextField: UITextField!
-    @IBOutlet weak var oneTimeCostTextField: UITextField!
-
-    @IBOutlet weak var tripNameTextField: UITextField!
+    @IBOutlet weak var budgetTextField              : UITextField!
+    @IBOutlet weak var departureLocationTextField   : UITextField!
+    @IBOutlet weak var destinationTextField         : UITextField!
+    @IBOutlet weak var dateFromTextField            : UITextField!
+    @IBOutlet weak var dateToTextField              : UITextField!
+    @IBOutlet weak var planeTicketTextField         : UITextField!
+    @IBOutlet weak var dailyLodgingTextField        : UITextField!
+    @IBOutlet weak var dailyFoodTextField           : UITextField!
+    @IBOutlet weak var dailyOtherTextField          : UITextField!
+    @IBOutlet weak var oneTimeCostTextField         : UITextField!
+    @IBOutlet weak var tripNameTextField            : UITextField!
     
-    @IBOutlet weak var textFieldBGView: UIView!
+    @IBOutlet weak var textFieldBGView              : UIView!
     
-    var shownTextField: UITextField!
-    var textFields = [UITextField]()
-    let settingsVC = SettingsViewController()
+    var shownTextField  : UITextField!
+    var textFields      = [UITextField]()
     
     // MARK: - Graph Properties
     
-    @IBOutlet weak var pieChartView: PieChartView!
-    @IBOutlet weak var legendContainerView: UIView!
-    @IBOutlet weak var locationSearchResultsContainerView: UIView!
+    @IBOutlet weak var pieChartView                         : PieChartView!
+    @IBOutlet weak var legendContainerView                  : UIView!
+    @IBOutlet weak var locationSearchResultsContainerView   : UIView!
     
-    var contextPopover: UIViewController?
+    var contextPopover      : UIViewController?
     
     // MARK: - Other Properties
-    var dataSource = CreateTripDataSource()
-    var delegate: TripWasSavedDelegate?
+    
+    var dataSource              : CreateTripDataSource!
+    var animator                : CreateTripTableViewControllerAnimationManager!
+    var locationManagerManager  : CreateTripTableViewControllerLocationManager!
+    var popoverManager          : CreateTripTableViewControllerContextPopoverManager!
+    
+    var delegate            : TripWasSavedDelegate?
     
     var indexOfTextField = 0
     
-    var allProperties = [String]()
-    var propertyDictionary = [String: String]()
-    var calculator: Calculator!
-    var trip = Trip()
-    var trips = [Trip]()
+    var allProperties       = [String]()
+    var propertyDictionary  = [String: String]()
+    var calculator          : Calculator!
+    
+    var trip                = Trip()
+    var trips               = [Trip]()
     
     var mapsAPIController: MapsAPIController?
     var googlePlacesAPIController: GooglePlacesAPIController?
@@ -115,20 +115,16 @@ class CreateTripTableViewController:
         }
     }
     
-    var flashTimer: NSTimer?
+    var pulseButtonTimer: NSTimer?
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        animator                = CreateTripTableViewControllerAnimationManager(controller: self)
+        locationManagerManager  = CreateTripTableViewControllerLocationManager(controller: self)
+        dataSource              = CreateTripDataSource(controller: self)
+        popoverManager          = CreateTripTableViewControllerContextPopoverManager(controller: self)
         
-        dataSource.initialSetup(self) //allProperties and textFields assigned here
-        dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
-        
-        dateFromTextField.tag = 80
-        dateToTextField.tag = 81
-        
-        tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
-
         NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "initialCycle", userInfo: nil, repeats: false)
     }
     
@@ -136,13 +132,13 @@ class CreateTripTableViewController:
     func initialCycle()
     {
         cycleToTextField(0)
-        textFieldBGView.alpha = 0
-        textFieldBGView.appearWithFade(0.25)
     }
     
     /// Determines the current login information and processes it accordingly. If there is no login information, logs out of the current Parse session.
     override func viewWillAppear(animated: Bool)
     {
+        let settingsVC = (tabBarController!.viewControllers![2] as! UINavigationController).viewControllers.first as! SettingsViewController
+        
         switch loggedInWith
         {
         case "Twitter":
@@ -164,7 +160,11 @@ class CreateTripTableViewController:
         let (selectedTextField, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
         self.indexOfTextField = indexOfTextField
         
-        if shownTextField.text != ""
+        let entry: Bool = {
+            return shownTextField.text != ""
+        }()
+        
+        if entry
         && shownTextField != dateFromTextField
         || shownTextField != dateToTextField
         {
@@ -172,13 +172,12 @@ class CreateTripTableViewController:
             
             return true
         }
+            
         else if shownTextField == dateFromTextField
-        || shownTextField == dateToTextField
+        ||      shownTextField == dateToTextField
         {
-            print("date should return")
-            if shownTextField.text == ""
+            if !entry
             {
-                print("date should return 2")
                 validTextFieldEntry(selectedTextField)
             }
             else if Validator.validate("date", string: shownTextField.text!)
@@ -201,21 +200,21 @@ class CreateTripTableViewController:
     func validTextFieldEntry(selectedTextField: UITextField)
     {
         nextButton.enabled = true
-        dataSource.appearButton(nextButton)
+        animator.appearButton(nextButton)
         selectedTextField.resignFirstResponder()
         
-        let index = NSIndexPath(forRow: 0, inSection: 0)
-        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
+//        let index = NSIndexPath(forRow: 0, inSection: 0)
+//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
         
-        animateTextFieldBGSizeToDefault(nil)
+        animator.animateTextFieldBGSizeToDefault(nil)
     }
     
     func invalidTextFieldEntry()
     {
         shakeTextField(shownTextField)
-        dataSource.fadeButton(nextButton)
+        animator.fadeButton(nextButton)
         
-        animateTextFieldBGSizeToDefault(nil)
+        animator.animateTextFieldBGSizeToDefault(nil)
     }
     
     /// Shakes the text field and text field background view to inform the user of incorrect or empty input.
@@ -252,17 +251,17 @@ class CreateTripTableViewController:
         if shownTextField.text != "" && textField != dateFromTextField || textField != dateToTextField
         {
             nextButton.enabled = true
-            dataSource.appearButton(nextButton)
+            animator.appearButton(nextButton)
         }
         else if textField == dateFromTextField || textField == dateToTextField
         {
             nextButton.enabled = true
-            dataSource.appearButton(nextButton)
+            animator.appearButton(nextButton)
         }
         else
         {
             nextButton.enabled = false
-            dataSource.fadeButton(nextButton)
+            animator.fadeButton(nextButton)
         }
     }
     
@@ -270,73 +269,16 @@ class CreateTripTableViewController:
     func textFieldDidBeginEditing(textField: UITextField)
     {
         nextButton.enabled = false
-        dataSource.fadeButton(nextButton)
+        animator.fadeButton(nextButton)
     }
     
-    func animateTextFieldBGSizeToDefault(textField: UITextField?)
-    {
-        locationSearchResultsContainerView.hideWithFade(0.10)
-        if textFieldBGView.frame.size.height != 40
-        {
-            UIView.animateWithDuration(0.25) { () -> Void in
-                self.textFieldBGView.frame = CGRectMake(
-                    self.textFieldBGView.frame.origin.x,
-                    self.textFieldBGView.frame.origin.y,
-                    self.textFieldBGView.frame.size.width,
-                    40)
-            }
-        }
-        
-        //function was called from the drop down menu
-        if textField != nil
-        {
-            textFieldShouldReturn(textField!)
-        }
-    }
-    
-    func animateTextFieldBGSizeToSearch()
-    {
-        if textFieldBGView.frame.size.height != 240
-        {
-            let newFrame = CGRectMake(
-                self.textFieldBGView.frame.origin.x,
-                self.textFieldBGView.frame.origin.y,
-                self.textFieldBGView.frame.size.width,
-                240)
-                self.locationSearchResultsContainerView.alpha = 0
-                self.locationSearchResultsContainerView.hidden = false
-            UIView.animateWithDuration(0.25, animations: { () -> Void in
-                self.textFieldBGView.frame = newFrame
-                }, completion: { (_) -> Void in
-                    
-                    self.locationSearchResultsContainerView.appearWithFade(0.10)
-            })
-        }
-    }
+
     
     /// Checks the keyboard type and adds a done button to the keyboard if there is no built in return key on the current keyboard type.
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool
     {
         addDoneButtonOnKeyboard(self.shownTextField)
         return true
-    }
-    
-    /// Presents an interactive calendar popup to allow the user to choose their trip dates.
-    func presentCalendar(textFieldTag: Int)
-    {
-        animateTextFieldBGSizeToDefault(nil)
-        
-        let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
-        let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
-//        navigationController?.pushViewController(contextPopover, animated: true)
-        
-        self.addContextPopover(contextPopover)
-        contextPopover.delegate = self
-        contextPopover.textFieldTag = textFieldTag
-        contextPopover.trip = trip
-        
-        self.contextPopover = contextPopover
-        nextButton.enabled = true//textField.text?.characters.count > 0
     }
     
     /// Limts the user input to the appropriate characters in order to reduce error.
@@ -346,60 +288,15 @@ class CreateTripTableViewController:
         {
             if shownTextField.text == "" && textFieldBGView.frame.size.height != 40
             {
-                animateTextFieldBGSizeToDefault(nil)
+                animator.animateTextFieldBGSizeToDefault(nil)
             }
             else if shownTextField.text != ""
-                && textField == departureLocationTextField
-                || textField == destinationTextField
             {
-                searchForLocation(textField)
-            }
-            else if shownTextField.text != ""
-                && textField == budgetTextField
-                || textField == dailyLodgingTextField
-                || textField == dailyFoodTextField
-                || textField == dailyOtherTextField
-                || textField == oneTimeCostTextField
-            {
-                searchForCost(textField)
+                animator.dropDownMenu(textField)?.search()
             }
         }
 
-        return dataSource.testCharacters(textField, string: string, superview: self)
-    }
-    
-    func searchForLocation(textField: UITextField)
-    {
-        if Reachability.isConnectedToNetwork()
-        {
-            animateTextFieldBGSizeToSearch()
-            
-            for childVC in self.childViewControllers
-            {
-                if let locationSearchTableVC = childVC as? LocationSearchTableViewController
-                {
-                    locationSearchTableVC.delegate = self
-                    locationSearchTableVC.textField = textField
-                    locationSearchTableVC.searchForLocation()
-                }
-            }
-
-        }
-    }
-    
-    func searchForCost(textField: UITextField)
-    {
-        animateTextFieldBGSizeToSearch()
-        
-        for childVC in self.childViewControllers
-        {
-            if let locationSearchTableVC = childVC as? LocationSearchTableViewController
-            {
-                locationSearchTableVC.delegate = self
-                locationSearchTableVC.textField = textField
-                locationSearchTableVC.searchForCost()
-            }
-        }
+        return dataSource.testCharacters(textField, string: string)
     }
     
     /// Determines the current textfield and cycles to the next one. Handles the cycling animation and assigns the prompt text. Presents the calendar if the appropriate text field is currently displayed. Also determines if the user has cycled through all available text fields and calls the createTripComplete function in this event.
@@ -408,63 +305,21 @@ class CreateTripTableViewController:
         if indexOfTextField < textFields.count
         {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
                 self.shownTextField.hidden = true
                 
                 let nextTextField = self.textFields[indexOfTextField]
-                let originalY = nextTextField.frame.origin.y
                 
                 self.shownTextField = nextTextField
-                self.shownTextField.hidden = false
-                self.shownTextField.layer.zPosition =
-                    self.textFieldBGView.layer.zPosition + 1
-                self.shownTextField.alpha = 0
-                self.shownTextField.text = ""
-                self.shownTextField.frame.origin.y = 100
-                self.textFieldBGView.frame.origin.y = 100
-                
-                self.prefixPromptLabel.alpha = 0
-                self.suffixPromptLabel.alpha = 0
                 
                 let (prefix, suffix) = self.dataSource.getPromptLabelText(indexOfTextField, aTrip: self.trip)
                 
                 self.prefixPromptLabel.text = prefix
                 self.suffixPromptLabel.text = suffix
                 
-//                self.promptLabel.text = self.dataSource.getPromptLabelText(indexOfTextField, aTrip: self.trip)
+                self.dataSource.manageButtons()
                 
-                self.dataSource.manageButtons(self)
-                
-                self.dataSource.fadeButton(self.nextButton)
-//                
-//                self.nextButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-//                self.nextButton.backgroundColor = UIColor(red:0.471, green:0.799, blue:0.896, alpha:0.3)
-                
-                UIView.animateWithDuration(0.45, animations: { () -> Void in
-                    self.shownTextField.frame.origin.y = originalY
-                    self.shownTextField.alpha = 1
-                    
-                    self.prefixPromptLabel.alpha = 1
-                    self.suffixPromptLabel.alpha = 1
-                    
-//                    self.promptLabel.alpha = 1
-                    
-                    }, completion: { (_) -> Void in
-                        if self.shownTextField.tag == 81
-                        {
-//                            self.dateToTextField.tag = 80
-//                            self.presentCalendar(self.dateToTextField.tag)
-                        }
-                        else if self.shownTextField.tag == 80
-                        {
-//                            self.dateFromTextField.tag = 81
-//                            self.presentCalendar(self.dateFromTextField.tag)
-                        }
-                        else
-                        {
-                            self.shownTextField.becomeFirstResponder()
-                            
-                        }
-                })
+                self.animator.doCycleToTextFieldAnimation()
             })
         }
         else
@@ -474,13 +329,25 @@ class CreateTripTableViewController:
         }
     }
     
+    func cycleToTextFieldAnimationDidComplete()
+    {
+        switch shownTextField
+        {
+        case dateFromTextField:
+            popoverManager.presentCalendarPopover(dateFromTextField.tag)
+        case dateToTextField:
+            popoverManager.presentCalendarPopover(dateToTextField.tag)
+        default:
+            shownTextField.becomeFirstResponder()
+        }
+    }
     
     // MARK: - Action Handlers
     
     /// Called when the next button is pressed. Starts the calculation with the current value from the shown textfield and the corresponding property. Scrolls back to the top of the view for ease of use for the user and to prepare them to enter in the next value.
     @IBAction func nextButtonPressed(sender: UIButton)
     {
-        animateTextFieldBGSizeToDefault(shownTextField)
+        animator.animateTextFieldBGSizeToDefault(nil)
         
         if !dataSource.tripCreated
         {
@@ -492,47 +359,32 @@ class CreateTripTableViewController:
             default: break
             }
             
-//            textFieldShouldReturn(shownTextField)
-            print(indexOfTextField, allProperties.count)
             let propertyKey = allProperties[indexOfTextField]
             propertyDictionary[propertyKey] = shownTextField.text
             
-            checkForLocation(shownTextField)
+            locationManagerManager.checkForLocation(shownTextField)
             
             let property = allProperties[indexOfTextField]
             
-            print(property)
-            
             calculate(true, property: property, value: shownTextField.text!)
-            
-            UIView.animateWithDuration(0.50, animations: { () -> Void in
-                self.textFieldBGView.hideWithFade(0.5)
-                }, completion: { (_) -> Void in
-                    self.textFieldBGView.appearWithFade(0.5)
-            })
         }
-        else
+        else ///cycled through all the text fields, save button is shown
         {
-            print("save button pressed")
             saveButtonPressed(sender)
         }
         
-        if flashTimer != nil
-        {
-            flashTimer = nil
-            textFieldBGView.backgroundColor = UIColor.whiteColor()
-        }
-        
-        let index = NSIndexPath(forRow: 0, inSection: 0)
-        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Top, animated: true)
+//        let index = NSIndexPath(forRow: 0, inSection: 0)
+//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Top, animated: true)
     }
     
     /// Called when the back button is pressed. Determines the current shown step and cycles one step back.
     @IBAction func backButtonPressed(sender: UIButton)
     {
         let previousTextFieldIndex = textFields.indexOf(shownTextField)! - 1
-        animateTextFieldBGSizeToDefault(nil)
+        animator.animateTextFieldBGSizeToDefault(nil)
         self.cycleToTextField(previousTextFieldIndex)
+        
+        animator.invalidatePulseButtonTimer()
         
         nextButton.setTitle("N E X T", forState: .Normal)
     }
@@ -547,41 +399,25 @@ class CreateTripTableViewController:
     @IBAction func locationButtonPressed(sender: UIButton)
     {
         shownTextField.resignFirstResponder()
-        animateTextFieldBGSizeToDefault(nil)
-        configureLocationManager()
+        animator.animateTextFieldBGSizeToDefault(nil)
+        locationManagerManager.configureLocationManager()
     }
     
     /// Called when the context button is pressed while in the flight button state. If trip dates have been chosen, presents a pop up to allow the user to search for ticket prices. If trip dates have not been chosen, presents an error popup to inform the user of this issue and prompts them to enter a date range.
     @IBAction func flightButtonPressed(sender: UIButton)
     {
-        shownTextField.resignFirstResponder()
-        animateTextFieldBGSizeToDefault(nil)
-        if trip.dateFrom != ""
-        {
-            let flightStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
-            let contextPopover = flightStoryboard.instantiateViewControllerWithIdentifier("FlightPopover") as! FlightPopoverViewController
-            contextPopover.trip = trip
-            contextPopover.delegate = self
-            self.addContextPopover(contextPopover)
-        }
-        else
-        {
-            presentErrorPopup("Please go back and specify a date range if you'd like to look up flights! :)")
-        }
+        popoverManager.presentFlightPopover()
     }
     
     @IBAction func calendarButtonPressed(sender: UIButton)
     {
-        presentCalendar(shownTextField.tag)
+        popoverManager.presentCalendarPopover(shownTextField.tag)
     }
     
     /// Called when the context button is pressed while in the hotel button state. This function has not been implemented.
     @IBAction func hotelButtonPressed(sender: UIButton)
     {
-//        let contextStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
-//        let contextPopover = contextStoryboard.instantiateViewControllerWithIdentifier("HotelPopover") as! HotelPopoverViewController
-//        contextPopover.trip = trip
-//        self.addContextPopover(contextPopover)
+        
     }
     
     /// Called when the next button is pressed while in its save button state. If there is no current Parse user, promps user to login to save their trip and modally presents the login screen. If there is a current Parse user, saves the trip to the user's trip list.
@@ -596,90 +432,11 @@ class CreateTripTableViewController:
             saveTrip(trip)
         }
         
-        switch loggedInWith
-        {
-            case "Twitter":
-                settingsVC.processTwitterData()
-            case "Facebook":
-                settingsVC.processFacebookData()
-            case "Username":
-                settingsVC.processUsernameData()
-            default:
-                PFUser.logOut()
-        }
-
-    }
-
-    
-    //MARK: - Location
-
-    /// Function called when next button is pressed. Passes in a textfield; if the textfield is the destination or departure location text field, starts a google maps api call to find the lat and lng of the location.
-    func checkForLocation(textField: UITextField)
-    {
-        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
-        
-        if textField == destinationTextField || textField == departureLocationTextField
-        {
-            dispatch_async(backgroundQueue) { () -> Void in
-                if textField == self.destinationTextField
-                {
-                    //DESTINATION
-                    
-                    if let term = self.destinationTextField.text
-                    {
-                        self.mapsAPIController = MapsAPIController(delegate: self)
-                        self.destinationTextField.tag = 60
-                        self.mapsAPIController?.searchGMapsFor(term, textFieldTag: self.destinationTextField.tag)
-                    }
-                }
-                else if textField == self.departureLocationTextField
-                {
-                    //ORIGIN
-                    
-                    if let term = self.departureLocationTextField.text
-                    {
-                        self.mapsAPIController = MapsAPIController(delegate: self)
-                        self.departureLocationTextField.tag = 61
-                        self.mapsAPIController?.searchGMapsFor(term, textFieldTag: self.departureLocationTextField.tag)
-                    }
-                }
-            }
-        }
+        processLoginData()
     }
     
-    /// Function called when the google maps api finished its search. If the search was successful, assigns the found lat and lng to their respective values in the current trip object.
-    func didReceiveMapsAPIResults(results: NSDictionary, textFieldTag: Int)
-    {
-        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
-        
-        dispatch_async(backgroundQueue) { () -> Void in
-            if let (lat, lng) = self.trip.tripCoordinateFromJSON(results)
-            {
-                switch textFieldTag
-                {
-                case self.destinationTextField.tag:
-                    
-                    self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["destinationLat" : lat])
-                    self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["destinationLng" : lng])
-                    
-                    //                calculate(false, property: "destinationLat", value: lat)
-                    //                calculate(false, property: "destinationLng", value: lng)
-                    
-                case self.departureLocationTextField.tag:
-                    
-                    self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["departureLat" : lat])
-                    self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["departureLng" : lng])
-                    
-                    //                calculate(false, property: "departureLat", value: lat)
-                    //                calculate(false, property: "departureLng", value: lng)
-                    
-                default: break
-                }
-            }
-        }
-        
-        print("didReceiveMapsAPIResults")
-    }
+    
+
     
     
     // MARK: - Context Popover Delegate Functions
@@ -687,7 +444,10 @@ class CreateTripTableViewController:
     /// Date was chosen from calendar popup, dismisses calendar and fills dateFrom or dateTo textField with chosen date
     func dateWasChosen(date: Moment?, textFieldTag: Int)
     {
-        dismissContextPopover(CalendarPopoverViewController)
+//        dismissContextPopover(CalendarPopoverViewController)
+        dismissViewControllerAnimated(true, completion: nil)
+        view.removeDimmedOverlayView()
+        view.removeDimmedOverlayView()
         
         if date != nil
         {
@@ -757,7 +517,7 @@ class CreateTripTableViewController:
                 return Calculator(delegate: self)
             }
             return Calculator(delegate: nil)
-            }()
+        }()
         
         let lastBudget = trip.budgetRemaining
         
@@ -772,7 +532,7 @@ class CreateTripTableViewController:
             budgetRemainingBottomLabel.appearWithFade(0.25)
             
             dispatch_async(dispatch_get_main_queue()) { () -> Void in
-                self.dataSource.buildGraphAndLegend(self.trip, superview: self)
+                self.dataSource.buildGraphAndLegend()
             }
         }
     }
@@ -808,7 +568,7 @@ class CreateTripTableViewController:
             "Hold up."
         ]
         prefixPromptLabel.text = prefixes[Int(arc4random() % UInt32(prefixes.count))]
-        suffixPromptLabel.text = "Might have to plan a little smaller; looks like we're over budget."
+        suffixPromptLabel.text = "Might have to plan a little smaller; looks like we're over budget. Let's enter a cost that's in budget, or you can edit your budget using the pie chart legend."
         suffixPromptLabel.alpha = 0
         
         budgetRemainingLabel.textColor = UIColor.redColor()
@@ -819,9 +579,6 @@ class CreateTripTableViewController:
                 self.shownTextField.placeholder = self.shownTextField.text
                 self.shownTextField.text = ""
         })
-        
-//        flashTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
-//        pulseTextField()
     }
     
     /// Function called when user presses the right navigation bar 'Clear' button. Clears out all current values and resets the view to the initial starting state.
@@ -837,28 +594,16 @@ class CreateTripTableViewController:
         dismissContextPopover(CalendarPopoverViewController)
         dismissContextPopover(EditValueViewController)
         
-        animateTextFieldBGSizeToDefault(nil)
+        animator.animateTextFieldBGSizeToDefault(nil)
         
         propertyDictionary.removeAll()
         
         textFieldBGView.alpha = 1
         nextButton.setTitle("N E X T", forState: .Normal)
         
-        if flashTimer != nil
-        {
-            flashTimer?.invalidate()
-            flashTimer = nil
-            textFieldBGView.backgroundColor = UIColor.whiteColor()
-        }
+        animator.invalidatePulseButtonTimer()
         
-        if pulseButtonTimer != nil
-        {
-            pulseButtonTimer?.invalidate()
-            pulseButtonTimer = nil
-            nextButton.backgroundColor = UIColor(red:0.45, green:0.8, blue:0.898, alpha:1)
-        }
-        
-        dataSource.initialSetup(self)
+        dataSource.initialSetup()
         
         initialCycle()
         
@@ -884,31 +629,22 @@ class CreateTripTableViewController:
     {
         prefixPromptLabel.text = "Perfect."
         suffixPromptLabel.text = "Everything look good?"
+        nextButton.setTitle("S A V E  T R I P", forState: .Normal)
         
-        prefixPromptLabel.appearWithFade(0.25)
-        suffixPromptLabel.appearWithFade(0.25)
+        animator.doTripCompletedAnimation()
         
         dataSource.tripCreated = true
         
         dataSource.hideButtons(buttons)
         
-        nextButton.setTitle("S A V E  T R I P", forState: .Normal)
-        nextButton.appearWithFade(0.5)
-        nextButton.slideVerticallyToOrigin(0.5, fromPointY: nextButton.frame.size.height)
+        shownTextField.resignFirstResponder()
         
-        shownTextField.alpha = 0
-        shownTextField.hidden = true
-        textFieldBGView.alpha = 0
-        
+        pulseButton()
         if pulseButtonTimer != nil
         {
             pulseButtonTimer = nil
         }
-        
-        pulseButton()
         pulseButtonTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseButton", userInfo: nil, repeats: true)
-        
-        shownTextField.resignFirstResponder()
     }
     
     /// Pulses the save button orange and blue to inform user of completion and to encourage pressing
@@ -976,53 +712,39 @@ class CreateTripTableViewController:
         {
             return view.frame.size.height - 96
         }
-        else
-        {
-            return 580
-        }
+        return 580
     }
     
     /// Adds a return button to the top of number pad keyboard.
     func addDoneButtonOnKeyboard(textField: UITextField!)
     {
-        let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
-//        doneToolbar.barStyle = .Black
-        doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
-        doneToolbar.translucent = false
-        
-        let confirmations = [
-            "Okay  ",
-            "All set  ",
-            "Looks good  "
-        ]
-        
-        let cancellations = [
-            "  Never mind",
-            "  Just kidding",
-            "  Forget it"
-        ]
-        
-        let confirmation = confirmations[Int(arc4random() % 3)]
-        let cancellation = cancellations[Int(arc4random() % 3)]
-        
-        let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
-        flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
-        let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
-        let dismissButton = UIBarButtonItem(title: cancellation, style: .Plain, target: self, action: Selector("dismissButtonAction"))
-        doneButton.tintColor = UIColor.whiteColor()
-        dismissButton.tintColor = UIColor.whiteColor()
-        
-        doneToolbar.items = [dismissButton, flexSpace, doneButton]
-        doneToolbar.sizeToFit()
-        
-        textField.inputAccessoryView = doneToolbar
+        if textField.keyboardType == .NumberPad
+        {
+            
+            let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
+            //        doneToolbar.barStyle = .Black
+            doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
+            doneToolbar.translucent = false
+            
+            let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
+            flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
+            let doneButton = UIBarButtonItem(title: "Next", style: .Done, target: self, action: Selector("doneButtonAction"))
+            let dismissButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: Selector("dismissButtonAction"))
+            doneButton.tintColor = UIColor.whiteColor()
+            dismissButton.tintColor = UIColor.whiteColor()
+            
+            doneToolbar.items = [dismissButton, flexSpace, doneButton]
+            doneToolbar.sizeToFit()
+            
+            textField.inputAccessoryView = doneToolbar
+        }
     }
     
     /// Handles the above return button press. Dismisses the current text fields keyboard.
     func doneButtonAction()
     {
         textFieldShouldReturn(shownTextField)
-        animateTextFieldBGSizeToDefault(nil)
+        animator.animateTextFieldBGSizeToDefault(nil)
 //        shownTextField.resignFirstResponder()
         nextButtonPressed(nextButton)
     }
@@ -1030,88 +752,23 @@ class CreateTripTableViewController:
     func dismissButtonAction()
     {
         shownTextField.resignFirstResponder()
-        animateTextFieldBGSizeToDefault(nil)
+        animator.animateTextFieldBGSizeToDefault(nil)
     }
     
-    // MARK: - Location Manager
-    
-    /// Function called when location button is pressed. Prompts user for permission to use location services in order to determine departure location. Presents an error popup if there is no current network connection.
-    func configureLocationManager()
+    func processLoginData()
     {
-        if CLLocationManager.authorizationStatus() != .Denied
-        && CLLocationManager.authorizationStatus() != .Restricted
-        && Reachability.isConnectedToNetwork()
+        let settingsVC = (tabBarController!.viewControllers![2] as! UINavigationController).viewControllers.first as! SettingsViewController
+        
+        switch loggedInWith
         {
-            locationManager = CLLocationManager()
-            locationManager?.delegate = self
-            locationManager?.desiredAccuracy = kCLLocationAccuracyThreeKilometers
-            
-            if CLLocationManager.authorizationStatus() == .NotDetermined
-            {
-                locationManager?.requestWhenInUseAuthorization()
-            }
-            
-            locationManager?.startUpdatingLocation()
-        }
-        else if !Reachability.isConnectedToNetwork()
-        {
-            presentErrorPopup("Couldn't access an active network connection. Please try again later. Sorry about that!")
-        }
-    }
-
-    /// Presents an error popup if the location manager fails to find location.
-    func locationManager(manager: CLLocationManager,
-        didFailWithError error: NSError)
-    {
-        locationManager?.stopUpdatingLocation()
-        locationManager = nil
-//        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
-        presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
-    }
-    
-    /// Function called when location manager successfully finds user location. Fills in the departure location text field with the user's current location, or presents an error popup if the location manager errors during this step.
-    func locationManager(manager: CLLocationManager,
-        didUpdateLocations locations: [CLLocation])
-    {
-        if let location = locations.last
-        {
-            geocoder = CLGeocoder()
-            geocoder?.reverseGeocodeLocation(location,
-                completionHandler: { (placemarks, error) -> Void in
-                    if error == nil
-                    {
-                        self.locationManager?.stopUpdatingLocation()
-                        self.locationManager = nil
-                        
-                        let locality: String! = placemarks!.first!.locality
-                        let country: String! = placemarks!.first!.country
-                        let state: String! = placemarks!.first!.administrativeArea
-                        
-                        self.departureLocationTextField.text =
-                        "\(locality), \(state), \(country)"
-                        self.textFieldShouldReturn(self.departureLocationTextField)
-                        
-                        UIApplication
-                            .sharedApplication()
-                            .networkActivityIndicatorVisible = false
-                    }
-                    else
-                    {
-                        self.locationManager?.stopUpdatingLocation()
-                        self.locationManager = nil
-                        
-                        print(error?.localizedDescription)
-                        self.presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
-                    }
-            })
-        }
-        else
-        {
-            self.locationManager?.stopUpdatingLocation()
-            self.locationManager = nil
-            
-            presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
+        case "Twitter":
+            settingsVC.processTwitterData()
+        case "Facebook":
+            settingsVC.processFacebookData()
+        case "Username":
+            settingsVC.processUsernameData()
+        default:
+            PFUser.logOut()
         }
     }
 }
-

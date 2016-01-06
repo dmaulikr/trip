@@ -7,7 +7,6 @@
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Trip List Table View Controller-->
@@ -26,7 +25,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="400" height="400"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="pin " translatesAutoresizingMaskIntoConstraints="NO" id="Pqh-7y-V52">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1024x1024 transparent" translatesAutoresizingMaskIntoConstraints="NO" id="Pqh-7y-V52">
                                             <rect key="frame" x="152" y="24" width="96" height="96"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="Pqh-7y-V52" secondAttribute="height" multiplier="1:1" id="YpI-HU-VtV"/>
@@ -72,7 +71,7 @@
                                             <rect key="frame" x="0.0" y="234" width="400" height="166"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="or" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RgG-Nq-A86">
-                                                    <rect key="frame" x="192" y="8" width="17" height="25"/>
+                                                    <rect key="frame" x="191" y="8" width="18" height="25"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="18"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -665,7 +664,7 @@
                                 <rect key="frame" x="0.0" y="28" width="208" height="40"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yLU-i0-5tm" id="qFx-3y-xVa">
-                                    <rect key="frame" x="0.0" y="0.0" width="208" height="39.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="208" height="39"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zVO-aT-c58">
@@ -761,11 +760,11 @@
                                 <rect key="frame" x="0.0" y="28" width="360" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BFw-3U-Wna" id="Q7E-Ia-Iwi">
-                                    <rect key="frame" x="0.0" y="0.0" width="360" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="360" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="DbR-Uo-mJI">
-                                            <rect key="frame" x="15" y="0.0" width="330" height="43.5"/>
+                                            <rect key="frame" x="15" y="0.0" width="330" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                                             <color key="textColor" red="0.008585573174059391" green="0.57954514026641846" blue="0.72422331571578979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -784,36 +783,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Ig-yI-ACW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1894" y="201"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="42j-gG-qeu">
-            <objects>
-                <viewController id="OsW-kI-cAp" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="7VS-VA-AtU"/>
-                        <viewControllerLayoutGuide type="bottom" id="ekF-lW-Ayb"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="p3a-dB-TCs">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="640"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zyv-XA-Ce3" customClass="CalendarView" customModule="CalendarView">
-                                <rect key="frame" x="0.0" y="0.0" width="400" height="640"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="Zyv-XA-Ce3" firstAttribute="centerY" secondItem="p3a-dB-TCs" secondAttribute="centerY" id="GTL-iC-Qvk"/>
-                            <constraint firstItem="Zyv-XA-Ce3" firstAttribute="width" secondItem="p3a-dB-TCs" secondAttribute="width" id="Smj-FS-n7A"/>
-                            <constraint firstItem="Zyv-XA-Ce3" firstAttribute="centerX" secondItem="p3a-dB-TCs" secondAttribute="centerX" id="a2B-nq-c36"/>
-                            <constraint firstItem="Zyv-XA-Ce3" firstAttribute="height" secondItem="p3a-dB-TCs" secondAttribute="height" id="avT-CJ-mnt"/>
-                        </constraints>
-                    </view>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="oKP-pO-SEi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2284" y="282"/>
         </scene>
         <!--Suggested-->
         <scene sceneID="h81-ZA-zIi">
@@ -941,7 +910,7 @@
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cXj-aK-rLm">
                                                     <rect key="frame" x="20" y="418" width="360" height="40"/>
-                                                    <color key="backgroundColor" red="0.40784313729999999" green="0.75686274509999996" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.47058823529411764" green="0.80000000000000004" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="e4H-Fz-RFS"/>
                                                         <constraint firstAttribute="width" constant="48" id="yI7-Gt-m15"/>
@@ -978,154 +947,154 @@
                                                         <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Home, FL, USA" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5eN-fC-4zd">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter city or get current location -&gt;" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5eN-fC-4zd">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="5Ev-Ke-bvt"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="5Ev-Ke-bvt"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Far Away, AK, USA" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oXt-W0-7Z6">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter city..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="oXt-W0-7Z6">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="yge-32-dqM"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="yge-32-dqM"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="2/10/16" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aVI-2F-ksD">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter date..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aVI-2F-ksD">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="xp8-fW-hCZ"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="xp8-fW-hCZ"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="2/18/16" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A6Q-VT-YzF">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter date..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="A6Q-VT-YzF">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="wSe-hj-UON"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numbersAndPunctuation" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="wSe-hj-UON"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$213 for a sky ride" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="fhF-er-Znd">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter $ or get current ticket costs -&gt;" textAlignment="natural" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="fhF-er-Znd">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="6jI-Ca-miM"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="6jI-Ca-miM"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$84 a night" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GPC-0Q-SWs">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter $ per day..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GPC-0Q-SWs">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="kn8-dk-QQQ"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="kn8-dk-QQQ"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$149 for tour" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GUU-t2-Ax5">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter $..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GUU-t2-Ax5">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="Srd-cR-L03"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="Srd-cR-L03"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$46 for good eats" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Emb-yk-60i">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter $ per day..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Emb-yk-60i">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="wha-gU-CaT"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="wha-gU-CaT"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$13 for souvenirs" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wni-g5-QB5">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter $ per day..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Wni-g5-QB5">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="lKv-dw-pRO"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="lKv-dw-pRO"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Family Reunion" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pw6-uf-e0d">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter trip name..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Pw6-uf-e0d">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="zen-ec-kHh"/>
                                                     </constraints>
                                                     <color key="textColor" red="0.00517478399" green="0.53754585980000003" blue="0.69151592250000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="words" autocorrectionType="no" spellCheckingType="no" returnKeyType="done"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="zen-ec-kHh"/>
                                                         </mask>
                                                     </variation>
                                                 </textField>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="$500" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Me-om-YV9">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter trip budget..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="5Me-om-YV9">
                                                     <rect key="frame" x="36" y="74" width="288" height="40"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="AZ0-7q-Z8Y"/>
                                                     </constraints>
-                                                    <color key="textColor" red="0.0094847613945603371" green="0.57929623126983643" blue="0.72496503591537476" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="textColor" red="0.0078431372549019607" green="0.58039215686274503" blue="0.72549019607843135" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <variation key="default">
                                                         <mask key="constraints">
                                                             <exclude reference="AZ0-7q-Z8Y"/>
@@ -1155,7 +1124,7 @@
                                                 </containerView>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WOG-wl-bvD">
                                                     <rect key="frame" x="342" y="76" width="36" height="36"/>
-                                                    <color key="backgroundColor" red="0.008585573174059391" green="0.57954514026641846" blue="0.72422331571578979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.47058823529411764" green="0.80000000000000004" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="26" id="K05-wO-ijz"/>
                                                         <constraint firstAttribute="width" secondItem="WOG-wl-bvD" secondAttribute="height" multiplier="1:1" id="Sos-hR-Xps"/>
@@ -1186,7 +1155,7 @@
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t73-4e-jqo">
                                                     <rect key="frame" x="342" y="76" width="36" height="36"/>
-                                                    <color key="backgroundColor" red="0.0085855731739999993" green="0.57954514030000004" blue="0.72422331569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.47058823529411764" green="0.80000000000000004" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="t73-4e-jqo" secondAttribute="height" multiplier="1:1" id="R6z-lA-d19"/>
                                                         <constraint firstAttribute="width" secondItem="t73-4e-jqo" secondAttribute="height" multiplier="1:1" id="RvC-uO-NjR"/>
@@ -1217,7 +1186,7 @@
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="THx-Xn-Zd7">
                                                     <rect key="frame" x="342" y="76" width="36" height="36"/>
-                                                    <color key="backgroundColor" red="0.0085855731739999993" green="0.57954514030000004" blue="0.72422331569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.47058823529411764" green="0.80000000000000004" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="THx-Xn-Zd7" secondAttribute="height" multiplier="1:1" id="9Wy-Vy-WVa"/>
                                                         <constraint firstAttribute="width" secondItem="THx-Xn-Zd7" secondAttribute="height" multiplier="1:1" id="FQ7-Pr-wdR"/>
@@ -1237,9 +1206,9 @@
                                                     </userDefinedRuntimeAttributes>
                                                     <variation key="default">
                                                         <mask key="constraints">
-                                                            <exclude reference="oQl-ix-Rh8"/>
                                                             <exclude reference="FQ7-Pr-wdR"/>
                                                             <exclude reference="Irg-po-4Yi"/>
+                                                            <exclude reference="oQl-ix-Rh8"/>
                                                         </mask>
                                                     </variation>
                                                     <connections>
@@ -1379,18 +1348,11 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="NMt-I8-pKU">
-                        <rightBarButtonItems>
-                            <barButtonItem title="Clear" id="HBl-Fk-ytG">
-                                <connections>
-                                    <action selector="clearButtonPressed:" destination="C82-LT-sBx" id="SWv-vB-xzQ"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Test" id="4b1-RM-EgY">
-                                <connections>
-                                    <segue destination="OsW-kI-cAp" kind="show" id="SNQ-wX-p7q"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" title="Clear" id="HBl-Fk-ytG">
+                            <connections>
+                                <action selector="clearButtonPressed:" destination="C82-LT-sBx" id="SWv-vB-xzQ"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="400" height="640"/>
@@ -1458,7 +1420,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Budget" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="DSC-zu-c1t">
-                                            <rect key="frame" x="311" y="98" width="48" height="19"/>
+                                            <rect key="frame" x="311" y="97" width="48" height="20"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="14"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -1551,7 +1513,7 @@
                     <toolbarItems/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="400" height="48"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="086-Li-aFJ">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="086-Li-aFJ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="barTintColor" red="0.0" green="0.40456187725067139" blue="0.55535918474197388" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1567,6 +1529,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="1024x1024 transparent" width="1024" height="1024"/>
         <image name="CheckBox_unselected" width="26" height="26"/>
         <image name="UserIcon" width="462" height="462"/>
         <image name="UserImage" width="200" height="200"/>

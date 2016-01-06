@@ -29,6 +29,14 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
         }
     }
     
+    let isOldDevice: Bool = {
+        if UIScreen.mainScreen().bounds.size.height <= 568
+        {
+            return true
+        }
+        return false
+    }()
+    
     var flights = [FullFlight]()
     var airportCodes = [String]()
     var airportLocation = [String]()
@@ -88,6 +96,7 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar)
     {
+        searchBar.resignFirstResponder()
         if searchBar.text != ""
         {
             loadAirports(searchBar.text!)
@@ -96,7 +105,7 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
     {
-        if searchBar.text != ""
+        if !isOldDevice && searchBar.text != ""
         {
             loadAirports(searchBar.text!)
         }
@@ -218,6 +227,8 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
+        searchBar.resignFirstResponder()
+        
         if searchingForAirports == true
         {
             let selectedAirportCode = airportCodes[indexPath.row]
@@ -241,7 +252,7 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
                 destinationAirportCode = selectedAirportCode
                 searchingForAirports = false
                 
-                let flightSearch = FlightSearch(origin: originAirportCode, destination: destinationAirportCode, date: trip.dateFrom)
+                let flightSearch = FlightSearch(origin: originAirportCode, destination: destinationAirportCode, dateFrom: trip.dateFrom, dateTo: trip.dateTo)
                 
                 apiController = QPX_EX_APIController(delegate: self)
                 apiController?.search(flightSearch)

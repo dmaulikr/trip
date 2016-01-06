@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
@@ -15,14 +16,17 @@
                         <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background" translatesAutoresizingMaskIntoConstraints="NO" id="zL5-jv-oH0">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="-161" y="0.0" width="736" height="736"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="zL5-jv-oH0" secondAttribute="height" multiplier="1:1" id="5gk-im-1vW"/>
+                                </constraints>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo" translatesAutoresizingMaskIntoConstraints="NO" id="5JV-It-JdU">
-                                <rect key="frame" x="120" y="255" width="360" height="90"/>
+                                <rect key="frame" x="-14" y="313" width="442" height="110"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -33,10 +37,18 @@
                             <constraint firstItem="zL5-jv-oH0" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="FWZ-57-7UW"/>
                             <constraint firstItem="zL5-jv-oH0" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="M6j-rV-oxu"/>
                             <constraint firstItem="5JV-It-JdU" firstAttribute="height" secondItem="zL5-jv-oH0" secondAttribute="height" multiplier="0.15" id="M9v-VG-2Ti"/>
+                            <constraint firstItem="zL5-jv-oH0" firstAttribute="height" secondItem="Ze5-6b-2t3" secondAttribute="height" id="jGp-Rg-lUh"/>
                             <constraint firstItem="zL5-jv-oH0" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="sqs-Et-Dlx"/>
                             <constraint firstItem="zL5-jv-oH0" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" id="xcL-YO-Geo"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="FWZ-57-7UW"/>
+                                <exclude reference="xcL-YO-Geo"/>
+                            </mask>
+                        </variation>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

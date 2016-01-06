@@ -9,15 +9,20 @@
 import UIKit
 import SwiftMoment
 
-class ContentView: UIScrollView {
+public class ContentView: UIScrollView {
 
   let numMonthsLoaded = 3
   let currentPage = 1
   var months: [MonthView] = []
   var selectedDate: Moment?
   var paged = false
+    
+   public var flashIndicators: Int {
+        flashScrollIndicators()
+        return 0
+    }
 
-  required init?(coder aDecoder: NSCoder) {
+  required public init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
     setup()
   }
@@ -29,7 +34,7 @@ class ContentView: UIScrollView {
 
   func setup() {
     pagingEnabled = true
-    showsHorizontalScrollIndicator = false
+    showsHorizontalScrollIndicator = true
     showsVerticalScrollIndicator = false
 
     for month in months {
@@ -50,7 +55,7 @@ class ContentView: UIScrollView {
     }
   }
 
-  override func layoutSubviews() {
+  override public func layoutSubviews() {
     super.layoutSubviews()
     var x: CGFloat = 0
     for month in months {
@@ -95,7 +100,7 @@ class ContentView: UIScrollView {
         print("something weird happened")
       }
       else if page1FrameMatched {
-        page3.date = page1.date.substract(1, .Months)
+        page3.date = page1.date.subtract(1, .Months)
         page1.frame = frameCurrent
         page2.frame = frameRight
         page3.frame = frameLeft

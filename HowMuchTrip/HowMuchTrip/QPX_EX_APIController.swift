@@ -96,13 +96,16 @@ class QPX_EX_APIController: NSObject, NSURLSessionDelegate
                 [
                     "slice":
                     [
-                            [
-                                "origin"        : flightSearch.origin,
-                                "destination"   : flightSearch.destination,
-                                "date"          : flightSearch.date,
-                                //                                "maxStops"      : flightSearch.maxStops,
-//                                "preferredCabin": flightSearch.preferredCabin
-                            ]
+                        [
+                            "origin"        : flightSearch.origin,
+                            "destination"   : flightSearch.destination,
+                            "date"          : flightSearch.dateFrom,
+                        ],
+                        [
+                            "origin"        : flightSearch.destination,
+                            "destination"   : flightSearch.origin,
+                            "date"          : flightSearch.dateTo,
+                        ]
                     ],
                     "passengers":
                         [
