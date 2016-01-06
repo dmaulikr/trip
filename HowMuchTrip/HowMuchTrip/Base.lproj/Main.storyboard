@@ -910,7 +910,7 @@
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cXj-aK-rLm">
                                                     <rect key="frame" x="20" y="418" width="360" height="40"/>
-                                                    <color key="backgroundColor" red="0.40784313729999999" green="0.75686274509999996" blue="0.87058823529999996" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="backgroundColor" red="0.47058823529411764" green="0.80000000000000004" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="40" id="e4H-Fz-RFS"/>
                                                         <constraint firstAttribute="width" constant="48" id="yI7-Gt-m15"/>
@@ -1124,7 +1124,7 @@
                                                 </containerView>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WOG-wl-bvD">
                                                     <rect key="frame" x="342" y="76" width="36" height="36"/>
-                                                    <color key="backgroundColor" red="0.008585573174059391" green="0.57954514026641846" blue="0.72422331571578979" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.47058823529411764" green="0.80000000000000004" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="26" id="K05-wO-ijz"/>
                                                         <constraint firstAttribute="width" secondItem="WOG-wl-bvD" secondAttribute="height" multiplier="1:1" id="Sos-hR-Xps"/>
@@ -1155,7 +1155,7 @@
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t73-4e-jqo">
                                                     <rect key="frame" x="342" y="76" width="36" height="36"/>
-                                                    <color key="backgroundColor" red="0.0085855731739999993" green="0.57954514030000004" blue="0.72422331569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.47058823529411764" green="0.80000000000000004" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="t73-4e-jqo" secondAttribute="height" multiplier="1:1" id="R6z-lA-d19"/>
                                                         <constraint firstAttribute="width" secondItem="t73-4e-jqo" secondAttribute="height" multiplier="1:1" id="RvC-uO-NjR"/>
@@ -1186,7 +1186,7 @@
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="THx-Xn-Zd7">
                                                     <rect key="frame" x="342" y="76" width="36" height="36"/>
-                                                    <color key="backgroundColor" red="0.0085855731739999993" green="0.57954514030000004" blue="0.72422331569999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <color key="backgroundColor" red="0.47058823529411764" green="0.80000000000000004" blue="0.89803921568627454" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="THx-Xn-Zd7" secondAttribute="height" multiplier="1:1" id="9Wy-Vy-WVa"/>
                                                         <constraint firstAttribute="width" secondItem="THx-Xn-Zd7" secondAttribute="height" multiplier="1:1" id="FQ7-Pr-wdR"/>

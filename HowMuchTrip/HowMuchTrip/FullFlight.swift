@@ -54,12 +54,11 @@ class FullFlight
                 let pricing          = option["pricing"]         as? [NSDictionary] ?? [NSDictionary]()
                 var baseFareTotal    = pricing.first!["baseFareTotal"] as? String ?? ""
                 var saleTaxTotal     = pricing.first!["saleTaxTotal"]  as? String ?? ""
-                
                 var saleTotal       = option["saleTotal"]       as? String ?? ""
                 
                 baseFareTotal = baseFareTotal.stringByReplacingOccurrencesOfString("USD", withString: "$ ")
-                saleTaxTotal  = baseFareTotal.stringByReplacingOccurrencesOfString("USD", withString: "$ ")
-                saleTotal     = baseFareTotal.stringByReplacingOccurrencesOfString("USD", withString: "$ ")
+                saleTaxTotal  = saleTaxTotal.stringByReplacingOccurrencesOfString("USD", withString: "$ ")
+                saleTotal     = saleTotal.stringByReplacingOccurrencesOfString("USD", withString: "$ ")
                 
                 let fullFlightID    = option["id"]              as? String ?? ""
                 
