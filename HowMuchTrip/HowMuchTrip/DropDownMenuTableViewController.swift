@@ -114,7 +114,7 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     
     func searchForCost()
     {
-        parent?.animateTextFieldBGSizeToSearch()
+        parent?.animator.animateTextFieldBGSizeToSearch()
         
         searchingForCost = true
         if let digit = textField.text
@@ -135,7 +135,7 @@ class LocationSearchTableViewController: UITableViewController, GooglePlacesAPIP
     
     func searchForLocation()
     {
-        parent?.animateTextFieldBGSizeToSearch()
+        parent?.animator.animateTextFieldBGSizeToSearch()
         
         if !UIApplication.sharedApplication().networkActivityIndicatorVisible
         {

@@ -252,7 +252,7 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
                 destinationAirportCode = selectedAirportCode
                 searchingForAirports = false
                 
-                let flightSearch = FlightSearch(origin: originAirportCode, destination: destinationAirportCode, date: trip.dateFrom)
+                let flightSearch = FlightSearch(origin: originAirportCode, destination: destinationAirportCode, dateFrom: trip.dateFrom, dateTo: trip.dateTo)
                 
                 apiController = QPX_EX_APIController(delegate: self)
                 apiController?.search(flightSearch)

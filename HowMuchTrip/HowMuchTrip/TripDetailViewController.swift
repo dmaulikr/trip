@@ -278,25 +278,8 @@ class TripDetailViewController: UITableViewController
     
     func calculate(cycle: Bool)
     {
-//        calculator = Calculator(delegate: nil)
-//        calculator.assignValue(<#T##trip: Trip?##Trip?#>, propertyAndValue: <#T##[String : String]#>)
-        
         buildGraphAndLegend(trip, superview: self)
     }
-    
-//    func getPropertyDict(trip: Trip) -> [String : String]
-//    {
-//        let allProperties = [
-//            "Budget"
-//            "Plane Ticket Cost",
-//            "Daily Lodging Cost",
-//            "Daily Food Cost",
-//            "Daily Other Cost"
-//        ]
-//        
-//        return allProperties
-//    }
-    
     
     func updateTrip(trip: Trip)
     {

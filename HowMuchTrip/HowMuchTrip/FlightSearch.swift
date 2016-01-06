@@ -12,19 +12,21 @@ struct FlightSearch
 {
     let origin: String!
     let destination: String!
-    let date: String!// = "2016-01-12"
+    let dateFrom: String!// = "2016-01-12"
+    let dateTo: String!
     
     init(
         origin: String!,
         destination: String!,
-        date: String!
+        dateFrom: String!,
+        dateTo: String!
         )
     {
         self.origin = origin
         self.destination = destination
 
-        self.date = {
-            let components = date.componentsSeparatedByString("/")
+        self.dateFrom = {
+            let components = dateFrom.componentsSeparatedByString("/")
             
             let month = components[0]
             let day = components[1]
@@ -36,5 +38,19 @@ struct FlightSearch
             print(date)
             return date
         }()
+        
+        self.dateTo = {
+            let components = dateTo.componentsSeparatedByString("/")
+            
+            let month = components[0]
+            let day = components[1]
+            
+            var year = components[2]
+            year = "20" + year
+            
+            let date = "\(year)-\(month)-\(day)"
+            print(date)
+            return date
+            }()
     }
 }
