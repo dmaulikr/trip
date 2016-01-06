@@ -24,7 +24,7 @@ class CreateTripDataSource
     
     init()
     {
-        
+
     }
 
     // MARK: - Initial View Setup

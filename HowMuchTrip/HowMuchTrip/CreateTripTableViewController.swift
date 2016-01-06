@@ -435,10 +435,6 @@ class CreateTripTableViewController:
         processLoginData()
     }
     
-    
-
-    
-    
     // MARK: - Context Popover Delegate Functions
     
     /// Date was chosen from calendar popup, dismisses calendar and fills dateFrom or dateTo textField with chosen date
