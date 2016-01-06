@@ -15,24 +15,24 @@ class ContextPopoverSetup
     {
         confirmButton.alpha = 0
         
-        /// Options to confirm context popover selection
-        let confirmations = [
-            "Okay",
-            "All set",
-            "Looks good"
-        ]
+//        /// Options to confirm context popover selection
+//        let confirmations = [
+//            "Okay",
+//            "All set",
+//            "Looks good"
+//        ]
+//        
+//        /// Options to cancel context popover selection
+//        let cancellations = [
+//            "Never mind",
+//            "Just kidding",
+//            "Forget it"
+//        ]
+//        
+//        let confirmation = confirmations[Int(arc4random() % 3)]
+//        let cancellation = cancellations[Int(arc4random() % 3)]
         
-        /// Options to cancel context popover selection
-        let cancellations = [
-            "Never mind",
-            "Just kidding",
-            "Forget it"
-        ]
-        
-        let confirmation = confirmations[Int(arc4random() % 3)]
-        let cancellation = cancellations[Int(arc4random() % 3)]
-        
-        confirmButton.setTitle(confirmation, forState: .Normal)
-        cancelButton.setTitle(cancellation, forState: .Normal)
+        confirmButton.setTitle("Next", forState: .Normal)
+        cancelButton.setTitle("Cancel", forState: .Normal)
     }
 }

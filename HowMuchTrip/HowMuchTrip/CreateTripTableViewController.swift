@@ -33,63 +33,65 @@ class CreateTripTableViewController:
     
     // MARK: - Labels
     
-    @IBOutlet weak var budgetRemainingLabel: UILabel!
-    @IBOutlet weak var budgetRemainingBottomLabel: UILabel!
+    @IBOutlet weak var budgetRemainingLabel         : UILabel!
+    @IBOutlet weak var budgetRemainingBottomLabel   : UILabel!
     
-    @IBOutlet weak var prefixPromptLabel: UILabel!
-    @IBOutlet weak var suffixPromptLabel: UILabel!
+    @IBOutlet weak var prefixPromptLabel            : UILabel!
+    @IBOutlet weak var suffixPromptLabel            : UILabel!
     
-    @IBOutlet weak var nextButton: UIButton!
-    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var nextButton                   : UIButton!
+    @IBOutlet weak var backButton                   : UIButton!
     
-    @IBOutlet weak var locationButton: UIButton!
-    @IBOutlet weak var flightButton: UIButton!
-    @IBOutlet weak var calendarButton: UIButton!
+    @IBOutlet weak var locationButton               : UIButton!
+    @IBOutlet weak var flightButton                 : UIButton!
+    @IBOutlet weak var calendarButton               : UIButton!
     
-    var buttons = [UIButton!]()
+    var buttons                                     = [UIButton!]()
     
-    var pulseButtonTimer: NSTimer?
+    var pulseButtonTimer                            : NSTimer?
     
     // MARK: - Text Fields
     
-    @IBOutlet weak var budgetTextField: UITextField!
-    @IBOutlet weak var departureLocationTextField: UITextField!
-    @IBOutlet weak var destinationTextField: UITextField!
-    @IBOutlet weak var dateFromTextField: UITextField!
-    @IBOutlet weak var dateToTextField: UITextField!
-    @IBOutlet weak var planeTicketTextField: UITextField!
-    @IBOutlet weak var dailyLodgingTextField: UITextField!
-    @IBOutlet weak var dailyFoodTextField: UITextField!
-    @IBOutlet weak var dailyOtherTextField: UITextField!
-    @IBOutlet weak var oneTimeCostTextField: UITextField!
-
-    @IBOutlet weak var tripNameTextField: UITextField!
+    @IBOutlet weak var budgetTextField              : UITextField!
+    @IBOutlet weak var departureLocationTextField   : UITextField!
+    @IBOutlet weak var destinationTextField         : UITextField!
+    @IBOutlet weak var dateFromTextField            : UITextField!
+    @IBOutlet weak var dateToTextField              : UITextField!
+    @IBOutlet weak var planeTicketTextField         : UITextField!
+    @IBOutlet weak var dailyLodgingTextField        : UITextField!
+    @IBOutlet weak var dailyFoodTextField           : UITextField!
+    @IBOutlet weak var dailyOtherTextField          : UITextField!
+    @IBOutlet weak var oneTimeCostTextField         : UITextField!
+    @IBOutlet weak var tripNameTextField            : UITextField!
     
-    @IBOutlet weak var textFieldBGView: UIView!
+    @IBOutlet weak var textFieldBGView              : UIView!
     
-    var shownTextField: UITextField!
-    var textFields = [UITextField]()
-    let settingsVC = SettingsViewController()
+    var shownTextField  : UITextField!
+    var textFields      = [UITextField]()
+    let settingsVC      = SettingsViewController()
     
     // MARK: - Graph Properties
     
-    @IBOutlet weak var pieChartView: PieChartView!
-    @IBOutlet weak var legendContainerView: UIView!
-    @IBOutlet weak var locationSearchResultsContainerView: UIView!
+    @IBOutlet weak var pieChartView                         : PieChartView!
+    @IBOutlet weak var legendContainerView                  : UIView!
+    @IBOutlet weak var locationSearchResultsContainerView   : UIView!
     
-    var contextPopover: UIViewController?
+    var contextPopover      : UIViewController?
     
     // MARK: - Other Properties
-    var dataSource = CreateTripDataSource()
-    var delegate: TripWasSavedDelegate?
+    
+    var dataSource          = CreateTripDataSource()
+    
+    var delegate            : TripWasSavedDelegate?
     
     var indexOfTextField = 0
     
-    var allProperties = [String]()
-    var propertyDictionary = [String: String]()
-    var calculator: Calculator!
-    var trip = Trip()
-    var trips = [Trip]()
+    var allProperties       = [String]()
+    var propertyDictionary  = [String: String]()
+    var calculator          : Calculator!
+    
+    var trip                = Trip()
+    var trips               = [Trip]()
     
     var mapsAPIController: MapsAPIController?
     var googlePlacesAPIController: GooglePlacesAPIController?
@@ -120,15 +122,7 @@ class CreateTripTableViewController:
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        
-        dataSource.initialSetup(self) //allProperties and textFields assigned here
-        dataSource.hideTextFieldsAndClearText(textFields, delegate: self)
-        
-        dateFromTextField.tag = 80
-        dateToTextField.tag = 81
-        
-        tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
-
+        dataSource.initialize(self)
         NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: "initialCycle", userInfo: nil, repeats: false)
     }
     
@@ -164,7 +158,11 @@ class CreateTripTableViewController:
         let (selectedTextField, indexOfTextField) = dataSource.getSelectedTextFieldAndIndex(textField, textFields: textFields)
         self.indexOfTextField = indexOfTextField
         
-        if shownTextField.text != ""
+        let entry: Bool = {
+            return shownTextField.text != ""
+        }()
+        
+        if entry
         && shownTextField != dateFromTextField
         || shownTextField != dateToTextField
         {
@@ -172,13 +170,12 @@ class CreateTripTableViewController:
             
             return true
         }
+            
         else if shownTextField == dateFromTextField
-        || shownTextField == dateToTextField
+        ||      shownTextField == dateToTextField
         {
-            print("date should return")
-            if shownTextField.text == ""
+            if !entry
             {
-                print("date should return 2")
                 validTextFieldEntry(selectedTextField)
             }
             else if Validator.validate("date", string: shownTextField.text!)
@@ -204,8 +201,8 @@ class CreateTripTableViewController:
         dataSource.appearButton(nextButton)
         selectedTextField.resignFirstResponder()
         
-        let index = NSIndexPath(forRow: 0, inSection: 0)
-        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
+//        let index = NSIndexPath(forRow: 0, inSection: 0)
+//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
         
         animateTextFieldBGSizeToDefault(nil)
     }
@@ -328,15 +325,19 @@ class CreateTripTableViewController:
         
         let contextPopStoryboard = UIStoryboard(name: "ContextPopovers", bundle: nil)
         let contextPopover = contextPopStoryboard.instantiateViewControllerWithIdentifier("calendarView") as! CalendarPopoverViewController
-//        navigationController?.pushViewController(contextPopover, animated: true)
+        contextPopover.modalPresentationStyle = .OverFullScreen
         
-        self.addContextPopover(contextPopover)
+        //self.addContextPopover(contextPopover)
         contextPopover.delegate = self
         contextPopover.textFieldTag = textFieldTag
         contextPopover.trip = trip
         
         self.contextPopover = contextPopover
         nextButton.enabled = true//textField.text?.characters.count > 0
+        
+        view.addDimmedOverlayView()
+        
+        navigationController?.presentViewController(contextPopover, animated: true, completion: nil)
     }
     
     /// Limts the user input to the appropriate characters in order to reduce error.
@@ -349,57 +350,27 @@ class CreateTripTableViewController:
                 animateTextFieldBGSizeToDefault(nil)
             }
             else if shownTextField.text != ""
-                && textField == departureLocationTextField
-                || textField == destinationTextField
             {
-                searchForLocation(textField)
-            }
-            else if shownTextField.text != ""
-                && textField == budgetTextField
-                || textField == dailyLodgingTextField
-                || textField == dailyFoodTextField
-                || textField == dailyOtherTextField
-                || textField == oneTimeCostTextField
-            {
-                searchForCost(textField)
+                dropDownMenu(textField)?.search()
             }
         }
 
         return dataSource.testCharacters(textField, string: string, superview: self)
     }
     
-    func searchForLocation(textField: UITextField)
+    func dropDownMenu(textField: UITextField) -> LocationSearchTableViewController?
     {
-        if Reachability.isConnectedToNetwork()
+        for childViewController in childViewControllers
         {
-            animateTextFieldBGSizeToSearch()
-            
-            for childVC in self.childViewControllers
+            if let locationSearchTableViewController = childViewController as? LocationSearchTableViewController
             {
-                if let locationSearchTableVC = childVC as? LocationSearchTableViewController
-                {
-                    locationSearchTableVC.delegate = self
-                    locationSearchTableVC.textField = textField
-                    locationSearchTableVC.searchForLocation()
-                }
-            }
-
-        }
-    }
-    
-    func searchForCost(textField: UITextField)
-    {
-        animateTextFieldBGSizeToSearch()
-        
-        for childVC in self.childViewControllers
-        {
-            if let locationSearchTableVC = childVC as? LocationSearchTableViewController
-            {
-                locationSearchTableVC.delegate = self
-                locationSearchTableVC.textField = textField
-                locationSearchTableVC.searchForCost()
+                locationSearchTableViewController.parent = self
+                locationSearchTableViewController.delegate = self
+                locationSearchTableViewController.textField = textField
+                return locationSearchTableViewController
             }
         }
+        return nil
     }
     
     /// Determines the current textfield and cycles to the next one. Handles the cycling animation and assigns the prompt text. Presents the calendar if the appropriate text field is currently displayed. Also determines if the user has cycled through all available text fields and calls the createTripComplete function in this event.
@@ -452,12 +423,12 @@ class CreateTripTableViewController:
                         if self.shownTextField.tag == 81
                         {
 //                            self.dateToTextField.tag = 80
-//                            self.presentCalendar(self.dateToTextField.tag)
+                            self.presentCalendar(self.dateToTextField.tag)
                         }
                         else if self.shownTextField.tag == 80
                         {
 //                            self.dateFromTextField.tag = 81
-//                            self.presentCalendar(self.dateFromTextField.tag)
+                            self.presentCalendar(self.dateFromTextField.tag)
                         }
                         else
                         {
@@ -480,7 +451,7 @@ class CreateTripTableViewController:
     /// Called when the next button is pressed. Starts the calculation with the current value from the shown textfield and the corresponding property. Scrolls back to the top of the view for ease of use for the user and to prepare them to enter in the next value.
     @IBAction func nextButtonPressed(sender: UIButton)
     {
-        animateTextFieldBGSizeToDefault(shownTextField)
+        animateTextFieldBGSizeToDefault(nil)
         
         if !dataSource.tripCreated
         {
@@ -492,16 +463,12 @@ class CreateTripTableViewController:
             default: break
             }
             
-//            textFieldShouldReturn(shownTextField)
-            print(indexOfTextField, allProperties.count)
             let propertyKey = allProperties[indexOfTextField]
             propertyDictionary[propertyKey] = shownTextField.text
             
             checkForLocation(shownTextField)
             
             let property = allProperties[indexOfTextField]
-            
-            print(property)
             
             calculate(true, property: property, value: shownTextField.text!)
             
@@ -523,8 +490,8 @@ class CreateTripTableViewController:
             textFieldBGView.backgroundColor = UIColor.whiteColor()
         }
         
-        let index = NSIndexPath(forRow: 0, inSection: 0)
-        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Top, animated: true)
+//        let index = NSIndexPath(forRow: 0, inSection: 0)
+//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Top, animated: true)
     }
     
     /// Called when the back button is pressed. Determines the current shown step and cycles one step back.
@@ -650,9 +617,9 @@ class CreateTripTableViewController:
     /// Function called when the google maps api finished its search. If the search was successful, assigns the found lat and lng to their respective values in the current trip object.
     func didReceiveMapsAPIResults(results: NSDictionary, textFieldTag: Int)
     {
-        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
+//        let backgroundQueue = dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)
         
-        dispatch_async(backgroundQueue) { () -> Void in
+//        dispatch_async(backgroundQueue) { () -> Void in
             if let (lat, lng) = self.trip.tripCoordinateFromJSON(results)
             {
                 switch textFieldTag
@@ -662,23 +629,15 @@ class CreateTripTableViewController:
                     self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["destinationLat" : lat])
                     self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["destinationLng" : lng])
                     
-                    //                calculate(false, property: "destinationLat", value: lat)
-                    //                calculate(false, property: "destinationLng", value: lng)
-                    
                 case self.departureLocationTextField.tag:
                     
                     self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["departureLat" : lat])
                     self.trip = self.calculator.assignValue(self.trip, propertyAndValue: ["departureLng" : lng])
                     
-                    //                calculate(false, property: "departureLat", value: lat)
-                    //                calculate(false, property: "departureLng", value: lng)
-                    
                 default: break
                 }
             }
-        }
-        
-        print("didReceiveMapsAPIResults")
+//        }
     }
     
     
@@ -687,7 +646,10 @@ class CreateTripTableViewController:
     /// Date was chosen from calendar popup, dismisses calendar and fills dateFrom or dateTo textField with chosen date
     func dateWasChosen(date: Moment?, textFieldTag: Int)
     {
-        dismissContextPopover(CalendarPopoverViewController)
+//        dismissContextPopover(CalendarPopoverViewController)
+        dismissViewControllerAnimated(true, completion: nil)
+        view.removeDimmedOverlayView()
+        view.removeDimmedOverlayView()
         
         if date != nil
         {
@@ -757,7 +719,7 @@ class CreateTripTableViewController:
                 return Calculator(delegate: self)
             }
             return Calculator(delegate: nil)
-            }()
+        }()
         
         let lastBudget = trip.budgetRemaining
         
@@ -819,9 +781,6 @@ class CreateTripTableViewController:
                 self.shownTextField.placeholder = self.shownTextField.text
                 self.shownTextField.text = ""
         })
-        
-//        flashTimer = NSTimer.scheduledTimerWithTimeInterval(1.25, target: self, selector: "pulseTextField", userInfo: nil, repeats: true)
-//        pulseTextField()
     }
     
     /// Function called when user presses the right navigation bar 'Clear' button. Clears out all current values and resets the view to the initial starting state.
@@ -985,8 +944,9 @@ class CreateTripTableViewController:
     /// Adds a return button to the top of number pad keyboard.
     func addDoneButtonOnKeyboard(textField: UITextField!)
     {
-        if textField.keyboardType != .Default
-        || textField.keyboardType != .NumbersAndPunctuation
+//        if textField.keyboardType != .Default
+//        || textField.keyboardType != .NumbersAndPunctuation
+        if textField.keyboardType == .NumberPad
         {
             
             let doneToolbar: UIToolbar = UIToolbar(frame: CGRectMake(0, 0, 320, 50))
@@ -994,25 +954,25 @@ class CreateTripTableViewController:
             doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
             doneToolbar.translucent = false
             
-            let confirmations = [
-                "Okay  ",
-                "All set  ",
-                "Looks good  "
-            ]
-            
-            let cancellations = [
-                "  Never mind",
-                "  Just kidding",
-                "  Forget it"
-            ]
-            
-            let confirmation = confirmations[Int(arc4random() % 3)]
-            let cancellation = cancellations[Int(arc4random() % 3)]
+//            let confirmations = [
+//                "Okay  ",
+//                "All set  ",
+//                "Looks good  "
+//            ]
+//            
+//            let cancellations = [
+//                "  Never mind",
+//                "  Just kidding",
+//                "  Forget it"
+//            ]
+//            
+//            let confirmation = confirmations[Int(arc4random() % 3)]
+//            let cancellation = cancellations[Int(arc4random() % 3)]
             
             let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
             flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
-            let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
-            let dismissButton = UIBarButtonItem(title: cancellation, style: .Plain, target: self, action: Selector("dismissButtonAction"))
+            let doneButton = UIBarButtonItem(title: "Next", style: .Done, target: self, action: Selector("doneButtonAction"))
+            let dismissButton = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: Selector("dismissButtonAction"))
             doneButton.tintColor = UIColor.whiteColor()
             dismissButton.tintColor = UIColor.whiteColor()
             

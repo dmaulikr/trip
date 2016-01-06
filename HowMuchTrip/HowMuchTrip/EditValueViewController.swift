@@ -102,16 +102,16 @@ class EditValueViewController: UIViewController, UITextFieldDelegate
         doneToolbar.barTintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:0.6)
         doneToolbar.translucent = false
         
-        let confirmations = [
-            "Okay",
-            "All set",
-            "Looks good"
-        ]
-        let confirmation = confirmations[Int(arc4random() % 3)]
+//        let confirmations = [
+//            "Okay",
+//            "All set",
+//            "Looks good"
+//        ]
+//        let confirmation = confirmations[Int(arc4random() % 3)]
         
         let flexSpace = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.FlexibleSpace, target: nil, action: nil)
         flexSpace.tintColor = UIColor(red:0.18, green:0.435, blue:0.552, alpha:1)
-        let doneButton = UIBarButtonItem(title: confirmation, style: .Done, target: self, action: Selector("doneButtonAction"))
+        let doneButton = UIBarButtonItem(title: "Done", style: .Done, target: self, action: Selector("doneButtonAction"))
         doneButton.tintColor = UIColor.whiteColor()
         
         doneToolbar.items = [flexSpace, doneButton]

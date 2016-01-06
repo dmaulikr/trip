@@ -70,12 +70,13 @@ public class CalendarView: UIView {
     set { Appearance.dayFont = newValue }
   }
 
-  lazy var contentView: ContentView = {
+  public lazy var contentView: ContentView = {
     let cv = ContentView(frame: CGRectZero)
     cv.delegate = self
     self.addSubview(cv)
     return cv
   }()
+    
   public var delegate: CalendarViewDelegate? {
     didSet {
       delegate?.calendarDidPageToDate(contentView.currentMonth().date)

@@ -17,7 +17,7 @@ protocol DateWasChosenFromCalendarProtocol
 
 class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
 {
-    @IBOutlet weak var calendarFrame: UIView!
+    @IBOutlet weak var calendarFrame: CalendarView!
     var calendar: CalendarView! {
         didSet {
             setCalendarPrefs()
@@ -29,6 +29,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     
     @IBOutlet weak var cancelButton: UIButton!
     @IBOutlet weak var confirmButton: UIButton!
+    @IBOutlet weak var contextPopoverView: UIView!
     
     var textFieldTag: Int!
     var selectedDate: Moment!
@@ -36,46 +37,51 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
 
     var delegate: DateWasChosenFromCalendarProtocol?
 
-    let confirmations = [
-        "Okay",
-        "All set",
-        "Looks good"
-    ]
-    
-    let cancellations = [
-        "Never mind",
-        "Just kidding",
-        "Forget it"
-    ]
+//    let confirmations = [
+//        "Okay",
+//        "All set",
+//        "Looks good"
+//    ]
+//    
+//    let cancellations = [
+//        "Never mind",
+//        "Just kidding",
+//        "Forget it"
+//    ]
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
         
+        calendar = calendarFrame
+        
         confirmButton.alpha = 0
 
         monthLabel.text = ("\(moment().monthName) \(moment().year)")
         
-        let confirmation = confirmations[Int(arc4random() % 3)]
-        let cancellation = cancellations[Int(arc4random() % 3)]
+//        let confirmation = confirmations[Int(arc4random() % 3)]
+//        let cancellation = cancellations[Int(arc4random() % 3)]
         
-        confirmButton.setTitle(confirmation, forState: .Normal)
-        cancelButton.setTitle(cancellation, forState: .Normal)
+        confirmButton.setTitle("Next", forState: .Normal)
+        cancelButton.setTitle("Cancel", forState: .Normal)
+        
+        setCalendarPrefs()
     }
     
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(true)
-        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("delayedCalendarSetup"), userInfo: nil, repeats: false)
+        calendar.contentView.flashScrollIndicators()
+//        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("delayedCalendarSetup"), userInfo: nil, repeats: false)
     }
     
     func delayedCalendarSetup()
     {
-        calendar = CalendarView()
-        calendarFrame.addSubview(calendar)
-        calendar.frame = CGRectMake(calendarFrame.frame.origin.x, calendarFrame.frame.origin.y, calendarFrame.frame.size.width * 0.9, calendarFrame.frame.size.width * 0.9)
-        calendar.center = calendarFrame.center
-        calendar.appearWithFade(0.25)
+//        calendar = CalendarView()
+//        calendarFrame.addSubview(calendar)
+//        calendar.frame = CGRectMake(calendarFrame.frame.origin.x, calendarFrame.frame.origin.y, calendarFrame.frame.size.width * 0.9, calendarFrame.frame.size.width * 0.9)
+//        calendar.center = calendarFrame.center
+//        calendar.appearWithFade(0.25)
     }
     
     @IBAction func confirmButtonPressed(sender: UIButton)
@@ -93,7 +99,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         if date.intervalSince(moment()).days < -1
         {
             confirmButton.hideWithFade(0.25)
-            parentViewController?.presentErrorPopup("Looks like you're trying to pick a date ealier than the current date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
+            presentErrorPopup("Looks like you're trying to pick a date ealier than the current date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
         }
         else
         {
@@ -102,7 +108,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
                 if date.intervalSince(departure).days < -1 && textFieldTag != 80
                 {
                     confirmButton.hideWithFade(0.25)
-                    parentViewController?.presentErrorPopup("Looks like you're trying to choose a return date that's earlier than your departure date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
+                    presentErrorPopup("Looks like you're trying to choose a return date that's earlier than your departure date. We won't be implementing time travel functionality until version 2.0. Sorry about that! :)")
                 }
                 else
                 {
@@ -148,10 +154,6 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
         UIView.animateWithDuration(0.1) { () -> Void in
             self.monthLabel.alpha = 1
         }
-        
-        print(calendarFrame.frame.size.width)
-        print(calendar.frame.size.width)
-        
 //        if date.monthName == moment().monthName && date.year == moment().year
 //        {
 //        }

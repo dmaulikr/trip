@@ -30,6 +30,7 @@ class TripDetailViewController: UITableViewController
     @IBOutlet weak var tripDepartureAndDestinationLabel: UILabel!
     @IBOutlet weak var tripDepatureTimeLabel: UILabel!
     
+    var cameFromSuggested: SuggestedTripsTableViewController?
     
     var calculator: Calculator!
     var propertyDictionary = [String : String]()
@@ -41,6 +42,7 @@ class TripDetailViewController: UITableViewController
         super.viewDidLoad()
         backgroundImageView.alpha = 0
         dataSource.initialSetupPieChart(pieChartView)
+
 //        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
         
         if trip.tripName != nil || trip.tripName != ""
@@ -60,6 +62,12 @@ class TripDetailViewController: UITableViewController
         {
             tripDepartureAndDestinationLabel.text = "Here to Somewhere Else"
         }
+        
+        if cameFromSuggested != nil
+        {
+            tripNameLabel.text = trip.destination
+        }
+            
         
         if trip.dateFrom != "" && trip.dateTo != ""
         {
@@ -105,6 +113,7 @@ class TripDetailViewController: UITableViewController
     override func viewWillDisappear(animated: Bool)
     {
         updateTrip(trip)
+        cameFromSuggested = nil
         navigationController?.popToRootViewControllerAnimated(true)
     }
     
