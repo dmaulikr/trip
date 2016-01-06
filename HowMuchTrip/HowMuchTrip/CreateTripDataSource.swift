@@ -14,6 +14,12 @@ class CreateTripDataSource
     var calculateFinished = false
     var tripCreated = false
 //    var superview: CreateTripTableViewController?
+    
+    func initialize(superview: CreateTripTableViewController)
+    {
+        initialSetup(superview) //allProperties and textFields assigned here
+        hideTextFieldsAndClearText(superview.textFields, delegate: superview)
+    }
 
     // MARK: - Initial View Setup
     func initialSetup(superview: CreateTripTableViewController)
@@ -28,6 +34,8 @@ class CreateTripDataSource
             superview.delegate = delegate
         }
 //        self.superview = superview
+        
+        superview.tableView.backgroundView = UIImageView(image: UIImage(named: "background"))
         
         let textFields = [
             superview.budgetTextField!,
@@ -197,7 +205,7 @@ class CreateTripDataSource
 //            case 300.0...600.0 : prefixes = ["Not bad. "]
 //            default            : prefixes = ["Ticket prices, am I right? "]
 //            }
-            suffix = "How much do you think lodging will cost?"
+            suffix = "How much will you allot for each night's lodging?"
             //TODO:
             //subtitleLabel.text = "Press the HOTEL button if you want to look up some prices.
         case 7:
@@ -406,6 +414,13 @@ class CreateTripDataSource
         }
     }
     
+    
+    
+    func pulseButton(button: UIButton)
+    {
+        
+    }
+    
     func shakeButton(button: UIButton!)
     {
 
@@ -539,4 +554,9 @@ class CreateTripDataSource
         
         return true
     }
+}
+
+extension UIButton
+{
+
 }
