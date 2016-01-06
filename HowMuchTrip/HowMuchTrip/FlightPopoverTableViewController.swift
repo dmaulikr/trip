@@ -30,7 +30,7 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     }
     
     let isOldDevice: Bool = {
-        if UIScreen.mainScreen().bounds.size.height < 568
+        if UIScreen.mainScreen().bounds.size.height <= 568
         {
             return true
         }
@@ -96,19 +96,20 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar)
     {
-        if !isOldDevice && searchBar.text != ""
+        searchBar.resignFirstResponder()
+        if searchBar.text != ""
         {
             loadAirports(searchBar.text!)
         }
     }
     
-//    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
-//    {
-//        if searchBar.text != ""
-//        {
-//            loadAirports(searchBar.text!)
-//        }
-//    }
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String)
+    {
+        if !isOldDevice && searchBar.text != ""
+        {
+            loadAirports(searchBar.text!)
+        }
+    }
     
     func loadAirports(searchParameters: String)
     {
@@ -226,6 +227,8 @@ class FlightPopoverTableViewController: UITableViewController, QPX_EX_APIControl
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath)
     {
+        searchBar.resignFirstResponder()
+        
         if searchingForAirports == true
         {
             let selectedAirportCode = airportCodes[indexPath.row]

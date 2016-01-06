@@ -201,8 +201,8 @@ class CreateTripTableViewController:
         dataSource.appearButton(nextButton)
         selectedTextField.resignFirstResponder()
         
-        let index = NSIndexPath(forRow: 0, inSection: 0)
-        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
+//        let index = NSIndexPath(forRow: 0, inSection: 0)
+//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
         
         animateTextFieldBGSizeToDefault(nil)
     }
@@ -490,8 +490,8 @@ class CreateTripTableViewController:
             textFieldBGView.backgroundColor = UIColor.whiteColor()
         }
         
-        let index = NSIndexPath(forRow: 0, inSection: 0)
-        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Top, animated: true)
+//        let index = NSIndexPath(forRow: 0, inSection: 0)
+//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Top, animated: true)
     }
     
     /// Called when the back button is pressed. Determines the current shown step and cycles one step back.

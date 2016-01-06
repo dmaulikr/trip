@@ -41,6 +41,7 @@ class TripDetailViewController: UITableViewController
         super.viewDidLoad()
         backgroundImageView.alpha = 0
         dataSource.initialSetupPieChart(pieChartView)
+
 //        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
         
         if trip.tripName != nil || trip.tripName != ""
