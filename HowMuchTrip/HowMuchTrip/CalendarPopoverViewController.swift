@@ -71,6 +71,7 @@ class CalendarPopoverViewController: UIViewController, CalendarViewDelegate
     override func viewDidAppear(animated: Bool)
     {
         super.viewDidAppear(true)
+        calendar.contentView.flashScrollIndicators()
 //        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("delayedCalendarSetup"), userInfo: nil, repeats: false)
     }
     

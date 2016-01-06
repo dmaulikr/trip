@@ -211,13 +211,13 @@ class CreateTripDataSource
         case 7:
             if aTrip.dailyLodgingCost == 0.0
             {
-                suffix = "Crashing on a couch or camping? "
+                prefixes = ["Crashing on a couch or camping?"]
             }
             suffix = "How about your daily food costs?"
         case 8:
             if aTrip.dailyFoodCost > 100
             {
-                prefixes = ["Planning on some good eats! "]
+                prefixes = ["Planning on some good eats!"]
             }
             suffix = "Any other daily costs we should put in the books?"
         case 9:

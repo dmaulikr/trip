@@ -229,10 +229,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Ny-Vu-QOk">
-                                <rect key="frame" x="8" y="92" width="304" height="304"/>
+                                <rect key="frame" x="8" y="89" width="304" height="350"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hbu-L6-Oz4" customClass="CalendarView" customModule="CalendarView">
-                                        <rect key="frame" x="0.0" y="68" width="304" height="236"/>
+                                        <rect key="frame" x="0.0" y="68" width="304" height="282"/>
                                         <color key="backgroundColor" red="0.43471831083297729" green="0.79910701513290405" blue="0.90419977903366089" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Hbu-L6-Oz4" secondAttribute="height" multiplier="8:7" id="SlC-jC-dV9"/>
@@ -314,7 +314,7 @@
                                 <constraints>
                                     <constraint firstItem="d1c-xS-swP" firstAttribute="top" secondItem="1T5-eX-wMH" secondAttribute="bottom" constant="8" id="4Yj-ee-FyH"/>
                                     <constraint firstItem="Hbu-L6-Oz4" firstAttribute="top" secondItem="1T5-eX-wMH" secondAttribute="bottom" constant="1" id="CcU-OR-i7u"/>
-                                    <constraint firstAttribute="width" secondItem="7Ny-Vu-QOk" secondAttribute="height" multiplier="1:1" id="G1X-5K-E5S"/>
+                                    <constraint firstAttribute="width" secondItem="7Ny-Vu-QOk" secondAttribute="height" multiplier="1:1.15" id="G1X-5K-E5S"/>
                                     <constraint firstItem="Hbu-L6-Oz4" firstAttribute="top" secondItem="d1c-xS-swP" secondAttribute="bottom" constant="-2" id="J71-wd-aVj"/>
                                     <constraint firstAttribute="trailing" secondItem="1T5-eX-wMH" secondAttribute="trailing" id="ViP-KO-41Y"/>
                                     <constraint firstItem="1T5-eX-wMH" firstAttribute="top" secondItem="7Ny-Vu-QOk" secondAttribute="top" id="dMy-7o-L3S"/>
@@ -339,12 +339,12 @@
                         </subviews>
                         <constraints>
                             <constraint firstItem="7Ny-Vu-QOk" firstAttribute="width" secondItem="OK6-5a-Hxb" secondAttribute="width" multiplier="0.95" id="Qyd-Aw-iO0"/>
-                            <constraint firstItem="7Ny-Vu-QOk" firstAttribute="centerY" secondItem="OK6-5a-Hxb" secondAttribute="centerY" constant="-40" id="TXE-gS-qId"/>
+                            <constraint firstItem="7Ny-Vu-QOk" firstAttribute="centerY" secondItem="OK6-5a-Hxb" secondAttribute="centerY" constant="-20" id="TXE-gS-qId"/>
                             <constraint firstItem="7Ny-Vu-QOk" firstAttribute="centerX" secondItem="OK6-5a-Hxb" secondAttribute="centerX" id="gLO-7H-ejJ"/>
                         </constraints>
                     </view>
                     <nil key="simulatedStatusBarMetrics"/>
-                    <nil key="simulatedTopBarMetrics"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="320" height="568"/>
                     <connections>
