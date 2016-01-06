@@ -47,6 +47,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
         }
         else if entry && textField == passwordField
         {
+            textField.resignFirstResponder()
             loginAction(nil)
         }
         else

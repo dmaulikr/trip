@@ -198,6 +198,8 @@ class SuggestedTripsTableViewController: UITableViewController, TripWasSavedDele
         
         let tripDetailVC = tripDetailStoryBoard.instantiateViewControllerWithIdentifier("TripDetail") as! TripDetailViewController
         tripDetailVC.trip = selectedTrip
+        tripDetailVC.cameFromSuggested = self
+        
         navigationController?.pushViewController(tripDetailVC, animated: true)
     }
     

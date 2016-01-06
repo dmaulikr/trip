@@ -30,6 +30,7 @@ class TripDetailViewController: UITableViewController
     @IBOutlet weak var tripDepartureAndDestinationLabel: UILabel!
     @IBOutlet weak var tripDepatureTimeLabel: UILabel!
     
+    var cameFromSuggested: SuggestedTripsTableViewController?
     
     var calculator: Calculator!
     var propertyDictionary = [String : String]()
@@ -61,6 +62,12 @@ class TripDetailViewController: UITableViewController
         {
             tripDepartureAndDestinationLabel.text = "Here to Somewhere Else"
         }
+        
+        if cameFromSuggested != nil
+        {
+            tripNameLabel.text = trip.destination
+        }
+            
         
         if trip.dateFrom != "" && trip.dateTo != ""
         {
@@ -106,6 +113,7 @@ class TripDetailViewController: UITableViewController
     override func viewWillDisappear(animated: Bool)
     {
         updateTrip(trip)
+        cameFromSuggested = nil
         navigationController?.popToRootViewControllerAnimated(true)
     }
     
