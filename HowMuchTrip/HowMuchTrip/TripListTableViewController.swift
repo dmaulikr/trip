@@ -52,6 +52,8 @@ class TripListTableViewController: UITableViewController, TripWasSavedDelegate
             default:
                 PFUser.logOut()
             }
+            
+            refreshList()
         }
         
         // refreshList here, to prevent flash of emptyState cell
