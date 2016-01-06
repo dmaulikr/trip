@@ -451,7 +451,7 @@ class CreateTripTableViewController:
     /// Called when the next button is pressed. Starts the calculation with the current value from the shown textfield and the corresponding property. Scrolls back to the top of the view for ease of use for the user and to prepare them to enter in the next value.
     @IBAction func nextButtonPressed(sender: UIButton)
     {
-        animateTextFieldBGSizeToDefault(shownTextField)
+        animateTextFieldBGSizeToDefault(nil)
         
         if !dataSource.tripCreated
         {
