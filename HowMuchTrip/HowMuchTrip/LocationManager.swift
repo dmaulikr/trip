@@ -9,9 +9,21 @@
 import Foundation
 import CoreLocation
 
-class CreateTripTableViewControllerLocationManager: NSObject, MapsAPIResultsProtocol
+class CreateTripTableViewControllerLocationManager: NSObject, MapsAPIResultsProtocol, CLLocationManagerDelegate
 {
     var controller: CreateTripTableViewController!
+    var locationManager: CLLocationManager! {
+        didSet {
+            if locationManager == nil
+            {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+            }
+            else
+            {
+                UIApplication.sharedApplication().networkActivityIndicatorVisible = true
+            }
+        }
+    }
     
     init(controller: CreateTripTableViewController)
     {
@@ -86,16 +98,17 @@ class CreateTripTableViewControllerLocationManager: NSObject, MapsAPIResultsProt
             && CLLocationManager.authorizationStatus() != .Restricted
             && Reachability.isConnectedToNetwork()
         {
-            controller.locationManager = CLLocationManager()
-            controller.locationManager?.delegate = controller
-            controller.locationManager?.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+            locationManager = CLLocationManager()
+            locationManager?.delegate = self
+            locationManager?.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+            controller.departureLocationTextField.placeholder = "Finding your location..."
             
             if CLLocationManager.authorizationStatus() == .NotDetermined
             {
-                controller.locationManager?.requestWhenInUseAuthorization()
+                locationManager?.requestWhenInUseAuthorization()
             }
             
-            controller.locationManager?.startUpdatingLocation()
+            locationManager?.startUpdatingLocation()
         }
         else if !Reachability.isConnectedToNetwork()
         {
@@ -107,8 +120,8 @@ class CreateTripTableViewControllerLocationManager: NSObject, MapsAPIResultsProt
     func locationManager(manager: CLLocationManager,
         didFailWithError error: NSError)
     {
-        controller.locationManager?.stopUpdatingLocation()
-        controller.locationManager = nil
+        locationManager?.stopUpdatingLocation()
+        locationManager = nil
         //        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         controller.presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
     }
@@ -124,16 +137,20 @@ class CreateTripTableViewControllerLocationManager: NSObject, MapsAPIResultsProt
                 completionHandler: { (placemarks, error) -> Void in
                     if error == nil
                     {
-                        self.controller.locationManager?.stopUpdatingLocation()
-                        self.controller.locationManager = nil
+                        self.locationManager?.stopUpdatingLocation()
+                        self.locationManager = nil
                         
                         let locality: String! = placemarks!.first!.locality
                         let country: String! = placemarks!.first!.country
                         let state: String! = placemarks!.first!.administrativeArea
                         
-                        self.controller.departureLocationTextField.text =
+                        print("didUpdateLocation")
+                        
+                        self.controller.locationManagerManagerDidFindLocation(
+                        
                         "\(locality), \(state), \(country)"
-                        self.controller.textFieldShouldReturn(self.controller.departureLocationTextField)
+                            
+                        )
                         
                         UIApplication
                             .sharedApplication()
@@ -141,8 +158,8 @@ class CreateTripTableViewControllerLocationManager: NSObject, MapsAPIResultsProt
                     }
                     else
                     {
-                        self.controller.locationManager?.stopUpdatingLocation()
-                        self.controller.locationManager = nil
+                        self.locationManager?.stopUpdatingLocation()
+                        self.locationManager = nil
                         
                         print(error?.localizedDescription)
                         self.controller.presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
@@ -151,8 +168,8 @@ class CreateTripTableViewControllerLocationManager: NSObject, MapsAPIResultsProt
         }
         else
         {
-            controller.locationManager?.stopUpdatingLocation()
-            controller.locationManager = nil
+            locationManager?.stopUpdatingLocation()
+            locationManager = nil
             
             controller.presentErrorPopup("Something went wrong while trying to find your location. Please try again later. Sorry about that!")
         }
