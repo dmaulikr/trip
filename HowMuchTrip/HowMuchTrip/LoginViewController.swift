@@ -15,6 +15,7 @@ import FBSDKCoreKit
 var name = ""
 /// Global variable that helps identify how a user is logged in
 var loggedInWith = ""
+let settingsVC = SettingsViewController()
 
 class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWasSentProtocol
 {
@@ -106,6 +107,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                 if ((user) != nil)
                 {
                     // If user is not nil, dismiss the view and return to the app
+                    let triggerTime = (Int64(NSEC_PER_SEC) * 1)
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
+                        settingsVC.processUsernameData()
+                        settingsVC.viewDidAppear(true)
+                    })
+
                     self.dismissViewControllerAnimated(true, completion: nil)
                 }
                 else
@@ -143,6 +150,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                     let alert = UIAlertController(title: "Success", message: "Signed Up", preferredStyle: .Alert)
                     let confirmAction = UIAlertAction(title: "OK", style: .Default) { (action) in
                     
+                        let triggerTime = (Int64(NSEC_PER_SEC) * 2)
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
+                            settingsVC.processTwitterData()
+                            settingsVC.viewDidAppear(true)
+                            
+                        })
+
                         self.dismissViewControllerAnimated(true, completion: nil)
                         print("User signed up and logged in with Twitter!")
                     }
@@ -152,8 +166,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                 else
                 {
                         // If user was previously signed up, dismiss the loginVC
+                    let triggerTime = (Int64(NSEC_PER_SEC) * 3)
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
+                        //settingsVC.processTwitterData()
+                        settingsVC.viewDidAppear(true)
+                        
+
                         self.dismissViewControllerAnimated(true, completion: nil)
                         print("User logged in with Twitter!")
+                        })
                 }
             }
             else
@@ -192,6 +213,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                 else
                 {
                     // If user was previously signed up, dismiss the loginVC
+//                    let triggerTime = (Int64(NSEC_PER_SEC) * 1)
+//                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
+                        settingsVC.processFacebookData()
+                        settingsVC.viewDidAppear(true)
+//                    })
                     self.dismissViewControllerAnimated(true, completion: nil)
                     print("User logged in with Facebook!")
                 }
