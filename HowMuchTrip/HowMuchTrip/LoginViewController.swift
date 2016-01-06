@@ -37,16 +37,23 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
     /// If user presses return in the usernameField, cursor will move to the passwordField, then resign if return is tapped again
     func textFieldShouldReturn(textField: UITextField) -> Bool
     {
-        print(textField)
-        if textField == usernameField
+        let entry: Bool = {
+            return textField.text != ""
+        }()
+        
+        if entry && textField == usernameField
         {
-            // Switch focus to other text field
             passwordField.becomeFirstResponder()
         }
-        if textField == passwordField
+        else if entry && textField == passwordField
         {
-            resignFirstResponder()
+            loginAction(nil)
         }
+        else
+        {
+            textField.resignFirstResponder()
+        }
+        
         return true
     }
     
@@ -65,7 +72,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
     }
     
     /// Handles logic when "Login" is tapped
-    @IBAction func loginAction(sender: AnyObject)
+    @IBAction func loginAction(sender: AnyObject?)
     {
         /// Global variable that identifies how a user is logged in
         loggedInWith = "Username"
@@ -76,20 +83,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
         if username?.characters.count < 6
         {
             // Verify that the username meets the minimum length requirements
-            let alert = UIAlertController(title: "Invalid", message: "Username must be at least 6 characters", preferredStyle: .Alert)
-            let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alert.addAction(confirmAction)
-            presentViewController(alert, animated: true, completion: nil)
-            
+            presentErrorPopup("Username must be at least 6 characters")
         }
         else if password?.characters.count < 7
         {
             // Verify that the password meets the minimum length requirements
-            let alert = UIAlertController(title: "Invalid", message: "Password must be at least 7 characters", preferredStyle: .Alert)
-            let confirmAction = UIAlertAction(title: "OK", style: .Default, handler: nil)
-            alert.addAction(confirmAction)
-            presentViewController(alert, animated: true, completion: nil)
-            
+            presentErrorPopup("Password must be at least 7 characters")
         }
         else
         {
