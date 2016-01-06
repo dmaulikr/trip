@@ -25,7 +25,6 @@ class CreateTripTableViewController:
     DateWasChosenFromCalendarProtocol,
     CalculationFinishedDelegate,
     UIGestureRecognizerDelegate,
-    CLLocationManagerDelegate,
     FlightTicketPriceWasChosenProtocol
 {
     
@@ -94,16 +93,6 @@ class CreateTripTableViewController:
     var mapsAPIController: MapsAPIController?
     var googlePlacesAPIController: GooglePlacesAPIController?
     
-    var locationManager: CLLocationManager? {
-        willSet {
-            UIApplication
-                .sharedApplication()
-                .networkActivityIndicatorVisible =
-            !UIApplication
-                .sharedApplication()
-                .networkActivityIndicatorVisible
-        }
-    }
     var geocoder: CLGeocoder? {
         willSet {
             UIApplication
@@ -499,6 +488,11 @@ class CreateTripTableViewController:
         }
     }
     
+    func locationManagerManagerDidFindLocation(locationString: String)
+    {
+        departureLocationTextField.text = locationString
+        textFieldShouldReturn(departureLocationTextField)
+    }
     
     // MARK: - Private Functions
     
