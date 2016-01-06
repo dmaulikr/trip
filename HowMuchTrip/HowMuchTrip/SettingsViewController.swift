@@ -99,6 +99,8 @@ class SettingsViewController: UIViewController
             userNameLabel?.text = nil
             navigationItem.rightBarButtonItem?.title = "Login"
             usernameCheckbox?.on = false
+            //twitterCheckbox?.on = false
+            facebookCheckbox?.on = false
             usernameCheckbox?.enabled = true
             facebookCheckbox?.enabled = true
             twitterCheckbox?.enabled = true
