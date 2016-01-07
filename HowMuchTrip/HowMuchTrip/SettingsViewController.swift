@@ -10,7 +10,7 @@ import UIKit
 import Parse
 import ParseTwitterUtils
 
-class SettingsViewController: UIViewController
+class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
     
 {
     @IBOutlet weak var userNameLabel: UILabel!
@@ -19,13 +19,132 @@ class SettingsViewController: UIViewController
     @IBOutlet weak var facebookCheckbox: UISwitch!
     @IBOutlet weak var twitterCheckbox: UISwitch!
     
+    var usernameOn: Bool! {
+        didSet {
+            usernameLoggedIn()
+        }
+    }
+    
+    var facebookOn: Bool! {
+        didSet {
+            facebookLoggedIn()
+        }
+    }
+    
+    var twitterOn: Bool! {
+        didSet {
+            twitterLoggedIn()
+        }
+    }
+    
+    var loggedOut: Bool! {
+        didSet {
+            userLoggedOut()
+        }
+    }
+    
     let loginVC = LoginViewController()
+    //var timer = NSTimer()
         
     override func viewDidLoad()
     {
         super.viewDidLoad()
         title = "Settings"
         setNavBarAttributes()
+        
+        loginVC.delegate = self
+    }
+    
+    func loginActionDidComplete(identifier: String)
+    {
+        switch identifier
+        {
+        case "username_login":
+            loggedInWith = "Username"
+            handleLogin()
+//            usernameTapped(usernameCheckbox)
+        case "login_twitter":
+            loggedInWith = "Twitter"
+            handleLogin()
+        case "login_facebook":
+            loggedInWith = "Facebook"
+            handleLogin()
+        default:
+            loggedInWith = "NotLoggedIn"
+            handleLogin()
+        }
+    }
+    
+    func usernameLoggedIn()
+    {
+        if usernameOn == true
+        {
+            usernameCheckbox?.enabled = true
+            usernameCheckbox?.on = true
+            
+            facebookCheckbox?.on = false
+            twitterCheckbox?.on = false
+            facebookCheckbox?.enabled = false
+            twitterCheckbox?.enabled = false
+            
+            facebookOn = false
+            loggedOut = false
+            twitterOn = false
+        }
+    }
+    
+    func twitterLoggedIn()
+    {
+        if twitterOn == true
+        {
+            twitterCheckbox?.enabled = true
+            twitterCheckbox?.on = true
+            
+            usernameCheckbox?.on = false
+            facebookCheckbox?.on = false
+            usernameCheckbox?.enabled = false
+            facebookCheckbox?.enabled = false
+            
+            loggedOut = false
+            usernameOn = false
+            facebookOn = false
+        }
+    }
+    
+    func facebookLoggedIn()
+    {
+        if facebookOn == true
+        {
+            facebookCheckbox?.enabled = true
+            facebookCheckbox?.on = true
+            
+            usernameCheckbox?.on = false
+            twitterCheckbox?.on = false
+            usernameCheckbox?.enabled = false
+            twitterCheckbox?.enabled = false
+            
+            loggedOut = false
+            usernameOn = false
+            twitterOn = false
+        }
+    }
+    
+    func userLoggedOut()
+    {
+        if loggedOut == true
+        {
+            facebookCheckbox?.enabled = true
+            facebookCheckbox?.on = false
+            
+            usernameCheckbox?.on = false
+            twitterCheckbox?.on = false
+            usernameCheckbox?.enabled = true
+            twitterCheckbox?.enabled = true
+            
+            usernameOn = false
+            facebookOn = false
+            twitterOn = false
+        }
     }
     
     func setNavBarAttributes()
@@ -58,9 +177,13 @@ class SettingsViewController: UIViewController
         
     }
     
-    override func viewDidAppear(animated: Bool) {
-        
+    override func viewDidAppear(animated: Bool)
+    {
+        handleLogin()
+    }
     
+    func handleLogin()
+    {
         //If the user is not nil, run the switch statement below to determine how they logged in
         if PFUser.currentUser() != nil
         {
@@ -70,25 +193,20 @@ class SettingsViewController: UIViewController
             {
             case "Twitter":
                 processTwitterData()
-                twitterCheckbox?.on = true
+                twitterOn = true
             case "Facebook":
                 processFacebookData()
-                facebookCheckbox?.on = true
+                facebookOn = true
             case "Username":
                 processUsernameData()
-                usernameCheckbox?.on = true
+                usernameOn = true
+                
             default:
                 PFUser.logOut()
                 userImage.image = UIImage(named: "UserIcon")
                 navigationItem.rightBarButtonItem?.title = "Login"
                 userNameLabel.text = nil
-                facebookCheckbox.on = false
-                twitterCheckbox.on = false
-                usernameCheckbox.on = false
-                
-//                usernameCheckbox.image = UIImage(named: "CheckBox_unselected")
-//                facebookCheckbox.image = UIImage(named: "CheckBox_unselected")
-//                twitterCheckbox.image = UIImage(named: "CheckBox_unselected")
+                loggedOut = true
             }
         }
         else
@@ -98,14 +216,16 @@ class SettingsViewController: UIViewController
             userImage?.image = UIImage(named: "UserIcon")
             userNameLabel?.text = nil
             navigationItem.rightBarButtonItem?.title = "Login"
-            usernameCheckbox?.on = false
-            //twitterCheckbox?.on = false
-            facebookCheckbox?.on = false
-            usernameCheckbox?.enabled = true
-            facebookCheckbox?.enabled = true
-            twitterCheckbox?.enabled = true
-
+            loggedOut = true
         }
+    }
+    
+    override func viewDidDisappear(animated: Bool)
+    {
+//        let triggerTime = (Int64(NSEC_PER_SEC) * 30)
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
+//            self.timer.invalidate()
+//        })
     }
     
     // MARK: - Action Handlers
@@ -127,12 +247,7 @@ class SettingsViewController: UIViewController
         {
             //Log the user out, set the name to nil, and set the generic image
             PFUser.logOut()
-            usernameCheckbox?.on = false
-            usernameCheckbox.enabled = true
-            twitterCheckbox?.on = false
-            twitterCheckbox.enabled = true
-            facebookCheckbox?.on = false
-            facebookCheckbox.enabled = true
+            loggedOut = true
             
             PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in
                 if error != nil
@@ -213,24 +328,24 @@ class SettingsViewController: UIViewController
                 let userLastName:String? = result["last_name"] as? String
                 let userEmail:String? = result["email"] as? String
                 
-                let myUser:PFUser = PFUser.currentUser()!
+                let myUser:PFUser? = PFUser.currentUser()
                 
                 // Save first name
                 if(userFirstName != nil)
                 {
-                    myUser.setObject(userFirstName!, forKey: "first_name")
+                    myUser?.setObject(userFirstName!, forKey: "first_name")
                 }
                 
                 //Save last name
                 if(userLastName != nil)
                 {
-                    myUser.setObject(userLastName!, forKey: "last_name")
+                    myUser?.setObject(userLastName!, forKey: "last_name")
                 }
                 
                 // Save email address
                 if(userEmail != nil)
                 {
-                    myUser.setObject(userEmail!, forKey: "email")
+                    myUser?.setObject(userEmail!, forKey: "email")
                 }
                 
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -253,11 +368,11 @@ class SettingsViewController: UIViewController
                     {
                         //Set the users profile picture from Facebook for the key in Parse
                         let profileFileObject = PFFile(data:profilePictureData!)
-                        myUser.setObject(profileFileObject!, forKey: "profile_picture")
+                        myUser?.setObject(profileFileObject!, forKey: "profile_picture")
                     }
                     
                     //Save the user data in Parse
-                    myUser.saveInBackgroundWithBlock({ (success:Bool, error:NSError?) -> Void in
+                    myUser?.saveInBackgroundWithBlock({ (success:Bool, error:NSError?) -> Void in
                         
                         if(success)
                         {
@@ -282,14 +397,14 @@ class SettingsViewController: UIViewController
         {
         //Get username of currently logged in user
         let pfTwitter = PFTwitterUtils.twitter()
-        let twitterUsername = pfTwitter?.screenName
+        let twitterUsername = pfTwitter?.screenName ?? ""
         
         //Request Twitter API by appending users twitter username to the end of the url below
-        var userDetailsUrl:String = "https://api.twitter.com/1.1/users/show.json?screen_name="
-        userDetailsUrl = userDetailsUrl + twitterUsername!
+        var userDetailsUrl :String = "https://api.twitter.com/1.1/users/show.json?screen_name="
+        userDetailsUrl = userDetailsUrl + twitterUsername
         
-        let myUrl = NSURL(string: userDetailsUrl)
-        let request = NSMutableURLRequest(URL: myUrl!)
+        let myUrl = NSURL(string: userDetailsUrl) ?? NSURL()
+        let request = NSMutableURLRequest(URL: myUrl)
         request.HTTPMethod = "GET"
         
         //Request the Twitter API
@@ -345,7 +460,7 @@ class SettingsViewController: UIViewController
                     
                     //Set the Twitter user as the current user in Parse and store their Twitter username under the first name key in Parse
                     PFUser.currentUser()?.username = twitterUsername
-                    PFUser.currentUser()?.setObject(twitterUsername!, forKey: "first_name")
+                    PFUser.currentUser()?.setObject(twitterUsername, forKey: "first_name")
                     PFUser.currentUser()?.setObject(" ", forKey: "last_name")
                     
                     //Set the username constant to the users twitter name and then display that in the userNameLabel on SettingsVC
@@ -366,15 +481,14 @@ class SettingsViewController: UIViewController
     
     @IBAction func facebookTapped(sender: UISwitch)
     {
-            
+        
         if sender.on
         {
-            
             loginVC.loginWithFacebook(UIButton)
             self.navigationItem.rightBarButtonItem!.title = "Logout"
             print("login")
-            twitterCheckbox.enabled = false
-            usernameCheckbox.enabled = false
+//            twitterCheckbox.enabled = false
+//            usernameCheckbox.enabled = false
         }
         else
         {
@@ -384,23 +498,15 @@ class SettingsViewController: UIViewController
     
     @IBAction func twitterTapped(sender: UISwitch)
     {
+        
         if sender.on
         {
             loginVC.loginWithTwitterTapped(UIButton)
-            let triggerTime = (Int64(NSEC_PER_SEC) * 3)
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
-                self.processTwitterData()
-                print("you did it!")
-            })
-
-            
-            self.processTwitterData()
-            self.viewDidAppear(true)
             self.navigationItem.rightBarButtonItem!.title = "Logout"
-            facebookCheckbox.enabled = false
-            usernameCheckbox.enabled = false
+//            facebookCheckbox.enabled = false
+//            usernameCheckbox.enabled = false
             print("login")
-
+            
         }
         else
         {
@@ -418,8 +524,8 @@ class SettingsViewController: UIViewController
                 self.presentViewController(viewController, animated: true, completion: nil)
             })
             self.navigationItem.rightBarButtonItem!.title = "Logout"
-            twitterCheckbox.enabled = false
-            facebookCheckbox.enabled = false
+//            twitterCheckbox.enabled = false
+//            facebookCheckbox.enabled = false
             print("login")
         }
         else
