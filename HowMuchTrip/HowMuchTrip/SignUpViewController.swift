@@ -10,7 +10,7 @@ import UIKit
 import Parse
 
 /// Signs the user up with an email and password
-class SignUpViewController: UIViewController
+class SignUpViewController: UIViewController, UITextFieldDelegate
 {
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var usernameField: UITextField!
@@ -19,7 +19,23 @@ class SignUpViewController: UIViewController
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        usernameField.becomeFirstResponder()
+        
+        emailField.delegate = self
+        usernameField.delegate = self
+        passwordField.delegate = self
+        
+        emailField.becomeFirstResponder()
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool
+    {
+        switch textField
+        {
+        case emailField: usernameField.becomeFirstResponder()
+        case usernameField: passwordField.becomeFirstResponder()
+        default: signUpAction(UIButton())
+        }
+        return true
     }
     
     override func didReceiveMemoryWarning()

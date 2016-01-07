@@ -403,7 +403,7 @@
                             <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZCN-0d-Nv1">
                                 <rect key="frame" x="40" y="215" width="320" height="120"/>
                                 <subviews>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fy7-Hc-jhx">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Fy7-Hc-jhx">
                                         <rect key="frame" x="8" y="-1" width="304" height="41"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -421,7 +421,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="username" translatesAutoresizingMaskIntoConstraints="NO" id="J9h-BD-a09">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="email" translatesAutoresizingMaskIntoConstraints="NO" id="J9h-BD-a09">
                                         <rect key="frame" x="292" y="12" width="20" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="1Xp-GN-XKW"/>
@@ -449,7 +449,7 @@
                                             <rect key="frame" x="270" y="13" width="20" height="16"/>
                                         </variation>
                                     </imageView>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email Address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OLC-ss-dPs">
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OLC-ss-dPs">
                                         <rect key="frame" x="8" y="40" width="304" height="40"/>
                                         <fontDescription key="fontDescription" name="AvenirNext-Regular" family="Avenir Next" pointSize="14"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -467,7 +467,7 @@
                                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="email" translatesAutoresizingMaskIntoConstraints="NO" id="fAd-GJ-GSZ">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="username" translatesAutoresizingMaskIntoConstraints="NO" id="fAd-GJ-GSZ">
                                         <rect key="frame" x="292" y="52" width="20" height="16"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="16" id="N8r-Wc-TVP"/>
@@ -546,9 +546,9 @@
                     <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
                     <size key="freeformSize" width="400" height="600"/>
                     <connections>
-                        <outlet property="emailField" destination="OLC-ss-dPs" id="Zpe-pf-29X"/>
+                        <outlet property="emailField" destination="Fy7-Hc-jhx" id="jlF-BO-ECu"/>
                         <outlet property="passwordField" destination="TqU-cR-Vcm" id="bSY-y3-bTs"/>
-                        <outlet property="usernameField" destination="Fy7-Hc-jhx" id="sg2-KO-eux"/>
+                        <outlet property="usernameField" destination="OLC-ss-dPs" id="HCe-s8-ec5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2Re-oo-07k" userLabel="First Responder" sceneMemberID="firstResponder"/>
