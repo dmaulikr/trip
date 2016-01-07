@@ -126,6 +126,7 @@ class SettingsViewController: UIViewController
         else if PFUser.currentUser() != nil
         {
             //Log the user out, set the name to nil, and set the generic image
+            PFUser.logOut()
             usernameCheckbox?.on = false
             usernameCheckbox.enabled = true
             twitterCheckbox?.on = false
@@ -370,12 +371,6 @@ class SettingsViewController: UIViewController
         {
             
             loginVC.loginWithFacebook(UIButton)
-//            let triggerTime = (Int64(NSEC_PER_SEC) * 3)
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
-//                self.processFacebookData()
-//                print("you did it!")
-//            })
-
             self.navigationItem.rightBarButtonItem!.title = "Logout"
             print("login")
             twitterCheckbox.enabled = false
@@ -383,14 +378,7 @@ class SettingsViewController: UIViewController
         }
         else
         {
-            PFUser.logOut()
-            self.navigationItem.rightBarButtonItem!.title = "Login"
-            print("logout")
-            userNameLabel?.text = nil
-            userImage.image = UIImage(named: "UserIcon")
-            twitterCheckbox.enabled = true
-            usernameCheckbox.enabled = true
-            facebookCheckbox.enabled = true
+            resetData()
         }
     }
     
@@ -416,16 +404,7 @@ class SettingsViewController: UIViewController
         }
         else
         {
-            PFUser.logOut()
-            
-            self.navigationItem.rightBarButtonItem!.title = "Login"
-            print("logout")
-            userNameLabel?.text = nil
-            userImage.image = UIImage(named: "UserIcon")
-            twitterCheckbox.enabled = true
-            usernameCheckbox.enabled = true
-            facebookCheckbox.enabled = true
-            
+           resetData()
         }
 
     }
@@ -445,16 +424,24 @@ class SettingsViewController: UIViewController
         }
         else
         {
-            PFUser.logOut()
-            self.navigationItem.rightBarButtonItem!.title = "Login"
-            print("logout")
-            userNameLabel?.text = nil
-            userImage.image = UIImage(named: "UserIcon")
-            twitterCheckbox.enabled = true
-            usernameCheckbox.enabled = true
-            facebookCheckbox.enabled = true
+           resetData()
         }
   
+    }
+    
+    func resetData()
+    {
+        PFUser.logOut()
+        self.navigationItem.rightBarButtonItem!.title = "Login"
+        print("logout")
+        userNameLabel?.text = nil
+        userImage?.image = UIImage(named: "UserIcon")
+        twitterCheckbox?.enabled = true
+        twitterCheckbox?.on = false
+        usernameCheckbox.enabled = true
+        usernameCheckbox?.on = false
+        facebookCheckbox?.enabled = true
+        facebookCheckbox?.on = false
     }
 }
 
