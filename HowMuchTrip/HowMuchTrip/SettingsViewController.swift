@@ -19,6 +19,7 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
     @IBOutlet weak var facebookCheckbox: UISwitch!
     @IBOutlet weak var twitterCheckbox: UISwitch!
     
+    
     var usernameOn: Bool! {
         didSet {
             usernameLoggedIn()
@@ -200,7 +201,7 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
                 
             default:
                 PFUser.logOut()
-                userImage.image = UIImage(named: "UserIcon")
+                userImage.image = UIImage(named: "UserImage")
                 navigationItem.rightBarButtonItem?.title = "Login"
                 userNameLabel.text = nil
                 loggedOut = true
@@ -210,7 +211,7 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
         {
             //If the user is nil, make sure to end the login session and clear out any data left behind
             PFUser.logOut()
-            userImage?.image = UIImage(named: "UserIcon")
+            userImage?.image = UIImage(named: "UserImage")
             userNameLabel?.text = nil
             navigationItem.rightBarButtonItem?.title = "Login"
             loggedOut = true
@@ -253,7 +254,7 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
                 }
             }
             userNameLabel.text = ""
-            userImage.image = UIImage(named: "UserIcon")
+            userImage.image = UIImage(named: "UserImage")
             navigationItem.rightBarButtonItem?.title = "Login"
             
         }
@@ -280,7 +281,7 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
         
             //Set the nameLabel and image on the SettingsVC
             self.userNameLabel?.text = "@" + pUserName
-            self.userImage?.image = UIImage(named: "UserIcon")
+            self.userImage?.image = UIImage(named: "UserImage")
         }
     }
     
@@ -482,7 +483,7 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
             PFUser.logOut()
             self.navigationItem.rightBarButtonItem!.title = "Login"
             userNameLabel?.text = nil
-            userImage?.image = UIImage(named: "UserIcon")
+            userImage?.image = UIImage(named: "UserImage")
             loggedOut = true
         }
     }
@@ -502,7 +503,7 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
             PFUser.logOut()
             self.navigationItem.rightBarButtonItem!.title = "Login"
             userNameLabel?.text = nil
-            userImage?.image = UIImage(named: "UserIcon")
+            userImage?.image = UIImage(named: "UserImage")
             loggedOut = true
         }
 
@@ -524,7 +525,7 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
             PFUser.logOut()
             self.navigationItem.rightBarButtonItem!.title = "Login"
             userNameLabel?.text = nil
-            userImage?.image = UIImage(named: "UserIcon")
+            userImage?.image = UIImage(named: "UserImage")
             loggedOut = true
         }
   
