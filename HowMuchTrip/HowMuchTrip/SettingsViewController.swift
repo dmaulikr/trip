@@ -44,14 +44,12 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
     }
     
     let loginVC = LoginViewController()
-    //var timer = NSTimer()
         
     override func viewDidLoad()
     {
         super.viewDidLoad()
         title = "Settings"
         setNavBarAttributes()
-        
         loginVC.delegate = self
     }
     
@@ -62,7 +60,6 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
         case "username_login":
             loggedInWith = "Username"
             handleLogin()
-//            usernameTapped(usernameCheckbox)
         case "login_twitter":
             loggedInWith = "Twitter"
             handleLogin()
@@ -218,14 +215,6 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
             navigationItem.rightBarButtonItem?.title = "Login"
             loggedOut = true
         }
-    }
-    
-    override func viewDidDisappear(animated: Bool)
-    {
-//        let triggerTime = (Int64(NSEC_PER_SEC) * 30)
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, triggerTime), dispatch_get_main_queue(), { () -> Void in
-//            self.timer.invalidate()
-//        })
     }
     
     // MARK: - Action Handlers
@@ -487,12 +476,14 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
             loginVC.loginWithFacebook(UIButton)
             self.navigationItem.rightBarButtonItem!.title = "Logout"
             print("login")
-//            twitterCheckbox.enabled = false
-//            usernameCheckbox.enabled = false
         }
         else
         {
-            resetData()
+            PFUser.logOut()
+            self.navigationItem.rightBarButtonItem!.title = "Login"
+            userNameLabel?.text = nil
+            userImage?.image = UIImage(named: "UserIcon")
+            loggedOut = true
         }
     }
     
@@ -503,14 +494,16 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
         {
             loginVC.loginWithTwitterTapped(UIButton)
             self.navigationItem.rightBarButtonItem!.title = "Logout"
-//            facebookCheckbox.enabled = false
-//            usernameCheckbox.enabled = false
             print("login")
             
         }
         else
         {
-           resetData()
+            PFUser.logOut()
+            self.navigationItem.rightBarButtonItem!.title = "Login"
+            userNameLabel?.text = nil
+            userImage?.image = UIImage(named: "UserIcon")
+            loggedOut = true
         }
 
     }
@@ -524,31 +517,19 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
                 self.presentViewController(viewController, animated: true, completion: nil)
             })
             self.navigationItem.rightBarButtonItem!.title = "Logout"
-//            twitterCheckbox.enabled = false
-//            facebookCheckbox.enabled = false
             print("login")
         }
         else
         {
-           resetData()
+            PFUser.logOut()
+            self.navigationItem.rightBarButtonItem!.title = "Login"
+            userNameLabel?.text = nil
+            userImage?.image = UIImage(named: "UserIcon")
+            loggedOut = true
         }
   
     }
     
-    func resetData()
-    {
-        PFUser.logOut()
-        self.navigationItem.rightBarButtonItem!.title = "Login"
-        print("logout")
-        userNameLabel?.text = nil
-        userImage?.image = UIImage(named: "UserIcon")
-        twitterCheckbox?.enabled = true
-        twitterCheckbox?.on = false
-        usernameCheckbox.enabled = true
-        usernameCheckbox?.on = false
-        facebookCheckbox?.enabled = true
-        facebookCheckbox?.on = false
-    }
 }
 
 
