@@ -42,8 +42,6 @@ class TripDetailViewController: UITableViewController
         super.viewDidLoad()
         backgroundImageView.alpha = 0
         dataSource.initialSetupPieChart(pieChartView)
-
-//        tableView.backgroundColor = UIColor(red:0, green:0.658, blue:0.909, alpha:1)
         
         if trip.tripName != nil || trip.tripName != ""
         {
@@ -80,10 +78,6 @@ class TripDetailViewController: UITableViewController
                 {
                     formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("day", withString: "days")
                 }
-//                var formattedInterval = interval.componentsSeparatedByString(" ")[0] + interval.componentsSeparatedByString(" ")[1]
-//                formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("d", withString: " day")
-//                formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("w", withString: " week, ")
-//                formattedInterval = formattedInterval.stringByReplacingOccurrencesOfString("m", withString: " month, ")
                 
                 tripDepatureTimeLabel.text = formattedInterval
             }
