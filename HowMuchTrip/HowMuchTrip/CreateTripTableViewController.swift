@@ -126,7 +126,9 @@ class CreateTripTableViewController:
     /// Determines the current login information and processes it accordingly. If there is no login information, logs out of the current Parse session.
     override func viewWillAppear(animated: Bool)
     {
-        let settingsVC = (tabBarController!.viewControllers![2] as! UINavigationController).viewControllers.first as! SettingsViewController
+        let settingsVC = SettingsViewController()
+        
+        //(tabBarController!.viewControllers![2] as! UINavigationController).viewControllers.first as! SettingsViewController
         
         switch loggedInWith
         {
