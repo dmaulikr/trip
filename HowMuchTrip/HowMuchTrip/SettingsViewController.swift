@@ -19,33 +19,8 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
     @IBOutlet weak var facebookCheckbox: UISwitch!
     @IBOutlet weak var twitterCheckbox: UISwitch!
     
-    
-    var usernameOn: Bool! {
-        didSet {
-            usernameLoggedIn()
-        }
-    }
-    
-    var facebookOn: Bool! {
-        didSet {
-            facebookLoggedIn()
-        }
-    }
-    
-    var twitterOn: Bool! {
-        didSet {
-            twitterLoggedIn()
-        }
-    }
-    
-    var loggedOut: Bool! {
-        didSet {
-            userLoggedOut()
-        }
-    }
-    
     let loginVC = LoginViewController()
-        
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -54,97 +29,24 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
         loginVC.delegate = self
     }
     
-    func loginActionDidComplete(identifier: String)
+    override func viewWillAppear(animated: Bool)
     {
-        switch identifier
-        {
-        case "username_login":
-            loggedInWith = "Username"
-            handleLogin()
-        case "login_twitter":
-            loggedInWith = "Twitter"
-            handleLogin()
-        case "login_facebook":
-            loggedInWith = "Facebook"
-            handleLogin()
-        default:
-            loggedInWith = "NotLoggedIn"
-            handleLogin()
-        }
+        //Make the users profile image circular instead of square
+        userImage.layer.cornerRadius = userImage.frame.size.width / 2
+        userImage.clipsToBounds = true
+        userImage.layer.borderColor = UIColor.blackColor().CGColor
+        userImage.layer.borderWidth = 0.4
+        handleLogin()
+        
     }
     
-    func usernameLoggedIn()
+    override func didReceiveMemoryWarning()
     {
-        if usernameOn == true
-        {
-            usernameCheckbox?.enabled = true
-            usernameCheckbox?.on = true
-            
-            facebookCheckbox?.on = false
-            twitterCheckbox?.on = false
-            facebookCheckbox?.enabled = false
-            twitterCheckbox?.enabled = false
-            
-            facebookOn = false
-            loggedOut = false
-            twitterOn = false
-        }
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
-    func twitterLoggedIn()
-    {
-        if twitterOn == true
-        {
-            twitterCheckbox?.enabled = true
-            twitterCheckbox?.on = true
-            
-            usernameCheckbox?.on = false
-            facebookCheckbox?.on = false
-            usernameCheckbox?.enabled = false
-            facebookCheckbox?.enabled = false
-            
-            loggedOut = false
-            usernameOn = false
-            facebookOn = false
-        }
-    }
-    
-    func facebookLoggedIn()
-    {
-        if facebookOn == true
-        {
-            facebookCheckbox?.enabled = true
-            facebookCheckbox?.on = true
-            
-            usernameCheckbox?.on = false
-            twitterCheckbox?.on = false
-            usernameCheckbox?.enabled = false
-            twitterCheckbox?.enabled = false
-            
-            loggedOut = false
-            usernameOn = false
-            twitterOn = false
-        }
-    }
-    
-    func userLoggedOut()
-    {
-        if loggedOut == true
-        {
-            facebookCheckbox?.enabled = true
-            facebookCheckbox?.on = false
-            
-            usernameCheckbox?.on = false
-            twitterCheckbox?.on = false
-            usernameCheckbox?.enabled = true
-            twitterCheckbox?.enabled = true
-            
-            usernameOn = false
-            facebookOn = false
-            twitterOn = false
-        }
-    }
-    
+    //Set the font in the nav bar, function called in viewDidLoad
     func setNavBarAttributes()
     {
         navigationController?.navigationBar.titleTextAttributes = [
@@ -158,31 +60,16 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
             NSFontAttributeName: UIFont(name: "Avenir-Light", size: 20)!
             ], forState: .Highlighted)
     }
-    
-    override func didReceiveMemoryWarning()
-    {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewWillAppear(animated: Bool)
-    {
-        //Make the users profile image circular instead of square
-        userImage.layer.cornerRadius = userImage.frame.size.width / 2
-        userImage.clipsToBounds = true
-        userImage.layer.borderColor = UIColor.blackColor().CGColor
-        userImage.layer.borderWidth = 0.4
-        
-    }
-    
-    override func viewDidAppear(animated: Bool)
+
+ // LoginAction being passed from LoginViewController.  Runs the handleLogin function to display the correct user data for the appropriate login
+    func loginActionDidComplete()
     {
         handleLogin()
     }
     
     func handleLogin()
     {
-        //If the user is not nil, run the switch statement below to determine how they logged in
+        //If the user is not nil, run the switch statement below to determine how they logged in and display the correct data and set switches accordingly
         if PFUser.currentUser() != nil
         {
             navigationItem.rightBarButtonItem?.title = "Logout"
@@ -217,57 +104,109 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
             loggedOut = true
         }
     }
-    
-    // MARK: - Action Handlers
-    
-    @IBAction func pressedNavButtonRight(sender: UIBarButtonItem) //Create an IBAction
-    {
-        if PFUser.currentUser() == nil
-        {
-            //setting the button title here was unncecessary because viewWillAppear will get called when the login view controller is dismissed, and the button title will get set during viewWillAppear
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
-                self.presentViewController(viewController, animated: true, completion: { () -> Void in
-                    self.tabBarController?.selectedIndex = 1
-                })
-            })
 
+    //If variables listed below are given a value, run the didSet function to determine which switches are enabled and whether they are set to the on or off position
+    var usernameOn: Bool! {
+        didSet {
+            usernameLoggedIn()
         }
-        else if PFUser.currentUser() != nil
-        {
-            //Log the user out, set the name to nil, and set the generic image
-            PFUser.logOut()
-            loggedOut = true
-            
-            PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in
-                if error != nil
-                {
-                    print("logout fail");
-                    print(error)
-                    
-                    self.presentErrorPopup("Whoa, sorry. Looks like there was an issue logging you out.")
-                }
-                else
-                {
-                    print("logout success")
-                    
-                }
-            }
-            userNameLabel.text = ""
-            userImage.image = UIImage(named: "UserImage")
-            navigationItem.rightBarButtonItem?.title = "Login"
-            
-        }
-        
-    }
-    //Set the email text to a link that will open the users email app
-    @IBAction func emailTapped(sender: UIButton)
-    {
-        let email = "support@howmuchtrip.com"
-        let url = NSURL(string: "mailto:\(email)")
-        UIApplication.sharedApplication().openURL(url!)
     }
     
+    var facebookOn: Bool! {
+        didSet {
+            facebookLoggedIn()
+        }
+    }
+    
+    var twitterOn: Bool! {
+        didSet {
+            twitterLoggedIn()
+        }
+    }
+    
+    var loggedOut: Bool! {
+        didSet {
+            userLoggedOut()
+        }
+    }
+
+    //Functions created to set the correct state of the switches and whether or not they are enabled, called above
+    
+    //set the correct position of switches if the user logs in with a custome username
+    func usernameLoggedIn()
+    {
+        if usernameOn == true
+        {
+            usernameCheckbox?.enabled = true
+            usernameCheckbox?.on = true
+            
+            facebookCheckbox?.on = false
+            twitterCheckbox?.on = false
+            facebookCheckbox?.enabled = false
+            twitterCheckbox?.enabled = false
+            
+            facebookOn = false
+            loggedOut = false
+            twitterOn = false
+        }
+    }
+    
+    //sets the correct position of switches if the user logs in with Twitter
+    func twitterLoggedIn()
+    {
+        if twitterOn == true
+        {
+            twitterCheckbox?.enabled = true
+            twitterCheckbox?.on = true
+            
+            usernameCheckbox?.on = false
+            facebookCheckbox?.on = false
+            usernameCheckbox?.enabled = false
+            facebookCheckbox?.enabled = false
+            
+            loggedOut = false
+            usernameOn = false
+            facebookOn = false
+        }
+    }
+    
+    //sets the correct position of switches if the user logs in with Facebook
+    func facebookLoggedIn()
+    {
+        if facebookOn == true
+        {
+            facebookCheckbox?.enabled = true
+            facebookCheckbox?.on = true
+            
+            usernameCheckbox?.on = false
+            twitterCheckbox?.on = false
+            usernameCheckbox?.enabled = false
+            twitterCheckbox?.enabled = false
+            
+            loggedOut = false
+            usernameOn = false
+            twitterOn = false
+        }
+    }
+    
+    //sets the correct position of switches if the user logs out
+    func userLoggedOut()
+    {
+        if loggedOut == true
+        {
+            facebookCheckbox?.enabled = true
+            facebookCheckbox?.on = false
+            
+            usernameCheckbox?.on = false
+            twitterCheckbox?.on = false
+            usernameCheckbox?.enabled = true
+            twitterCheckbox?.enabled = true
+            
+            usernameOn = false
+            facebookOn = false
+            twitterOn = false
+        }
+    }
     
     // MARK: - Email Login/logout functions
 
@@ -458,25 +397,74 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
                     {
                         self.userNameLabel?.text = "@" + username
                     }
-                }
+                 }
 
-                }
-             })
+               }
+            })
             
-            }
+          }
         }
          task.resume()
       }
     }
     
+    // MARK: - Action Handlers
+    
+    //Create an @IBAction for the login/logout button
+    @IBAction func pressedNavButtonRight(sender: UIBarButtonItem)
+    {
+        if PFUser.currentUser() == nil
+        {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
+                self.presentViewController(viewController, animated: true, completion: { () -> Void in
+                    self.tabBarController?.selectedIndex = 1
+                })
+            })
+            
+        }
+        else if PFUser.currentUser() != nil
+        {
+            //Log the user out, set the name to nil, and set the generic image
+            PFUser.logOut()
+            loggedOut = true
+            
+            PFUser.logOutInBackgroundWithBlock() { (error: NSError?) -> Void in
+                if error != nil
+                {
+                    print("logout fail");
+                    print(error)
+                    
+                    self.presentErrorPopup("Whoa, sorry. Looks like there was an issue logging you out.")
+                }
+                else
+                {
+                    print("logout success")
+                }
+            }
+            userNameLabel.text = ""
+            userImage.image = UIImage(named: "UserImage")
+            navigationItem.rightBarButtonItem?.title = "Login"
+        }
+    }
+    
+    //Set the email text to a link that will open the users email app
+    @IBAction func emailTapped(sender: UIButton)
+    {
+        let email = "support@howmuchtrip.com"
+        let url = NSURL(string: "mailto:\(email)")
+        UIApplication.sharedApplication().openURL(url!)
+    }
+    
+    //toggle switch on and off and and whether user is logged in or out
     @IBAction func facebookTapped(sender: UISwitch)
     {
-        
         if sender.on
         {
             loginVC.loginWithFacebook(UIButton)
             self.navigationItem.rightBarButtonItem!.title = "Logout"
             print("login")
+            facebookLoggedIn()
         }
         else
         {
@@ -488,14 +476,15 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
         }
     }
     
+    //toggle switch on and off and whether user is logged in or out
     @IBAction func twitterTapped(sender: UISwitch)
     {
-        
         if sender.on
         {
             loginVC.loginWithTwitterTapped(UIButton)
             self.navigationItem.rightBarButtonItem!.title = "Logout"
             print("login")
+            twitterLoggedIn()
             
         }
         else
@@ -509,10 +498,12 @@ class SettingsViewController: UIViewController, LoginActionDidCompleteProtocol
 
     }
     
+    //toggle switch on and off and whether user is logged in or out
     @IBAction func usernameTapped(sender: UISwitch)
     {
         if sender.on
         {
+            usernameLoggedIn()
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 let viewController:UIViewController = UIStoryboard(name: "Login", bundle: nil).instantiateViewControllerWithIdentifier("Login") as! LoginViewController
                 self.presentViewController(viewController, animated: true, completion: nil)

@@ -19,7 +19,7 @@ let settingsVC = SettingsViewController()
 
 protocol LoginActionDidCompleteProtocol
 {
-    func loginActionDidComplete(identifier: String)
+    func loginActionDidComplete()
 }
 
 class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWasSentProtocol
@@ -115,7 +115,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                 {
                     // If user is not nil, dismiss the view and return to the app
                     self.dismissViewControllerAnimated(true, completion: nil)
-                    self.delegate?.loginActionDidComplete("username_login")
+                    self.delegate?.loginActionDidComplete()
                 }
                 else
                 {
@@ -154,7 +154,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                     
                         self.dismissViewControllerAnimated(true, completion: nil)
                         print("User signed up and logged in with Twitter!")
-                        self.delegate?.loginActionDidComplete("login_twitter")
+                        self.delegate?.loginActionDidComplete()
                         
                     }
                     alert.addAction(confirmAction)
@@ -164,7 +164,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                 {
                     // If user was previously signed up, dismiss the loginVC
                     self.dismissViewControllerAnimated(true, completion: nil)
-                    self.delegate?.loginActionDidComplete("login_twitter")
+                    self.delegate?.loginActionDidComplete()
                   
                 }
             }
@@ -173,7 +173,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                 // The login was cancelled by the user before it was completed
                 //settingsVC.timer.invalidate()
                 print("The user cancelled the Twitter login.")
-                self.delegate?.loginActionDidComplete("cancel_twitter")
+                self.delegate?.loginActionDidComplete()
             }
         }
     }
@@ -198,7 +198,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                     
                         self.dismissViewControllerAnimated(true, completion: nil)
                         print("User signed up and logged in through Facebook!")
-                        self.delegate?.loginActionDidComplete("login_facebook")
+                        self.delegate?.loginActionDidComplete()
                     }
                     alert.addAction(confirmAction)
                     self.presentViewController(alert, animated: true, completion: nil)
@@ -209,7 +209,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                     // If user was previously signed up, dismiss the loginVC
                     self.dismissViewControllerAnimated(true, completion: nil)
                     print("User logged in with Facebook!")
-                    self.delegate?.loginActionDidComplete("login_facebook")
+                    self.delegate?.loginActionDidComplete()
                 }
             }
             else
@@ -218,7 +218,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, ResetRequestWa
                 //settingsVC.timer.invalidate()
                 settingsVC.processFacebookData()
                 print("The user cancelled the Facebook login.")
-                self.delegate?.loginActionDidComplete("cancel_facebook")
+                self.delegate?.loginActionDidComplete()
             }
         }
     }
