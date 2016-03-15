@@ -194,9 +194,6 @@ class CreateTripTableViewController:
         animator.appearButton(nextButton)
         selectedTextField.resignFirstResponder()
         
-//        let index = NSIndexPath(forRow: 0, inSection: 0)
-//        tableView.scrollToRowAtIndexPath(index, atScrollPosition: .Bottom, animated: true)
-        
         animator.animateTextFieldBGSizeToDefault(nil)
     }
     
@@ -216,7 +213,6 @@ class CreateTripTableViewController:
         
         textField.transform = leftWobble
         textFieldBGView.transform = leftWobble
-//        contextButton.transform = leftWobble
         
         UIView.animateWithDuration(0.15, delay: 0,
             options: [.Repeat, .Autoreverse],
@@ -224,12 +220,10 @@ class CreateTripTableViewController:
             UIView.setAnimationRepeatCount(1)
             textField.transform = rightWobble
             self.textFieldBGView.transform = rightWobble
-//            self.contextButton.transform = rightWobble
                 
             }) { (_) -> Void in
                 textField.transform = CGAffineTransformIdentity
                 self.textFieldBGView.transform = CGAffineTransformIdentity
-//                self.contextButton.transform = CGAffineTransformIdentity
         }
     }
     
@@ -737,7 +731,6 @@ class CreateTripTableViewController:
     {
         textFieldShouldReturn(shownTextField)
         animator.animateTextFieldBGSizeToDefault(nil)
-//        shownTextField.resignFirstResponder()
         nextButtonPressed(nextButton)
     }
     
